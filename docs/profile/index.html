@@ -237,9 +237,18 @@
     // Set name
     currentName.textContent = data.name;
 
-    // Set photo & show profile when ready
-    photoPreview.src = (isOwner && currentUser.photoURL) || data.photo || "../img/user.jpg";
-    photoPreview.onload = photoPreview.onerror = () => showProfile();
+const imgSrc = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
+
+const img = new Image();
+img.onload = () => {
+  photoPreview.src = imgSrc;
+  showProfile();
+};
+img.onerror = () => {
+  photoPreview.src = "../img/user.jpg";
+  showProfile();
+};
+img.src = imgSrc;
 
     // Render role icons
     roleIcons.innerHTML = "";
