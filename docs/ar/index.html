@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="ar">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>0xdya | ضياء الدين</title>
+  <meta name="description" content="0xdya، مطور ويب مهتم بالبرمجيات الحرة والأمن السيبراني، استعرض مشاريعي وخبرتي" />
+
+  <meta name="keywords" content="0xdya, dyaa, ضياء الدين" />
+  <meta name="author" content="0xdya" />
+  <meta property="og:title" content="0xdya | ضياء الدين" />
+  <meta property="og:description" content="0xdya، مطور ويب مهتم بالبرمجيات الحرة والأمن السيبراني، استعرض مشاريعي وخبرتي" />
+  <meta property="og:image" content="https://0xdya.github.io/docs/img/cover.png" />
+  <meta property="og:url" content="https://0xdya.github.io" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="0xdya | ضياء الدين" />
+  <meta name="twitter:description" content="0xdya، مطور ويب مهتم بالبرمجيات الحرة والأمن السيبراني، استعرض مشاريعي وخبرتي" />
+  <meta name="twitter:image" content="https://0xdya.github.io/docs/img/cover.png" />
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://0xdya.github.io" />
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/ar.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
+  <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+
+ </head>
+ 
+
+ <body dir="rtl">
+
+<div id="warning" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:#111; color:#fff; z-index:9999; padding: 20px; text-align:center; font-family:sans-serif;">
+  <h2>⚠️ لا يمكن عرض الموقع هنا</h2>
+  <p>يبدو أنك فتحت الموقع من  Instagram.</p>
+  <p>اضغط على ⋮ أو (…) في الأعلى واختر "فتح في المتصفح" لمتابعة التصفح بشكل صحيح.</p>
+</div>
+
+<script>
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  if (ua.includes("Instagram") || ua.includes("FBAN") || ua.includes("FBAV")) {
+    document.getElementById('warning').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // منع التمرير
+  }
+</script>
+
+
+   <div class="old"></div>
+  <header class="h">
+   <h1 class="logo_name">
+    <span class="prompt">
+    <ion-icon name="paw-outline"> </ion-icon>
+    </span> 0xdya
+   </h1>
+   <div class="control">
+   <div class="user_photo">
+<a id="loginIcon" href="./login/">
+  <ion-icon name="person-outline"></ion-icon>
+</a>
+<a class="user_photo_href"href="profile">
+<img id="userAvatar" style="display:none"src="img/user.jpg">
+</a>
+   </div>
+    <div class="theme_toggle_container">
+     <button id="themeToggle">
+      <ion-icon name="contrast-outline"></ion-icon>
+     </button>
+    
+     <a href="report/"class="bug"><ion-icon name="bug-outline"></ion-icon></a>
+     <div class="dropdown" id="themeDropdown">
+      <button data-theme="light">فاتح </button>
+      <button data-theme="dark">داكن </button>
+      <button data-theme="system">تلقائي</button>
+     </div>
+    </div>
+
+  
+   </div>
+  </header>
+  <div class="container">
+   <main >
+    <h2 class="home_title_font">
+     <span >#</span>
+     شاشة المعلومات
+     </h2>
+<div class="terminal_bg">
+  <div class="terminal">
+    <div class=" terminal_dote_home">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="code-box" id="draggable-box">
+    <div class="code_box_content" >
+      
+      <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> عن الموقع</span><br></div>
+
+      <div class="update_line"> <ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> تاريخ الإنشاء:</span> <span class="tr_txt2">5 ماي 2025</span></div>
+      <div class="update_line"> <ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> آخر تحديث:</span>
+        <span class="time_ago tr_txt2" >2025-06-03T21:30</span>
+      </div>
+      <div class="update_line"> <ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> عدد الزيارات:</span>
+        <span class="tr_txt2"><span id="counter"><span class="doted">جارٍ التحميل </span></span></span> 
+      </div>
+
+      <br>
+      <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> آخر الأخبار</span><br></div>
+
+      <div class="update-info" id="update-details">
+        <p dir="rtl" class="bracket">
+          <span class="doted">جارٍ التحميل </span><br><!--
+          (اتصال الإنترنت لديك بطيء جدًا، هل أنت من عام 1994؟ ._.) -->
+        </p>
+      </div>
+    <br>
+          <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon>
+      أنا</span><br></div>
+
+      <div class="update_line"> <ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> الاسم:</span> <span class="tr_txt2">ضياء الدين | 0xdya </span></div>
+      <div class="update_line"> <ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> الهدف:</span>
+        <span class="tr_txt2">دعم المحتوى التقني في العالم العربي</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="ascii">
+          <pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠙⠻⢶⣄⡀⠀⠀⠀⢀⣤⠶⠛⠛⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣇⠀⠀⣙⣿⣦⣤⣴⣿⣁⠀⠀⣸⠇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣡⣾⣿⣿⣿⣿⣿⣿⣿⣷⣌⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣷⣄⡈⢻⣿⡟⢁⣠⣾⣿⣦⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⠘⣿⠃⣿⣿⣿⣿⡏⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠈⠛⣰⠿⣆⠛⠁⠀⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣦⠀⠘⠛⠋⠀⣴⣿⠁⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣾⣿⣿⣿⣿⡇⠀⠀⠀⢸⣿⣏⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠀⠀⠀⠾⢿⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⡿⠟⠋⣁⣠⣤⣤⡶⠶⠶⣤⣄⠈⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢰⣿⣿⣮⣉⣉⣉⣤⣴⣶⣿⣿⣋⡥⠄⠀⠀⠀⠀⠉⢻⣄⠀⠀⠀⠀⠀
+⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣋⣁⣤⣀⣀⣤⣤⣤⣤⣄⣿⡄⠀⠀⠀⠀
+⠀⠀⠀⠀⠙⠿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠋⠉⠁⠀⠀⠀⠀⠈⠛⠃⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</code></pre>
+
+    </div>
+  </div>
+</div>
+        <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
+
+    <h2 class="home_title_font">
+     <span>#</span> الخريطة
+    </h2>
+    
+    
+<div class="note_section">
+  <div class="note">
+    <ion-icon name="alert-circle-outline"></ion-icon>انقر لفتح
+  </div>
+  <div>
+    <div class="note">
+      <ion-icon name="alert-circle-outline"></ion-icon>يمكن سحبه
+    </div>
+  </div>
+  <div class="note">
+    <ion-icon name="alert-circle-outline"></ion-icon>يمكن التكبير
+  </div>
+</div>
+
+    <div id="network"></div>
+   </main>
+  </div>
+  <footer>
+   <p class="home_title_font">
+ و اتقوا يوما ترجعون فيه الى الله
+   </p>
+   <div class="icon">
+     <a class="foooter_link" href="https://github.com/0xdya">
+    <ion-icon name="logo-github"></ion-icon>
+     </a>
+     <a class="foooter_link" href="https://www.youtube.com/@0xdya">
+    <ion-icon name="logo-youtube"></ion-icon>
+     </a>
+     <a class="foooter_link" href="mailto:0xdyaa@gmail.com">
+    <ion-icon name="mail-outline"></ion-icon>
+     </a>
+     <a class="foooter_link" href="https://x.com/0xdya1">
+    <ion-icon name="logo-twitter"></ion-icon>
+     </a>
+     <a class="foooter_link" href="https://www.instagram.com/0xdya1">
+    <ion-icon name="logo-instagram"></ion-icon>
+     </a>
+   </div>
+  </footer>
+
+  <script type="module" src="./js/user.js"></script>
+
+ <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "0xdya | ضياء الدين",
+  "url": "https://0xdya.github.io",
+  "image": "https://0xdya.github.io/docs/img/cover.png",
+  "jobTitle": "0xdya | ضياء الدين",
+  "description": "0xdya، مطور ويب مهتم بالبرمجيات الحرة والأمن السيبراني، استعرض مشاريعي وخبرتي",
+  "sameAs": [
+    "https://github.com/0xdya",
+    "https://youtube.com/@0xdya",
+    "https://facebook.com/0xdya",
+    "https://twitter.com/0xdya1",
+    "https://instagram.com/0xdy1"
+  ]
+}
+</script>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+    authDomain: "oxdyaa.firebaseapp.com",
+    projectId: "oxdyaa",
+    storageBucket: "oxdyaa.firebasestorage.app",
+    messagingSenderId: "604062703590",
+    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+<script>
+  const path = window.location.pathname;
+  if (path.startsWith("/@")) {
+    const username = path.slice(2);
+    window.location.href = `/profile/index.html?user=${encodeURIComponent(username)}`;
+  }
+</script>
+
+<script type="module" src="./js/view.js"></script>
+  <script src="./js/script.js"></script>
+
+  <script src="./js/tg.js"></script>
+  <script src="./js/time_ago.js"></script>
+  <script src="./js/home.js"></script>
+ </body>
+</html>
