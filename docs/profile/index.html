@@ -150,7 +150,7 @@
   <span id="roleIcons"></span> <!-- الأيقونات تضاف هنا -->
   <span class="edit-icon" id="editBtn">✎</span>
 </div>
-
+<div id="displayBioInput"></div>
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
 <textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
 <button id="saveAllBtn" class="edit-btn">save</button>
@@ -186,6 +186,7 @@
   const profileContainer = document.getElementById("profileContainer");
   const logoutBtn   = document.getElementById("logoutBtn");
   const displayNameInput = document.getElementById("displayNameInput");
+  const displayBioInput = document.getElementById("displayBioInput");
   const bioInput    = document.getElementById("bioInput");
   const saveAllBtn  = document.getElementById("saveAllBtn");
 
@@ -236,34 +237,40 @@
 
     // Set name
     currentName.textContent = data.name;
+    // Set bio
+    displayBioInput.textContent = data.bio;
 
-const imgSrc = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
+//const imgSrc = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
+const imgSrc = (isOwner && currentUser?.photoURL) || data.photo ;
 
 const img = new Image();
 img.onload = () => {
   photoPreview.src = imgSrc;
   showProfile();
 };
-img.onerror = () => {
-  photoPreview.src = "../img/user.jpg";
-  showProfile();
-};
 img.src = imgSrc;
 
-    // Render role icons
-    roleIcons.innerHTML = "";
-    const role = data.role || "";
-    if (role === "admin") {
-      roleIcons.innerHTML = `
-        <ion-icon name="checkmark-circle" style="color:#1da1f2;font-size:20px"></ion-icon>
-        <ion-icon name="crown" style="color:gold;font-size:20px"></ion-icon>
-      `;
-    } else if (role === "developer") {
-      roleIcons.innerHTML = `
-        <ion-icon name="checkmark-circle" style="color:#1da1f2;font-size:20px"></ion-icon>
-        <ion-icon name="code-slash" style="color:violet;font-size:20px"></ion-icon>
-      `;
-    }
+// Render role and verification icons
+roleIcons.innerHTML = "";
+const role = data.role || "";
+const isVerified = data.verified === true;
+
+let iconsHTML = "";
+
+// ✅ علامة التوثيق إذا verified
+if (isVerified) {
+  iconsHTML += `<ion-icon name="checkmark-circle" style="color:#1da1f2;font-size:20px" title="Verified"></ion-icon>`;
+}
+
+// 👑 أيقونات الدور
+if (role === "admin") {
+  iconsHTML += `<ion-icon name="crown" style="color:gold;font-size:20px" title="Admin"></ion-icon>`;
+} else if (role === "developer") {
+  iconsHTML += `<ion-icon name="code-slash" style="color:violet;font-size:20px" title="Developer"></ion-icon>`;
+}
+
+roleIcons.innerHTML = iconsHTML;
+
 
     // Last login status
     if (data.lastLogin?.toDate) {
