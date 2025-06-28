@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>0xDya - users</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/en.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+  </head>
+  <h1 class="title home_title_font">
+    <span class="prompt ">~/</span>المستخدمين
+  </h1>
+  <body class="terminal-bg">
+    <button id="back_to_top">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </button>
+    <header class="h">
+      <a href="../" class="back_to_home">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </a>
+      <div class="control" dir="rtl">
+        <div class="user_photo">
+          <a id="loginIcon" href="../login/">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+         <a class="user_photo_href" href="../profile/">
+            <img id="userAvatar" style="display:none" src="../img/user.jpg">
+          </a>
+        </div>
+        <div class="theme_toggle_container">
+          <button id="themeToggle">
+            <ion-icon name="settings-outline"></ion-icon>
+          </button>
+          <a href="report/" class="bug">
+            <ion-icon name="bug-outline"></ion-icon>
+          </a>
+          <div class="dropdown" id="themeDropdown">
+            <button data-theme="light">فاتح </button>
+            <button data-theme="dark">داكن </button>
+            <button data-theme="system">تلقائي</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="blog_container">
+      <section class="blog_list">
+        <div class="patch">
+          <div class="terminal_dote">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p>$ pwd <br>/ <a href="../">home</a>/ <a href="./">users</a>
+          </p>
+        </div>
+       <p dir="rtl"class="home_title_font">  
+       شكر خاص لكل المسجين فالموقع ._. ❤️
+       </p>
+  <div id="users"> 
+    <img width="40" src="../img/load.gif">
+  </div>
+      </section>
+    </div>
+    
+ <script>
+       lottie.loadAnimation({
+      container: document.getElementById('lottie'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: '../fox/1.json' // المسار المحلي لملف JSON
+    });
+    
+ </script>
+
+<!-- عرض المستخدمين -->
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getFirestore, collection, query, orderBy, onSnapshot, updateDoc, doc, where } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  // إعداد Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+    authDomain: "oxdyaa.firebaseapp.com",
+    projectId: "oxdyaa",
+    storageBucket: "oxdyaa.appspot.com",
+    messagingSenderId: "604062703590",
+    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const usersDiv = document.getElementById("users");
+
+  function timeAgo(date) {
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    if (seconds < 60) return "منذ لحظات";
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `منذ ${minutes} دقيقة`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `منذ ${hours} ساعة`;
+    const days = Math.floor(hours / 24);
+    return `منذ ${days} يوم`;
+  }
+
+  function renderUserCard(user, docId, isOwner) {
+  const created = user.createdAt?.toDate?.();
+  const joinedText = created ? ` ${timeAgo(created)}` : "—";
+  const role = user.role || "user";
+  const name = user.name || "بدون اسم";
+  const photo = user.photo || "/img/user.jpg";
+  const hidden = user.hidden === true;
+
+  return `
+    <div class="user-card">
+      <strong class="users_name">@${name}</strong>
+      <img src="${photo}" alt="صورة المستخدم" onerror="this.src='/img/user.jpg'">
+      <div class="joined">${joinedText}</div>
+      <div class="rotba">الرتبة: <span class="${role}">${role}</span></div>
+
+      ${isOwner && hidden ? `
+      <br>
+      <div class="note">🔒 الأن أصبح حسابك ظاهر لك فقط </div>       
+      <br>
+      ` : ''}
+
+      ${isOwner ? `
+        <button onclick="toggleVisibility('${docId}', ${hidden})">
+          ${hidden ? 'إظهار حسابك ' : 'إخفاء حسابك '}
+        </button>
+      ` : ''}
+    </div>
+  `;
+}
+
+
+  window.toggleVisibility = async (docId, currentHidden) => {
+    const userRef = doc(db, "users", docId);
+    await updateDoc(userRef, {
+      hidden: !currentHidden
+    });
+  };
+
+  function loadUsers(currentUid) {
+    const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
+
+    onSnapshot(q, (snapshot) => {
+      usersDiv.innerHTML = "";
+      snapshot.forEach(docSnap => {
+        const user = docSnap.data();
+        const docId = docSnap.id;
+        const isOwner = currentUid === user.uid;
+
+        // لا نعرض المستخدم إذا كان مخفيًا وليس هو نفسه
+        if (user.hidden && !isOwner) return;
+
+        usersDiv.innerHTML += renderUserCard(user, docId, isOwner);
+      });
+    });
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loadUsers(user.uid);
+    } else {
+      loadUsers(null); // لزوار الموقع، لا يمكنهم رؤية الحسابات المخفية
+    }
+  });
+</script>
+
+
+<!--  bac 2
+  <script type="module">
+  import { 
+    initializeApp 
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+
+  import { 
+    getFirestore,
+    collection,
+    getDocs,
+    getDoc,        // ✅ أضفها هنا
+    setDoc,
+    doc,
+    serverTimestamp,
+    query,
+    orderBy,
+    onSnapshot      // ✅ أضفها هنا بدل سطر منفصل
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  
+  import { where } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+    authDomain: "oxdyaa.firebaseapp.com",
+    projectId: "oxdyaa",
+    storageBucket: "oxdyaa.appspot.com",
+    messagingSenderId: "604062703590",
+    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const usersDiv = document.getElementById("users");
+
+  function timeAgo(date) {
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+    if (seconds < 60) return "منذ لحظات";
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `منذ ${minutes} دقيقة`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `منذ ${hours} ساعة`;
+    const days = Math.floor(hours / 24);
+    return `منذ ${days} يوم`;
+  }
+
+  // حفظ بيانات المستخدم
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          name: user.displayName || "بدون اسم",
+          photoURL: user.photoURL || null,
+          lastLogin: serverTimestamp(),
+          createdAt: serverTimestamp(),
+          role: "user"
+        });
+      } else {
+        await setDoc(userRef, {
+          name: user.displayName || "بدون اسم",
+          photoURL: user.photoURL || null,
+          lastLogin: serverTimestamp(),
+          role: "user"
+        }, { merge: true });
+      }
+    }
+  });
+
+  
+
+function loadUsers() {
+  const q = query(
+    collection(db, "users"),
+    where("isOnline", "==", true),
+    orderBy("lastLogin", "desc")
+  );
+    onSnapshot(q, (snapshot) => {
+      usersDiv.innerHTML = "";
+      snapshot.forEach(docSnap => {
+        const user = docSnap.data();
+        const created = user.createdAt?.toDate?.();
+        const joinedText = created ? ` ${timeAgo(created)}` : "—";
+        const role = user.role || "user";
+        const roleClass = `role ${role === "admin" ? "admin" : "user"}`;
+        const name = user.name || "بدون اسم";
+        const photo = user.photoURL || "/img/user.jpg"; 
+        usersDiv.innerHTML += `
+          <div class="user-card" onclick="location.href='../@${encodeURIComponent(name)}'">
+            <strong class="users_name">@${name}</strong>
+            <img src="${photo}" alt="صورة المستخدم" onerror="this.src='/img/user.jpg'">
+            <div class="joined">${joinedText}</div>
+            <div class="rotba">الرتبة: <span class="${role}">${role}</span </div>
+          </div>
+        `;
+      });
+    });
+  }
+
+  loadUsers();
+</script>
+<!--  bac 1
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      setDoc,
+      doc,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+      authDomain: "oxdyaa.firebaseapp.com",
+      projectId: "oxdyaa",
+      storageBucket: "oxdyaa.appspot.com",
+      messagingSenderId: "604062703590",
+      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const usersDiv = document.getElementById("users");
+    import { getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    // دالة لعرض الوقت بصيغة "منذ ..."
+    function timeAgo(date) {
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      if (seconds < 60) return "منذ لحظات";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `منذ ${minutes} دقيقة`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `منذ ${hours} ساعة`;
+      const days = Math.floor(hours / 24);
+      return `منذ ${days} يوم`;
+    }
+    import { onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    
+    
+
+    // حفظ بيانات المستخدم عند تسجيل الدخول
+    onAuthStateChanged(auth, async user => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    
+    
+
+    if (!userSnap.exists()) {
+      // أول مرة - نحفظ createdAt
+      await setDoc(userRef, {
+        name: user.displayName || "بدون اسم",
+        photoURL: user.photoURL || null,
+        lastLogin: serverTimestamp(),
+        createdAt: serverTimestamp(),
+        role: "user"
+      });
+    } else {
+      // موجود - لا نغيّر createdAt
+      await setDoc(userRef, {
+        name: user.displayName || "بدون اسم",
+        photoURL: user.photoURL || null,
+
+        lastLogin: serverTimestamp(),
+        role: "user"
+      }, { merge: true });
+    }
+  }
+});
+
+
+    // عرض المستخدمين
+    function loadUsers() {
+  const q = query(collection(db, "users"), orderBy("lastLogin", "desc"));
+  onSnapshot(q, (snapshot) => {
+    usersDiv.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const user = docSnap.data();
+      const created = user.createdAt?.toDate?.();
+      const joinedText = created ? ` ${timeAgo(created)}` : "—";
+      const role = user.role || "user";
+      const roleClass = `role ${role === "admin" ? "admin" : "user"}`;
+      const name = user.name || "بدون اسم";
+      const photo = user.photoURL || "../img/user.jpg";
+
+      usersDiv.innerHTML += `
+        <div class="user-card" onclick="location.href='../profile/index.html?user=${encodeURIComponent(name)}'">
+          <img src="${photo}" alt="صورة المستخدم">
+          <strong>${name}</strong>
+          <div class="${roleClass}">الرتبة: ${role}</div>
+          <div class="joined">تاريخ الانضمام: ${joinedText}</div>
+        </div>
+      `;
+    });
+  });
+}
+
+
+
+    loadUsers();
+  </script>
+-->
+    <script src="../js/script.js"></script>
+    <script src="../js/animate.js"></script>
+    <script src="../js/time_ago.js"></script>
+  </body>
+</html>

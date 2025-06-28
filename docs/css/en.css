@@ -1,0 +1,28 @@
+/* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&family=Noto+Kufi+Arabic:wght@100..900&family=Playpen+Sans:wght@100..800&family=Rubik:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&family=Noto+Kufi+Arabic:wght@100..900&family=Playpen+Sans:wght@100..800&family=Rubik:ital,wght@0,300..900;1,300..900&family=Playpen+Sans+Arabic:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+   font-family: 'IBM Plex Sans Arabic', sans-serif ;
+    font-weight: 400;
+}
+.logo_name{
+  direction: ltr !important;
+  font-family: "Jetbrains Mono", monospace ;
+}
+.dropdown button {
+  text-align: left;
+}
+
+.comment_title p{
+   line-height: 1.6;
+    font-family: "Playpen Sans Arabic", monospace !important;
+  }
+.home_title_font{
+  font-weight: 400;
+   /*
+   font-family: "Jetbrains Mono", monospace
+   */
+   font-family: "Playpen Sans Arabic", monospace !important; 
+}
