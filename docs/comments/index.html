@@ -346,7 +346,6 @@
         <button type="submit">Submit Comment</button>
       </form>
       <a id="write_comment" dir="ltr" style="display:none;cursor:none" class="login" href="../login/">Write Comment</a>
-      <button id="logoutBtn" class="logBtn" dir="ltr" style="display:none">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
         <span>Logout</span>
       </button>
@@ -394,7 +393,6 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 // DOM
-const logoutBtn = document.getElementById('logoutBtn');
 const commentForm = document.getElementById('commentForm');
 const commentInput = document.getElementById('commentInput');
 const commentsList = document.getElementById('commentsList');
@@ -587,13 +585,12 @@ function loadComments() {
       loadReplies(commentId);
     });
 
-    logoutBtn.style.display = currentUser ? "inline-block" : "none";
     commentForm.style.display = currentUser ? "block" : "none";
     write_comment.style.display = currentUser ? "none" : "block";
   });
 }
 
-
+ 
 
 // إرسال تعليق
 commentForm.addEventListener('submit', async (e) => {
