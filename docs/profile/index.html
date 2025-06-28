@@ -144,6 +144,11 @@
 #displayBioInput{
   margin: 2rem 0 1rem;
 }
+#profileContainer{
+  position: relative;
+  height: 100vh;
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -152,7 +157,7 @@
   <img width="40" src="../img/load.gif" />
 </div>
 
-<div id="profileContainer" style="position: relative; display: none;">
+<div id="profileContainer" >
   <div class="profile-header">
     <img class="banner-img" src="../img/jak.gif" alt="Banner" />
     <img id="photoPreview" class="profile-pic"/>
@@ -256,7 +261,7 @@
     displayBioInput.textContent = data.bio;
 
 //const imgSrc = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
-const imgSrc = (isOwner && currentUser?.photoURL) || data.photo ;
+const imgSrc = (isOwner && currentUser?.photo) || data.photo ;
 
 const img = new Image();
 img.onload = () => {
@@ -332,7 +337,7 @@ roleIcons.innerHTML = iconsHTML;
             ...data,
             name: newName,
             bio: newBio,
-            photo: currentUser.photoURL || data.photo
+            photo: currentUser.photo || data.photo
           }, { merge: true });
 
           alert("✅ تم حفظ التعديلات");
