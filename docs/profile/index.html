@@ -54,6 +54,8 @@
       cursor: pointer;
       font-size: 18px;
       color: #1da1f2;
+      position: absolute;
+      right: 1rem;
     }
     #displayNameInput, #saveBtn {
       display: none;
@@ -81,11 +83,17 @@
     #saveBtn:hover {
       background: #1991da;
     }
-    #logoutBtn {
-      position: fixed;
+    .sectionbtn{
+      display: flex;
+      gap: 8px;
+      padding: 0 8px;
+      position: absolute;
       right: 50%;
       transform: translateX(50%);
       bottom: 1rem;
+      width: 100%;
+    }
+    #logoutBtn, #editBtn{
       background: transparent;
       color: #ededed;
       border: 1px solid beige;
@@ -95,6 +103,9 @@
       backdrop-filter: blur(4px);
       width: 80%;
       display: none;
+    }
+    #editBtn{
+      bottom: 4rem !important;
     }
     #loading {
       display: flex;
@@ -130,7 +141,9 @@
 .edit-btn:hover {
   background: #1991da;
 }
-
+#displayBioInput{
+  margin: 2rem 0 1rem;
+}
   </style>
 </head>
 <body>
@@ -139,16 +152,15 @@
   <img width="40" src="../img/load.gif" />
 </div>
 
-<div id="profileContainer" style="display: none;">
+<div id="profileContainer" style="position: relative; display: none;">
   <div class="profile-header">
     <img class="banner-img" src="../img/jak.gif" alt="Banner" />
-    <img id="photoPreview" class="profile-pic" src="../img/user.jpg" alt="Avatar" />
+    <img id="photoPreview" class="profile-pic"/>
   </div>
   <div class="container">
 <div class="name-section">
-  <span id="currentName">User</span>
+  <span id="currentName"></span>
   <span id="roleIcons"></span> <!-- الأيقونات تضاف هنا -->
-  <span class="edit-icon" id="editBtn">✎</span>
 </div>
 <div id="displayBioInput"></div>
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
@@ -156,9 +168,13 @@
 <button id="saveAllBtn" class="edit-btn">save</button>
 
   </div>
+<section class="sectionbtn">
+<button id="editBtn"> logout</button>
+<button id="logoutBtn">Edit profile  </button>
+</section>
 </div>
 
-<button id="logoutBtn">تسجيل الخروج</button>
+<!-- bac 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
   import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
@@ -352,8 +368,6 @@ roleIcons.innerHTML = iconsHTML;
     profileContainer.style.display = "block";
   }
 </script>
-
-<!-- bac 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
