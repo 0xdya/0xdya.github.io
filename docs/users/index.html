@@ -67,108 +67,118 @@
   </section>
 </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import {
-    getFirestore, collection, query, orderBy, onSnapshot, updateDoc, doc, where
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import {
-    getAuth, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  // Firebase setup
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const usersDiv = document.getElementById("users");
 
-  function timeAgo(date) {
-    const now = new Date();
-    const seconds = Math.floor((now - date) / 1000);
-    if (seconds < 60) return "just now";
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return ` ${minutes} minute ago`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return ` ${hours} hour ago`;
-    const days = Math.floor(hours / 24);
-    return ` ${days} day ago`;
-  }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      setDoc,
+      doc,
+      serverTimestamp,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  function renderUserCard(user, docId, isOwner) {
-    const created = user.createdAt?.toDate?.();
-    const joinedText = created ? ` ${timeAgo(created)}` : "—";
-    const role = user.role || "user";
-    const name = user.name || "No Name";
-    const photoURL = user.photoURL || "/img/user.jpg";
-    const hidden = user.hidden === true;
-    return `
-    <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
-    <section>
-      <img src="${photoURL}" alt="صورة المستخدم" onerror="this.src='/img/user.jpg'">
-      
-      <div class="users_name">@${name}
-      <div class="rotba">role: <span class="${role}">${role}</span></div>
-      </div>
-      </section>
-      <div class="joined">${joinedText}</div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+      authDomain: "oxdyaa.firebaseapp.com",
+      projectId: "oxdyaa",
+      storageBucket: "oxdyaa.appspot.com",
+      messagingSenderId: "604062703590",
+      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+    };
 
-      ${isOwner && hidden ? `
-      <br>
-      <div class="note">🔒 الأن أصبح حسابك ظاهر لك فقط </div>       
-      <br>
-      ` : ''}
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const usersDiv = document.getElementById("users");
+    import { getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-      ${isOwner ? `
-        <button onclick="toggleVisibility('${docId}', ${hidden})">
-          ${hidden ? 'إظهار حسابك ' : 'إخفاء حسابك '}
-        </button>
-      ` : ''}
-    </div>
-  `;
-  }
-
-  window.toggleVisibility = async (docId, currentHidden) => {
-    const userRef = doc(db, "users", docId);
-    await updateDoc(userRef, {
-      hidden: !currentHidden
-    });
-  };
-
-  function loadUsers(currentUid) {
-    const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-      usersDiv.innerHTML = "";
-      snapshot.forEach(docSnap => {
-        const user = docSnap.data();
-        const docId = docSnap.id;
-        const isOwner = currentUid === user.uid;
-        // Do not display user if hidden and not the owner
-        if (user.hidden && !isOwner) return;
-        usersDiv.innerHTML += renderUserCard(user, docId, isOwner);
-      });
-    });
-  }
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      loadUsers(user.uid);
-    } else {
-      loadUsers(null); // Visitors can't see hidden accounts
+    // دالة لعرض الوقت بصيغة "منذ ..."
+    function timeAgo(date) {
+      const now = new Date();
+      const seconds = Math.floor((now - date) / 1000);
+      if (seconds < 60) return "منذ لحظات";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `منذ ${minutes} دقيقة`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `منذ ${hours} ساعة`;
+      const days = Math.floor(hours / 24);
+      return `منذ ${days} يوم`;
     }
+    import { onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    
+    
+
+    // حفظ بيانات المستخدم عند تسجيل الدخول
+    onAuthStateChanged(auth, async user => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    
+    
+
+    if (!userSnap.exists()) {
+      // أول مرة - نحفظ createdAt
+      await setDoc(userRef, {
+        name: user.displayName || "بدون اسم",
+        photo: user.photo || null,
+        lastLogin: serverTimestamp(),
+        createdAt: serverTimestamp(),
+        role: "user"
+      });
+    } else {
+      // موجود - لا نغيّر createdAt
+      await setDoc(userRef, {
+        name: user.displayName || "بدون اسم",
+        photo: user.photo || null,
+
+        lastLogin: serverTimestamp(),
+        role: "user"
+      }, { merge: true });
+    }
+  }
+});
+
+
+    // عرض المستخدمين
+    function loadUsers() {
+  const q = query(collection(db, "users"), orderBy("lastLogin", "desc"));
+  onSnapshot(q, (snapshot) => {
+    usersDiv.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const user = docSnap.data();
+      const created = user.createdAt?.toDate?.();
+      const joinedText = created ? ` ${timeAgo(created)}` : "—";
+      const role = user.role || "user";
+      const roleClass = `role ${role === "admin" ? "admin" : "user"}`;
+      const name = user.name || "بدون اسم";
+      const photo = user.photo || "../img/user.jpg";
+
+      usersDiv.innerHTML += `
+        <div class="user-card" onclick="location.href='../profile/index.html?user=${encodeURIComponent(name)}'">
+          <img src="${photo}" alt="صورة المستخدم">
+          <strong>${name}</strong>
+          <div class="${roleClass}">الرتبة: ${role}</div>
+          <div class="joined">تاريخ الانضمام: ${joinedText}</div>
+        </div>
+      `;
+    });
   });
-</script>
+}
 
 
 
+    loadUsers();
+  </script>
 <!--  bac 2
   <script type="module">
   import { 
