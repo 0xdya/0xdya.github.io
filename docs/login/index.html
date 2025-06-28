@@ -228,39 +228,54 @@ function login(provider) {
 document.getElementById("googleLogin").onclick = () => login(providers.google);
 document.getElementById("githubLogin").onclick = () => login(providers.github);
 
-// عند تغيير حالة الدخول
 onAuthStateChanged(auth, async user => {
   loader.style.display = "none";
+
   if (user) {
     loginBtns.style.display = "none";
     userSection.style.display = "block";
     userInfo.style.display = "flex";
     userComand.style.display = "block";
     loginComand.style.display = "block";
-    userName.textContent = user.displayName || "user";
-    userPhoto.src = user.photoURL || "https://0xdya.gtihub.io/img/user.jpg";
-    message.textContent = "login successful";
 
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
+
     const defaultName = user.displayName || "user_" + user.uid.slice(0, 6);
+    const defaultPhoto = user.photoURL || "https://0xdya.gtihub.io/img/user.jpg";
+    const defaultEmail = user.email || "";
+
+    userName.textContent = defaultName;
+    userPhoto.src = defaultPhoto;
+    message.textContent = "login successful";
 
     if (!userSnap.exists()) {
       await setDoc(userRef, {
         uid: user.uid,
         name: defaultName,
-        email: user.email,
-        photo: user.photoURL || "https://0xdya.gtihub.io/img/user.jpg",
+        email: defaultEmail,
+        photo: defaultPhoto,
         createdAt: serverTimestamp(),
         lastLogin: serverTimestamp(),
-        role: "user"
+        role: "user",
+        hidden: false,
+        verified: false,
+        bio: "",
+        social: {
+          github: "",
+          twitter: "",
+          website: ""
+        }
       });
     } else {
       await setDoc(userRef, {
-        lastLogin: serverTimestamp(),
-        photo: user.photoURL || "https://via.placeholder.com/40"
+        name: defaultName,
+        email: defaultEmail,
+        photo: defaultPhoto,
+        lastLogin: serverTimestamp()
       }, { merge: true });
     }
+
   } else {
     loginBtns.style.display = "block";
     userSection.style.display = "none";
@@ -271,7 +286,6 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-// تسجيل الخروج مع حذف الحساب من Firestore
 document.getElementById("logoutBtn").onclick = async () => {
   const user = auth.currentUser;
   if (user) {
