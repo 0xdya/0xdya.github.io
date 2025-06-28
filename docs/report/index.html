@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>report</title>
+        <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/en.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+      <style>
+   * {
+    box-sizing: border-box;
+   }
+
+   #contactForm {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+   }
+
+   #contactForm label {
+    display: block;
+    font-weight: bold;
+    color: #ccc;
+   }
+
+   #contactForm textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    resize: none;
+    min-height: 120px;
+    direction: rtl;
+   }
+  #username {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    direction: rtl;
+   }
+
+   #contactForm textarea:focus, #username:focus{
+    outline: none;
+    border-color: #0070f3;
+   }
+
+   #contactForm button {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid #ffffff98;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0px 48px 35px -28px #e8e8e8;
+   }
+
+   #contactForm button:hover {
+    background: #ffffff07;
+   }
+
+   /* تصميم التنبيهات العصري */
+   .alert {
+     z-index: 999999;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: bold;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+   }
+
+   .alert.show {
+    opacity: 1;
+    display: flex;
+    transform: translateY(0);
+   }
+
+   .alert.success {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: rgba(76, 175, 80, 0.3);
+   }
+
+   .alert.error {
+    background: rgba(244, 67, 54, 0.2);
+    border-color: rgba(244, 67, 54, 0.3);
+   }
+
+   .alert-icon {
+    font-size: 1.2rem;
+   }
+
+   @media (max-width: 600px) {
+    #contactForm {
+     padding: 1.5rem;
+    }
+
+    .alert {
+     top: 10px;
+     right: 10px;
+     left: 10px;
+     text-align: center;
+    }
+   }
+
+   .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10px;
+   }
+   .flex_center{
+     display: flex;
+     flex-direction: column;
+     min-width: 100%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+   }
+
+   /* From Uiverse.io by csemszepp */
+   .custum-file-upload {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    border: 2px dashed #e8e8e83d;
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding: 4px 1rem;
+    border-radius: 10px;
+    text-align: center;
+   }
+
+   .custum-file-upload .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+
+   .custum-file-upload .icon svg {
+    height: 80px;
+    fill: #e8e8e8;
+   }
+
+   .text2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--text-color);
+   }
+
+   .custum-file-upload .text span {
+    font-weight: 400;
+    color: grey;
+   }
+
+   .custum-file-upload input {
+    display: none;
+   }
+img{
+  width: 40px;
+}
+.hidden{
+  display: none;
+  opacity: 0;
+}
+.star-rating{
+  font-size: 1rem;
+  width: 100%;
+  padding: 0 0.8rem 0.1rem;
+  direction: rtl;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: var(--bg-color);
+    color: grey;
+}
+
+.patch{
+  margin: 1rem 0;
+}
+#image-name{
+  color: grey;
+  font-size: 16px;
+}
+.back_to_home2{
+   position: relative;
+   top: 8px;
+   left: 0;
+   padding: 0.2rem 1.2rem;
+   font-size: 1rem;
+}
+  </style>
+</head>
+  <h1 class="title">
+    <span class="prompt">~/</span>report
+  </h1>
+<body>
+    <header class="h">
+      <a href="../" class="back_to_home">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </a>
+    </header>
+    <div class="blog_container">
+    <div class="patch">
+                 <div class="terminal_dote">
+             <span></span>
+             <span></span>
+             <span></span>
+             </div>
+      <p>$ pwd <br>/<a href="../">home</a>/<a href="../">report</a>
+      </p>
+    </div>
+<form id="contactForm"dir="rtl">
+  <div class="flex_center">
+    <input type="text" id="username" name="username" placeholder="الاسم (اختياري)">
+
+    <textarea id="message" name="message" placeholder="صف المشكلة التي واجهتها  ..." required></textarea>
+    <label for="image" class="custum-file-upload">
+      <div class="text2">
+        <span id="image-name"> لقطة شاشة </span>
+      </div>
+      <input type="file" id="image" name="image" accept="image/*" onchange="handleFileSelect('image')">
+    </label>
+  </div>
+    <div id="sending-message" style="display: none; color: red; font-weight: bold; margin-top: 10px;" dir="rtl">
+    انتظر  ...
+</div>
+    <button type="submit">ارسال</button>
+</form>   
+    <div id="alert" class="alert">
+        <span class="alert-icon">✅</span>
+        <span id="alert-message"></span>
+    </div>
+    </div>
+<script>
+// دالة للتحكم في اختيار الملفات
+function handleFileSelect(inputId) {
+    const fileInput = document.getElementById('file');
+    const imageInput = document.getElementById('image');
+
+    if (inputId === 'file' && fileInput.files.length > 0) {
+        imageInput.value = '';
+        document.getElementById('image-name').textContent = 'تحميل صورة';
+        selectedImageId = null;
+    } else if (inputId === 'image' && imageInput.files.length > 0) {
+        fileInput.value = '';
+        document.getElementById('file-name').textContent = 'تحميل ملف';
+        selectedImageId = null;
+    }
+}
+
+// دالة لعرض التنبيهات
+function showAlert(message, type) {
+    const alertDiv = document.getElementById('alert');
+    const alertMessage = document.getElementById('alert-message');
+    alertMessage.textContent = message;
+    alertDiv.className = `alert ${type}`;
+    alertDiv.classList.add('show');
+    setTimeout(() => {
+        alertDiv.classList.remove('show');
+    }, 3000);
+}
+
+// دالة لحذف محتوى الحقول
+function clearForm() {
+    document.getElementById('username').value = ''; 
+    document.getElementById('message').value = '';
+    document.getElementById('image').value = '';
+    document.getElementById('image-name').textContent = 'screenshot (optional) ';
+    document.getElementById('selected-image-name').textContent = '';
+    selectedImageId = null;
+}
+
+document.getElementById('image').addEventListener('change', function(event) {
+    document.getElementById('image-name').textContent = event.target.files[0] ? event.target.files[0].name : 'تحميل صورة';
+});
+
+// دالة لجمع عنوان IP
+async function getIPAddress() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error('Error fetching IP address:', error);
+        return null;
+    }
+}
+
+// دالة لإرسال النموذج
+document.getElementById('contactForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const sendingMessage = document.getElementById('sending-message');
+    sendingMessage.style.display = 'block';
+
+    const username = document.getElementById('username').value;
+    const message = document.getElementById('message').value;
+    const imageInput = document.getElementById('image');
+    const image = imageInput.files[0];
+    const ipAddress = await getIPAddress();
+
+let caption = `usr: ${username}\nmsg: ${message}\n IP Address: ${ipAddress}`;
+    let endpoint = 'sendMessage';
+    let payload = {
+        chat_id: 5962064921,
+        text: caption
+    };
+    let headers = { 'Content-Type': 'application/json' };
+if (image) {
+    const formData = new FormData();
+    formData.append('chat_id', 5962064921);
+    formData.append('photo', image);
+    formData.append('caption', caption);
+    endpoint = 'sendPhoto';
+    payload = formData;
+    headers = {};
+} else {
+    // إذا لم تكن هناك صورة، أرسل فقط نص
+    endpoint = 'sendMessage';
+    payload = {
+        chat_id: 5962064921,
+        text: caption
+    };
+    headers = { 'Content-Type': 'application/json' };
+}
+
+    const url = `https://api.telegram.org/bot7765880629:AAGyDPBsisb9K9jQvgBYtph7kTrFII0V340/${endpoint}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: endpoint === 'sendMessage' ? JSON.stringify(payload) : payload,
+            headers: headers
+        });
+
+        const data = await response.json();
+        if (data.ok) {
+            showAlert('تم إرسال الرسالة بنجاح!', 'success');
+        } else {
+            console.error('Telegram API Error:', data);
+            showAlert('حدث خطأ أثناء الإرسال.', 'error');
+        }
+    } catch (error) {
+        console.error('Fetch Error:', error);
+        showAlert('حدث خطأ أثناء الإرسال.', 'error');
+    } finally {
+        sendingMessage.style.display = 'none';
+        clearForm();
+    }
+});
+</script>
+
+</body>
+</html>

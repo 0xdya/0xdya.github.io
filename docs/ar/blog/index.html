@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>0xDya - blog</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/en.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+  </head>
+  <h1 class="title home_title_font">
+    <span class="prompt ">~/</span>المقالات
+  </h1>
+  <body class="terminal-bg">
+    <button id="back_to_top">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </button>
+    <header class="h">
+      <a href="../" class="back_to_home">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </a>
+      <div class="control" dir="rtl">
+        <div class="user_photo">
+          <a id="loginIcon" href="../login/">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+         <a class="user_photo_href" href="../profile/">
+            <img id="userAvatar" style="display:none" src="../img/user.jpg">
+          </a>
+        </div>
+        <div class="theme_toggle_container">
+          <button id="themeToggle">
+            <ion-icon name="settings-outline"></ion-icon>
+          </button>
+          <a href="report/" class="bug">
+            <ion-icon name="bug-outline"></ion-icon>
+          </a>
+          <div class="dropdown" id="themeDropdown">
+            <button data-theme="light">فاتح </button>
+            <button data-theme="dark">داكن </button>
+            <button data-theme="system">تلقائي</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="blog_container">
+      <section class="blog_list">
+        <div class="patch">
+          <div class="terminal_dote">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p>$ pwd <br>/ <a href="../">home</a>/ <a href="./">blog</a>
+          </p>
+        </div>
+        <article dir="rtl" class="animate-up-bouncy">
+          <h2 class="blog_title">
+            <a href="./1/"> أفضل نظام صفحة تواصل </a>
+          </h2>
+          <p> كيفية صنع بوت تلجرام يصلك فيه (رسائل / صور / ملفات) من خلال موقعك الخاص بشكل مجاني ودائم </p>
+          <p class="blog_date">جوان 3, 2025</p>
+          <p class="time_ago time_ago_stye">2025-06-03T19:10</p>
+        </article>
+      </section>
+    </div>
+    <script src="../js/script.js"></script>
+    <script src="../js/animate.js"></script>
+    <script src="../js/time_ago.js"></script>
+  </body>
+</html>
