@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile</title>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
   <style>
   *{
     box-sizing: border-box;
@@ -144,6 +147,7 @@
   <div class="container">
 <div class="name-section">
   <span id="currentName">User</span>
+  <span id="roleIcons"></span> <!-- الأيقونات تضاف هنا -->
   <span class="edit-icon" id="editBtn">✎</span>
 </div>
 
@@ -226,8 +230,39 @@ async function loadProfile(currentUser) {
   const userDoc = querySnapshot.docs[0];
   const data = userDoc.data();
   const isOwner = currentUser && currentUser.uid === userDoc.id;
+const roleIcons = document.getElementById("roleIcons");
+const role = data.role || "";
 
   currentName.textContent = data.name || usernameFromURL;
+roleIcons.innerHTML = ""; // تفريغ الأيقونات القديمة إن وجدت
+
+
+if (role === "admin") {
+  roleIcons.innerHTML = `
+    <ion-icon name="checkmark-circle" style="color: #1da1f2; font-size: 20px;"></ion-icon>
+    <ion-icon name="crown" style="color: gold; font-size: 20px;"></ion-icon>
+  `;
+} else if (role === "developer") {
+  roleIcons.innerHTML = `
+    <ion-icon name="checkmark-circle" style="color: #1da1f2; font-size: 20px;"></ion-icon>
+    <ion-icon name="code-slash" style="color: violet; font-size: 20px;"></ion-icon>
+  `;
+}
+roleIcons.innerHTML = ""; // تفريغ الأيقونات القديمة إن وجدت
+
+const role = data.role || "";
+
+if (role === "admin") {
+  roleIcons.innerHTML = `
+    <ion-icon name="checkmark-circle" style="color: #1da1f2; font-size: 20px;"></ion-icon>
+    <ion-icon name="crown" style="color: gold; font-size: 20px;"></ion-icon>
+  `;
+} else if (role === "developer") {
+  roleIcons.innerHTML = `
+    <ion-icon name="checkmark-circle" style="color: #1da1f2; font-size: 20px;"></ion-icon>
+    <ion-icon name="code-slash" style="color: violet; font-size: 20px;"></ion-icon>
+  `;
+}
 
   photoPreview.onload = () => showProfile();
   photoPreview.onerror = () => showProfile();
