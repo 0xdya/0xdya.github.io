@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile</title>
   <style>
+  *{
+    box-sizing: border-box;
+  }
     body {
       background-color: #000;
       color: #fff;
@@ -96,6 +99,35 @@
       align-items: center;
       height: 100vh;
     }
+    .edit-field {
+  display: none;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
+
+.edit-btn {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #1da1f2;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #1991da;
+}
+
   </style>
 </head>
 <body>
@@ -110,17 +142,21 @@
     <img id="photoPreview" class="profile-pic" src="../img/user.jpg" alt="Avatar" />
   </div>
   <div class="container">
-    <div class="name-section">
-      <span id="currentName">User</span>
-      <span class="edit-icon" id="editBtn">✎</span>
-    </div>
-    <input type="text" id="displayNameInput" placeholder="اسم جديد" />
-    <button id="saveBtn">حفظ</button>
+<div class="name-section">
+  <span id="currentName">User</span>
+  <span class="edit-icon" id="editBtn">✎</span>
+</div>
+
+<input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
+<textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
+<button id="saveAllBtn" class="edit-btn">save</button>
+
   </div>
 </div>
 
 <button id="logoutBtn">تسجيل الخروج</button>
 
+<!--
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
@@ -144,13 +180,14 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const currentName = document.getElementById("currentName");
-const displayNameInput = document.getElementById("displayNameInput");
 const editBtn = document.getElementById("editBtn");
-const saveBtn = document.getElementById("saveBtn");
 const photoPreview = document.getElementById("photoPreview");
 const loading = document.getElementById("loading");
 const profileContainer = document.getElementById("profileContainer");
 const logoutBtn = document.getElementById("logoutBtn");
+const displayNameInput = document.getElementById("displayNameInput");
+const bioInput = document.getElementById("bioInput");
+const saveAllBtn = document.getElementById("saveAllBtn");
 
 let usernameFromURL = window.location.pathname.startsWith("/@")
   ? window.location.pathname.substring(2)
@@ -195,104 +232,70 @@ async function loadProfile(currentUser) {
   photoPreview.onload = () => showProfile();
   photoPreview.onerror = () => showProfile();
   photoPreview.src = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
-    const bioParagraph = document.createElement("p");
-  bioParagraph.style.marginTop = "10px";
-  bioParagraph.style.opacity = "0.9";
-  bioParagraph.textContent = data.bio || "لا توجد نبذة حالياً.";
-  profileContainer.querySelector(".container").appendChild(bioParagraph);
-
+    
   // عرض آخر تسجيل دخول
-  if (data.lastLogin?.toDate) {
-    const lastLoginDate = data.lastLogin.toDate();
-    const now = new Date();
-    const diff = Math.floor((now - lastLoginDate) / 1000);
-    let loginText = "آخر ظهور: ";
-    if (diff < 60) loginText += "الآن 🔵";
-    else if (diff < 3600) loginText += `${Math.floor(diff / 60)} دقيقة`;
-    else if (diff < 86400) loginText += `${Math.floor(diff / 3600)} ساعة`;
-    else loginText += `${Math.floor(diff / 86400)} يوم`;
+if (data.lastLogin?.toDate) {
+  const lastLoginDate = data.lastLogin.toDate();
+  const now = new Date();
+  const diff = Math.floor((now - lastLoginDate) / 1000); // فرق بالثواني
 
-    const lastLoginEl = document.createElement("p");
-    lastLoginEl.style.fontSize = "14px";
-    lastLoginEl.style.color = "#aaa";
-    lastLoginEl.style.marginTop = "4px";
-    lastLoginEl.textContent = loginText;
-    profileContainer.querySelector(".container").appendChild(lastLoginEl);
-  }
+  const statusEl = document.createElement("p");
+  statusEl.style.fontSize = "14px";
+  statusEl.style.color = diff < 60 ? "lime" : "#aaa";
+  statusEl.style.marginTop = "4px";
+  statusEl.textContent = diff < 60 ? "online" : `last seen ${formatTimeAgo(diff)}`;
+  profileContainer.querySelector(".container").appendChild(statusEl);
+}
+function formatTimeAgo(seconds) {
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+  return `${Math.floor(seconds / 86400)} days ago`;
+}
+
 if (isOwner) {
   editBtn.style.display = "inline-block";
   logoutBtn.style.display = "block";
 
   let isEditing = false;
 
-  // عناصر البايو
-  const bioInput = document.createElement("textarea");
-  bioInput.value = data.bio || "";
-  bioInput.style.display = "none";
-  bioInput.style.width = "100%";
-  bioInput.style.marginTop = "10px";
-  bioInput.style.padding = "8px";
-  bioInput.style.background = "#111";
-  bioInput.style.color = "#fff";
-  bioInput.style.border = "1px solid #444";
-  bioInput.rows = 3;
-
-  const bioSaveBtn = document.createElement("button");
-  bioSaveBtn.textContent = "save bio ";
-  bioSaveBtn.style.display = "none";
-  bioSaveBtn.style.marginTop = "10px";
-  bioSaveBtn.style.padding = "8px 16px";
-  bioSaveBtn.style.borderRadius = "6px";
-  bioSaveBtn.style.background = "#1da1f2";
-  bioSaveBtn.style.color = "#fff";
-  bioSaveBtn.style.border = "none";
-  bioSaveBtn.style.cursor = "pointer";
-
-  profileContainer.querySelector(".container").appendChild(bioInput);
-  profileContainer.querySelector(".container").appendChild(bioSaveBtn);
-
   // زر التعديل
   editBtn.onclick = () => {
-    isEditing = !isEditing;
+  isEditing = !isEditing;
+  displayNameInput.style.display = isEditing ? "block" : "none";
+  saveBtn.style.display = isEditing ? "inline-block" : "none";
+  bioInput.style.display = isEditing ? "block" : "none";
+  bioSaveBtn.style.display = isEditing ? "inline-block" : "none";
+  displayNameInput.value = data.name || "";
+  bioInput.value = data.bio || "";
+  editBtn.textContent = isEditing ? "✔" : "✎";
+};
 
-    displayNameInput.style.display = isEditing ? "block" : "none";
-    saveBtn.style.display = isEditing ? "inline-block" : "none";
-    bioInput.style.display = isEditing ? "block" : "none";
-    bioSaveBtn.style.display = isEditing ? "inline-block" : "none";
-    displayNameInput.value = data.name || "";
-    
-    // تغيير شكل الزر ✎ <-> ✔
-    editBtn.textContent = isEditing ? "✔" : "✎";
-  };
 
-  // حفظ الاسم
-  saveBtn.onclick = async () => {
-    const newName = displayNameInput.value.trim();
-    const valid = /^[a-zA-Z0-9._-]{3,20}$/.test(newName);
-    if (!valid) return alert("⚠️ اسم غير صالح.");
-    const checkName = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
-    const taken = !checkName.empty && checkName.docs[0].id !== currentUser.uid;
-    if (taken) return alert("⚠️ الاسم مستخدم بالفعل.");
-    await updateProfile(currentUser, { displayName: newName });
-    await setDoc(doc(db, "users", currentUser.uid), {
-      ...data,
-      name: newName,
-      photo: currentUser.photoURL || data.photo
-    });
-    alert("✅ saved ");
-    location.reload();
-  };
 
-  // حفظ البايو
-  bioSaveBtn.onclick = async () => {
-    const newBio = bioInput.value.trim().slice(0, 200);
-    await setDoc(doc(db, "users", currentUser.uid), {
-      ...data,
-      bio: newBio
-    }, { merge: true });
-    alert("✅   saved");
-    location.reload();
-  };
+saveAllBtn.onclick = async () => {
+  const newName = displayNameInput.value.trim();
+  const newBio = bioInput.value.trim().slice(0, 200);
+
+  const valid = /^[a-zA-Z0-9._-]{3,20}$/.test(newName);
+  if (!valid) return alert("⚠️ اسم غير صالح.");
+
+  const checkName = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
+  const taken = !checkName.empty && checkName.docs[0].id !== currentUser.uid;
+  if (taken) return alert("⚠️ الاسم مستخدم بالفعل.");
+
+  await updateProfile(currentUser, { displayName: newName });
+
+  await setDoc(doc(db, "users", currentUser.uid), {
+    ...data,
+    name: newName,
+    bio: newBio,
+    photo: currentUser.photoURL || data.photo
+  }, { merge: true });
+
+  alert("✅ تم حفظ التعديلات");
+  location.reload();
+};
+
 
   // تسجيل الخروج
   logoutBtn.onclick = async () => {
@@ -313,6 +316,6 @@ function showProfile() {
   profileContainer.style.display = "block";
 }
 </script>
-
+-->
 </body>
 </html>
