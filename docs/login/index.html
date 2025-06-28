@@ -249,32 +249,34 @@ onAuthStateChanged(auth, async user => {
     userPhoto.src = defaultPhoto;
     message.textContent = "login successful";
 
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        uid: user.uid,
-        name: defaultName,
-        email: defaultEmail,
-        photo: defaultPhoto,
-        createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp(),
-        role: "user",
-        hidden: false,
-        verified: false,
-        bio: "",
-        social: {
-          github: "",
-          twitter: "",
-          website: ""
-        }
-      });
-    } else {
-      await setDoc(userRef, {
-        name: defaultName,
-        email: defaultEmail,
-        photo: defaultPhoto,
-        lastLogin: serverTimestamp()
-      }, { merge: true });
+   if (!userSnap.exists()) {
+  await setDoc(userRef, {
+    uid: user.uid,
+    name: defaultName,
+    email: defaultEmail,
+    photo: defaultPhoto,
+    createdAt: serverTimestamp(),
+    lastLogin: serverTimestamp(),
+    role: "user",
+    hidden: false,
+    verified: false,
+    bio: "",
+    social: {
+      github: "",
+      twitter: "",
+      website: ""
     }
+  });
+} else {
+  // إذا المستخدم موجود بالفعل، يتم تحديث البيانات الأساسية فقط
+  await setDoc(userRef, {
+    name: defaultName,
+    email: defaultEmail,
+    photo: defaultPhoto,
+    lastLogin: serverTimestamp()
+  }, { merge: true });
+}
+
 
   } else {
     loginBtns.style.display = "block";
