@@ -139,13 +139,6 @@
   };
   const app = initializeApp(firebaseConfig);
 </script>
-<script>
-  const path = window.location.pathname;
-  if (path.startsWith("/@")) {
-    const username = path.slice(2);
-    window.location.href = `/profile/index.html?user=${encodeURIComponent(username)}`;
-  }
-</script>
 <script type="module" src="./js/view.js"></script>
 <script src="./js/script.js"></script>
 <script src="./js/tg.js"></script>
