@@ -219,77 +219,88 @@ async function loadProfile(currentUser) {
     lastLoginEl.textContent = loginText;
     profileContainer.querySelector(".container").appendChild(lastLoginEl);
   }
+if (isOwner) {
+  editBtn.style.display = "inline-block";
+  logoutBtn.style.display = "block";
 
-  // تعديل bio إذا كان صاحب الحساب
-  if (isOwner) {
-    const bioInput = document.createElement("textarea");
-    bioInput.value = data.bio || "";
-    bioInput.style.display = "block";
-    bioInput.style.width = "100%";
-    bioInput.style.marginTop = "10px";
-    bioInput.style.padding = "8px";
-    bioInput.style.background = "#111";
-    bioInput.style.color = "#fff";
-    bioInput.style.border = "1px solid #444";
-    bioInput.rows = 3;
+  let isEditing = false;
 
-    const bioSaveBtn = document.createElement("button");
-    bioSaveBtn.textContent = "save ";
-    bioSaveBtn.style.marginTop = "10px";
-    bioSaveBtn.style.padding = "8px 16px";
-    bioSaveBtn.style.borderRadius = "6px";
-    bioSaveBtn.style.background = "#1da1f2";
-    bioSaveBtn.style.color = "#fff";
-    bioSaveBtn.style.border = "none";
-    bioSaveBtn.style.cursor = "pointer";
+  // عناصر البايو
+  const bioInput = document.createElement("textarea");
+  bioInput.value = data.bio || "";
+  bioInput.style.display = "none";
+  bioInput.style.width = "100%";
+  bioInput.style.marginTop = "10px";
+  bioInput.style.padding = "8px";
+  bioInput.style.background = "#111";
+  bioInput.style.color = "#fff";
+  bioInput.style.border = "1px solid #444";
+  bioInput.rows = 3;
 
-    profileContainer.querySelector(".container").appendChild(bioInput);
-    profileContainer.querySelector(".container").appendChild(bioSaveBtn);
+  const bioSaveBtn = document.createElement("button");
+  bioSaveBtn.textContent = "save bio ";
+  bioSaveBtn.style.display = "none";
+  bioSaveBtn.style.marginTop = "10px";
+  bioSaveBtn.style.padding = "8px 16px";
+  bioSaveBtn.style.borderRadius = "6px";
+  bioSaveBtn.style.background = "#1da1f2";
+  bioSaveBtn.style.color = "#fff";
+  bioSaveBtn.style.border = "none";
+  bioSaveBtn.style.cursor = "pointer";
 
-    bioSaveBtn.onclick = async () => {
-      const newBio = bioInput.value.trim().slice(0, 200);
-      await setDoc(doc(db, "users", currentUser.uid), {
-        ...data,
-        bio: newBio
-      }, { merge: true });
-      alert("✅  shaved  ");
-      location.reload();
-    };
-  }
-  
+  profileContainer.querySelector(".container").appendChild(bioInput);
+  profileContainer.querySelector(".container").appendChild(bioSaveBtn);
 
-  if (isOwner) {
-    editBtn.style.display = "inline-block";
-    logoutBtn.style.display = "block";
+  // زر التعديل
+  editBtn.onclick = () => {
+    isEditing = !isEditing;
 
-    editBtn.onclick = () => {
-      displayNameInput.style.display = "block";
-      saveBtn.style.display = "inline-block";
-      displayNameInput.value = data.name || "";
-    };
+    displayNameInput.style.display = isEditing ? "block" : "none";
+    saveBtn.style.display = isEditing ? "inline-block" : "none";
+    bioInput.style.display = isEditing ? "block" : "none";
+    bioSaveBtn.style.display = isEditing ? "inline-block" : "none";
+    displayNameInput.value = data.name || "";
+    
+    // تغيير شكل الزر ✎ <-> ✔
+    editBtn.textContent = isEditing ? "✔" : "✎";
+  };
 
-    saveBtn.onclick = async () => {
-      const newName = displayNameInput.value.trim();
-      const valid = /^[a-zA-Z0-9._-]{3,20}$/.test(newName);
-      if (!valid) return alert("⚠️ اسم غير صالح.");
-      const checkName = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
-      const taken = !checkName.empty && checkName.docs[0].id !== currentUser.uid;
-      if (taken) return alert("⚠️ الاسم مستخدم بالفعل.");
-      await updateProfile(currentUser, { displayName: newName });
-      await setDoc(doc(db, "users", currentUser.uid), {
-        ...data,
-        name: newName,
-        photo: currentUser.photoURL || data.photo
-      });
-      alert("✅ تم التحديث");
-      location.reload();
-    };
+  // حفظ الاسم
+  saveBtn.onclick = async () => {
+    const newName = displayNameInput.value.trim();
+    const valid = /^[a-zA-Z0-9._-]{3,20}$/.test(newName);
+    if (!valid) return alert("⚠️ اسم غير صالح.");
+    const checkName = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
+    const taken = !checkName.empty && checkName.docs[0].id !== currentUser.uid;
+    if (taken) return alert("⚠️ الاسم مستخدم بالفعل.");
+    await updateProfile(currentUser, { displayName: newName });
+    await setDoc(doc(db, "users", currentUser.uid), {
+      ...data,
+      name: newName,
+      photo: currentUser.photoURL || data.photo
+    });
+    alert("✅ saved ");
+    location.reload();
+  };
 
-    logoutBtn.onclick = async () => {
-      await signOut(auth);
-      window.location.href = "/";
-    };
-  }
+  // حفظ البايو
+  bioSaveBtn.onclick = async () => {
+    const newBio = bioInput.value.trim().slice(0, 200);
+    await setDoc(doc(db, "users", currentUser.uid), {
+      ...data,
+      bio: newBio
+    }, { merge: true });
+    alert("✅   saved");
+    location.reload();
+  };
+
+  // تسجيل الخروج
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+    window.location.href = "/";
+  };
+}
+
 }
 
 function showMessage(msg) {
