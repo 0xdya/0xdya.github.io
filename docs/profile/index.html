@@ -159,8 +159,185 @@
 </div>
 
 <button id="logoutBtn">تسجيل الخروج</button>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
+  // Firebase setup
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+    authDomain: "oxdyaa.firebaseapp.com",
+    projectId: "oxdyaa",
+    storageBucket: "oxdyaa.appspot.com",
+    messagingSenderId: "604062703590",
+    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
+  // DOM elements
+  const currentName = document.getElementById("currentName");
+  const roleIcons   = document.getElementById("roleIcons");
+  const editBtn     = document.getElementById("editBtn");
+  const photoPreview = document.getElementById("photoPreview");
+  const loading     = document.getElementById("loading");
+  const profileContainer = document.getElementById("profileContainer");
+  const logoutBtn   = document.getElementById("logoutBtn");
+  const displayNameInput = document.getElementById("displayNameInput");
+  const bioInput    = document.getElementById("bioInput");
+  const saveAllBtn  = document.getElementById("saveAllBtn");
+
+  // Determine username from URL
+  let usernameFromURL = window.location.pathname.startsWith("/@")
+    ? window.location.pathname.slice(2)
+    : "profile";
+
+  // Monitor auth state
+  onAuthStateChanged(auth, async (user) => {
+    try {
+      if (!user && usernameFromURL === "profile") {
+        showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+        return;
+      }
+      if (user && usernameFromURL === "profile") {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists() && snap.data().name) {
+          window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
+          return;
+        }
+      }
+      await loadProfile(user);
+    } catch (err) {
+      console.error("Error loading profile:", err);
+      showMessage("🚨 حدث خطأ، الرجاء المحاولة لاحقاً.");
+    } finally {
+      showProfile();
+    }
+  });
+
+  // Load and render profile
+  async function loadProfile(currentUser) {
+    if (usernameFromURL === "profile") {
+      showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+      return;
+    }
+
+    const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
+    const qs = await getDocs(q);
+    if (qs.empty) {
+      showMessage("🚫 المستخدم غير موجود.");
+      return;
+    }
+    const userDoc = qs.docs[0];
+    const data = userDoc.data();
+    const isOwner = currentUser && currentUser.uid === userDoc.id;
+
+    // Set name
+    currentName.textContent = data.name;
+
+    // Set photo & show profile when ready
+    photoPreview.src = (isOwner && currentUser.photoURL) || data.photo || "../img/user.jpg";
+    photoPreview.onload = photoPreview.onerror = () => showProfile();
+
+    // Render role icons
+    roleIcons.innerHTML = "";
+    const role = data.role || "";
+    if (role === "admin") {
+      roleIcons.innerHTML = `
+        <ion-icon name="checkmark-circle" style="color:#1da1f2;font-size:20px"></ion-icon>
+        <ion-icon name="crown" style="color:gold;font-size:20px"></ion-icon>
+      `;
+    } else if (role === "developer") {
+      roleIcons.innerHTML = `
+        <ion-icon name="checkmark-circle" style="color:#1da1f2;font-size:20px"></ion-icon>
+        <ion-icon name="code-slash" style="color:violet;font-size:20px"></ion-icon>
+      `;
+    }
+
+    // Last login status
+    if (data.lastLogin?.toDate) {
+      const lastLoginDate = data.lastLogin.toDate();
+      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
+      const statusEl = document.createElement("p");
+      statusEl.style.fontSize = "14px";
+      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
+      statusEl.style.marginTop = "4px";
+      statusEl.textContent = diffSec < 60 ? "online" : `last seen ${formatTimeAgo(diffSec)}`;
+      profileContainer.querySelector(".container").appendChild(statusEl);
+    }
+
+    // Owner-specific actions
+    if (isOwner) {
+      editBtn.style.display = "inline-block";
+      logoutBtn.style.display = "block";
+
+      let isEditing = false;
+      editBtn.onclick = () => {
+        isEditing = !isEditing;
+        displayNameInput.style.display = isEditing ? "block" : "none";
+        bioInput.style.display         = isEditing ? "block" : "none";
+        saveAllBtn.style.display       = isEditing ? "inline-block" : "none";
+        displayNameInput.value         = data.name || "";
+        bioInput.value                 = data.bio || "";
+        editBtn.textContent            = isEditing ? "✔" : "✎";
+      };
+
+      saveAllBtn.onclick = async () => {
+        const newName = displayNameInput.value.trim();
+        const newBio  = bioInput.value.trim().slice(0, 200);
+        if (!newName) return alert("⚠️ يجب إدخال اسم.");
+
+        const snapCheck = await getDocs(
+          query(collection(db, "users"), where("name", "==", newName))
+        );
+        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
+        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+
+        try {
+          await updateProfile(currentUser, { displayName: newName });
+          await setDoc(doc(db, "users", currentUser.uid), {
+            ...data,
+            name: newName,
+            bio: newBio,
+            photo: currentUser.photoURL || data.photo
+          }, { merge: true });
+
+          alert("✅ تم حفظ التعديلات");
+          currentName.textContent = newName;
+        } catch (err) {
+          console.error("Save error:", err);
+          alert("❌ حدث خطأ أثناء الحفظ.");
+        }
+      };
+
+      logoutBtn.onclick = async () => {
+        await signOut(auth);
+        window.location.href = "/";
+      };
+    }
+  }
+
+  // Helpers
+  function formatTimeAgo(sec) {
+    if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
+    if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
+    return `${Math.floor(sec / 86400)} days ago`;
+  }
+
+  function showMessage(msg) {
+    profileContainer.innerHTML =
+      `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
+  }
+
+  function showProfile() {
+    loading.style.display         = "none";
+    profileContainer.style.display = "block";
+  }
+</script>
+
+<!-- bac 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
@@ -248,9 +425,6 @@ if (role === "admin") {
     <ion-icon name="code-slash" style="color: violet; font-size: 20px;"></ion-icon>
   `;
 }
-roleIcons.innerHTML = ""; // تفريغ الأيقونات القديمة إن وجدت
-
-const role = data.role || "";
 
 if (role === "admin") {
   roleIcons.innerHTML = `
@@ -351,6 +525,7 @@ function showProfile() {
   profileContainer.style.display = "block";
 }
 </script>
+-->
 
 </body>
 </html>
