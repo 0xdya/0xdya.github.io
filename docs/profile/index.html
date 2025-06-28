@@ -195,6 +195,68 @@ async function loadProfile(currentUser) {
   photoPreview.onload = () => showProfile();
   photoPreview.onerror = () => showProfile();
   photoPreview.src = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
+    const bioParagraph = document.createElement("p");
+  bioParagraph.style.marginTop = "10px";
+  bioParagraph.style.opacity = "0.9";
+  bioParagraph.textContent = data.bio || "لا توجد نبذة حالياً.";
+  profileContainer.querySelector(".container").appendChild(bioParagraph);
+
+  // عرض آخر تسجيل دخول
+  if (data.lastLogin?.toDate) {
+    const lastLoginDate = data.lastLogin.toDate();
+    const now = new Date();
+    const diff = Math.floor((now - lastLoginDate) / 1000);
+    let loginText = "آخر ظهور: ";
+    if (diff < 60) loginText += "الآن 🔵";
+    else if (diff < 3600) loginText += `${Math.floor(diff / 60)} دقيقة`;
+    else if (diff < 86400) loginText += `${Math.floor(diff / 3600)} ساعة`;
+    else loginText += `${Math.floor(diff / 86400)} يوم`;
+
+    const lastLoginEl = document.createElement("p");
+    lastLoginEl.style.fontSize = "14px";
+    lastLoginEl.style.color = "#aaa";
+    lastLoginEl.style.marginTop = "4px";
+    lastLoginEl.textContent = loginText;
+    profileContainer.querySelector(".container").appendChild(lastLoginEl);
+  }
+
+  // تعديل bio إذا كان صاحب الحساب
+  if (isOwner) {
+    const bioInput = document.createElement("textarea");
+    bioInput.value = data.bio || "";
+    bioInput.style.display = "block";
+    bioInput.style.width = "100%";
+    bioInput.style.marginTop = "10px";
+    bioInput.style.padding = "8px";
+    bioInput.style.background = "#111";
+    bioInput.style.color = "#fff";
+    bioInput.style.border = "1px solid #444";
+    bioInput.rows = 3;
+
+    const bioSaveBtn = document.createElement("button");
+    bioSaveBtn.textContent = "save ";
+    bioSaveBtn.style.marginTop = "10px";
+    bioSaveBtn.style.padding = "8px 16px";
+    bioSaveBtn.style.borderRadius = "6px";
+    bioSaveBtn.style.background = "#1da1f2";
+    bioSaveBtn.style.color = "#fff";
+    bioSaveBtn.style.border = "none";
+    bioSaveBtn.style.cursor = "pointer";
+
+    profileContainer.querySelector(".container").appendChild(bioInput);
+    profileContainer.querySelector(".container").appendChild(bioSaveBtn);
+
+    bioSaveBtn.onclick = async () => {
+      const newBio = bioInput.value.trim().slice(0, 200);
+      await setDoc(doc(db, "users", currentUser.uid), {
+        ...data,
+        bio: newBio
+      }, { merge: true });
+      alert("✅  shaved  ");
+      location.reload();
+    };
+  }
+  
 
   if (isOwner) {
     editBtn.style.display = "inline-block";
