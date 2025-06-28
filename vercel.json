@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/@:username",
-      "destination": "/profile/index.html"
+      "destination": "/docs/profile/index.html"
     }
   ]
 }
