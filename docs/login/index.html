@@ -211,6 +211,7 @@ const userComand = document.getElementById("userComand");
 const loginComand = document.getElementById("loginComand");
 const userName = document.getElementById("userName");
 const userPhoto = document.getElementById("userPhoto");
+const bannerImg = document.getElementById("bannerImg");
 const message = document.getElementById("message");
 const errorEl = document.getElementById("error");
 const loader = document.getElementById("loader");
@@ -247,6 +248,7 @@ onAuthStateChanged(auth, async user => {
 
     userName.textContent = defaultName;
     userPhoto.src = defaultPhoto;
+    bannerImg.src = defaultBanner;
     message.textContent = "login successful";
 
    if (!userSnap.exists()) {
