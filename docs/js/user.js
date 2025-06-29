@@ -1,18 +1,4 @@
 // user.js
-
-// 🔄 عرض الصورة من التخزين المؤقت مباشرة
-document.addEventListener("DOMContentLoaded", () => {
-  const userAvatar = document.getElementById("userAvatar");
-  const loginIcon = document.getElementById("loginIcon");
-      
-  const cachedUrl = localStorage.getItem("avatarUrl");
-  if (cachedUrl && userAvatar) {
-    userAvatar.src = cachedUrl;
-    loginIcon.style.display = "none";
-    userAvatar.style.display = "inline-block";
-  }
-});
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
