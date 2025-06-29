@@ -461,7 +461,7 @@ async function loadReplies(commentId) {
     replyCard.style.cssText = "display:flex;gap:10px;margin-top:10px;";
     replyCard.innerHTML = `
       <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
-        <img src="${userData.photoURL}">
+        <img src="${userData.photo}">
       </a>
       <div style="flex:1;">
         <div class="name_time">
@@ -513,7 +513,7 @@ function loadComments() {
       commentDiv.innerHTML = `
         <div class="comment-header">
           <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
-            <img src="${userData.photoURL}">
+            <img src="${userData.photo}">
           </a>
           <div style="flex:1">
             <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;text-decoration:none;">
