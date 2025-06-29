@@ -150,9 +150,10 @@
 }
 ion-icon{
   margin-bottom: -2px;
+  font-size:18px;
 }
 svg {
-    width: 14px;
+    width: 20px;
     fill: #0af;
     margin-bottom: -2px;
   }
@@ -174,8 +175,8 @@ svg {
   <span id="currentName"></span>
   <span id="roleIcons"></span> <!-- الأيقونات تضاف هنا -->
 </div>
-<div id="displayBioInput"></div>
 <div id="statusEl"></div>
+<div id="displayBioInput"></div>
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
 <textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
 <button id="saveAllBtn" class="edit-btn">save</button>
@@ -291,9 +292,9 @@ if (isVerified) {
 }
 
 if (role === "admin") {
-  iconsHTML += ` <ion-icon name="build-outline" style="color:gold;font-size:20px" title="Admin"></ion-icon> `;
+  iconsHTML += ` <ion-icon name="build-outline" style="color:gold;" title="Admin"></ion-icon> `;
 } else if (role === "developer") {
-  iconsHTML += `  <ion-icon name="code-slash-outline" style="color:violet;font-size:20px" title="Developer"></ion-icon> `;
+  iconsHTML += `  <ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon> `;
 }
 
 roleIcons.innerHTML = iconsHTML;
