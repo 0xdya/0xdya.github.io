@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>0xDya - users</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/en.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/en.css" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -60,9 +60,12 @@
         <span></span>
       </div>
       <p>$ pwd <br>/ <a href="../">home</a>/ <a href="./">users</a></p>
+      <p>$ cd note.txt <br> 
+      <span class="user_note">
+      ur account will be automatically added after login.
+      </span>
+      </p>
     </div>
-    <p class="home_title_font">ur account will be automatically added after login & you can hide it at any time.
-    </p>
     <div id="users">
       <img width="40" src="../img/load.gif">
     </div>
@@ -122,7 +125,7 @@
 
     // عرض المستخدمين
     function loadUsers() {
-  const q = query(collection(db, "users"), orderBy("lastLogin", "desc"));
+  const q = query(collection(db, "users"), orderBy("lastLogin", "asc"));
   onSnapshot(q, (snapshot) => {
     usersDiv.innerHTML = "";
     snapshot.forEach(docSnap => {
@@ -137,8 +140,10 @@
       usersDiv.innerHTML += `
         <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
           <img src="${photo}" alt="صورة المستخدم">
-          <strong>${name}</strong>
-          <div class="rotba">role: <span  class="${roleClass}">${role}</span
+          <div class="name_and_role">
+          <span>${name}</span>
+          <div class="rotba">role: <span  class="${roleClass}">${role}</span>
+          </div>
           </div>
           <div class="joined">${joinedText}</div>
         </div>
