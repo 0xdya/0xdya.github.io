@@ -110,30 +110,26 @@
   </style>
 </head>
 <body>
+<!-- واجهة تسجيل الدخول -->
 <div class="terminal">
   <div class="loginComandCode" dir="ltr">
     <span class="prompt">0xdya@auth:~$</span> cd login.md
   </div>
-
   <div class="login_note">
     <img width="100%" src="lain.gif">
     <p> => you can log out at any time </p>
     <p> => high security protect</p>
   </div>
-
   <div id="loader">
     <span class="doted">Authenticating...</span>
   </div>
-
   <div id="loginComand" class="none" dir="ltr">
     <span class="prompt">0xdya@auth:~$</span> sudo login
   </div>
-
   <div class="none" dir="ltr" id="userComand" style="text-align:left">
     <div id="message"></div><br>
     <span class="prompt">0xdya@auth:~$</span> account-info
   </div>
-
   <div class="flex">
     <div id="userInfo" class="user-info none">
       <img id="userPhoto" src="" alt="User Photo">
@@ -141,48 +137,31 @@
     </div>
     <div id="userDetails" style="font-size: 13px; line-height: 1.4;"></div>
   </div>
-
-  <div id="login-buttons" class="display: none">
+  <div id="login-buttons">
     <button id="googleLogin" dir="ltr">
       <ion-icon name="logo-google"></ion-icon>
-      <span class="home_title_font">
-        Sign in with Google
-      </span>
+      <span class="home_title_font"> Sign in with Google </span>
     </button>
     <button id="githubLogin" dir="ltr">
       <ion-icon name="logo-github"></ion-icon>
-      <span class="home_title_font">
-        Sign in with GitHub
-      </span>
+      <span class="home_title_font"> Sign in with GitHub </span>
     </button>
   </div>
-
   <div id="error"></div>
-
   <div id="userSection" class="none">
     <button onclick="location.href = `../profile/`" id="profile">Go to Profile</button>
+    <button id="logoutBtn">logout</button>
   </div>
 </div>
 
-
-<!-- تسجيل الدخول -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
-  getAuth,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged
+  getAuth, GoogleAuthProvider, GithubAuthProvider,
+  signInWithPopup, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  deleteDoc,
-  serverTimestamp
+  getFirestore, doc, setDoc, getDocFromServer, deleteDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 // إعداد Firebase
@@ -194,16 +173,16 @@ const firebaseConfig = {
   messagingSenderId: "604062703590",
   appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 const providers = {
   google: new GoogleAuthProvider(),
   github: new GithubAuthProvider()
 };
 
-// عناصر من الصفحة
+// عناصر الصفحة
 const loginBtns = document.getElementById("login-buttons");
 const userSection = document.getElementById("userSection");
 const userInfo = document.getElementById("userInfo");
@@ -211,7 +190,6 @@ const userComand = document.getElementById("userComand");
 const loginComand = document.getElementById("loginComand");
 const userName = document.getElementById("userName");
 const userPhoto = document.getElementById("userPhoto");
-const bannerImg = document.getElementById("bannerImg");
 const message = document.getElementById("message");
 const errorEl = document.getElementById("error");
 const loader = document.getElementById("loader");
@@ -221,7 +199,7 @@ function login(provider) {
   errorEl.textContent = "";
   signInWithPopup(auth, provider).catch(err => {
     console.error(err);
-    errorEl.textContent = "error || can't login  !";
+    errorEl.textContent = "error || can't login!";
   });
 }
 
@@ -229,6 +207,7 @@ function login(provider) {
 document.getElementById("googleLogin").onclick = () => login(providers.google);
 document.getElementById("githubLogin").onclick = () => login(providers.github);
 
+// عندما يتغير المستخدم (دخول/خروج)
 onAuthStateChanged(auth, async user => {
   loader.style.display = "none";
 
@@ -240,45 +219,49 @@ onAuthStateChanged(auth, async user => {
     loginComand.style.display = "block";
 
     const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
     const defaultName = user.displayName || "user_" + user.uid.slice(0, 6);
-    const defaultPhoto = user.photoURL || "https://0xdya.gtihub.io/img/user.jpg";
+    const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
     const defaultEmail = user.email || "";
 
     userName.textContent = defaultName;
     userPhoto.src = defaultPhoto;
-    bannerImg.src = defaultBanner;
     message.textContent = "login successful";
 
-   if (!userSnap.exists()) {
-  await setDoc(userRef, {
-    uid: user.uid,
-    name: defaultName,
-    email: defaultEmail,
-    photo: defaultPhoto,
-    createdAt: serverTimestamp(),
-    lastLogin: serverTimestamp(),
-    role: "user",
-    hidden: false,
-    verified: false,
-    bio: "",
-    social: {
-      github: "",
-      twitter: "",
-      website: ""
+    try {
+      const userSnap = await getDocFromServer(userRef);
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: defaultName,
+          email: defaultEmail,
+          photo: defaultPhoto,
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+          role: "user",
+          hidden: false,
+          verified: false,
+          bio: "",
+          banner: "", // مكان مخصص لصورة البانر
+          social: {
+            github: "",
+            twitter: "",
+            website: ""
+          }
+        });
+        console.log("✅ تم إنشاء حساب جديد في Firestore");
+      } else {
+        await setDoc(userRef, {
+          name: defaultName,
+          email: defaultEmail,
+          photo: defaultPhoto,
+          lastLogin: serverTimestamp()
+        }, { merge: true });
+        console.log("✅ تم تحديث بيانات المستخدم");
+      }
+    } catch (err) {
+      console.error("❌ خطأ أثناء معالجة حساب المستخدم:", err);
+      errorEl.textContent = "خطأ أثناء حفظ البيانات.";
     }
-  });
-} else {
-  // إذا المستخدم موجود بالفعل، يتم تحديث البيانات الأساسية فقط
-  await setDoc(userRef, {
-    name: defaultName,
-    email: defaultEmail,
-    photo: defaultPhoto,
-    lastLogin: serverTimestamp()
-  }, { merge: true });
-}
-
 
   } else {
     loginBtns.style.display = "block";
@@ -290,19 +273,41 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-document.getElementById("logoutBtn").onclick = async () => {
+// تسجيل الخروج + حذف المستند
+document.getElementById("logoutBtn")?.addEventListener("click", async () => {
   const user = auth.currentUser;
   if (user) {
     try {
-      await deleteDoc(doc(db, "users", user.uid)); // حذف المستند
       await signOut(auth);
+      console.log("logout successful ☕");
     } catch (err) {
-      console.error("error when logout  :", err);
-      errorEl.textContent = "error when logout   !!";
+      console.error("error when logout", err);
+      errorEl.textContent = "error logout!";
     }
   }
-};
+  if (user) {
+  const userRef = doc(db, "users", user.uid);
+  const defaultName = user.displayName || "user_" + user.uid.slice(0, 6);
+  const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
+  
+  userName.textContent = defaultName;
+  userPhoto.src = defaultPhoto;
+  localStorage.setItem("avatarUrl", defaultPhoto); // هام
+  
+  const userSnap = await getDocFromServer(userRef);
+  if (!userSnap.exists()) {
+    // إنشاء حساب جديد
+  } else {
+    const data = userSnap.data();
+    userPhoto.src = data.photo || defaultPhoto;
+    userName.textContent = data.name || defaultName;
+    localStorage.setItem("avatarUrl", data.photo || defaultPhoto); // تحديث التخزين المحلي
+  }
+}
+
+});
 </script>
+
 
 <!-- bac2
 
