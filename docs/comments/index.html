@@ -346,26 +346,9 @@
         <button type="submit">Submit Comment</button>
       </form>
       <a id="write_comment" dir="ltr" style="display:none;cursor:none" class="login" href="../login/">Write Comment</a>
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
-        <span>Logout</span>
-      </button>
     </div>
   </div>
 
-<script>
-  // عند تحميل الصفحة، حاول عرض الصورة من التخزين المحلي حتى قبل Firebase
-  document.addEventListener("DOMContentLoaded", () => {
-    const userAvatar = document.getElementById("userAvatar");
-    const loginIcon = document.getElementById("loginIcon");
-    const cachedUrl = localStorage.getItem("avatarUrl");
-
-    if (cachedUrl) {
-      userAvatar.src = cachedUrl;
-      userAvatar.style.display = "inline-block";
-      loginIcon.style.display = "none";
-    }
-  });
-</script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
