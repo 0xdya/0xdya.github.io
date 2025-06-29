@@ -123,30 +123,29 @@
   if (user) {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
-    
-    
 
     if (!userSnap.exists()) {
-      // أول مرة - نحفظ createdAt
       await setDoc(userRef, {
-        name: user.displayName || "بدون اسم",
-        photo: user.photo || null,
-        lastLogin: serverTimestamp(),
+        uid: user.uid,
+        name: user.displayName || "user_" + user.uid.slice(0, 6),
+        email: user.email,
+        photo: user.photoURL || "https://via.placeholder.com/40",
         createdAt: serverTimestamp(),
-        role: "user"
+        lastLogin: serverTimestamp(),
+        role: "user",
+        verified: false,
+        hidden: false,
+        bio: ""
       });
     } else {
-      // موجود - لا نغيّر createdAt
-      await setDoc(userRef, {
-        name: user.displayName || "بدون اسم",
-        photo: user.photo || null,
-
-        lastLogin: serverTimestamp(),
-        role: "user"
-      }, { merge: true });
+      const updates = { lastLogin: serverTimestamp() };
+      if (user.displayName) updates.name = user.displayName;
+      if (user.photoURL) updates.photo = user.photoURL;
+      await setDoc(userRef, updates, { merge: true });
     }
   }
 });
+
 
 
     // عرض المستخدمين
