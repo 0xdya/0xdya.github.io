@@ -1,19 +1,20 @@
-  document.addEventListener("DOMContentLoaded", () => {
-    const userAvatar = document.getElementById("userAvatar");
-    const loginIcon = document.getElementById("loginIcon");
-    const cachedUrl = localStorage.getItem("avatarUrl");
+// user.js
 
-    if (cachedUrl) {
-      userAvatar.src = cachedUrl;
-      userAvatar.style.display = "inline-block";
-      loginIcon.style.display = "none";
-    }
-  });
+// 🔄 عرض الصورة من التخزين المؤقت مباشرة
+document.addEventListener("DOMContentLoaded", () => {
+  const userAvatar = document.getElementById("userAvatar");
+  const cachedUrl = localStorage.getItem("avatarUrl");
+  if (cachedUrl && userAvatar) {
+    userAvatar.src = cachedUrl;
+    userAvatar.style.display = "inline-block";
+  }
+});
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
+// 📦 إعداد Firebase
 const app = initializeApp({
   apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
   authDomain: "oxdyaa.firebaseapp.com",
@@ -26,57 +27,81 @@ const app = initializeApp({
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// 📥 تنفيذ عند دخول المستخدم
 document.addEventListener("DOMContentLoaded", () => {
-  const loginIcon = document.getElementById("loginIcon");
   const userAvatar = document.getElementById("userAvatar");
   const userName = document.getElementById("userName");
 
   onAuthStateChanged(auth, async user => {
     if (user) {
-      // ⬅️ التحديث من Google
       await user.reload();
 
-      // DOM تحديث الواجهة
-      loginIcon.style.display = "none";
-      userAvatar.src = user.photoURL || "https://0xdya.github.io/img/user.jpg";
-      userAvatar.title = user.displayName || user.email || "حساب المستخدم";
-      userAvatar.style.display = "inline-block";
-      userAvatar.style.verticalAlign = "middle";
-      userAvatar.style.borderRadius = "50%";
-      userAvatar.style.width = "32px";
-      userAvatar.style.height = "32px";
-      userAvatar.style.margin = "4px 8px 4px 10px";
-      userAvatar.style.objectFit = "cover";
-      userAvatar.style.marginInlineEnd = "8px";
-      userName.textContent = user.displayName || "مستخدم";
+      // 👤 تحديث الواجهة
+      if (userAvatar) {
+        userAvatar.src = user.photoURL || "https://0xdya.github.io/img/user.jpg";
+        userAvatar.title = user.displayName || user.email || "حساب المستخدم";
+        userAvatar.style.display = "inline-block";
+        userAvatar.style.verticalAlign = "middle";
+        userAvatar.style.borderRadius = "50%";
+        userAvatar.style.width = "32px";
+        userAvatar.style.height = "32px";
+        userAvatar.style.margin = "4px 8px 4px 10px";
+        userAvatar.style.objectFit = "cover";
+        userAvatar.style.marginInlineEnd = "8px";
+      }
 
-      // Firestore التحقق من التغيير في photo
+      if (userName) {
+        userName.textContent = user.displayName || "مستخدم";
+      }
+
+      // 🔁 تحديث بيانات Firestore
       const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
 
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
+      try {
+        const userSnap = await getDoc(userRef);
 
-        // 🟢 تحديث آخر تسجيل دخول
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+
+          // ✅ تحديث lastLogin
+          await updateDoc(userRef, {
+            lastLogin: serverTimestamp()
+          });
+          console.log("✅ تم تحديث lastLogin بنجاح");
+
+          // ✅ تحديث photo إن تغيّرت
+          if (user.photoURL && user.photoURL !== userData.photo) {
+            await updateDoc(userRef, {
+              photo: user.photoURL
+            });
+            console.log("✅ تم تحديث صورة الحساب");
+          }
+        } else {
+          console.warn("⚠️ لم يتم العثور على وثيقة المستخدم");
+        }
+      } catch (error) {
+        console.error("❌ خطأ أثناء تحديث بيانات Firestore:", error);
+      }
+    } else {
+      // 🚫 لم يتم تسجيل الدخول
+      if (userAvatar) userAvatar.style.display = "none";
+      if (userName) userName.textContent = "";
+    }
+  });
+
+  // ⏱️ تحديث احتياطي في حال فشل `onAuthStateChanged`
+  setTimeout(async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      try {
         await updateDoc(userRef, {
           lastLogin: serverTimestamp()
         });
-
-        // 🟡 تحديث photo إن تغيرت فعلاً
-        if (user.photoURL && user.photoURL !== userData.photo) {
-          await updateDoc(userRef, {
-            photo: user.photoURL
-          });
-          console.log("✅ تم تحديث صورة الحساب في Firestore");
-        }
+        console.log("⏱️ تم تحديث lastLogin من النسخة الاحتياطية");
+      } catch (error) {
+        console.error("❌ خطأ في النسخة الاحتياطية:", error);
       }
-
-    } else {
-      loginIcon.style.display = "inline-block";
-      userAvatar.style.display = "none";
-      userName.textContent = "";
     }
-  });
+  }, 2000);
 });
-
-document.getElementById("logoutBtn").onclick = () => signOut(auth);
