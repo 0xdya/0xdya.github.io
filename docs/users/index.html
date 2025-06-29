@@ -12,6 +12,8 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+      <script type="module" src="../js/user.js"></script>
+      
   </head>
   <h1 class="title home_title_font">
     <span class="prompt ">~/</span>users
@@ -128,7 +130,7 @@
       const created = user.createdAt?.toDate?.();
       const joinedText = created ? ` ${timeAgo(created)}` : "—";
       const role = user.role || "user";
-      const roleClass = `role ${role === "admin" ? "admin" : "user"}`;
+      const roleClass = `role ${role}`;
       const name = user.name || "بدون اسم";
       const photo = user.photo || "../img/user.jpg";
 
@@ -136,7 +138,8 @@
         <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
           <img src="${photo}" alt="صورة المستخدم">
           <strong>${name}</strong>
-          <div class="${roleClass}">role: ${role}</div>
+          <div class="rotba">role: <span  class="${roleClass}">${role}</span
+          </div>
           <div class="joined">${joinedText}</div>
         </div>
       `;
