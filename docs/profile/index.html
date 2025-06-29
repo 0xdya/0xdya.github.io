@@ -343,7 +343,7 @@ svg {
           saveAllBtn.style.display = isEditing ? "inline-block" : "none";
           displayNameInput.value = data.name || "";
           bioInput.value = data.bio || "";
-          editBtn.textContent = isEditing ? "save" : "Edit profile";
+          editBtn.textContent = isEditing ? "close" : "Edit profile";
         };
 
         saveAllBtn.onclick = async () => {
