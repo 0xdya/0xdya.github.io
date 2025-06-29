@@ -6,6 +6,7 @@
   <title>Profile</title>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<link rel="stylesheet" href="../css/style.css">
 
   <style>
   *{
@@ -87,7 +88,7 @@
       display: flex;
       gap: 8px;
       padding: 0 8px;
-      position: absolute;
+      position: fixed;
       right: 50%;
       transform: translateX(50%);
       bottom: 1rem;
@@ -142,12 +143,15 @@
   background: #1991da;
 }
 #displayBioInput{
-  margin: 2rem 0 1rem;
+  margin: 1rem 0;
 }
 #profileContainer{
   position: relative;
   height: 100vh;
   display: none;
+}
+ion-icon{
+  margin-bottom: -2px;
 }
   </style>
 </head>
@@ -167,6 +171,7 @@
   <span id="currentName"></span>
   <span id="roleIcons"></span> <!-- الأيقونات تضاف هنا -->
 </div>
+<div id="statusEl"></div>
 <div id="displayBioInput"></div>
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
 <textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
@@ -174,8 +179,8 @@
 
   </div>
 <section class="sectionbtn">
-<button id="editBtn"> logout</button>
-<button id="logoutBtn">Edit profile  </button>
+<button id="logoutBtn">logout  </button>
+<button id="editBtn"> Edit profile</button>
 </section>
 </div>
 
@@ -208,6 +213,7 @@
   const displayNameInput = document.getElementById("displayNameInput");
   const displayBioInput = document.getElementById("displayBioInput");
   const bioInput    = document.getElementById("bioInput");
+  const statusEl    = document.getElementById("statusEl");
   const saveAllBtn  = document.getElementById("saveAllBtn");
 
   // Determine username from URL
@@ -296,7 +302,6 @@ roleIcons.innerHTML = iconsHTML;
     if (data.lastLogin?.toDate) {
       const lastLoginDate = data.lastLogin.toDate();
       const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
-      const statusEl = document.createElement("p");
       statusEl.style.fontSize = "14px";
       statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
       statusEl.style.marginTop = "4px";
@@ -373,7 +378,8 @@ roleIcons.innerHTML = iconsHTML;
   }
 </script>
 
-<!-- bac 
+<!-- bac
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
