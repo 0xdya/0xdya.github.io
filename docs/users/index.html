@@ -106,13 +106,13 @@
     function timeAgo(date) {
       const now = new Date();
       const seconds = Math.floor((now - date) / 1000);
-      if (seconds < 60) return "منذ لحظات";
+      if (seconds < 60) return "just now ";
       const minutes = Math.floor(seconds / 60);
-      if (minutes < 60) return `منذ ${minutes} دقيقة`;
+      if (minutes < 60) return `joined before ${minutes}m`;
       const hours = Math.floor(minutes / 60);
-      if (hours < 24) return `منذ ${hours} ساعة`;
+      if (hours < 24) return `joined before ${hours}h`;
       const days = Math.floor(hours / 24);
-      return `منذ ${days} يوم`;
+      return `joined before ${days}d`;
     }
     import { onSnapshot } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
     
@@ -164,11 +164,11 @@
       const photo = user.photo || "../img/user.jpg";
 
       usersDiv.innerHTML += `
-        <div class="user-card" onclick="location.href='../profile/index.html?user=${encodeURIComponent(name)}'">
+        <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
           <img src="${photo}" alt="صورة المستخدم">
           <strong>${name}</strong>
-          <div class="${roleClass}">الرتبة: ${role}</div>
-          <div class="joined">تاريخ الانضمام: ${joinedText}</div>
+          <div class="${roleClass}">role: ${role}</div>
+          <div class="joined">${joinedText}</div>
         </div>
       `;
     });
