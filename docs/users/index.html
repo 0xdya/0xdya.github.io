@@ -125,7 +125,7 @@
 
     // عرض المستخدمين
     function loadUsers() {
-  const q = query(collection(db, "users"), orderBy("lastLogin", "desc"));
+  const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
   onSnapshot(q, (snapshot) => {
     usersDiv.innerHTML = "";
     snapshot.forEach(docSnap => {
