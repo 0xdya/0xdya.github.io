@@ -124,14 +124,20 @@ body {
     }
     }
     .role {
-      font-size: var(--body-font-size);
+      font-size: 12px;
       margin-top: 4px;
     }
-     .Admin { color: #ff6666; }
     .joined, .rotba{
       font-size: 12px;
       color: #aaa;
       direction: ltr;
+      margin-left: 4px;
+    }
+     .admin{
+      color: #66ccff !important;
+    }
+     .dev{
+      color: #ffcc66 !important;
     }
     .joined{
       position: absolute;
@@ -936,6 +942,4 @@ article{
     }
     
     
-    .role.admin{
-      color: #66ff99 !important;
-    }
+   
