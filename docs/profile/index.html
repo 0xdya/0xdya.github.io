@@ -162,7 +162,7 @@ ion-icon{
 
 <div id="profileContainer" >
   <div class="profile-header">
-    <img class="banner-img" src="../img/jak.gif" alt="Banner" />
+    <img id="bannerImg"class="banner-img" alt="Banner" />
     <img id="photoPreview" class="profile-pic"/>
   </div>
   <div class="container">
@@ -185,10 +185,25 @@ ion-icon{
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    doc,
+    getDoc,
+    setDoc,
+    onSnapshot,
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  // Firebase setup
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
     authDomain: "oxdyaa.firebaseapp.com",
@@ -202,31 +217,33 @@ ion-icon{
   const db = getFirestore(app);
 
   // DOM elements
-  const currentName = document.getElementById("currentName");
-  const roleIcons   = document.getElementById("roleIcons");
-  const editBtn     = document.getElementById("editBtn");
-  const photoPreview = document.getElementById("photoPreview");
-  const loading     = document.getElementById("loading");
-  const profileContainer = document.getElementById("profileContainer");
-  const logoutBtn   = document.getElementById("logoutBtn");
-  const displayNameInput = document.getElementById("displayNameInput");
-  const displayBioInput = document.getElementById("displayBioInput");
-  const bioInput    = document.getElementById("bioInput");
-  const statusEl    = document.getElementById("statusEl");
-  const saveAllBtn  = document.getElementById("saveAllBtn");
+  const currentName       = document.getElementById("currentName");
+  const roleIcons         = document.getElementById("roleIcons");
+  const editBtn           = document.getElementById("editBtn");
+  const photoPreview      = document.getElementById("photoPreview");
+  const loading           = document.getElementById("loading");
+  const profileContainer  = document.getElementById("profileContainer");
+  const logoutBtn         = document.getElementById("logoutBtn");
+  const displayNameInput  = document.getElementById("displayNameInput");
+  const displayBioInput   = document.getElementById("displayBioInput");
+  const bannerImg = document.getElementById("bannerImg");
+  const bioInput          = document.getElementById("bioInput");
+  const statusEl          = document.getElementById("statusEl");
+  const saveAllBtn        = document.getElementById("saveAllBtn");
 
-  // Determine username from URL
+  // استخراج اسم المستخدم من URL
   let usernameFromURL = window.location.pathname.startsWith("/@")
     ? window.location.pathname.slice(2)
     : "profile";
 
-  // Monitor auth state
+  // متابعة حالة تسجيل الدخول
   onAuthStateChanged(auth, async (user) => {
     try {
       if (!user && usernameFromURL === "profile") {
         showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
         return;
       }
+
       if (user && usernameFromURL === "profile") {
         const snap = await getDoc(doc(db, "users", user.uid));
         if (snap.exists() && snap.data().name) {
@@ -234,7 +251,8 @@ ion-icon{
           return;
         }
       }
-      await loadProfile(user);
+
+      loadProfile(user);
     } catch (err) {
       console.error("Error loading profile:", err);
       showMessage("🚨 حدث خطأ، الرجاء المحاولة لاحقاً.");
@@ -243,7 +261,7 @@ ion-icon{
     }
   });
 
-  // Load and render profile
+  // تحميل البروفايل ومراقبته
   async function loadProfile(currentUser) {
     if (usernameFromURL === "profile") {
       showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
@@ -251,115 +269,112 @@ ion-icon{
     }
 
     const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
-    const qs = await getDocs(q);
-    if (qs.empty) {
-      showMessage("🚫 المستخدم غير موجود.");
-      return;
-    }
-    const userDoc = qs.docs[0];
-    const data = userDoc.data();
-    const isOwner = currentUser && currentUser.uid === userDoc.id;
+    onSnapshot(q, async (qs) => {
+      if (qs.empty) {
+        showMessage("🚫 المستخدم غير موجود.");
+        return;
+      }
 
-    // Set name
-    currentName.textContent = data.name;
-    // Set bio
-    displayBioInput.textContent = data.bio;
+      const userDoc = qs.docs[0];
+      const data = userDoc.data();
 
-//const imgSrc = (isOwner && currentUser?.photoURL) || data.photo || "../img/user.jpg";
-const imgSrc = (isOwner && currentUser?.photo) || data.photo ;
+      const isOwner = currentUser && currentUser.uid === userDoc.id;
 
-const img = new Image();
-img.onload = () => {
-  photoPreview.src = imgSrc;
-  showProfile();
-};
-img.src = imgSrc;
+      currentName.textContent = data.name;
+      displayBioInput.textContent = data.bio;
+      bannerImg.src = data.banner || "../img/jak.gif";
 
-// Render role and verification icons
-roleIcons.innerHTML = "";
-const role = data.role || "";
-const isVerified = data.verified === true;
-
-let iconsHTML = "";
-
-// ✅ علامة التوثيق إذا verified
-if (isVerified) {
-  iconsHTML += `<ion-icon name="checkmark-circle" style="color:#1da1f2;font-size:20px" title="Verified"></ion-icon>`;
-}
-
-// 👑 أيقونات الدور
-if (role === "admin") {
-  iconsHTML += `<ion-icon name="crown" style="color:gold;font-size:20px" title="Admin"></ion-icon>`;
-} else if (role === "developer") {
-  iconsHTML += `<ion-icon name="code-slash" style="color:violet;font-size:20px" title="Developer"></ion-icon>`;
-}
-
-roleIcons.innerHTML = iconsHTML;
-
-
-    // Last login status
-    if (data.lastLogin?.toDate) {
-      const lastLoginDate = data.lastLogin.toDate();
-      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
-      statusEl.style.fontSize = "14px";
-      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
-      statusEl.style.marginTop = "4px";
-      statusEl.textContent = diffSec < 60 ? "online" : `last seen ${formatTimeAgo(diffSec)}`;
-      profileContainer.querySelector(".container").appendChild(statusEl);
-    }
-
-    // Owner-specific actions
-    if (isOwner) {
-      editBtn.style.display = "inline-block";
-      logoutBtn.style.display = "block";
-
-      let isEditing = false;
-      editBtn.onclick = () => {
-        isEditing = !isEditing;
-        displayNameInput.style.display = isEditing ? "block" : "none";
-        bioInput.style.display         = isEditing ? "block" : "none";
-        saveAllBtn.style.display       = isEditing ? "inline-block" : "none";
-        displayNameInput.value         = data.name || "";
-        bioInput.value                 = data.bio || "";
-        editBtn.textContent            = isEditing ? "✔" : "✎";
+      const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
+      const img = new Image();
+      img.onload = () => {
+        photoPreview.src = imgSrc;
+        showProfile();
       };
+      img.src = imgSrc;
 
-      saveAllBtn.onclick = async () => {
-        const newName = displayNameInput.value.trim();
-        const newBio  = bioInput.value.trim().slice(0, 200);
-        if (!newName) return alert("⚠️ يجب إدخال اسم.");
+      // عرض الأيقونات
+      roleIcons.innerHTML = "";
+      const role = data.role || "";
+      const isVerified = data.verified === true;
+      let iconsHTML = "";
 
-        const snapCheck = await getDocs(
-          query(collection(db, "users"), where("name", "==", newName))
-        );
-        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
-        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+      if (isVerified) {
+        iconsHTML += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="..."></path></svg>`;
+      }
 
-        try {
-          await updateProfile(currentUser, { displayName: newName });
-          await setDoc(doc(db, "users", currentUser.uid), {
-            ...data,
-            name: newName,
-            bio: newBio,
-            photo: currentUser.photo || data.photo
-          }, { merge: true });
+      if (role === "admin") {
+        iconsHTML += `<ion-icon name="build-outline" style="color:gold;" title="Admin"></ion-icon>`;
+      } else if (role === "dev") {
+        iconsHTML += `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`;
+      }
 
-          alert("✅ تم حفظ التعديلات");
-          currentName.textContent = newName;
-        } catch (err) {
-          console.error("Save error:", err);
-          alert("❌ حدث خطأ أثناء الحفظ.");
-        }
-      };
+      roleIcons.innerHTML = iconsHTML;
 
-      logoutBtn.onclick = async () => {
-        await signOut(auth);
-        window.location.href = "/";
-      };
-    }
+      // آخر تسجيل دخول
+      if (data.lastLogin?.toDate) {
+        const lastLoginDate = data.lastLogin.toDate();
+        const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
+        statusEl.style.fontSize = "14px";
+        statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
+        statusEl.style.marginTop = "4px";
+        statusEl.textContent = diffSec < 60
+          ? "online"
+          : `last seen ${formatTimeAgo(diffSec)}`;
+      }
+
+      // أدوات التعديل للمالك فقط
+      if (isOwner) {
+        editBtn.style.display = "inline-block";
+        logoutBtn.style.display = "block";
+        let isEditing = false;
+
+        editBtn.onclick = () => {
+          isEditing = !isEditing;
+          displayNameInput.style.display = isEditing ? "block" : "none";
+          bioInput.style.display = isEditing ? "block" : "none";
+          saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+          displayNameInput.value = data.name || "";
+          bioInput.value = data.bio || "";
+          editBtn.textContent = isEditing ? "save" : "Edit profile";
+        };
+
+        saveAllBtn.onclick = async () => {
+          const newName = displayNameInput.value.trim();
+          const newBio = bioInput.value.trim().slice(0, 200);
+          if (!newName) return alert("⚠️ يجب إدخال اسم.");
+
+          const snapCheck = await getDocs(
+            query(collection(db, "users"), where("name", "==", newName))
+          );
+          const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
+          if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+
+          try {
+            await updateProfile(currentUser, { displayName: newName });
+            await setDoc(doc(db, "users", currentUser.uid), {
+              ...data,
+              name: newName,
+              bio: newBio,
+              photo: currentUser.photo || data.photo
+            }, { merge: true });
+
+            alert("✅ تم حفظ التعديلات");
+            currentName.textContent = newName;
+          } catch (err) {
+            console.error("Save error:", err);
+            alert("❌ حدث خطأ أثناء الحفظ.");
+          }
+        };
+
+        logoutBtn.onclick = async () => {
+          await signOut(auth);
+          window.location.href = "/";
+        };
+      }
+    });
   }
 
-  // Helpers
+  // أدوات مساعدة
   function formatTimeAgo(sec) {
     if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
     if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
@@ -367,12 +382,11 @@ roleIcons.innerHTML = iconsHTML;
   }
 
   function showMessage(msg) {
-    profileContainer.innerHTML =
-      `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
+    profileContainer.innerHTML = `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
   }
 
   function showProfile() {
-    loading.style.display         = "none";
+    loading.style.display = "none";
     profileContainer.style.display = "block";
   }
 </script>
