@@ -3,9 +3,12 @@
 // 🔄 عرض الصورة من التخزين المؤقت مباشرة
 document.addEventListener("DOMContentLoaded", () => {
   const userAvatar = document.getElementById("userAvatar");
+  const loginIcon = document.getElementById("loginIcon");
+      
   const cachedUrl = localStorage.getItem("avatarUrl");
   if (cachedUrl && userAvatar) {
     userAvatar.src = cachedUrl;
+    loginIcon.style.display = "none";
     userAvatar.style.display = "inline-block";
   }
 });
@@ -38,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 👤 تحديث الواجهة
       if (userAvatar) {
+        loginIcon.style.display = "none";
         userAvatar.src = user.photoURL || "https://0xdya.github.io/img/user.jpg";
         userAvatar.title = user.displayName || user.email || "حساب المستخدم";
         userAvatar.style.display = "inline-block";
@@ -77,12 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ تم تحديث صورة الحساب");
           }
         } else {
+          loginIcon.style.display = "inline-block";
           console.warn("⚠️ لم يتم العثور على وثيقة المستخدم");
         }
       } catch (error) {
         console.error("❌ خطأ أثناء تحديث بيانات Firestore:", error);
       }
     } else {
+      loginIcon.style.display = "inline-block";
       // 🚫 لم يتم تسجيل الدخول
       if (userAvatar) userAvatar.style.display = "none";
       if (userName) userName.textContent = "";
