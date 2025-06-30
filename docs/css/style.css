@@ -13,7 +13,7 @@
 }
 
 :root {
-   --bg-color: #000;
+   --bg-color: #111;
  /*  --bg-color: #1a1a1a; */
    --text-color: #e0e0e0;
    --text-color2: beige;
@@ -277,11 +277,13 @@ nav a:hover {
    width: 100%;
    position: relative;
 }
-.terminal_bg{
+.terminal_bg, .acount_terminal{
   border: 1px solid #30363d;
   border-radius: 8px;
   width: 100%;
-  
+}
+.acount_terminal{
+  padding: 1rem;
 }
 .terminal-header {
    color: #ffd700;
@@ -293,11 +295,21 @@ code{
   color: var(--terminal-color);
 }
 
-.tr_txt, #repoInfo strong {
+.tr_txt, #repoInfo strong, #latestCommit strong, #ownerInfo strong {
    color: var(--terminal-color);
 }
-.tr_txt2, #repoInfo p{
+.tr_txt2, #repoInfo p, #latestCommit p, #ownerInfo p{
    color: var(--terminal-color2);
+}
+#ownerInfo img{
+  width: 40px;
+  border-radius: 50%;
+  position: relative;
+}
+.ownerInfoImg{
+  margin: 4px 0 0;
+  display: flex;
+  gap: 8px;
 }
 .tr_txt3{
    color: var(--text-color);
@@ -319,9 +331,6 @@ code{
  a{
   color: var(--text-color);
 }
-}
-.patch_code{
-  font-family: "Jetbrains Mono", monospace ;
 }
 .center{
   display: flex;
@@ -853,9 +862,6 @@ article{
   color: #aaa;
 }
 
-.username {
-  color: #00ffaa;
-}
 .comment_img2{
   border: 1px solid #fff;
 }
