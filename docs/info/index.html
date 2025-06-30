@@ -192,19 +192,71 @@
 
     // نفس كود العرض السابق الذي كتبته أنت ↓
     document.getElementById("repoInfo").innerHTML += `
-      <p><strong>repo name:</strong> ${repoData.name}</p>
-      ...`;
+        <p><strong>Name:</strong> ${repoData.name}</p>
+        <p><strong>Description:</strong> ${repoData.description}</p>
+        <p><strong>Visibility:</strong> ${repoData.visibility}</p>
+        <p><strong>Language:</strong> ${repoData.language}</p>
+        <p><strong>Default Branch:</strong> ${repoData.default_branch}</p>
+        <p><strong>License:</strong> ${repoData.license?.name || 'None'}</p>
+        <p><strong>Stars:</strong> ⭐ ${repoData.stargazers_count}</p>
+        <p><strong>Watchers:</strong> 👁️ ${repoData.watchers_count}</p>
+        <p><strong>Forks:</strong> 🍴 ${repoData.forks_count}</p>
+        <p><strong>Subscribers:</strong> 🔔 ${repoData.subscribers_count}</p>
+        <p><strong>Open Issues:</strong> 🐞 ${repoData.open_issues_count}</p>
+        <p><strong>Size:</strong> ${repoData.size} KB</p>
+        <p><strong>Archived:</strong> ${repoData.archived ? 'Yes' : 'No'}</p>
+        <p><strong>Disabled:</strong> ${repoData.disabled ? 'Yes' : 'No'}</p>
+        <p><strong>Created At:</strong> ${new Date(repoData.created_at).toLocaleString()}</p>
+        <p><strong>Last Updated:</strong> ${new Date(repoData.updated_at).toLocaleString()}</p>
+        <p><strong>Last Push:</strong> ${new Date(repoData.pushed_at).toLocaleString()}</p>
+        <p><strong>URL:</strong> <a href="${repoData.html_url}" target="_blank">${repoData.html_url}</a></p>
+        <p><strong>Homepage:</strong> <a href="${repoData.homepage}" target="_blank">${repoData.homepage}</a></p>
+        <p><strong>Tags:</strong> ${repoData.topics.map(tag => `<span class="tag">${tag}</span>`).join(' ')}</p>
+      `;
 
-    document.getElementById("latestCommit").innerHTML += `
-      <p><strong>Message:</strong> ${latestCommit.commit.message}</p>
-      ...`;
+      const commitsRes = await fetch(`https://api.github.com/repos/${user}/${repo}/commits`);
+      const commits = await commitsRes.json();
+      const latestCommit = commits[0];
+      document.getElementById("latestCommit").innerHTML += `
+        <p><strong>Message:</strong> ${latestCommit.commit.message}</p>
+        <p><strong>Author:</strong> ${latestCommit.commit.author.name}</p>
+        <p><strong>Date:</strong> ${new Date(latestCommit.commit.author.date).toLocaleString()}</p>
+      `;
 
-    document.getElementById("ownerInfo").innerHTML += `
-      <div class="ownerInfoImg">
+      const releaseRes = await fetch(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
+      if (releaseRes.ok) {
+        const release = await releaseRes.json();
+        document.getElementById("latestRelease").innerHTML += `
+          <p><strong>Name:</strong> ${release.name}</p>
+          <p><strong>Version:</strong> ${release.tag_name}</p>
+          <p><strong>Description:</strong> ${release.body || "No description"}</p>
+          <p><strong>Published:</strong> ${new Date(release.published_at).toLocaleString()}</p>
+        `;
+      } else {
+        document.getElementById("latestRelease").innerHTML += `<p>No releases found</p>`;
+      }
+
+      const userRes = await fetch(`https://api.github.com/users/${user}`);
+      const userData = await userRes.json();
+      document.getElementById("ownerInfo").innerHTML += `
         <img src="${userData.avatar_url}" alt="Avatar">
-        <p><strong>@:</strong> ${userData.login}</p>
-      </div>
-      ...`;
+        <p><strong>Username:</strong> ${userData.login}</p>
+        <p><strong>Bio:</strong> ${userData.bio || 'None'}</p>
+        <p><strong>Location:</strong> ${userData.location || 'Not specified'}</p>
+        <p><strong>Blog:</strong> <a href="${userData.blog}" target="_blank">${userData.blog}</a></p>
+        <p><strong>Followers:</strong> ${userData.followers}</p>
+        <p><strong>Following:</strong> ${userData.following}</p>
+        <p><strong>Public Repos:</strong> ${userData.public_repos}</p>
+        <p><strong>Account Created:</strong> ${new Date(userData.created_at).toLocaleString()}</p>
+      `;
+
+      const contribRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contributors`);
+      const contribs = await contribRes.json();
+      document.getElementById("contributors").innerHTML += `
+        <ul>
+          ${contribs.map(c => `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`).join('')}
+        </ul>
+      `;
   }
 
   fetchGitHubData();
