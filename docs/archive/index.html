@@ -9,46 +9,29 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-   <script type="module" src="../js/user.js"></script>
-   <style>
-  #commitsList {
-    max-height: none !important;
-    height: auto !important;
-    overflow-y: visible !important;
-  }
-</style>
-
+  <script type="module" src="../js/user.js"></script>
+  <style>
+    #commitsList {
+      max-height: none !important;
+      height: auto !important;
+      overflow-y: visible !important;
+    }
+  </style>
 </head>
-
 <body class="terminal-bg">
-  <h1 class="title home_title_font">
-    <span class="prompt">~/</span>archive 
-  </h1>
-
-  <button id="back_to_top">
-    <ion-icon name="chevron-up-circle-outline"></ion-icon>
-  </button>
+  <h1 class="title home_title_font"><span class="prompt">~/</span>archive</h1>
+  <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
 
   <header class="h">
-    <a href="../" class="back_to_home">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-    </a>
+    <a href="../" class="back_to_home"><ion-icon name="chevron-back-outline"></ion-icon></a>
     <div class="control" dir="ltr">
       <div class="user_photo">
-        <a id="loginIcon" href="../login/">
-          <ion-icon name="person-outline"></ion-icon>
-        </a>
-        <a class="user_photo_href" href="../profile/">
-          <img id="userAvatar" style="display:none" src="../img/user.jpg">
-        </a>
+        <a id="loginIcon" href="../login/"><ion-icon name="person-outline"></ion-icon></a>
+        <a class="user_photo_href" href="../profile/"><img id="userAvatar" style="display:none" src="../img/user.jpg"></a>
       </div>
       <div class="theme_toggle_container">
-        <button id="themeToggle">
-          <ion-icon name="settings-outline"></ion-icon>
-        </button>
-        <a href="report/" class="bug">
-          <ion-icon name="bug-outline"></ion-icon>
-        </a>
+        <button id="themeToggle"><ion-icon name="settings-outline"></ion-icon></button>
+        <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
         <div class="dropdown" id="themeDropdown">
           <button data-theme="light">Light</button>
           <button data-theme="dark">Dark</button>
@@ -61,57 +44,43 @@
   <div class="blog_container">
     <section class="blog_list">
       <div class="patch">
-        <div class="terminal_dote">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+        <div class="terminal_dote"><span></span><span></span><span></span></div>
         <p>$ pwd <br>/ <a href="../">home</a>/ <a href="./">archive</a></p>
       </div>
-      <h1 class="hashtag_title" class="home_title_font">#last 100 commit push</h1>
+
+      <h1 class="hashtag_title home_title_font"># last 100 commit push</h1>
       <article dir="ltr" class="animate-up-bouncy">
-    <ul id="commitsList" class="log"></ul>
-  
+        <ul id="commitsList" class="log"></ul>
       </article>
     </section>
   </div>
 
-<script>
-  async function loadCommitsFromAPI() {
-    try {
-      const username = "0xdya";
-      const repo = "0xdya.github.io";
-      const branch = "main";
-      const perPage = 100;
-      const token = "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";
-      const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}&per_page=${perPage}`;
-      const res = await fetch(url, {
-        headers: {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github+json"
-        }
-      });
+  <script>
+    async function loadCommits() {
+      try {
+        const res = await fetch("/api/github_commits");
+        const data = await res.json();
 
-      const commits = await res.json();
-      const list = document.getElementById("commitsList");
-      if (!Array.isArray(commits)) throw new Error("Unexpected response");
+        if (!Array.isArray(data)) throw new Error("Unexpected response");
 
-      commits.forEach(commit => {
-        const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
-        const msg = commit.commit.message.split("\n")[0];
-        const url = commit.html_url;
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${url}" target="_blank">[${date}] ${msg}</a>`;
-        list.appendChild(li);
-      });
-    } catch (err) {
-      console.error(err);
-      document.getElementById("commitsList").innerHTML = `<li>⚠️ تعذر تحميل الكوميتات</li>`;
+        const list = document.getElementById("commitsList");
+        data.forEach(commit => {
+          const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
+          const msg = commit.commit.message.split("\n")[0];
+          const url = commit.html_url;
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="${url}" target="_blank">[${date}] ${msg}</a>`;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error(err);
+        document.getElementById("commitsList").innerHTML = `<li>⚠️ تعذر تحميل الكوميتات</li>`;
+      }
     }
-  }
 
-  loadCommitsFromAPI();
-</script>
+    loadCommits();
+  </script>
+
   <script src="../js/script.js"></script>
   <script src="../js/animate.js"></script>
   <script src="../js/time_ago.js"></script>
