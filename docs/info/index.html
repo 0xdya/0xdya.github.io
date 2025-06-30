@@ -182,74 +182,31 @@
 <script type="module" src="../js/view.js"></script>
 
 <script>
-  
   async function fetchGitHubData() {
-  const username = "0xdya";  // ← اسم المستخدم في GitHub
-  const repoName = "0xdya.github.io";   // ← اسم الريبو
-  const githubToken = "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"; // ← GitHub Token
+    const res = await fetch("/api/github_data");
+    const data = await res.json();
 
-  const headers = {
-    Authorization: `token ${githubToken}`,
-    Accept: "application/vnd.github+json"
-  };
+    const repoData = data.repo;
+    const userData = data.user;
+    const latestCommit = data.commit;
 
-  // Fetch repo info
-  const repoRes = await fetch(`https://api.github.com/repos/${username}/${repoName}`, { headers });
-  const repoData = await repoRes.json();
-
-  // Fetch user info
-  const userRes = await fetch(`https://api.github.com/users/${username}`, { headers });
-  const userData = await userRes.json();
-
-  // Fetch latest commit
-  const commitsRes = await fetch(`https://api.github.com/repos/${username}/${repoName}/commits?per_page=1`, { headers });
-  const commits = await commitsRes.json();
-  const latestCommit = commits[0];
-
+    // نفس كود العرض السابق الذي كتبته أنت ↓
     document.getElementById("repoInfo").innerHTML += `
       <p><strong>repo name:</strong> ${repoData.name}</p>
-      <p><strong>Description:</strong> ${repoData.description}</p>
-      <p><strong>Visibility:</strong> ${repoData.visibility}</p>
-      <p><strong>Language:</strong> ${repoData.language}</p>
-      <p><strong>Default Branch:</strong> ${repoData.default_branch}</p>
-      <p><strong>License:</strong> ${repoData.license?.name || 'None'}</p>
-      <p><strong>Stars:</strong> ${repoData.stargazers_count}</p>
-      <p><strong>Watchers:</strong> ${repoData.watchers_count}</p>
-      <p><strong>Forks:</strong> ${repoData.forks_count}</p>
-      <p><strong>Subscribers:</strong> ${repoData.subscribers_count}</p>
-      <p><strong>Open Issues:</strong> ${repoData.open_issues_count}</p>
-      <p><strong>Size:</strong> ${repoData.size} KB</p>
-      <p><strong>Archived:</strong> ${repoData.archived ? 'Yes' : 'No'}</p>
-      <p><strong>Disabled:</strong> ${repoData.disabled ? 'Yes' : 'No'}</p>
-      <p><strong>Created At:</strong> ${new Date(repoData.created_at).toLocaleString()}</p>
-      <p><strong>Last Updated:</strong> ${new Date(repoData.updated_at).toLocaleString()}</p>
-      <p><strong>Last Push:</strong> ${new Date(repoData.pushed_at).toLocaleString()}</p>
-      <p><strong>git:</strong> <a href="${repoData.html_url}" target="_blank">${repoData.html_url}</a></p>
-      <p><strong>Homepage:</strong> <a href="${repoData.homepage}" target="_blank">${repoData.homepage}</a></p>
-      <p><strong>Tags:</strong> ${repoData.topics.map(tag => `<span class="tag">${tag}</span>`).join(' ')}</p>
-    `;
+      ...`;
 
     document.getElementById("latestCommit").innerHTML += `
       <p><strong>Message:</strong> ${latestCommit.commit.message}</p>
-      <p><strong>Author:</strong> ${latestCommit.commit.author.name}</p>
-      <p><strong>Date:</strong> ${new Date(latestCommit.commit.author.date).toLocaleString()}</p>
-    `;
+      ...`;
 
     document.getElementById("ownerInfo").innerHTML += `
       <div class="ownerInfoImg">
         <img src="${userData.avatar_url}" alt="Avatar">
         <p><strong>@:</strong> ${userData.login}</p>
       </div>
-      <p><strong>Bio:</strong> ${userData.bio || 'None'}</p>
-      <p><strong>Location:</strong> ${userData.location || 'Not specified'}</p>
-      <p><strong>website:</strong> <a href="https://0xdya.vercel.app" target="_blank">0xdya.vercel.app</a></p>
-      <p><strong>Followers:</strong> ${userData.followers}</p>
-      <p><strong>Following:</strong> ${userData.following}</p>
-      <p><strong>Public Repos:</strong> ${userData.public_repos}</p>
-    `;
+      ...`;
   }
 
-  // استدعِ الدالة
   fetchGitHubData();
 </script>
   
