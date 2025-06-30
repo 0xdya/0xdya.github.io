@@ -183,7 +183,7 @@
 
 <script>
   async function fetchGitHubData() {
-    const res = await fetch("../../assets/commit.json");
+    const res = await fetch("../commit.json");
     const data = await res.json();
 
     const repoData = data.repo;
