@@ -81,18 +81,19 @@
     try {
       const username = "0xdya";
       const repo = "0xdya.github.io";
-      const branch = "main";  
+      const branch = "main";
       const perPage = 100;
-
-
+      const token = "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";
       const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}&per_page=${perPage}`;
-
-      const res = await fetch("/api/github_commits");
-    
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: "application/vnd.github+json"
+        }
+      });
 
       const commits = await res.json();
       const list = document.getElementById("commitsList");
-
       if (!Array.isArray(commits)) throw new Error("Unexpected response");
 
       commits.forEach(commit => {
