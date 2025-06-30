@@ -2,8 +2,8 @@
 import requests, json
 
 OWNER = "0xdya"
-REPO = "اسم_مشروعك"
-TOKEN = "ghp_token"  
+REPO = "0xdya.github.io"
+TOKEN = "ghp_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"  
 commits = []
 page = 1
 
