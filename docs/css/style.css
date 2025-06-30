@@ -67,7 +67,13 @@ body {
    color: var(--text-color);
    transition: all 0.3s ease;
    line-height: 1.6;
+   min-height: 100vh;
+  /* display: flex;
+   justify-content: center;
+   align-items:  space-between;
+   flex-direction: column; */
 }
+
 
 .control {
    display: flex;
@@ -287,10 +293,10 @@ code{
   color: var(--terminal-color);
 }
 
-.tr_txt {
+.tr_txt, #repoInfo strong {
    color: var(--terminal-color);
 }
-.tr_txt2{
+.tr_txt2, #repoInfo p{
    color: var(--terminal-color2);
 }
 .tr_txt3{
@@ -305,7 +311,7 @@ code{
   background-color: var(--terminal-bg);
   color: var(--terminal-color);
   width: 90vw;
-  max-width: 800px;
+  max-width: 700px;
   position: relative;
   padding: 0 1rem;
   border-radius: 5px;
@@ -400,9 +406,10 @@ code{
 }
 
 #network {
-   width: 100%;
+   width: 90vw;
+   max-width: 700px;
    height: 400px;
-   margin: auto;
+   margin: 14px auto 0;
    border: 1px solid #333;
 }
 
@@ -426,6 +433,11 @@ code{
    border: 1px solid #333;
    border-radius: 8px;
    color: #c9d1d9;
+}
+.home_note {
+   font-size: 14px;
+   color: grey;
+   text-align: justify !important;
 }
 
 footer {
@@ -830,7 +842,7 @@ article{
   border: 1px solid #00ff8855;
   max-width: 100%;
 }
-
+ 
 .command-line {
   color: #ededed;
 }
@@ -891,9 +903,6 @@ article{
   flex-direction: row;
   gap: 1rem;
 }
-.info{
-  display: none;
-}
   .code-box {
    border-radius: 8px;
    width: 100%;
@@ -913,17 +922,19 @@ article{
   display: flex;
    padding: 0;
     }
-  code{
-  display: none;
-}
 .code-box {
   min-width: 100% !important;
    border-radius: 8px;
    cursor: grab;
    padding: 1rem !important;
 }
+code{
+  display: none;
 }
-
+}
+#1{
+  color: red !important;
+}
     .draw {
       column-count: 2;
       column-gap: 8px;
@@ -942,3 +953,6 @@ article{
       object-fit: cover;
     }
     }
+    
+    
+   
