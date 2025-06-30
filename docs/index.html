@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>0xdya | Dyaa Eddine</title>
-  <meta name="description" content="0xdya, a web developer interested in open-source softwar. Explore my projects and experience." />
+  <meta name="description" content="0xdya, a web developer interested in free software and cybersecurity. Explore my projects and experience." />
   <meta name="keywords" content="0xdya, dyaa, Dyaa Eddine" />
   <meta name="author" content="0xdya" />
   <meta property="og:title" content="0xdya | Dyaa Eddine" />
-  <meta property="og:description" content="0xdya, a web developer interested in open-source softwar. Explore my projects and experience." />
+  <meta property="og:description" content="0xdya, a web developer interested in free software and cybersecurity. Explore my projects and experience." />
   <meta property="og:image" content="https://0xdya.github.io/docs/img/cover.png" />
   <meta property="og:url" content="https://0xdya.github.io" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="0xdya | Dyaa Eddine" />
-  <meta name="twitter:description" content="0xdya, a web developer interested in open-source softwar. Explore my projects and experience." />
+  <meta name="twitter:description" content="0xdya, a web developer interested in free software and cybersecurity. Explore my projects and experience." />
   <meta name="twitter:image" content="https://0xdya.github.io/docs/img/cover.png" />
   <link rel="canonical" href="https://0xdya.github.io" />
   <link rel="stylesheet" href="./css/style.css" />
@@ -25,16 +25,9 @@
   <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
   <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
-  <style>
-    body{
-      height: 100svh;
-      display: flex;
-      justify-content: center;
-    }
-  </style>
 </head>
 <body dir="ltr">
-<!-- <div id="warning" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:#111; color:#fff; z-index:9999; padding: 20px; text-align:center; font-family:sans-serif;">
+<div id="warning" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:#111; color:#fff; z-index:9999; padding: 20px; text-align:center; font-family:sans-serif;">
   <h2>⚠️ This site can't be displayed here</h2>
   <p>It seems you opened the site from Instagram.</p>
   <p>Click on ⋮ or (…) at the top and choose "Open in browser" to continue browsing properly.</p>
@@ -45,7 +38,7 @@
     document.getElementById('warning').style.display = 'block';
     document.body.style.overflow = 'hidden';
   }
-</script> -->
+</script>
 <div class="old"></div>
 <header class="h">
   <h1 class="logo_name">
@@ -60,6 +53,7 @@
       <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
       <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
       <a href="./info/" class="bug"><ion-icon name="document-text-outline"></ion-icon></a>
+      <a href="./archive/" class="bug"><ion-icon name="archive-outline"></ion-icon></a>
       <div class="dropdown" id="themeDropdown">
         <button data-theme="light">Light</button>
         <button data-theme="dark">Dark</button>
@@ -70,68 +64,43 @@
 </header>
 <div class="container">
   <main>
-    <!--
-    <h2 class="home_title_font">#</span> neofetch</h2>
+    <h2 class="home_title_font">#</span> info</h2>
     <div class="terminal_bg">
       <div class="terminal">
         <div class="terminal_dote"><span></span><span></span><span></span></div>
         <div class="code-box" id="draggable-box">
           <div class="code_box_content">
-                        <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> Me</span><br></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon><span class="tr_txt"> Name:</span> <span class="tr_txt2" dir="rtl"> ضياء الدين ملوك </span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon><span class="tr_txt"> age:</span> <span class="tr_txt2">18</span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon><span class="tr_txt"> from:</span> <span class="tr_txt2"> algeria</span></div>
+            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> web</span><br></div>
+            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Created:</span> <span class="tr_txt2">5 May 2025</span></div>
+            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Last update:</span> <span class="time_ago tr_txt2">2025-06-03T21:30</span></div>
+            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Visits:</span> <span class="tr_txt2"><span id="counter"><span class="doted">Loading </span></span></span></div>
             <br>
-            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> About web</span><br></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon><span class="tr_txt"> started:</span> <span class="tr_txt2">5 May 2025</span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon><span class="tr_txt"> updated:</span> <span class="time_ago tr_txt2">2025-06-03T21:30</span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon><span class="tr_txt"> Visits:</span> <span class="tr_txt2"><span id="counter"><span class="doted">Loading </span></span></span></div>
-            <br>
-            <div><span class="tr_txt3" id="repoInfo"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> repo info</span></div>
+            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> Latest News</span><br></div>
+            <div class="update-info" id="update-details">
+              <p dir="ltr" class="bracket">
+                <span class="doted">Loading </span><br>
+              </p>
+            </div>
           </div>
         </div>
         <div class="ascii">
-          <pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⠙⠻⢶⣄⡀⠀⠀⠀⢀⣤⠶⠛⠛⡇⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣇⠀⠀⣙⣿⣦⣤⣴⣿⣁⠀⠀⣸⠇⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣡⣾⣿⣿⣿⣿⣿⣿⣿⣷⣌⠋⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣷⣄⡈⢻⣿⡟⢁⣠⣾⣿⣦⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⠘⣿⠃⣿⣿⣿⣿⡏⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠈⠛⣰⠿⣆⠛⠁⠀⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣦⠀⠘⠛⠋⠀⣴⣿⠁⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣾⣿⣿⣿⣿⡇⠀⠀⠀⢸⣿⣏⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠀⠀⠀⠾⢿⣿⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⡿⠟⠋⣁⣠⣤⣤⡶⠶⠶⣤⣄⠈⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⢰⣿⣿⣮⣉⣉⣉⣤⣴⣶⣿⣿⣋⡥⠄⠀⠀⠀⠀⠉⢻⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣋⣁⣤⣀⣀⣤⣤⣤⣤⣄⣿⡄⠀⠀⠀⠀
-⠀⠀⠀⠀⠙⠿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠋⠉⠁⠀⠀⠀⠀⠈⠛⠃⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</code></pre>
-
+<pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀... (unchanged ASCII art) ...</code></pre>
         </div>
       </div>
     </div>
-    -->
+ <span class="Jetbrains_font">
+         > repo info & about <a class="Jetbrains_font" href="./info/">read</a></span><br>
+<!-- <span class="Jetbrains_font">
+  >  archive <a class="" href="./info/">read</a></span>
+-->
     <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
-    <h2 class="home_title_font"># home</h2> 
-   <div class="patch">
-        <div class="terminal_dote">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <p>$ pwd <br><span class="home_note" href="../">./etc/home</span></p>
-<!--        <p>$ cd visits_log <br>
-        <span class="home_note" id="counter"><span class="doted">Loading </span></span></span>
-        </p>  -->
-        <p>$ cd note.txt <br>
-        <span class="home_note">
-        if this page doesn’t make sense to u, crawl back to Facebook - this site has no room for cavemen  ._.
-        </span>
-        </p>
-      </div>
+    <h2 class="home_title_font"><span>#</span> map</h2>
     <div id="network"></div>
-   <span class="Jetbrains_font">> repo info & about <a class="Jetbrains_font" href="./info/">read</a></span>
-
-
+    <div class="note_section">
+      <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Click to open</div>
+      <div><div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Draggable</div></div>
+      <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Zoomable</div>
+    </div>
   </main>
 </div>
 <script type="module" src="./js/user.js"></script>
@@ -139,10 +108,10 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "0xdya | Dyaa Eddine",
-  "url": "https://0xdya.github.io",
+  "url": "https://0xdya.vercel.app",
   "image": "https://0xdya.github.io/docs/img/cover.png",
   "jobTitle": "0xdya | Dyaa Eddine",
-  "description": "0xdya, a web developer interested in open-source softwar. Explore my projects and experience.",
+  "description": "0xdya, a web developer interested in free software and cybersecurity. Explore my projects and experience.",
   "sameAs": [
     "https://github.com/0xdya",
     "https://youtube.com/@0xdya",
@@ -164,17 +133,6 @@
   const app = initializeApp(firebaseConfig);
 </script>
 <script type="module" src="./js/view.js"></script>
-<script>
-  const titleFrames = ['⠋','⠙','⠼','⠧'];
-
-let i = 0;
-
-setInterval(() => {
-  document.title = `0xdya ${titleFrames[i % titleFrames.length]}`;
-  i++;
-}, 250);
-</script>
-
 <script src="./js/script.js"></script>
 <script src="./js/tg.js"></script>
 <script src="./js/time_ago.js"></script>
