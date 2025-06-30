@@ -182,13 +182,29 @@
 <script type="module" src="../js/view.js"></script>
 
 <script>
+  
   async function fetchGitHubData() {
-    const res = await fetch("../commit.json");
-    const data = await res.json();
+  const username = "0xdya";  // ← اسم المستخدم في GitHub
+  const repoName = "0xdya.github.io";   // ← اسم الريبو
+  const githubToken = "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"; // ← GitHub Token
 
-    const repoData = data.repo;
-    const userData = data.user;
-    const latestCommit = data.commits[0];
+  const headers = {
+    Authorization: `token ${githubToken}`,
+    Accept: "application/vnd.github+json"
+  };
+
+  // Fetch repo info
+  const repoRes = await fetch(`https://api.github.com/repos/${username}/${repoName}`, { headers });
+  const repoData = await repoRes.json();
+
+  // Fetch user info
+  const userRes = await fetch(`https://api.github.com/users/${username}`, { headers });
+  const userData = await userRes.json();
+
+  // Fetch latest commit
+  const commitsRes = await fetch(`https://api.github.com/repos/${username}/${repoName}/commits?per_page=1`, { headers });
+  const commits = await commitsRes.json();
+  const latestCommit = commits[0];
 
     document.getElementById("repoInfo").innerHTML += `
       <p><strong>repo name:</strong> ${repoData.name}</p>
@@ -242,5 +258,4 @@
 <script src="../js/time_ago.js"></script>
 <script src="../js/home.js"></script>
 </body>
-        </html>
-        
+</html>
