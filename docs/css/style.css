@@ -277,13 +277,11 @@ nav a:hover {
    width: 100%;
    position: relative;
 }
-.terminal_bg, .acount_terminal{
+.terminal_bg{
   border: 1px solid #30363d;
   border-radius: 8px;
   width: 100%;
-}
-.acount_terminal{
-  padding: 1rem;
+  
 }
 .terminal-header {
    color: #ffd700;
@@ -295,21 +293,11 @@ code{
   color: var(--terminal-color);
 }
 
-.tr_txt, #repoInfo strong, #latestCommit strong, #ownerInfo strong {
+.tr_txt, #repoInfo strong {
    color: var(--terminal-color);
 }
-.tr_txt2, #repoInfo p, #latestCommit p, #ownerInfo p{
+.tr_txt2, #repoInfo p{
    color: var(--terminal-color2);
-}
-#ownerInfo img{
-  width: 40px;
-  border-radius: 50%;
-  position: relative;
-}
-.ownerInfoImg{
-  margin: 4px 0 0;
-  display: flex;
-  gap: 8px;
 }
 .tr_txt3{
    color: var(--text-color);
@@ -862,6 +850,9 @@ article{
   color: #aaa;
 }
 
+.username {
+  color: #00ffaa;
+}
 .comment_img2{
   border: 1px solid #fff;
 }
