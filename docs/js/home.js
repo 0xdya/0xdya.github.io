@@ -1,25 +1,23 @@
 var nodes = new vis.DataSet([
-  { id: 0, label: '0xdya', x: 300, y: 0 },
+  { id: 0, label: '</>', x: 300, y: 0 },
   { id: 1, label: 'Blog', link: './blog/', x: 100, y: -120 },
   { id: 2, label: 'Comments', link: './comments/', x: 100, y: -40 },
   { id: 3, label: 'Poetry', link: './poetry/', x: 100, y: 40 },
   { id: 4, label: 'Projects', link: './projects/', x: 100, y: 120 },
-  { id: 6, label: 'Users', link: './users/', x: -100, y: 160 },
+  { id: 5, label: 'Users', link: './users/', x: -100, y: 160 },
 ]);
-
 var edges = new vis.DataSet([
   { from: 0, to: 1 },
   { from: 0, to: 2 },
   { from: 0, to: 3 },
   { from: 0, to: 4 },
-  { from: 0, to: 6 },
+  { from: 0, to: 5 },
   { from: 2, to: 3 },
   { from: 2, to: 1 },
-  { from: 6, to: 3 },
-  { from: 6, to: 4 },
+  { from: 5, to: 3 },
   { from: 4, to: 1 },
+  { from: 4, to: 5 },
 ]);
-
 var container = document.getElementById('network');
 var data = { nodes: nodes, edges: edges };
 var options = {
@@ -27,13 +25,13 @@ var options = {
     shape: 'box',
     font: {
       color: "#ededed",
-      face: 'monospace',
+    //  face: 'monospace',
       size: 16,
       align: 'center'
     },
     color: {
       border: '#444444',
-      background: "#1e1e1e",
+      background: "#111",
     },
     widthConstraint: { minimum: 90 },
     heightConstraint: { minimum: 30 },
@@ -66,8 +64,14 @@ var options = {
   },
   tooltip: false
 };
-
 var network = new vis.Network(container, data, options);
+const animationLabels = ['<|>', '<\\>', '<–>', '</>'];
+let labelIndex = 0;
+
+setInterval(() => {
+  labelIndex = (labelIndex + 1) % animationLabels.length;
+  nodes.update({ id: 0, label: animationLabels[labelIndex] });
+}, 600);
 
 network.on("click", function (params) {
   if (params.nodes.length > 0) {
@@ -114,13 +118,13 @@ function fetchUpdateDetails() {
       let updateHTML = ``;
       updateHTML += ``;
       if (data.newFeatures.length > 0) {
-        updateHTML += ` <div dir="ltr" class="update_line"> <span class="tr_txt "><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon> Features</span>:`;
+        updateHTML += ` <div dir="ltr" class="update_line"> <span class="tr_txt "><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon> Features</span>:`;
         data.newFeatures.forEach(feature => {
-          updateHTML += `<span class="tr_txt2">${feature}</span></div>`;
+          updateHTML += `<span class="tr_txt2 feature">${feature}</span></div>`;
         });
       }
       if (data.bugFixes.length > 0) {
-        updateHTML += ` <div dir="ltr" class="update_line"><span class="tr_txt "><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon> Fixes</span>: `;
+        updateHTML += ` <div dir="ltr" class="update_line"><span class="tr_txt "><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon> Fixes</span>: `;
         data.bugFixes.forEach(fix => {
           updateHTML += `<span class="tr_txt2">${fix}</span></div>`;
         });
