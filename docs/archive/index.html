@@ -81,13 +81,13 @@
     try {
       const username = "0xdya";
       const repo = "0xdya.github.io";
-      const branch = "main"; // غيّره إذا كنت تستعمل branch آخر
+      const branch = "main";  
       const perPage = 100;
 
 
       const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}&per_page=${perPage}`;
 
-      const res = await fetch("/api/github-commits");
+      const res = await fetch("/api/github_commits");
     
 
       const commits = await res.json();
