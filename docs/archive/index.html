@@ -79,7 +79,7 @@
 <script>
   async function loadCommitsFromFile() {
     try {
-      const res = await fetch("../../assets/commit.json");
+      const res = await fetch("../commit.json");
       const data = await res.json();
       const commits = data.commits;
 
