@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>0xDya - Blog</title>
+  <title>0xDya - archive</title>
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/en.css" />
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -77,18 +77,28 @@
   </div>
 
 <script>
-  async function loadCommitsFromFile() {
+  async function loadCommitsFromAPI() {
     try {
-      const res = await fetch("../commit.json");
-      const data = await res.json();
-      const commits = data.commits;
+      const username = "0xdya";
+      const repo = "0xdya.github.io";
+      const branch = "main"; // غيّره إذا كنت تستعمل branch آخر
+      const perPage = 100;
 
+
+      const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}&per_page=${perPage}`;
+
+      const res = await fetch("/api/github-commits");
+    
+
+      const commits = await res.json();
       const list = document.getElementById("commitsList");
+
+      if (!Array.isArray(commits)) throw new Error("Unexpected response");
+
       commits.forEach(commit => {
         const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
         const msg = commit.commit.message.split("\n")[0];
         const url = commit.html_url;
-
         const li = document.createElement("li");
         li.innerHTML = `<a href="${url}" target="_blank">[${date}] ${msg}</a>`;
         list.appendChild(li);
@@ -98,11 +108,11 @@
       document.getElementById("commitsList").innerHTML = `<li>⚠️ تعذر تحميل الكوميتات</li>`;
     }
   }
-  loadCommitsFromFile();
+
+  loadCommitsFromAPI();
 </script>
   <script src="../js/script.js"></script>
   <script src="../js/animate.js"></script>
   <script src="../js/time_ago.js"></script>
 </body>
-                         </html>
-                         
+</html>
