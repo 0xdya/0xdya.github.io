@@ -1,10 +1,10 @@
 var nodes = new vis.DataSet([
   { id: 0, label: '</>', x: 300, y: 0 },
-  { id: 1, label: 'Blog', link: './blog/', x: 100, y: -120 },
-  { id: 2, label: 'Comments', link: './comments/', x: 100, y: -40 },
-  { id: 3, label: 'Poetry', link: './poetry/', x: 100, y: 40 },
-  { id: 4, label: 'Projects', link: './projects/', x: 100, y: 120 },
-  { id: 5, label: 'Users', link: './users/', x: -100, y: 160 },
+  { id: 1, label: 'blog', link: './blog/', x: 100, y: -120 },
+  { id: 2, label: 'users', link: './users/', x: 100, y: -40 },
+  { id: 3, label: 'projects', link: './projects/', x: 100, y: 40 },
+  { id: 4, label: 'poetry', link: './poetry/', x: 100, y: 120 },
+  { id: 5, label: 'comments', link: './comments/', x: -100, y: 160 },
 ]);
 var edges = new vis.DataSet([
   { from: 0, to: 1 },
