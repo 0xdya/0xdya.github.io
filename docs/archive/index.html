@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0xDya - Blog</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/en.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+   <script type="module" src="../js/user.js"></script>
+   <style>
+  #commitsList {
+    max-height: none !important;
+    height: auto !important;
+    overflow-y: visible !important;
+  }
+</style>
+
+</head>
+
+<body class="terminal-bg">
+  <h1 class="title home_title_font">
+    <span class="prompt">~/</span>archive 
+  </h1>
+
+  <button id="back_to_top">
+    <ion-icon name="chevron-up-circle-outline"></ion-icon>
+  </button>
+
+  <header class="h">
+    <a href="../" class="back_to_home">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </a>
+    <div class="control" dir="ltr">
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/">
+          <ion-icon name="person-outline"></ion-icon>
+        </a>
+        <a class="user_photo_href" href="../profile/">
+          <img id="userAvatar" style="display:none" src="../img/user.jpg">
+        </a>
+      </div>
+      <div class="theme_toggle_container">
+        <button id="themeToggle">
+          <ion-icon name="settings-outline"></ion-icon>
+        </button>
+        <a href="report/" class="bug">
+          <ion-icon name="bug-outline"></ion-icon>
+        </a>
+        <div class="dropdown" id="themeDropdown">
+          <button data-theme="light">Light</button>
+          <button data-theme="dark">Dark</button>
+          <button data-theme="system">System</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="blog_container">
+    <section class="blog_list">
+      <div class="patch">
+        <div class="terminal_dote">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p>$ pwd <br>/ <a href="../">home</a>/ <a href="./">archive</a></p>
+      </div>
+      <h1 class="hashtag_title" class="home_title_font">#last 100 commit push</h1>
+      <article dir="ltr" class="animate-up-bouncy">
+    <ul id="commitsList" class="log"></ul>
+  
+      </article>
+    </section>
+  </div>
+
+<script>
+  async function loadCommitsFromFile() {
+    try {
+      const res = await fetch("../../assets/commit.json");
+      const data = await res.json();
+      const commits = data.commits;
+
+      const list = document.getElementById("commitsList");
+      commits.forEach(commit => {
+        const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
+        const msg = commit.commit.message.split("\n")[0];
+        const url = commit.html_url;
+
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${url}" target="_blank">[${date}] ${msg}</a>`;
+        list.appendChild(li);
+      });
+    } catch (err) {
+      console.error(err);
+      document.getElementById("commitsList").innerHTML = `<li>⚠️ تعذر تحميل الكوميتات</li>`;
+    }
+  }
+  loadCommitsFromFile();
+</script>
+  <script src="../js/script.js"></script>
+  <script src="../js/animate.js"></script>
+  <script src="../js/time_ago.js"></script>
+</body>
+                         </html>
+                         
