@@ -185,6 +185,9 @@
   async function fetchGitHubData() {
     const res = await fetch("/api/github_data");
     const data = await res.json();
+    const user = userData.login;
+const repo = repoData.name;
+
 
     const repoData = data.repo;
     const userData = data.user;
