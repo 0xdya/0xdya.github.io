@@ -5,25 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>0xdya | Dyaa Eddine</title>
-  <meta name="description" content="0xdya, a web developer interested in open-source softwar. Explore my projects and experience." />
-  <meta name="keywords" content="0xdya, dyaa, Dyaa Eddine" />
   <meta name="author" content="0xdya" />
-  <meta property="og:title" content="0xdya | Dyaa Eddine" />
-  <meta property="og:description" content="0xdya, a web developer interested in open-source softwar. Explore my projects and experience." />
-  <meta property="og:image" content="https://0xdya.github.io/docs/img/cover.png" />
-  <meta property="og:url" content="https://0xdya.github.io" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="0xdya | Dyaa Eddine" />
-  <meta name="twitter:description" content="0xdya, a web developer interested in open-source softwar. Explore my projects and experience." />
-  <meta name="twitter:image" content="https://0xdya.github.io/docs/img/cover.png" />
-  <link rel="canonical" href="https://0xdya.github.io" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/en.css" />
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
-  <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
   <style>
     * { line-height: 1 !important; }
@@ -176,7 +162,7 @@
         <p><strong>dreated at:</strong> ${new Date(repoData.created_at).toLocaleString()}</p>
         <p><strong>last updated:</strong> ${new Date(repoData.updated_at).toLocaleString()}</p>
         <p><strong>last push:</strong> ${new Date(repoData.pushed_at).toLocaleString()}</p>
-        <p><strong>URL:</strong> <a href="${repoData.html_url}" target="_blank">${repoData.html_url}</a></p>
+        <p><strong>git:</strong> <a href="${repoData.html_url}" target="_blank">${repoData.html_url}</a></p>
         <p><strong>homepage:</strong> <a href="${repoData.homepage}" target="_blank">${repoData.homepage}</a></p>
         <p><strong>tags:</strong> ${repoData.topics.map(tag => `<span class="tag">${tag}</span>`).join(' ')}</p>
       `;
@@ -192,8 +178,10 @@
       const userRes = await fetch(`https://api.github.com/users/${user}`);
       const fullUser = await userRes.json();
       document.getElementById("ownerData").innerHTML += `
+      <div class="ownerInfoImg">
         <img src="${fullUser.avatar_url}" alt="avatar" width="60">
         <p><strong>@:</strong> ${fullUser.login}</p>
+        </div>
         <p><strong>bio:</strong> ${fullUser.bio || 'None'}</p>
         <p><strong>location:</strong> ${fullUser.location || 'Not specified'}</p>
         <p><strong>web:</strong> <a href="${fullUser.blog}" target="_blank">${fullUser.blog}</a></p>
