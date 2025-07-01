@@ -26,7 +26,7 @@
    */
    font-family: "Playpen Sans Arabic", monospace !important; 
 }
-.Jetbrains_font{
+.Jetbrains_font, .patch_code{
   font-size: 12px;
    font-family: "JetBrains Mono" !important;
 }
