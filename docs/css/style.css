@@ -13,7 +13,7 @@
 }
 
 :root {
-   --bg-color: #000;
+   --bg-color: #111;
  /*  --bg-color: #1a1a1a; */
    --text-color: #e0e0e0;
    --text-color2: beige;
@@ -34,7 +34,7 @@
   --terminal-color-green: #56d364;
   
   --body-font-size: 14px;
-  --body-title2-text: 1.3rem;
+  --body-font-size-title: 1.3rem;
   
   --btn-color: #1c1c1c;
 }
@@ -67,7 +67,13 @@ body {
    color: var(--text-color);
    transition: all 0.3s ease;
    line-height: 1.6;
+   min-height: 100vh;
+  /* display: flex;
+   justify-content: center;
+   align-items:  space-between;
+   flex-direction: column; */
 }
+
 
 .control {
    display: flex;
@@ -96,36 +102,54 @@ body {
   color: var(--color-text);
   font-weight: blod;
 }
+.name_and_role{
+  position: absolute;
+  display: flex;
+  top: 12px;
+  left: 4.6rem;
+  flex-direction: column;
+}
    .user-card {
      position: relative;
       padding: 12px;
       margin: 10px auto;
       max-width: 400px;
+      width: 80vw;
       border-radius: 8px;
-      text-align: right;
+      text-align: left;
       border: 1px solid #333;
       cursor: grab;
+      section {
+        display: flex !important;
+        gap: 8px;
+      }
       img {
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       vertical-align: middle;
       margin-left: 8px;
-    }}
+    }
+    }
     .role {
-      font-size: var(--body-font-size);
+      font-size: 12px;
       margin-top: 4px;
     }
-     .Admin { color: #ff6666; }
     .joined, .rotba{
       font-size: 12px;
       color: #aaa;
-      margin-top: 2px;
-      direction: rtl;
+      direction: ltr;
+      margin-left: 4px;
+    }
+     .admin{
+      color: #66ccff !important;
+    }
+     .dev{
+      color: #ffcc66 !important;
     }
     .joined{
       position: absolute;
-      left: 12px;
+      right: 12px !important;
       top: 1rem;
     }
 /* زر التحكم بالثيم */
@@ -253,11 +277,13 @@ nav a:hover {
    width: 100%;
    position: relative;
 }
-.terminal_bg{
+.terminal_bg, .acount_terminal{
   border: 1px solid #30363d;
   border-radius: 8px;
   width: 100%;
-  
+}
+.acount_terminal{
+  padding: 1rem;
 }
 .terminal-header {
    color: #ffd700;
@@ -269,11 +295,21 @@ code{
   color: var(--terminal-color);
 }
 
-.tr_txt {
+.tr_txt, #repoInfo strong, #latestCommit strong, #ownerInfo strong {
    color: var(--terminal-color);
 }
-.tr_txt2{
+.tr_txt2, #repoInfo p, #latestCommit p, #ownerInfo p{
    color: var(--terminal-color2);
+}
+#ownerInfo img{
+  width: 40px;
+  border-radius: 50%;
+  position: relative;
+}
+.ownerInfoImg{
+  margin: 4px 0 0;
+  display: flex;
+  gap: 8px;
 }
 .tr_txt3{
    color: var(--text-color);
@@ -286,8 +322,8 @@ code{
 .patch{
   background-color: var(--terminal-bg);
   color: var(--terminal-color);
-  min-width: 100%;
-  max-width: 800px;
+  width: 90vw;
+  max-width: 700px;
   position: relative;
   padding: 0 1rem;
   border-radius: 5px;
@@ -295,9 +331,6 @@ code{
  a{
   color: var(--text-color);
 }
-}
-.patch_code{
-  font-family: "Jetbrains Mono", monospace ;
 }
 .center{
   display: flex;
@@ -349,7 +382,6 @@ code{
 .update_line {
    gap: 4px;
    display: flex inline-block;
-   white-space: nowrap;
    line-height: 1.6;
 }
 .keyword {
@@ -383,9 +415,10 @@ code{
 }
 
 #network {
-   width: 100%;
+   width: 90vw;
+   max-width: 700px;
    height: 400px;
-   margin: auto;
+   margin: 14px auto 0;
    border: 1px solid #333;
 }
 
@@ -409,6 +442,11 @@ code{
    border: 1px solid #333;
    border-radius: 8px;
    color: #c9d1d9;
+}
+.home_note {
+   font-size: 14px;
+   color: grey;
+   text-align: justify !important;
 }
 
 footer {
@@ -521,7 +559,7 @@ article{
 .blog_title, .comment_title{
   display: flex;
   justify-content: space-between;
-  font-size: var(--body-title2-text);
+  font-size: var(--body-font-size-title);
 }
 .blog_date{
   color: var(--color-comment);
@@ -601,7 +639,7 @@ article{
   color: var(--color-comment);
   position: absolute;
   top: .5rem;
-  left: 0;
+  right: 0;
   direction: ltr;
   display: flex;
   justify-content: center;
@@ -613,23 +651,16 @@ article{
   gap: 8px;
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 1rem !important;
 }
-.terminal_dote_home{
-  display: flex;
-  gap: 8px;
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-}
-.terminal_dote span, .terminal_dote_home span{
+.terminal_dote span{
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background-color: #222;
 }
 .comment_card{
-  direction: rtl;
+  direction: ltr;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -657,14 +688,14 @@ article{
   animation: fadeInUp 0.6s ease forwards;
   opacity: 0;
   position: relative;
-  direction: rtl;
+  direction: ltr;
 }
 
 .project_card_title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: var(--body-title2-text);
+  font-size: var(--body-font-size-title);
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -691,7 +722,7 @@ article{
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
-  direction: rtl;
+  direction: ltr;
 }
 
 .btn {
@@ -772,7 +803,7 @@ article{
 }
 
 .filter-btn {
-  direction: rtl;
+  direction: ltr;
   background-color: var(--btn-color);
   color: var(--text-color);
   border: 1px solid #2a2a2a;
@@ -799,7 +830,7 @@ article{
 }
 
   .filters{
-    direction: rtl;
+    direction: ltr;
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
@@ -807,7 +838,7 @@ article{
   }
   .intro{
     font-size: vat(--body-font-size);
-    direction: rtl;
+    direction: ltr;
     width: 100%;
   }
   .terminal-card {
@@ -820,7 +851,7 @@ article{
   border: 1px solid #00ff8855;
   max-width: 100%;
 }
-
+ 
 .command-line {
   color: #ededed;
 }
@@ -831,9 +862,6 @@ article{
   color: #aaa;
 }
 
-.username {
-  color: #00ffaa;
-}
 .comment_img2{
   border: 1px solid #fff;
 }
@@ -881,9 +909,6 @@ article{
   flex-direction: row;
   gap: 1rem;
 }
-.info{
-  display: none;
-}
   .code-box {
    border-radius: 8px;
    width: 100%;
@@ -903,17 +928,19 @@ article{
   display: flex;
    padding: 0;
     }
-  code{
-  display: none;
-}
 .code-box {
   min-width: 100% !important;
    border-radius: 8px;
    cursor: grab;
    padding: 1rem !important;
 }
+code{
+  display: none;
 }
-
+}
+#1{
+  color: red !important;
+}
     .draw {
       column-count: 2;
       column-gap: 8px;
@@ -934,6 +961,4 @@ article{
     }
     
     
-    .role.admin{
-      color: #66ff99 !important;
-    }
+   
