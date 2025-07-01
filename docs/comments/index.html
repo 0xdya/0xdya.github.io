@@ -66,10 +66,10 @@
     width: 100%;
     padding: 1rem;
     border: 1px solid #333;
-    border-radius: 10px;
+    border-radius: 4px;
     direction: ltr;
     position: relative;
-    margin: 0 0 ;
+    margin: 0  ;
     img{
       width: 44px;
     height: 44px;
@@ -94,10 +94,11 @@
 /* reply */
  .replies {
   width: 100%;
-  margin: 0 0 1rem;
+  margin: 0 0 14px;
   margin-left: 2rem !important;
   padding: 0 1rem 0;
-  border-left: 2px solid #444;
+  border-left: 2px solid #333;
+  border-end-start-radius: 4px;
   box-sizing: border-box;
   overflow-x: hidden;
 }
@@ -150,7 +151,7 @@
     color: var(--text-color);
   }
 
-  .reply-toggle, .delete-comment, .delete-reply, .pin{
+  .reply-toggle, .delete-comment, .pin{
     background: none;
     color: #ccc;
     border: none;
@@ -283,6 +284,11 @@
     border: none;
     color: #66ff99;
   }
+  .imgsvg{
+    width: 14px !important;
+    height: 14px !important;
+    margin-bottom: -2px;
+  }
 </style>
 
 
@@ -340,6 +346,10 @@
 
     <div class="comment-container">
       <h1 class="hashtag_title" class="home_title_font">#Comments</h1>
+       <p style="display:none" id="write_comment" class="Jetbrains_font">
+         > if u wanna leave a comment <a class="Jetbrains_font" dir="ltr" 
+         href="../login/">login first</a></p><br>
+         
       <div id="commentsList">
         <img width="40" id="load" src="../img/load.gif">
       </div>
@@ -348,7 +358,6 @@
         <textarea id="commentInput" placeholder="Write your comment..." required></textarea>
         <button type="submit">Submit Comment</button>
       </form>
-      <a id="write_comment" dir="ltr" style="display:none;cursor:none" class="login" href="../login/">Write Comment</a>
     </div>
   </div>
 
@@ -384,7 +393,6 @@ const commentInput = document.getElementById('commentInput');
 const commentsList = document.getElementById('commentsList');
 const write_comment = document.getElementById('write_comment');
 const alertBox = document.getElementById('alertBox');
-let currentUser = null;
 
 // Utils
 function showAlert(message, error = false) {
@@ -416,7 +424,6 @@ function formatDate(dateString) {
 
   return "just now";
 }
-
 async function getUserData(uid) {
   try {
     const snap = await getDoc(doc(db, "users", uid));
@@ -438,61 +445,6 @@ async function getUserData(uid) {
     verified: false
   };
 }
-
-async function loadReplies(commentId) {
-  const repliesDiv = document.getElementById(`replies-${commentId}`);
-  repliesDiv.innerHTML = "<small>Loading replies...</small>";
-  const q = query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"));
-  const repliesSnap = await getDocs(q);
-  repliesDiv.innerHTML = "";
-
-  for (const docSnap of repliesSnap.docs) {
-    const d = docSnap.data();
-    const replyId = docSnap.id;
-    const timeStr = formatDate(d.timestamp?.toDate() || new Date());
-    const isOwner = currentUser?.uid === d.uid || currentUser?.email === "0xdyaa@gmail.com";
-    const userData = await getUserData(d.uid);
-    const roleIcons = {
-        admin: `<ion-icon name="build-outline" style="color:gold;" title="Admin"></ion-icon>`,
-        dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
-      };
-      const roleIconHTML = userData.role && roleIcons[userData.role] ? roleIcons[userData.role] : "";
-
-    const replyCard = document.createElement("div");
-    replyCard.className = "reply-card";
-    replyCard.style.cssText = "display:flex;gap:10px;margin-top:10px;";
-    replyCard.innerHTML = `
-      <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
-        <img src="${userData.photo}">
-      </a>
-      <div style="flex:1;">
-        <div class="name_time">
-          <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
-<strong>
-  ${userData.name}
-  ${userData.verified ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path></svg>' : ''}
-    ${roleIconHTML}
-</strong>
-          </a>
-          <span>${timeStr}</span>
-        </div>
-        <div class="reply_text">${d.text}</div>
-      </div>
-      ${isOwner ? `<button class="delete-reply" style="background:none;border:none;cursor:pointer;" data-reply-id="${replyId}" data-comment-id="${commentId}"><ion-icon name="trash-outline"></ion-icon></button>` : ""}
-    `;
-    repliesDiv.appendChild(replyCard);
-
-    if (isOwner) {
-      replyCard.querySelector(".delete-reply").addEventListener("click", async () => {
-        if (confirm("do you want to delete ur replay ??")) {
-          await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
-          showAlert(" delete successful!");
-          loadReplies(commentId);
-        }
-      });
-    }
-  }
-}
 function loadComments() {
   const q = query(collection(db, "comments"));
   onSnapshot(q, (snapshot) => {
@@ -509,11 +461,11 @@ function loadComments() {
 
     all.forEach(async ({ data: d, commentId }) => {
       const timeStr = formatDate(d.timestamp?.toDate() || new Date());
-      const isAdmin = currentUser?.email === "0xdyaa@gmail.com";
-      const isOwner = currentUser?.uid === d.uid || isAdmin;
       const userData = await getUserData(d.uid);
+      const isOwner = currentUser?.uid === d.uid || currentUserData?.role === "admin";
+
       const roleIcons = {
-        admin: `<ion-icon name="build-outline" style="color:gold;" title="Admin"></ion-icon>`,
+        admin: `<img src="../badges/server-owner.svg" class="imgsvg">`,
         dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
       };
       const roleIconHTML = userData.role && roleIcons[userData.role] ? roleIcons[userData.role] : "";
@@ -568,7 +520,7 @@ commentsList.appendChild(repliesDiv);
 
       commentDiv.querySelector(".reply-toggle").addEventListener("click", () => {
         if (!currentUser) {
-          showAlert("you need login to write", true);
+          showAlert("login to write", true);
           return;
         }
         const form = commentDiv.querySelector(".reply-form");
@@ -596,6 +548,72 @@ commentsList.appendChild(repliesDiv);
     write_comment.style.display = currentUser ? "none" : "block";
   });
 }
+async function loadReplies(commentId) {
+  const repliesDiv = document.getElementById(`replies-${commentId}`);
+  repliesDiv.innerHTML = "<small>Loading replies...</small>";
+
+  const q = query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"));
+  const repliesSnap = await getDocs(q);
+
+  repliesDiv.innerHTML = "";
+
+  for (const docSnap of repliesSnap.docs) {
+    const d = docSnap.data();
+    const replyId = docSnap.id;
+    const timeStr = formatDate(d.timestamp?.toDate() || new Date());
+    const userData = await getUserData(d.uid);
+
+    // ✅ انتظر حتى يتم تحميل currentUserData
+    while (currentUser && currentUserData === null) {
+      await new Promise((resolve) => setTimeout(resolve, 50)); // انتظر قليلاً
+    }
+
+    const isOwner =
+      currentUser?.uid === d.uid ||
+      currentUserData?.role === "admin";
+
+    const roleIcons = {
+      admin: `<img src="../badges/server-owner.svg" class="imgsvg">`,
+      dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
+    };
+    const roleIconHTML =
+      userData.role && roleIcons[userData.role] ? roleIcons[userData.role] : "";
+
+    const replyCard = document.createElement("div");
+    replyCard.className = "reply-card";
+    replyCard.style.cssText = "display:flex;gap:10px;margin-top:10px;";
+    replyCard.innerHTML = `
+      <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
+        <img src="${userData.photo}">
+      </a>
+      <div style="flex:1;">
+        <div class="name_time">
+          <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
+            <strong>
+              ${userData.name}
+              ${userData.verified ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path></svg>' : ''}
+              ${roleIconHTML}
+            </strong>
+          </a>
+          <span>${timeStr}</span>
+        </div>
+        <div class="reply_text">${d.text}</div>
+      </div>
+      ${isOwner ? `<button class="delete-reply" style="background:none;border:none;cursor:pointer;" data-reply-id="${replyId}" data-comment-id="${commentId}"><ion-icon name="trash-outline"></ion-icon></button>` : ""}
+    `;
+    repliesDiv.appendChild(replyCard);
+
+    if (isOwner) {
+      replyCard.querySelector(".delete-reply").addEventListener("click", async () => {
+        if (confirm("do you want to delete ur reply ??")) {
+          await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
+          showAlert("delete successful!");
+          loadReplies(commentId);
+        }
+      });
+    }
+  }
+}
 commentForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const text = commentInput.value.trim();
@@ -615,17 +633,38 @@ commentForm.addEventListener('submit', async (e) => {
     showAlert("error  ", true);
   }
 });
+let currentUser = null;
+let currentUserData = null;
+
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   if (user) {
     const userRef = doc(db, "users", user.uid);
+
+    // تحديث بيانات المستخدم
     await setDoc(userRef, {
       name: user.displayName || "user",
       avatar: user.photoURL || `https://0xdya.vercel.app/img/user.jpg`
     }, { merge: true });
+
+    try {
+      const snap = await getDoc(userRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        currentUserData = {
+          role: data.role || null
+        };
+      }
+    } catch (err) {
+      console.error("error loading currentUserData", err);
+    }
   }
+
+  // 🔁 نضمن أن loadComments تُستدعى بعد تحميل role
   loadComments();
 });
+
+
 </script>
   <script src="../js/script.js"></script>
 </body>
