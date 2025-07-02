@@ -288,7 +288,7 @@ svg {
 
       currentName.textContent = data.name;
       displayBioInput.textContent = data.bio;
-      bannerImg.src = data.bannerImg || "../img/jak.gif";
+      bannerImg.src = data.bannerImg || null;
 
       const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
       const img = new Image();
