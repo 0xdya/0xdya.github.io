@@ -108,7 +108,34 @@
     </div>
   </main>
 </div>
-    <button class="btn" onclick="translateToArabic()">ترجمة للعربية (لازالت تحت التطوير)</button>
+<button onclick="autoTranslatePage()">ترجمة الصفحة</button>
+<script>
+async function translateLibre(text) {
+  const res = await fetch("https://libretranslate.de/translate", {
+    method: "POST",
+    body: JSON.stringify({
+      q: text,
+      source: "en",
+      target: "ar",
+      format: "text"
+    }),
+    headers: { "Content-Type": "application/json" }
+  });
+  const data = await res.json();
+  return data.translatedText;
+}
+
+async function autoTranslatePage() {
+  const elements = document.querySelectorAll("p, h1, h2, h3, span, div");
+  for (const el of elements) {
+    const text = el.innerText.trim();
+    if (text && text.length < 500) {
+      const translated = await translateLibre(text);
+      el.innerText = translated;
+    }
+  }
+}
+</script>
 
 <script type="module" src="./js/user.js"></script>
 <script type="application/ld+json">
