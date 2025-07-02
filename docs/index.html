@@ -68,6 +68,7 @@
 </header>
 <div class="container">
   <main>
+    
     <h2 class="home_title_font">#</span> info</h2>
     <div class="terminal_bg">
       <div class="terminal">
@@ -107,6 +108,8 @@
     </div>
   </main>
 </div>
+    <button class="btn" onclick="translateToArabic()">ترجمة للعربية (لازالت تحت التطوير)</button>
+
 <script type="module" src="./js/user.js"></script>
 <script type="application/ld+json">
 {
@@ -145,5 +148,27 @@
 <script src="./js/tg.js"></script>
 <script src="./js/time_ago.js"></script>
 <script src="./js/home.js"></script>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: 'en',
+        includedLanguages: 'ar',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      },
+      'google_translate_element'
+    );
+  }
+</script>
+
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+function translateToArabic() {
+  const currentUrl = location.href;
+  const translatedUrl = `https://translate.google.com/translate?sl=auto&tl=ar&u=${encodeURIComponent(currentUrl)}`;
+  window.location.href = translatedUrl;
+}
+</script>
+
 </body>
 </html>
