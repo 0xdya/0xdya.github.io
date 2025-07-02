@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto Translate Page</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    button {
+      background-color: #333;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <button onclick="autoTranslatePage()">ترجمة للعربية</button>
+
+  <h1>Welcome to My Website</h1>
+  <p>This is a demo page showing how to automatically translate content.</p>
+  <p>You can click the button above to translate all the visible text to Arabic.</p>
+  <div>Enjoy browsing!</div>
+
+  <script>
+    async function translateLibre(text) {
+      try {
+        const res = await fetch("https://translate.argosopentech.com/translate", {
+          method: "POST",
+          body: JSON.stringify({
+            q: text,
+            source: "en",
+            target: "ar",
+            format: "text"
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        const data = await res.json();
+        return data.translatedText;
+      } catch (error) {
+        console.error("Translation error:", error);
+        return text; // fallback to original
+      }
+    }
+
+    async function autoTranslatePage() {
+      const elements = document.querySelectorAll("p, h1, h2, h3, span, div");
+      for (const el of elements) {
+        const text = el.innerText.trim();
+        if (text && text.length < 500) {
+          const translated = await translateLibre(text);
+          el.innerText = translated;
+        }
+      }
+    }
+  </script>
+
+</body>
+</
+html>
