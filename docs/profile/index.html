@@ -162,6 +162,10 @@ ion-icon{
   .theme_toggle_container{
     display: none ;
   }
+  #roleIcons{
+    display: flex;
+    gap: 4px;
+  }
   </style>
 </head>
 <body>
@@ -389,6 +393,7 @@ displayNameInput.addEventListener("input", () => {
 
             alert("✅ تم حفظ التعديلات");
             currentName.textContent = newName;
+            window.location.href = "/";
           } catch (err) {
             console.error("Save error:", err);
             alert("❌ حدث خطأ أثناء الحفظ.");
@@ -422,5 +427,6 @@ displayNameInput.addEventListener("input", () => {
 
 
 <script src="../js/script.js"></script>
+<script src="../js/user.js"></script>
 </body>
-    </html>
+</html>
