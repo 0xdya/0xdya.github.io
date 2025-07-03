@@ -163,6 +163,7 @@ import {
 import {
   getFirestore, doc, setDoc, getDocFromServer, deleteDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
 // إعداد Firebase
 const firebaseConfig = {
@@ -248,7 +249,17 @@ onAuthStateChanged(auth, async user => {
             website: ""
           }
         });
-        console.log("✅ تم إنشاء حساب جديد في Firestore");
+        const rtdb = getDatabase(app);
+const countRef = ref(rtdb, 'users_count');
+
+runTransaction(countRef, (currentCount) => {
+  return (currentCount || 0) + 1;
+}).then(() => {
+  console.log("✅ تم تحديث عدد المستخدمين في Realtime DB");
+}).catch((error) => {
+  console.error("❌ فشل تحديث عدد المستخدمين:", error);
+});
+
       } else {
         await setDoc(userRef, {
           name: defaultName,
