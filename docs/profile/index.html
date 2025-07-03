@@ -288,7 +288,7 @@ svg {
 
       currentName.textContent = data.name;
       displayBioInput.textContent = data.bio;
-      bannerImg.src = data.bannerImg || null;
+      bannerImg.src = data.banner || null;
 
       const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
       const img = new Image();
@@ -309,8 +309,7 @@ svg {
       }
 
       if (role === "admin") {
-        iconsHTML += `
-        <ion-icon name="build-outline" style="color:gold;" title="Admin"></ion-icon>`;
+        iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
       } else if (role === "dev") {
         iconsHTML += `
         <ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`;
