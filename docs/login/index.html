@@ -220,7 +220,7 @@ onAuthStateChanged(auth, async user => {
     loginComand.style.display = "block";
 
     const userRef = doc(db, "users", user.uid);
-    const defaultName = user.displayName || "user_" + user.uid.slice(0, 6);
+    const defaultName = (user.displayName?.replace(/\s+/g, '_')) || "user_" + user.uid.slice(0, 6);
     const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
     const defaultEmail = user.email || "";
 
@@ -298,7 +298,7 @@ document.getElementById("logoutBtn")?.addEventListener("click", async () => {
   }
   if (user) {
   const userRef = doc(db, "users", user.uid);
-  const defaultName = user.displayName || "user_" + user.uid.slice(0, 6);
+  const defaultName = (user.displayName?.replace(/\s+/g, '_')) || "user_" + user.uid.slice(0, 6);
   const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
   
   userName.textContent = defaultName;
@@ -403,7 +403,7 @@ onAuthStateChanged(auth, async user => {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
 
-    const defaultName = user.displayName || "user_" + user.uid.slice(0, 6);
+    const defaultName = (user.displayName?.replace(/\s+/g, '_')) || "user_" + user.uid.slice(0, 6);
 
     if (!userSnap.exists()) {
       // 🟢 أول مرة يسجل دخول
