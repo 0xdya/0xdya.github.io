@@ -176,6 +176,10 @@ ion-icon{
     <img id="photoPreview" class="profile-pic"/>
   </div>
   <div class="profile_container">
+<div class="name-section">
+  <span id="currentName"></span>
+  <span id="roleIcons"></span> 
+</div>
 <div id="statusEl"></div>
 <div id="displayBioInput"></div>
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
@@ -188,8 +192,6 @@ ion-icon{
 <button id="editBtn"> Edit profile</button>
 </section>
 </div>
-<div class="name-section">
-  <span id="currentName"></span>
   <div class="theme_toggle_container">
       <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
       <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
@@ -201,9 +203,7 @@ ion-icon{
         <button data-theme="system">System</button>
       </div>
     </div>
-  <span id="roleIcons"></span> 
-</div>
-
+    
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
   import {
