@@ -118,13 +118,13 @@ function fetchUpdateDetails() {
       let updateHTML = ``;
       updateHTML += ``;
       if (data.newFeatures.length > 0) {
-        updateHTML += ` <div dir="ltr" class="update_line"> <span class="tr_txt "><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon> Features</span>:`;
+        updateHTML += ` <div dir="ltr" class="update_line"> <span class="tr_txt">> Features:</span>`;
         data.newFeatures.forEach(feature => {
           updateHTML += `<span class="tr_txt2 feature">${feature}</span></div>`;
         });
       }
       if (data.bugFixes.length > 0) {
-        updateHTML += ` <div dir="ltr" class="update_line"><span class="tr_txt "><ion-icon class="row_ion" name="return-down-forward-outline"></ion-icon> Fixes</span>: `;
+        updateHTML += ` <div dir="ltr" class="update_line"><span class="tr_txt">> Fixes:</span> `;
         data.bugFixes.forEach(fix => {
           updateHTML += `<span class="tr_txt2">${fix}</span></div>`;
         });

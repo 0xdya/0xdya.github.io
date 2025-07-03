@@ -58,7 +58,7 @@ function updateToggleIcon(theme) {
     });
 
     // تحميل الثيم المحفوظ
-    const savedTheme = localStorage.getItem('theme') || 'system';
+    const savedTheme = localStorage.getItem('theme') || 'dark_theme';
     const event = new Event('click');
     const savedButton = dropdown.querySelector(`[data-theme="${savedTheme}"]`);
     savedButton.dispatchEvent(event);
