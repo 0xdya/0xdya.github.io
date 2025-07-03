@@ -9,6 +9,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+     <script type="module" src="../js/user.js"></script>
     <style>
       /* *{
       font-family: 'Amiri', serif !important;
@@ -262,9 +263,6 @@
         </div>
       </div>
     </header>
-    <button id="back_to_top">
-      <ion-icon name="chevron-up-circle-outline"></ion-icon>
-    </button>
     <div dir="ltr" class="patch">
       <div class="terminal_dote">
         <span></span>
@@ -277,6 +275,9 @@
         <span> حقوق الطبع و النشر محفوظة [<a href="#copyright">انظر إلى</a>] </span>
       </p>
     </div>
+    <button id="back_to_top">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </button>
     <div class="filters">
       <button onclick="filterContent('all')">
         <ion-icon name="apps-outline"></ion-icon> الكل
@@ -297,7 +298,7 @@
         </a>
     </div>
     <div class="poem ">
-      <p dir="rtl" class="category">#شِعر  :</p>
+      <p dir="rtl" class="category">#مقتطفات من أبياتي الشعرية 🍃  :</p>
     </div>
     <div class="poem poem-block">
       <div class="date_creat">
@@ -652,19 +653,7 @@
           books.forEach(b => b.style.display = 'block');
         }
       }
-      // عند تحميل الصفحة، حاول عرض الصورة من التخزين المحلي حتى قبل Firebase
-      document.addEventListener("DOMContentLoaded", () => {
-        const userAvatar = document.getElementById("userAvatar");
-        const loginIcon = document.getElementById("loginIcon");
-        const cachedUrl = localStorage.getItem("avatarUrl");
-        if (cachedUrl) {
-          userAvatar.src = cachedUrl;
-          userAvatar.style.display = "inline-block";
-          loginIcon.style.display = "none";
-        }
-      });
     </script>
-    <script type="module" src="../js/user.js"></script>
     <script type="module" src="../js/time_ago.js"></script>
   </body>
 </html>
