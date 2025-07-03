@@ -203,7 +203,6 @@ ion-icon{
         <button data-theme="system">System</button>
       </div>
     </div>
-    
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
   import {
@@ -256,6 +255,14 @@ ion-icon{
   let usernameFromURL = window.location.pathname.startsWith("/@")
     ? window.location.pathname.slice(2)
     : "profile";
+
+displayNameInput.addEventListener("input", () => {
+  // تحويل المسافات إلى _
+  displayNameInput.value = displayNameInput.value.replace(/\s+/g, "_");
+
+  // السماح فقط بالحروف العربية والإنجليزية والأرقام والشرطة السفلية
+  displayNameInput.value = displayNameInput.value.replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
+});
 
   // متابعة حالة تسجيل الدخول
   onAuthStateChanged(auth, async (user) => {
@@ -416,4 +423,4 @@ ion-icon{
 
 <script src="../js/script.js"></script>
 </body>
-</html>
+    </html>
