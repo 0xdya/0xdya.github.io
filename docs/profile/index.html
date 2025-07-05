@@ -115,7 +115,7 @@
       height: 100vh;
     }
     .edit-field {
-  display: none;
+  display: block;
   width: 100%;
   margin-top: 12px;
   padding: 10px;
@@ -125,8 +125,11 @@
   background: #111;
   color: #fff;
 }
-    .social-link-form{
+    .social-links{
+      width: 100%;
       display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
     .edit-field-link {
       max-width: 140px;
@@ -398,24 +401,49 @@ async function loadProfile(currentUser) {
     let userSocials = data.socials || {};
 
     function renderSocials() {
-      socialLinksDiv.innerHTML = "";
-      for (const platform in userSocials) {
-        const username = userSocials[platform];
-        let url = "";
-        if (platform === "twitter") url = `https://twitter.com/${username}`;
-        if (platform === "instagram") url = `https://instagram.com/${username}`;
-        if (platform === "facebook") url = `https://facebook.com/${username}`;
-        if (platform === "github") url = `https://github.com/${username}`;
-        if (platform === "youtube") url = `https://youtube.com/@${username}`;
-        if (platform === "email") url = `mailto:${username}`;
-        if (platform === "linkedin") url = `https://linkedin.com/in/${username}`;
-        socialLinksDiv.innerHTML += `
-          <div>
-            <a href="${url}" target="_blank">@${username} (${platform})</a>
-          </div>
-        `;
-      }
+  socialLinksDiv.innerHTML = "";
+  for (const platform in userSocials) {
+    const username = userSocials[platform];
+    let url = "";
+    let icon = "";
+
+    if (platform === "twitter") {
+      url = `https://x.com/${username}`;
+      icon = "logo-twitter";
+    } else if (platform === "github") {
+      url = `https://github.com/${username}`;
+      icon = "logo-github";
+    } else if (platform === "linkedin") {
+      url = `https://linkedin.com/in/${username}`;
+      icon = "logo-linkedin";
     }
+    } else if (platform === "faceBook") {
+      url = `https://FaceBook.com/${username}`;
+      icon = "logo-FaceBook";
+    }
+    } else if (platform === "instagram") {
+      url = `https://instagram.com/${username}`;
+      icon = "logo-instageam";
+    }
+    } else if (platform === "youtube") {
+      url = `https://youtube.com/@${username}`;
+      icon = "logo-instageam";
+    }
+    } else if (platform === "email") {
+      url = `mailto/@${username}`;
+      icon = "email-outline";
+    }
+
+    socialLinksDiv.innerHTML += `
+        <a href="${url}" target="_blank" style="margin-left:6px;">
+        <p class="link_card">
+        <ion-icon name="${icon}" style="font-size:18px;></ion-icon>
+        ${platform}</p>
+        </a>
+    `;
+  }
+}
+
 
     renderSocials();
 
