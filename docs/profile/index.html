@@ -125,6 +125,20 @@
   background: #111;
   color: #fff;
 }
+    .social-link-form{
+      display: flex;
+    }
+    .edit-field-link {
+      max-width: 140px;
+      height: 38px;
+  margin-top: 12px;
+  padding: 0 4px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
 
 .edit-btn {
   display: none;
@@ -188,6 +202,21 @@ ion-icon{
 <div id="displayBioInput"></div>
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
 <textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
+<div id="socialLinks" class="social-links"></div>
+
+<!-- زر الإضافة -->
+<button id="addSocialBtn" class="edit-field-link" style="margin-top:10px;">➕  add social media link</button>
+
+<!-- links -->
+<div id="addSocialForm" class="social-link-form"style="display:none;">
+  <select class="edit-field-link" id="platformSelect">
+    <option value="twitter">Twitter</option>
+    <option value="github">GitHub</option>
+    <option value="linkedin">LinkedIn</option>
+  </select>
+  <input type="text" id="socialUsernameInput"  class="edit-field-link" placeholder="@your_name" />
+</div>
+
 <button id="saveAllBtn" class="edit-btn">save</button>
 
   </div>
@@ -293,120 +322,180 @@ displayNameInput.addEventListener("input", () => {
   });
 
   // تحميل البروفايل ومراقبته
-  async function loadProfile(currentUser) {
-    if (usernameFromURL === "profile") {
-      showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+async function loadProfile(currentUser) {
+  if (usernameFromURL === "profile") {
+    showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+    return;
+  }
+
+  const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
+  onSnapshot(q, async (qs) => {
+    if (qs.empty) {
+      showMessage("🚫 المستخدم غير موجود.");
       return;
     }
 
-    const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
-    onSnapshot(q, async (qs) => {
-      if (qs.empty) {
-        showMessage("🚫 المستخدم غير موجود.");
-        return;
+    const userDoc = qs.docs[0];
+    const data = userDoc.data();
+
+    const isOwner = currentUser && currentUser.uid === userDoc.id;
+
+    currentName.textContent = data.name;
+    displayBioInput.textContent = data.bio;
+    bannerImg.src = data.banner || null;
+
+    const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
+    const img = new Image();
+    img.onload = () => {
+      photoPreview.src = imgSrc;
+      showProfile();
+    };
+    img.src = imgSrc;
+
+    // عرض الأيقونات
+    roleIcons.innerHTML = "";
+    const role = data.role || "";
+    const isVerified = data.verified === true;
+    let iconsHTML = "";
+
+    if (isVerified) {
+      iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
+    }
+
+    if (role === "admin") {
+      iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
+    } else if (role === "dev") {
+      iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
+    }
+
+    roleIcons.innerHTML = iconsHTML;
+
+    // آخر تسجيل دخول
+    if (data.lastLogin?.toDate) {
+      const lastLoginDate = data.lastLogin.toDate();
+      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
+      statusEl.style.fontSize = "14px";
+      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
+      statusEl.style.marginTop = "4px";
+      statusEl.textContent = diffSec < 60
+        ? "online"
+        : `last seen ${formatTimeAgo(diffSec)}`;
+    }
+
+    // ⚡️ روابط السوشيال ميديا
+    const socialLinksDiv = document.getElementById("socialLinks");
+    const addSocialBtn = document.getElementById("addSocialBtn");
+    const addSocialForm = document.getElementById("addSocialForm");
+    const platformSelect = document.getElementById("platformSelect");
+    const socialUsernameInput = document.getElementById("socialUsernameInput");
+    const saveSocialBtn = document.getElementById("saveSocialBtn");
+
+    let userSocials = data.socials || {};
+
+    function renderSocials() {
+      socialLinksDiv.innerHTML = "";
+      for (const platform in userSocials) {
+        const username = userSocials[platform];
+        let url = "";
+        if (platform === "twitter") url = `https://twitter.com/${username}`;
+        if (platform === "github") url = `https://github.com/${username}`;
+        if (platform === "linkedin") url = `https://linkedin.com/in/${username}`;
+        socialLinksDiv.innerHTML += `
+          <div>
+            <a href="${url}" target="_blank">@${username} (${platform})</a>
+          </div>
+        `;
       }
+    }
 
-      const userDoc = qs.docs[0];
-      const data = userDoc.data();
+    renderSocials();
 
-      const isOwner = currentUser && currentUser.uid === userDoc.id;
+    // أدوات التعديل للمالك فقط
+    if (isOwner) {
+      editBtn.style.display = "inline-block";
+      logoutBtn.style.display = "block";
+      addSocialBtn.style.display = "inline-block";
 
-      currentName.textContent = data.name;
-      displayBioInput.textContent = data.bio;
-      bannerImg.src = data.banner || null;
+      let isEditing = false;
 
-      const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
-      const img = new Image();
-      img.onload = () => {
-        photoPreview.src = imgSrc;
-        showProfile();
+      editBtn.onclick = () => {
+        isEditing = !isEditing;
+        displayNameInput.style.display = isEditing ? "block" : "none";
+        bioInput.style.display = isEditing ? "block" : "none";
+        saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+        displayNameInput.value = data.name || "";
+        bioInput.value = data.bio || "";
+        editBtn.textContent = isEditing ? "close" : "Edit profile";
       };
-      img.src = imgSrc;
 
-      // عرض الأيقونات
-      roleIcons.innerHTML = "";
-      const role = data.role || "";
-      const isVerified = data.verified === true;
-      let iconsHTML = "";
+      saveAllBtn.onclick = async () => {
+        const newName = displayNameInput.value.trim();
+        const newBio = bioInput.value.trim().slice(0, 200);
+        if (!newName) return alert("⚠️ يجب إدخال اسم.");
 
-      if (isVerified) {
-        iconsHTML += `
-          <img src="../badges/verf.svg" class="imgsvg">`;
-      }
+        const snapCheck = await getDocs(
+          query(collection(db, "users"), where("name", "==", newName))
+        );
+        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
+        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
 
-      if (role === "admin") {
-        iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
-      } else if (role === "dev") {
-        iconsHTML += `
-          <img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
-      }
+        try {
+          await updateProfile(currentUser, { displayName: newName });
+          await setDoc(doc(db, "users", currentUser.uid), {
+            ...data,
+            name: newName,
+            bio: newBio,
+            photo: currentUser.photo || data.photo
+          }, { merge: true });
 
-      roleIcons.innerHTML = iconsHTML;
-
-      // آخر تسجيل دخول
-      if (data.lastLogin?.toDate) {
-        const lastLoginDate = data.lastLogin.toDate();
-        const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
-        statusEl.style.fontSize = "14px";
-        statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
-        statusEl.style.marginTop = "4px";
-        statusEl.textContent = diffSec < 60
-          ? "online"
-          : `last seen ${formatTimeAgo(diffSec)}`;
-      }
-
-      // أدوات التعديل للمالك فقط
-      if (isOwner) {
-        editBtn.style.display = "inline-block";
-        logoutBtn.style.display = "block";
-        let isEditing = false;
-
-        editBtn.onclick = () => {
-          isEditing = !isEditing;
-          displayNameInput.style.display = isEditing ? "block" : "none";
-          bioInput.style.display = isEditing ? "block" : "none";
-          saveAllBtn.style.display = isEditing ? "inline-block" : "none";
-          displayNameInput.value = data.name || "";
-          bioInput.value = data.bio || "";
-          editBtn.textContent = isEditing ? "close" : "Edit profile";
-        };
-
-        saveAllBtn.onclick = async () => {
-          const newName = displayNameInput.value.trim();
-          const newBio = bioInput.value.trim().slice(0, 200);
-          if (!newName) return alert("⚠️ يجب إدخال اسم.");
-
-          const snapCheck = await getDocs(
-            query(collection(db, "users"), where("name", "==", newName))
-          );
-          const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
-          if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
-
-          try {
-            await updateProfile(currentUser, { displayName: newName });
-            await setDoc(doc(db, "users", currentUser.uid), {
-              ...data,
-              name: newName,
-              bio: newBio,
-              photo: currentUser.photo || data.photo
-            }, { merge: true });
-
-            alert("✅ تم حفظ التعديلات");
-            currentName.textContent = newName;
-            window.location.href = "/";
-          } catch (err) {
-            console.error("Save error:", err);
-            alert("❌ حدث خطأ أثناء الحفظ.");
-          }
-        };
-
-        logoutBtn.onclick = async () => {
-          await signOut(auth);
+          alert("✅ تم حفظ التعديلات");
+          currentName.textContent = newName;
           window.location.href = "/";
-        };
-      }
-    });
-  }
+        } catch (err) {
+          console.error("Save error:", err);
+          alert("❌ حدث خطأ أثناء الحفظ.");
+        }
+      };
+
+      logoutBtn.onclick = async () => {
+        await signOut(auth);
+        window.location.href = "/";
+      };
+
+      // 📎 إضافة رابط سوشيال
+      addSocialBtn.onclick = () => {
+        addSocialForm.style.display = "block";
+      };
+
+      saveSocialBtn.onclick = async () => {
+        const platform = platformSelect.value;
+        const username = socialUsernameInput.value.trim();
+        if (!username) return alert("⚠️ أدخل اسم المستخدم");
+
+        userSocials[platform] = username;
+
+        try {
+          await setDoc(doc(db, "users", currentUser.uid), {
+            socials: userSocials
+          }, { merge: true });
+
+          alert("✅ تم الحفظ");
+          renderSocials();
+          addSocialForm.style.display = "none";
+          socialUsernameInput.value = "";
+        } catch (err) {
+          console.error(err);
+          alert("❌ حدث خطأ في الحفظ");
+        }
+      };
+    } else {
+      // إخفاء زر الإضافة إن لم يكن المالك
+      if (addSocialBtn) addSocialBtn.style.display = "none";
+    }
+  });
+}
+    
+
 
   // أدوات مساعدة
   function formatTimeAgo(sec) {
