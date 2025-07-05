@@ -200,25 +200,27 @@ ion-icon{
 </div>
 <div id="statusEl"></div>
 <div id="displayBioInput"></div>
-<input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
-<textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
 <div id="socialLinks" class="social-links"></div>
 
-<!-- زر الإضافة -->
-<button id="addSocialBtn" class="edit-field-link" style="margin-top:10px;">➕  add social media link</button>
+<section id="edit_section">
+<input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
+<textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
 
-<!-- links -->
-<div id="addSocialForm" class="social-link-form"style="display:none;">
+<!-- social links -->
+<button id="addSocialBtn" class="edit-field-link" style="margin-top:10px;">➕  add social link</button>
+<div id="addSocialForm" class="social-link-form"style="display:block;">
   <select class="edit-field-link" id="platformSelect">
     <option value="twitter">Twitter</option>
     <option value="github">GitHub</option>
     <option value="linkedin">LinkedIn</option>
   </select>
   <input type="text" id="socialUsernameInput"  class="edit-field-link" placeholder="@your_name" />
+  <button id="saveSocialBtn" class="edit-field-link">💾 save</button>
+  
 </div>
 
 <button id="saveAllBtn" class="edit-btn">save</button>
-
+</section>
   </div>
 <section class="sectionbtn">
 <button id="logoutBtn">logout  </button>
@@ -279,6 +281,7 @@ ion-icon{
   const logoutBtn         = document.getElementById("logoutBtn");
   const displayNameInput  = document.getElementById("displayNameInput");
   const displayBioInput   = document.getElementById("displayBioInput");
+  const edit_section   = document.getElementById("edit_section");
   const bannerImg = document.getElementById("bannerImg");
   const bioInput          = document.getElementById("bioInput");
   const statusEl          = document.getElementById("statusEl");
@@ -420,8 +423,7 @@ async function loadProfile(currentUser) {
 
       editBtn.onclick = () => {
         isEditing = !isEditing;
-        displayNameInput.style.display = isEditing ? "block" : "none";
-        bioInput.style.display = isEditing ? "block" : "none";
+        edit_section.style.display = isEditing ? "block" : "none";
         saveAllBtn.style.display = isEditing ? "inline-block" : "none";
         displayNameInput.value = data.name || "";
         bioInput.value = data.bio || "";
