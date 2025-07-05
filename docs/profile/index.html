@@ -114,6 +114,9 @@
       align-items: center;
       height: 100vh;
     }
+    .edit_section{
+      display: none;
+    }
     .edit-field {
   display: none;
   width: 100%;
@@ -180,6 +183,16 @@ ion-icon{
     display: flex;
     gap: 4px;
   }
+    .link_card{
+    width: 100%;
+    text-align: center;
+    border: 1px solid #555;
+    padding: 8px 0;
+    background: transparent;
+    border-radius: 2px;
+    color: var(--text-color);
+  }
+  
   </style>
 </head>
 <body>
@@ -200,24 +213,14 @@ ion-icon{
 </div>
 <div id="statusEl"></div>
 <div id="displayBioInput"></div>
-<div id="socialLinks" class="social-links"></div>
+<div id="socialLinks"></div>
+<div id="socialFormsContainer"></div>
 
 <section id="edit_section">
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name " />
 <textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3"></textarea>
+<button class="edit-field-link" id="addSocialBtn" style="display:none;">🔗 add social media link </button>
 
-<!-- social links -->
-<button id="addSocialBtn" class="edit-field-link" style="margin-top:10px;">➕  add social link</button>
-<div id="addSocialForm" class="social-link-form"style="display:block;">
-  <select class="edit-field-link" id="platformSelect">
-    <option value="twitter">Twitter</option>
-    <option value="github">GitHub</option>
-    <option value="linkedin">LinkedIn</option>
-  </select>
-  <input type="text" id="socialUsernameInput"  class="edit-field-link" placeholder="@your_name" />
-  <button id="saveSocialBtn" class="edit-field-link">💾 save</button>
-  
-</div>
 
 <button id="saveAllBtn" class="edit-btn">save</button>
 </section>
@@ -340,7 +343,6 @@ async function loadProfile(currentUser) {
 
     const userDoc = qs.docs[0];
     const data = userDoc.data();
-
     const isOwner = currentUser && currentUser.uid === userDoc.id;
 
     currentName.textContent = data.name;
@@ -360,20 +362,17 @@ async function loadProfile(currentUser) {
     const role = data.role || "";
     const isVerified = data.verified === true;
     let iconsHTML = "";
-
     if (isVerified) {
       iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
     }
-
     if (role === "admin") {
       iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
     } else if (role === "dev") {
       iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
     }
-
     roleIcons.innerHTML = iconsHTML;
 
-    // آخر تسجيل دخول
+    // الحالة
     if (data.lastLogin?.toDate) {
       const lastLoginDate = data.lastLogin.toDate();
       const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
@@ -385,13 +384,10 @@ async function loadProfile(currentUser) {
         : `last seen ${formatTimeAgo(diffSec)}`;
     }
 
-    // ⚡️ روابط السوشيال ميديا
+    // روابط السوشيال
     const socialLinksDiv = document.getElementById("socialLinks");
     const addSocialBtn = document.getElementById("addSocialBtn");
-    const addSocialForm = document.getElementById("addSocialForm");
-    const platformSelect = document.getElementById("platformSelect");
-    const socialUsernameInput = document.getElementById("socialUsernameInput");
-    const saveSocialBtn = document.getElementById("saveSocialBtn");
+    const socialFormsContainer = document.getElementById("socialFormsContainer");
 
     let userSocials = data.socials || {};
 
@@ -405,7 +401,7 @@ async function loadProfile(currentUser) {
         if (platform === "linkedin") url = `https://linkedin.com/in/${username}`;
         socialLinksDiv.innerHTML += `
           <div>
-            <a href="${url}" target="_blank">@${username} (${platform})</a>
+            <a href="${url}" target="_blank"><p class="link_card">${platform} </p></a>
           </div>
         `;
       }
@@ -413,8 +409,8 @@ async function loadProfile(currentUser) {
 
     renderSocials();
 
-    // أدوات التعديل للمالك فقط
     if (isOwner) {
+      // أدوات التعديل
       editBtn.style.display = "inline-block";
       logoutBtn.style.display = "block";
       addSocialBtn.style.display = "inline-block";
@@ -423,7 +419,8 @@ async function loadProfile(currentUser) {
 
       editBtn.onclick = () => {
         isEditing = !isEditing;
-        edit_section.style.display = isEditing ? "block" : "none";
+        displayNameInput.style.display = isEditing ? "block" : "none";
+        bioInput.style.display = isEditing ? "block" : "none";
         saveAllBtn.style.display = isEditing ? "inline-block" : "none";
         displayNameInput.value = data.name || "";
         bioInput.value = data.bio || "";
@@ -464,35 +461,51 @@ async function loadProfile(currentUser) {
         window.location.href = "/";
       };
 
-      // 📎 إضافة رابط سوشيال
+      // إضافة رابط جديد
       addSocialBtn.onclick = () => {
-        addSocialForm.style.display = "block";
-      };
+        const formId = `form_${Date.now()}`;
+        const formDiv = document.createElement("div");
+        formDiv.className = "social-form";
+        formDiv.style.marginTop = "10px";
+        formDiv.innerHTML = `
+          <select class="edit-field-link">
+            <option value="twitter">Twitter</option>
+            <option value="github">GitHub</option>
+            <option value="linkedin">LinkedIn</option>
+          </select>
+          <input class="edit-field-link" type="text" placeholder="username" />
+          <button>💾 save link</button>
+        `;
 
-      saveSocialBtn.onclick = async () => {
-        const platform = platformSelect.value;
-        const username = socialUsernameInput.value.trim();
-        if (!username) return alert("⚠️ أدخل اسم المستخدم");
+        const select = formDiv.querySelector("select");
+        const input = formDiv.querySelector("input");
+        const saveBtn = formDiv.querySelector("button");
 
-        userSocials[platform] = username;
+        saveBtn.onclick = async () => {
+          const platform = select.value;
+          const username = input.value.trim();
+          if (!username) return alert("⚠️ أدخل اسم المستخدم");
 
-        try {
-          await setDoc(doc(db, "users", currentUser.uid), {
-            socials: userSocials
-          }, { merge: true });
+          userSocials[platform] = username;
 
-          alert("✅ تم الحفظ");
-          renderSocials();
-          addSocialForm.style.display = "none";
-          socialUsernameInput.value = "";
-        } catch (err) {
-          console.error(err);
-          alert("❌ حدث خطأ في الحفظ");
-        }
+          try {
+            await setDoc(doc(db, "users", currentUser.uid), {
+              socials: userSocials
+            }, { merge: true });
+
+            alert(`✅ تم حفظ حساب ${platform}`);
+            renderSocials();
+            formDiv.remove();
+          } catch (err) {
+            console.error(err);
+            alert("❌ حدث خطأ في الحفظ");
+          }
+        };
+
+        socialFormsContainer.appendChild(formDiv);
       };
     } else {
-      // إخفاء زر الإضافة إن لم يكن المالك
-      if (addSocialBtn) addSocialBtn.style.display = "none";
+      addSocialBtn.style.display = "none";
     }
   });
 }
