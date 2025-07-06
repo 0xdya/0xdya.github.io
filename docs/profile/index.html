@@ -339,7 +339,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// تحميل البروفايل ومراقبته
 async function loadProfile(currentUser) {
   if (usernameFromURL === "profile") {
     showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
@@ -364,7 +363,6 @@ async function loadProfile(currentUser) {
     const imgSrc = isOwner
       ? (currentUser?.photoURL || data.photo || "../img/user.jpg")
       : (data.photo || "../img/user.jpg");
-
     const img = new Image();
     img.onload = () => {
       photoPreview.src = imgSrc;
@@ -372,19 +370,15 @@ async function loadProfile(currentUser) {
     };
     img.src = imgSrc;
 
-    // الأيقونات
     roleIcons.innerHTML = "";
     const role = data.role || "";
     const isVerified = data.verified === true;
     let iconsHTML = "";
-
     if (isVerified) iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
     if (role === "admin") iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
     if (role === "dev") iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
-
     roleIcons.innerHTML = iconsHTML;
 
-    // آخر ظهور
     if (data.lastLogin?.toDate) {
       const lastLoginDate = data.lastLogin.toDate();
       const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
@@ -396,78 +390,109 @@ async function loadProfile(currentUser) {
         : `last seen ${formatTimeAgo(diffSec)}`;
     }
 
-    // روابط السوشيال ميديا
     const socialLinksDiv = document.getElementById("socialLinks");
     const addSocialForm = document.getElementById("addSocialForm");
     const platformSelect = document.getElementById("platformSelect");
     const socialUsernameInput = document.getElementById("socialUsernameInput");
     const saveSocialBtn = document.getElementById("saveSocialBtn");
-    let userSocials = data.socials || {};
+
+    let userSocials = Array.isArray(data.socials) ? data.socials : [];
 
     function renderSocials() {
       socialLinksDiv.innerHTML = "";
-      for (const platform in userSocials) {
-        const username = userSocials[platform];
+      userSocials.forEach(({ platform, username }, index) => {
         let url = "", icon = "";
-
         switch (platform) {
-          case "twitter":
-            url = `https://x.com/${username}`; icon = "logo-twitter"; break;
-          case "github":
-            url = `https://github.com/${username}`; icon = "logo-github"; break;
-          case "linkedin":
-            url = `https://linkedin.com/in/${username}`; icon = "logo-linkedin"; break;
-          case "facebook":
-            url = `https://facebook.com/${username}`; icon = "logo-facebook"; break;
-          case "instagram":
-            url = `https://instagram.com/${username}`; icon = "logo-instagram"; break;
-          case "youtube":
-            url = `https://youtube.com/@${username}`; icon = "logo-youtube"; break;
-          case "email":
-            url = `mailto:${username}`; icon = "mail-outline"; break;
+          case "twitter": url = `https://x.com/${username}`; icon = "logo-twitter"; break;
+          case "github": url = `https://github.com/${username}`; icon = "logo-github"; break;
+          case "linkedin": url = `https://linkedin.com/in/${username}`; icon = "logo-linkedin"; break;
+          case "facebook": url = `https://facebook.com/${username}`; icon = "logo-facebook"; break;
+          case "instagram": url = `https://instagram.com/${username}`; icon = "logo-instagram"; break;
+          case "youtube": url = `https://youtube.com/@${username}`; icon = "logo-youtube"; break;
+          case "email": url = `mailto:${username}`; icon = "mail-outline"; break;
         }
 
-const linkEl = document.createElement("div");
-linkEl.className = "link_card";
-linkEl.setAttribute("draggable", isOwner); // يسمح بالسحب
+        const card = document.createElement("div");
+        card.className = "link_card";
+        card.setAttribute("draggable", isOwner);
+        card.setAttribute("data-index", index);
+        card.innerHTML = `
+          <ion-icon name="${icon}"></ion-icon> ${platform}
+          ${isOwner ? `<button class="delete-btn" data-index="${index}">🗑️</button>` : ""}
+        `;
+        socialLinksDiv.appendChild(card);
+      });
+    }
 
-linkEl.innerHTML = `
-  <ion-icon name="${icon}" style="font-size:18px;"></ion-icon> ${platform}
-  ${isOwner ? `<button class="delete-btn" data-platform="${platform}" style="margin-right:6px;color:red;background:none;border:none;cursor:pointer;">🗑️</button>` : ""}
-`;
+    function reorderSocials(from, to) {
+      const moved = userSocials.splice(from, 1)[0];
+      userSocials.splice(to, 0, moved);
+      renderSocials();
+      addDragAndDropEvents();
+    }
 
-if (isOwner) {
-  linkEl.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData("text/plain", platform);
-  });
-}
+    async function saveSocialsOrder() {
+      await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
+    }
 
-const linkWrapper = document.createElement("a");
-linkWrapper.href = url;
-linkWrapper.target = "_blank";
-linkWrapper.appendChild(linkEl);
-socialLinksDiv.appendChild(linkWrapper);
+    function addDragAndDropEvents() {
+      const cards = socialLinksDiv.querySelectorAll(".link_card");
 
-      }
+      cards.forEach((card) => {
+        card.addEventListener("dragstart", (e) => {
+          dragStartIndex = +card.getAttribute("data-index");
+        });
+
+        card.addEventListener("dragover", (e) => e.preventDefault());
+
+        card.addEventListener("drop", async (e) => {
+          const dropIndex = +e.currentTarget.getAttribute("data-index");
+          reorderSocials(dragStartIndex, dropIndex);
+          await saveSocialsOrder();
+        });
+
+        card.addEventListener("touchstart", (e) => {
+          touchStartY = e.touches[0].clientY;
+          dragStartIndex = +card.getAttribute("data-index");
+        }, { passive: true });
+
+        card.addEventListener("touchend", async (e) => {
+          const touchEndY = e.changedTouches[0].clientY;
+          const direction = touchEndY > touchStartY ? "down" : "up";
+          const targetIndex = direction === "up" ? dragStartIndex - 1 : dragStartIndex + 1;
+          if (targetIndex >= 0 && targetIndex < userSocials.length) {
+            reorderSocials(dragStartIndex, targetIndex);
+            await saveSocialsOrder();
+          }
+        });
+      });
+
+      socialLinksDiv.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.onclick = async () => {
+          const index = +btn.getAttribute("data-index");
+          userSocials.splice(index, 1);
+          await saveSocialsOrder();
+          renderSocials();
+          addDragAndDropEvents();
+        };
+      });
     }
 
     renderSocials();
+    addDragAndDropEvents();
 
-    // أدوات التعديل
     if (isOwner) {
       editBtn.style.display = "inline-block";
       logoutBtn.style.display = "block";
-      let isEditing = false;
 
+      let isEditing = false;
       editBtn.onclick = () => {
         isEditing = !isEditing;
         edit_section.style.display = isEditing ? "block" : "none";
         displayNameInput.style.display = isEditing ? "block" : "none";
-          bioInput.style.display = isEditing ? "block" : "none";
-          saveAllBtn.style.display = isEditing ? "inline-block" : "none";
-          addSocialForm.style.display = isEditing ? "block" : "none";
-          
-          
+        bioInput.style.display = isEditing ? "block" : "none";
+        saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+        addSocialForm.style.display = isEditing ? "block" : "none";
         displayNameInput.value = data.name || "";
         bioInput.value = data.bio || "";
         editBtn.textContent = isEditing ? "close" : "Edit profile";
@@ -489,7 +514,7 @@ socialLinksDiv.appendChild(linkWrapper);
             name: newName,
             bio: newBio,
             photo: currentUser.photoURL || data.photo,
-            socials: userSocials
+            socials: userSocials,
           }, { merge: true });
           alert("✅ تم حفظ التعديلات");
           window.location.href = "/profile/";
@@ -508,54 +533,18 @@ socialLinksDiv.appendChild(linkWrapper);
         const platform = platformSelect.value;
         const username = socialUsernameInput.value.trim();
         if (!username) return alert("⚠️ أدخل اسم المستخدم");
-
-        userSocials[platform] = username;
-        try {
-          await setDoc(doc(db, "users", currentUser.uid), {
-            socials: userSocials
-          }, { merge: true });
-          alert("✅ تم الحفظ");
-          renderSocials();
-          socialUsernameInput.value = "";
-        } catch (err) {
-          console.error(err);
-          alert("❌ حدث خطأ في الحفظ");
-        }
+        userSocials.push({ platform, username });
+        await saveSocialsOrder();
+        renderSocials();
+        addDragAndDropEvents();
+        socialUsernameInput.value = "";
       };
-      let draggedPlatform = null;
-
-socialLinksDiv.addEventListener("dragstart", (e) => {
-  draggedPlatform = e.target.textContent.trim().toLowerCase();
-});
-
-socialLinksDiv.addEventListener("dragover", (e) => {
-  e.preventDefault();
-});
-
-socialLinksDiv.addEventListener("drop", async (e) => {
-  e.preventDefault();
-  const targetPlatform = e.target.textContent.trim().toLowerCase();
-  if (!draggedPlatform || !targetPlatform || draggedPlatform === targetPlatform) return;
-
-  // إعادة ترتيب العناصر
-  const entries = Object.entries(userSocials);
-  const draggedIndex = entries.findIndex(([k]) => k === draggedPlatform);
-  const targetIndex = entries.findIndex(([k]) => k === targetPlatform);
-
-  if (draggedIndex === -1 || targetIndex === -1) return;
-
-  const reordered = [...entries];
-  const [moved] = reordered.splice(draggedIndex, 1);
-  reordered.splice(targetIndex, 0, moved);
-
-  userSocials = Object.fromEntries(reordered);
-  await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
-  renderSocials();
-});
-
     }
   });
 }
+
+let dragStartIndex = null;
+let touchStartY = 0;
 
 // أدوات مساعدة
 function formatTimeAgo(sec) {
