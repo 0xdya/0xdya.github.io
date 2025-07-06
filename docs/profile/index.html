@@ -7,6 +7,8 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link rel="stylesheet" href="../css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
 <link rel="stylesheet" href="../css/en.css">
   <style>
   *{
@@ -533,6 +535,24 @@ function showProfile() {
   profileContainer.style.display = "block";
 }
 </script>
+<script>
+  const sortable = new Sortable(document.getElementById("socialLinks"), {
+    animation: 150,
+    handle: ".link_card",
+    draggable: ".link_card",
+    onEnd: async function (evt) {
+      const oldIndex = evt.oldIndex;
+      const newIndex = evt.newIndex;
+      if (oldIndex !== newIndex) {
+        const movedItem = userSocials.splice(oldIndex, 1)[0];
+        userSocials.splice(newIndex, 0, movedItem);
+        await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
+        renderSocials(); // لإعادة الترتيب في الواجهة
+      }
+    }
+  });
+</script>
+
 <script src="../js/script.js"></script>
 <script src="../js/user.js"></script>
 </body>
