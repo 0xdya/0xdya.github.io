@@ -1,47 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>0xdya | ضياء الدين ملوك</title>
-  <meta name="description" content="0xdya،
-  مبرمج مهتم بالخصوصية التقنية و الحرية الرقمية والبرمجيات منخفضة المستوى ،اعرض مشاريعي وخبرتي." />
-  
-  <meta name="keywords" content="0xdya, dyaa, ضياء الدين ملوك" />
-  <meta name="author" content="0xdya" />
-  <meta property="og:title" content="0xdya | ضياء الدين ملوك" />
-  <meta property="og:description" content="0xdya،
-  مبرمج مهتم بالخصوصية التقنية و الحرية الرقمية والبرمجيات منخفضة المستوى ،اعرض مشاريعي وخبرتي." />
-  <meta property="og:image" content="https://0xdya.vercel.app/img/cover.png" />
-  <meta property="og:url" content="https://0xdya.vercel.app" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="0xdya | ضياء الدين ملوك" />
-  <meta name="twitter:description" content="0xdya،
-  مبرمج مهتم بالخصوصية التقنية و الحرية الرقمية والبرمجيات منخفضة المستوى ،اعرض مشاريعي وخبرتي." />
-  <meta name="twitter:image" content="https://0xdya.vercel.app/img/cover.png" />
-  <link rel="canonical" href="https://0xdya.vercel.app" />
-  <link rel="stylesheet" href="./css/style.css" />
-  <link rel="stylesheet" href="./css/en.css" />
+  <title>Profile</title>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
-  <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/en.css">
+  <style>
+  *{
+    box-sizing: border-box;
+  }
+    body {
+      background-color: var(--profile-bg) !important;
+      color: var(--profile-txt);
+      margin: 0 auto !important;
+      padding: 0 !important;
+      max-width: 600px;
+    }
+    .profile-header {
+      position: relative;
+      height: 200px;
+      background-color: #1c1c1c;
+    }
+    .banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-pic {
+      position: absolute;
+      bottom: -50px;
+      left: 20px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #000;
+      object-fit: cover;
+    }
+    .profile_container {
+      padding: 52px 20px 20px;
+    }
+    .name-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .name-section span {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .edit-icon {
+      cursor: pointer;
+      font-size: 18px;
+      color: #1da1f2;
+      position: absolute;
+      right: 1rem;
+    }
+      
+    
+    #displayNameInput {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #111;
+      color: #fff;
+    }
+    #saveBtn {
+      margin-top: 16px;
+      padding: 10px 20px;
+      background: #1da1f2;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #saveBtn:hover {
+      background: #1991da;
+    }
+    .sectionbtn{
+      display: flex;
+      gap: 8px;
+      padding: 0 8px;
+      position: fixed;
+      right: 50%;
+      transform: translateX(50%);
+      bottom: 1rem;
+      width: 100%;
+    }
+    #logoutBtn, #editBtn{
+      background: transparent;
+      color: #ededed;
+      border: 1px solid beige;
+      border-radius: 8px;
+      padding: 4px 1rem;
+      font-size: 1.2rem;
+      backdrop-filter: blur(4px);
+      width: 80%;
+      display: none;
+    }
+    #editBtn{
+      bottom: 4rem !important;
+    }
+    #loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .edit-field {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
+    .social-links{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .edit-field-link {
+      max-width: 140px;
+      height: 38px;
+  margin-top: 12px;
+  padding: 0 4px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #111;
+  color: #fff;
+}
+
+.edit-btn {
+  
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #1da1f2;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #1991da;
+}
+#displayBioInput{
+  margin: 1rem 0;
+}
+#profileContainer{
+  position: relative;
+  height: 100vh;
+  display: none;
+}
+ion-icon{
+  font-size: 18px;
+  margin-bottom: -2px;
+}
+  .imgsvg{
+    width: 18px !important;
+    height: 18px !important;
+    margin-bottom: -2px;
+  }
+  .theme_toggle_container{
+    display: none ;
+  }
+  #roleIcons{
+    display: flex;
+    gap: 4px;
+  }
+  .edit_section{
+    display: none !important;
+  }
+    .link_card{
+    position: relative;
+    width: fit-content;
+    text-align: center;
+    border: 1px solid #555;
+    padding: 8px;
+    background: transparent;
+    border-radius: 2px;
+    color: var(--text-color);
+    ion-icon{
+      font-size: 1.6rem !important;
+      margin: 0 4px -7px 0;
+    }
+  }
+  
+  </style>
 </head>
-<body dir="ltr">
-<div class="old"></div>
-<header class="h">
-  <h1 class="logo_name">
-    <span class="prompt"><ion-icon name="planet-outline"> </ion-icon></span> 0xdya
-  </h1>
-  <div class="control">
-    <div class="user_photo">
-      <a id="loginIcon" href="./login/"><ion-icon name="person-add-outline"></ion-icon></a>
-      <a class="user_photo_href" href="profile"><img id="userAvatar" style="display:none" src="img/user.jpg"></a>
-    </div>
-    <div class="theme_toggle_container">
+<body>
+
+<div id="loading">
+  <img width="40" src="../img/load.gif" />
+</div>
+
+<div id="profileContainer" >
+  <div class="profile-header">
+    <img id="bannerImg"class="banner-img" alt="Banner" />
+    <img id="photoPreview" class="profile-pic"/>
+  </div>
+  <div class="profile_container">
+<div class="name-section">
+  <span id="currentName"></span>
+  <span id="roleIcons"></span> 
+</div>
+<div id="statusEl"></div>
+<div id="displayBioInput"></div>
+<div id="socialLinks" class="social-links"></div>
+
+<section id="edit_section" style="display:none">
+<input type="text" id="displayNameInput" class="edit-field" placeholder="new name "  style="display:none"/>
+<textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3" style="display:none"></textarea>
+
+<!-- social links -->
+<div id="addSocialForm" class="social-link-form" style="display:none">
+  <select class="edit-field-link" id="platformSelect">
+    <option value="twitter">Twitter</option>
+    <option value="instagram">Instagram</option>
+    <option value="facebook">FaceBook</option>
+    <option value="github">GitHub</option>
+    <option value="youtube">YouTube</option>
+    <option value="linkedin">LinkedIn</option>
+    <option value="email">Email</option>
+  </select>
+  <input type="text" id="socialUsernameInput"  class="edit-field-link" placeholder="@your_name" />
+  <button id="saveSocialBtn" class="edit-field-link">💾 save</button>
+  
+</div>
+
+<button id="saveAllBtn" class="edit-btn">save</button>
+</section>
+  </div>
+<section class="sectionbtn">
+<button id="logoutBtn">logout  </button>
+<button id="editBtn"> Edit profile</button>
+</section>
+</div>
+  <div class="theme_toggle_container">
       <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
       <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
       <a href="./info/" class="bug"><ion-icon name="document-text-outline"></ion-icon></a>
@@ -52,150 +260,549 @@
         <button data-theme="system">System</button>
       </div>
     </div>
-  </div>
-</header>
-<div class="container">
-  <main>
-    
-    <h2 class="home_title_font">#</span> info</h2>
-    <div class="terminal_bg">
-      <div class="terminal">
-        <div class="terminal_dote"><span></span><span></span><span></span></div>
-        <!--
-        <div class="ascii"><pre><code> ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣴⣶⣿⠿⠛⠛⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣷⣻⠶⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠂⠀⢀⣠⣾⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣿⡿⣽⣻⣳⢎⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⢡⠂⠄⣢⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⡷⣯⡞⣝⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠁⡐⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣟⡾⣹⢎⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠂⣼⣿⣿⣿⣿⡿⠿⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⡿⣾⣝⣧⢻⡜⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢂⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠂⢸⣿⡿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠿⣿⣳⢯⣞⡳⣎⠅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠁⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠛⢯⡞⣵⣋⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠱⣍⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⢀⣾⡇⠀⣾⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠁⣾⣿⡇⢰⣿⣿⠀⠀⣆⠀⠀⠀⠀⢰⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⣼⡏⢰⣿⣿⠇⣾⣿⣿⡆⠀⣿⠀⠀⠀⠀⢸⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⠀⠀⠀⠀⠰⠃⠀⠒⠛⠃⠚⠿⣿⢰⣿⣿⣿⡇⣤⣿⣤⣶⣦⣀⢼⣿⣧⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢠⣶⢰⣿⣿⣿⣧⡹⢓⣾⣾⣿⣿⣿⣧⣿⣿⣿⣿⣋⣁⣀⣀⣀⣁⠘⠃⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣾⡟⢋⠁⡀⠀⠉⠙⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠱⣚⣭⡿⢿⣿⣷⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⢠⣆⠀⠀⠀⠀⣿⣏⡀⣾⠀⠀⠀⠀⣰⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⣁⠀⢠⠀⠀⠉⠻⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢇⣾⣿⣷⠀⠀⠀⣿⣿⣿⣞⡓⠥⠬⣒⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⠀⠀⠀⠀⠀⣦⠈⢳⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣾⣿⣿⣿⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⡢⢄⡀⠤⠾⢧⣦⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⡇⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⢁⣿⣿⠇⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⢾⡅⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⣼⣿⣿⣦⣾⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⢀⠰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣻⢿⣯⡿⣟⠇⠀⡜⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠌⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⢧⡟⡿⣾⡽⢏⣿⣾⣿⡌⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⡰⣣⢻⡜⣯⢳⡝⣼⣿⣿⣿⣿⣆⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢂⠐⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⢠⠎⡵⢣⢧⡹⣜⢣⣿⣿⣿⣿⣿⣿⣿⣷⡌⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⢀⠂⠔⡀⢂⠐⡀⢂⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠡⢚⠴⣉⠦⡑⢎⢣⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⡩⠂⠀⠀⠀⠀⠀⣀⡔⢦⠃⢈⠐⡀⢂⠐⠠⠀⠄⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠁⠎⡰⢡⠙⡌⣸⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠟⠒⠌⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠀⠈⠀⠀⠀⠀⠀⣀⠶⡱⢎⢧⢋⠀⡐⢀⠂⠌⢀⠂⢀⠂⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠢⠑⡨⣟⠿⠟⠟⠋⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠛⠟⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢴⡩⢞⡱⢫⠜⡪⢅⠀⠂⠄⠂⠠⠀⠂⢀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢢⡙⢦⡙⡔⢣⠈⢀⠂⠈⡀⠐⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠂⠴⢉⠆⡁⠀⡀⠁⢀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠐⠡⠀⠀⠐⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</code></pre> 
-        </div>
-        -->
-        <div class="ascii"><pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⣀⡴⢧⣀⠀⠀⣀⣠⠤⠤⠤⠤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠘⠏⢀⡴⠊⠁⠀⠀⠀⠀⠀⠀⠈⢙⡦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⣰⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢶⣶⣒⣶⠦⣤⣀⠀⠀
-⠀⠀⠀⠀⠀⠀⢀⣰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣟⠲⡌⠙⢦⠈⢧⠀
-⠀⠀⠀⣠⢴⡾⢟⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡴⢃⡠⠋⣠⠋⠀
-⠐⠀⠞⣱⠋⢰⠁⢿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⠤⢖⣋⡥⢖⣫⠔⠋⠀⠀⠀
-⠈⠠⡀⠹⢤⣈⣙⠚⠶⠤⠤⠤⠴⠶⣒⣒⣚⣩⠭⢵⣒⣻⠭⢖⠏⠁⢀⣀⠀⠀⠀⠀
-⠠⠀⠈⠓⠒⠦⠭⠭⠭⣭⠭⠭⠭⠭⠿⠓⠒⠛⠉⠉⠀⠀⣠⠏⠀⠀⠘⠞⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⢤⣀⠀⠀⠀⠀⠀⠀⣀⡤⠞⠁⠁⣰⣆⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠘⠿⠀⠀⠀⠀⠀⠈⠉⠙⠒⠒⠛⠉⠁⠀⠀⠀⠉⢳⡞⠉⠀⠀⠀⠠⡧
-</code></pre> 
-        </div>
-        <div class="code-box" id="draggable-box">
-          <div class="code_box_content">
-            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="analytics-outline"></ion-icon> realtime_data()</span><br></div>
-            <div class="update_line"><span class="tr_txt">> visits:</span> <span class="tr_txt2"><span id="counter"><span class="doted">Loading </span></span></span></div>
-            <div class="update_line"><span class="tr_txt">> users:</span> <span class="tr_txt2"><span id="users_count"><span class="doted">Loading </span></span></span></div>
-            <div class="update_line"><span class="tr_txt">> comments:</span> <span class="tr_txt2"><span id="comments_count"><span class="doted">Loading </span></span></span></div>
-            <br>
-            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="mail-unread-outline"></ion-icon> Latest_News()</span><br></div>
-            <div class="update-info" id="update-details">
-              <p dir="ltr" class="bracket">
-                <span class="doted">Loading </span><br>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
- <span class="Jetbrains_font">
-      <ion-icon name="cube-outline"></ion-icon> repo & about <a class="Jetbrains_font" href="./info/">read</a></span><br>
-<!-- <span class="Jetbrains_font">
-  >  archive <a class="" href="./info/">read</a></span>
--->
-    <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
-    <h2 class="home_title_font"><span>#</span> map</h2>
-    <div id="network"></div>
-    <div class="note_section">
-      <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Click to open</div>
-      <div><div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Draggable</div></div>
-      <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Zoomable</div>
-    </div>
-<p class="homepage_note Jetbrains_font">
-  Lost? => #crawl_back_to_your_cave  hh...<span class="hide_in_light"><br><br>
-  This community is only for genius & who use dark theme. <br>(if u see this note = u use dark mode) ._. 👍🏻
-  <br><br>
-  For high IQ folks, I've hidden some badges across the site. If you find them, they’ll be added to your profile automatically. Good luck for all 🧢
-  </span>
-</p>
-  </main>
-</div>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import {
+  getFirestore, collection, query, where, getDocs,
+  doc, getDoc, setDoc, onSnapshot
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged, signOut, updateProfile
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-<script type="module" src="./js/user.js"></script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "0xdya | ضياء الدين ملوك",
-  "url": "https://0xdya.vercel.app",
-  "image": "https://0xdya.vercel.app/img/cover.png",
-  "jobTitle": "مبرمج",
-  "description": "0xdya، مبرمج مهتم بالخصوصية التقنية والحرية الرقمية والبرمجيات منخفضة المستوى، أعرض مشاريعي وخبرتي.",
-  "sameAs": [
-    "https://github.com/0xdya",
-    "https://youtube.com/@0xdya",
-    "https://facebook.com/0xdya",
-    "https://twitter.com/0xdyaa",
-    "https://instagram.com/0xdaa",
-    "https://0xdya.vercel.app"
-  ]
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+  authDomain: "oxdyaa.firebaseapp.com",
+  projectId: "oxdyaa",
+  storageBucket: "oxdyaa.appspot.com",
+  messagingSenderId: "604062703590",
+  appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// DOM Elements
+const currentName = document.getElementById("currentName");
+const roleIcons = document.getElementById("roleIcons");
+const editBtn = document.getElementById("editBtn");
+const photoPreview = document.getElementById("photoPreview");
+const loading = document.getElementById("loading");
+const profileContainer = document.getElementById("profileContainer");
+const logoutBtn = document.getElementById("logoutBtn");
+const displayNameInput = document.getElementById("displayNameInput");
+const displayBioInput = document.getElementById("displayBioInput");
+const edit_section = document.getElementById("edit_section");
+const bannerImg = document.getElementById("bannerImg");
+const bioInput = document.getElementById("bioInput");
+const statusEl = document.getElementById("statusEl");
+const saveAllBtn = document.getElementById("saveAllBtn");
+
+// استخراج اسم المستخدم من URL
+let usernameFromURL = window.location.pathname.startsWith("/@")
+  ? decodeURIComponent(window.location.pathname.slice(2))
+  : "profile";
+
+// تصفية الاسم المدخل
+displayNameInput.addEventListener("input", () => {
+  displayNameInput.value = displayNameInput.value
+    .replace(/\s+/g, "_")
+    .replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
+});
+
+// التحقق من حالة الدخول
+onAuthStateChanged(auth, async (user) => {
+  try {
+    if (!user && usernameFromURL === "profile") {
+      showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+      return;
+    }
+    if (user && usernameFromURL === "profile") {
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists() && snap.data().name) {
+        window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
+        return;
+      }
+    }
+    loadProfile(user);
+  } catch (err) {
+    console.error("Error loading profile:", err);
+    showMessage("🚨 حدث خطأ، الرجاء المحاولة لاحقاً.");
+  }
+});
+
+// تحميل البروفايل ومراقبته
+async function loadProfile(currentUser) {
+  if (usernameFromURL === "profile") {
+    showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+    return;
+  }
+
+  const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
+  onSnapshot(q, async (qs) => {
+    if (qs.empty) {
+      showMessage("🚫 المستخدم غير موجود.");
+      return;
+    }
+
+    const userDoc = qs.docs[0];
+    const data = userDoc.data();
+    const isOwner = currentUser && currentUser.uid === userDoc.id;
+
+    currentName.textContent = data.name;
+    displayBioInput.textContent = data.bio;
+    bannerImg.src = data.banner || "";
+
+    const imgSrc = isOwner
+      ? (currentUser?.photoURL || data.photo || "../img/user.jpg")
+      : (data.photo || "../img/user.jpg");
+
+    const img = new Image();
+    img.onload = () => {
+      photoPreview.src = imgSrc;
+      showProfile();
+    };
+    img.src = imgSrc;
+
+    // الأيقونات
+    roleIcons.innerHTML = "";
+    const role = data.role || "";
+    const isVerified = data.verified === true;
+    let iconsHTML = "";
+
+    if (isVerified) iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
+    if (role === "admin") iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
+    if (role === "dev") iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
+
+    roleIcons.innerHTML = iconsHTML;
+
+    // آخر ظهور
+    if (data.lastLogin?.toDate) {
+      const lastLoginDate = data.lastLogin.toDate();
+      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
+      statusEl.style.fontSize = "14px";
+      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
+      statusEl.style.marginTop = "4px";
+      statusEl.textContent = diffSec < 60
+        ? "online"
+        : `last seen ${formatTimeAgo(diffSec)}`;
+    }
+
+    // روابط السوشيال ميديا
+    const socialLinksDiv = document.getElementById("socialLinks");
+    const addSocialForm = document.getElementById("addSocialForm");
+    const platformSelect = document.getElementById("platformSelect");
+    const socialUsernameInput = document.getElementById("socialUsernameInput");
+    const saveSocialBtn = document.getElementById("saveSocialBtn");
+    let userSocials = data.socials || {};
+
+    function renderSocials() {
+      socialLinksDiv.innerHTML = "";
+      for (const platform in userSocials) {
+        const username = userSocials[platform];
+        let url = "", icon = "";
+
+        switch (platform) {
+          case "twitter":
+            url = `https://x.com/${username}`; icon = "logo-twitter"; break;
+          case "github":
+            url = `https://github.com/${username}`; icon = "logo-github"; break;
+          case "linkedin":
+            url = `https://linkedin.com/in/${username}`; icon = "logo-linkedin"; break;
+          case "facebook":
+            url = `https://facebook.com/${username}`; icon = "logo-facebook"; break;
+          case "instagram":
+            url = `https://instagram.com/${username}`; icon = "logo-instagram"; break;
+          case "youtube":
+            url = `https://youtube.com/@${username}`; icon = "logo-youtube"; break;
+          case "email":
+            url = `mailto:${username}`; icon = "mail-outline"; break;
+        }
+
+        socialLinksDiv.innerHTML += `
+          <a href="${url}" target="_blank" >
+            <p class="link_card">
+              <ion-icon name="${icon}" style="font-size:18px;"></ion-icon> ${platform}
+            </p>
+          </a>`;
+      }
+    }
+
+    renderSocials();
+
+    // أدوات التعديل
+    if (isOwner) {
+      editBtn.style.display = "inline-block";
+      logoutBtn.style.display = "block";
+      let isEditing = false;
+
+      editBtn.onclick = () => {
+        isEditing = !isEditing;
+        edit_section.style.display = isEditing ? "block" : "none";
+        displayNameInput.style.display = isEditing ? "block" : "none";
+          bioInput.style.display = isEditing ? "block" : "none";
+          saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+          addSocialForm.style.display = isEditing ? "block" : "none";
+          
+          
+        displayNameInput.value = data.name || "";
+        bioInput.value = data.bio || "";
+        editBtn.textContent = isEditing ? "close" : "Edit profile";
+      };
+
+      saveAllBtn.onclick = async () => {
+        const newName = displayNameInput.value.trim();
+        const newBio = bioInput.value.trim().slice(0, 200);
+        if (!newName) return alert("⚠️ يجب إدخال اسم.");
+
+        const snapCheck = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
+        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
+        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+
+        try {
+          await updateProfile(currentUser, { displayName: newName });
+          await setDoc(doc(db, "users", currentUser.uid), {
+            ...data,
+            name: newName,
+            bio: newBio,
+            photo: currentUser.photoURL || data.photo,
+            socials: userSocials
+          }, { merge: true });
+          alert("✅ تم حفظ التعديلات");
+          window.location.href = "/profile/";
+        } catch (err) {
+          console.error("Save error:", err);
+          alert("❌ حدث خطأ أثناء الحفظ.");
+        }
+      };
+
+      logoutBtn.onclick = async () => {
+        await signOut(auth);
+        window.location.href = "/";
+      };
+
+      saveSocialBtn.onclick = async () => {
+        const platform = platformSelect.value;
+        const username = socialUsernameInput.value.trim();
+        if (!username) return alert("⚠️ أدخل اسم المستخدم");
+
+        userSocials[platform] = username;
+        try {
+          await setDoc(doc(db, "users", currentUser.uid), {
+            socials: userSocials
+          }, { merge: true });
+          alert("✅ تم الحفظ");
+          renderSocials();
+          socialUsernameInput.value = "";
+        } catch (err) {
+          console.error(err);
+          alert("❌ حدث خطأ في الحفظ");
+        }
+      };
+    }
+  });
+}
+
+// أدوات مساعدة
+function formatTimeAgo(sec) {
+  if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
+  return `${Math.floor(sec / 86400)} days ago`;
+}
+function showMessage(msg) {
+  profileContainer.innerHTML = `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
+}
+function showProfile() {
+  loading.style.display = "none";
+  profileContainer.style.display = "block";
 }
 </script>
 
+<!--
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    doc,
+    getDoc,
+    setDoc,
+    onSnapshot,
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
     authDomain: "oxdyaa.firebaseapp.com",
     projectId: "oxdyaa",
-    storageBucket: "oxdyaa.firebasestorage.app",
+    storageBucket: "oxdyaa.appspot.com",
     messagingSenderId: "604062703590",
     appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
   };
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // DOM elements
+  const currentName       = document.getElementById("currentName");
+  const roleIcons         = document.getElementById("roleIcons");
+  const editBtn           = document.getElementById("editBtn");
+  const photoPreview      = document.getElementById("photoPreview");
+  const loading           = document.getElementById("loading");
+  const profileContainer  = document.getElementById("profileContainer");
+  const logoutBtn         = document.getElementById("logoutBtn");
+  const displayNameInput  = document.getElementById("displayNameInput");
+  const displayBioInput   = document.getElementById("displayBioInput");
+  const edit_section   = document.getElementById("edit_section");
+  const bannerImg = document.getElementById("bannerImg");
+  const bioInput          = document.getElementById("bioInput");
+  const statusEl          = document.getElementById("statusEl");
+  const saveAllBtn        = document.getElementById("saveAllBtn");
+
+  // استخراج اسم المستخدم من URL
+  let usernameFromURL = window.location.pathname.startsWith("/@")
+    ? window.location.pathname.slice(2)
+    : "profile";
+
+displayNameInput.addEventListener("input", () => {
+  // تحويل المسافات إلى _
+  displayNameInput.value = displayNameInput.value.replace(/\s+/g, "_");
+
+  // السماح فقط بالحروف العربية والإنجليزية والأرقام والشرطة السفلية
+  displayNameInput.value = displayNameInput.value.replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
+});
+
+  // متابعة حالة تسجيل الدخول
+  onAuthStateChanged(auth, async (user) => {
+    try {
+      if (!user && usernameFromURL === "profile") {
+        showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+        return;
+      }
+
+      if (user && usernameFromURL === "profile") {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists() && snap.data().name) {
+          window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
+          return;
+        }
+      }
+
+      loadProfile(user);
+    } catch (err) {
+      console.error("Error loading profile:", err);
+      showMessage("🚨 حدث خطأ، الرجاء المحاولة لاحقاً.");
+    } 
+    
+  });
+
+  // تحميل البروفايل ومراقبته
+async function loadProfile(currentUser) {
+  if (usernameFromURL === "profile") {
+    showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
+    return;
+  }
+
+  const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
+  onSnapshot(q, async (qs) => {
+    if (qs.empty) {
+      showMessage("🚫 المستخدم غير موجود.");
+      return;
+    }
+    const userDoc = qs.docs[0];
+    const data = userDoc.data();
+    const isOwner = currentUser && currentUser.uid === userDoc.id;
+    currentName.textContent = data.name;
+    displayBioInput.textContent = data.bio;
+    bannerImg.src = data.banner || null;
+    const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
+    const img = new Image();
+    img.onload = () => {
+      photoPreview.src = imgSrc;
+      showProfile();
+    };
+    img.src = imgSrc;
+
+    // عرض الأيقونات
+    roleIcons.innerHTML = "";
+    const role = data.role || "";
+  const isVerified = data.verified === true;
+  let iconsHTML = "";
+    if (isVerified) {
+      iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
+    }
+    if (role === "admin") {
+      iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
+    } else if (role === "dev") {
+      iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
+    }
+    roleIcons.innerHTML = iconsHTML;
+    // آخر تسجيل دخول
+    if (data.lastLogin?.toDate) {
+      const lastLoginDate = data.lastLogin.toDate();
+      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
+      statusEl.style.fontSize = "14px";
+      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
+      statusEl.style.marginTop = "4px";
+      statusEl.textContent = diffSec < 60
+        ? "online"
+        : `last seen ${formatTimeAgo(diffSec)}`;
+    }
+
+    // ⚡️ روابط السوشيال ميديا
+    const socialLinksDiv = document.getElementById("socialLinks");
+    const addSocialForm = document.getElementById("addSocialForm");
+    const platformSelect = document.getElementById("platformSelect");
+    const socialUsernameInput = document.getElementById("socialUsernameInput");
+    const saveSocialBtn = document.getElementById("saveSocialBtn");
+
+    let userSocials = data.socials || {};
+
+    function renderSocials() {
+  socialLinksDiv.innerHTML = "";
+  for (const platform in userSocials) {
+    const username = userSocials[platform];
+    let url = "";
+    let icon = "";
+
+    if (platform === "twitter") {
+      url = `https://x.com/${username}`;
+      icon = "logo-twitter";
+    } else if (platform === "github") {
+      url = `https://github.com/${username}`;
+      icon = "logo-github";
+    } else if (platform === "linkedin") {
+      url = `https://linkedin.com/in/${username}`;
+      icon = "logo-linkedin";
+    } else if (platform === "faceBook") {
+      url = `https://FaceBook.com/${username}`;
+      icon = "logo-FaceBook";
+    } else if (platform === "instagram") {
+      url = `https://instagram.com/${username}`;
+      icon = "logo-instageam";
+    } else if (platform === "youtube") {
+      url = `https://youtube.com/@${username}`;
+      icon = "logo-instageam";
+    } else if (platform === "email") {
+      url = `mailto/@${username}`;
+      icon = "email-outline";
+    }
+
+    socialLinksDiv.innerHTML += `
+        <a href="${url}" target="_blank" style="margin-left:6px;">
+        <p class="link_card">
+        <ion-icon name="${icon}" style="font-size:18px;"></ion-icon>
+        ${platform}</p>
+        </a>
+    `;
+  }
+}
 
 
+    renderSocials();
+
+    // أدوات التعديل للمالك فقط
+    if (isOwner) {
+      editBtn.style.display = "inline-block";
+      logoutBtn.style.display = "block";
+
+      let isEditing = false;
+
+      editBtn.onclick = () => {
+        isEditing = !isEditing;
+        edit_section.style.display = isEditing ? "block" : "none";
+        saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+        displayNameInput.value = data.name || "";
+        bioInput.value = data.bio || "";
+        editBtn.textContent = isEditing ? "close" : "Edit profile";
+      };
+
+      saveAllBtn.onclick = async () => {
+        const newName = displayNameInput.value.trim();
+        const newBio = bioInput.value.trim().slice(0, 200);
+        if (!newName) return alert("⚠️ يجب إدخال اسم.");
+
+        const snapCheck = await getDocs(
+          query(collection(db, "users"), where("name", "==", newName))
+        );
+        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
+        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+
+        try {
+          await updateProfile(currentUser, { displayName: newName });
+          await setDoc(doc(db, "users", currentUser.uid), {
+            ...data,
+            name: newName,
+            bio: newBio,
+            photo: currentUser.photo || data.photo
+          }, { merge: true });
+
+          alert("✅ تم حفظ التعديلات");
+          currentName.textContent = newName;
+          window.location.href = "/profile/";
+        } catch (err) {
+          console.error("Save error:", err);
+          alert("❌ حدث خطأ أثناء الحفظ.");
+        }
+      };
+
+      logoutBtn.onclick = async () => {
+        await signOut(auth);
+        window.location.href = "/";
+      };
+
+      saveSocialBtn.onclick = async () => {
+        const platform = platformSelect.value;
+        const username = socialUsernameInput.value.trim();
+        if (!username) return alert("⚠️ أدخل اسم المستخدم");
+
+        userSocials[platform] = username;
+
+        try {
+          await setDoc(doc(db, "users", currentUser.uid), {
+            socials: userSocials
+          }, { merge: true });
+
+          alert("✅ تم الحفظ");
+          renderSocials();
+          addSocialForm.style.display = "none";
+          socialUsernameInput.value = "";
+        } catch (err) {
+          console.error(err);
+          alert("❌ حدث خطأ في الحفظ");
+        }
+    }
+  });
+});
+}
+
+  // أدوات مساعدة
+  function formatTimeAgo(sec) {
+    if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
+    if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
+    return `${Math.floor(sec / 86400)} days ago`;
+  }
+  function showMessage(msg) {
+    profileContainer.innerHTML = `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
+  }
+  function showProfile() {
+    loading.style.display = "none";
+    profileContainer.style.display = "block";
+  }
 </script>
+-->
 
-<script type="module" src="./js/view.js"></script>
-<script src="./js/script.js"></script>
-<script src="./js/tg.js"></script>
-<script src="./js/time_ago.js"></script>
-<script src="./js/home.js"></script>
-
+<script src="../js/script.js"></script>
+<script src="../js/user.js"></script>
 </body>
 </html>
