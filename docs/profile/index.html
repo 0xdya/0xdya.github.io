@@ -440,7 +440,12 @@ async function loadProfile(currentUser) {
       editBtn.onclick = () => {
         isEditing = !isEditing;
         edit_section.style.display = isEditing ? "block" : "none";
-        saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+        displayNameInput.style.display = isEditing ? "block" : "none";
+          bioInput.style.display = isEditing ? "block" : "none";
+          saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+          addSocialForm.style.display = isEditing ? "block" : "none";
+          
+          
         displayNameInput.value = data.name || "";
         bioInput.value = data.bio || "";
         editBtn.textContent = isEditing ? "close" : "Edit profile";
@@ -489,7 +494,6 @@ async function loadProfile(currentUser) {
           }, { merge: true });
           alert("✅ تم الحفظ");
           renderSocials();
-          addSocialForm.style.display = "none";
           socialUsernameInput.value = "";
         } catch (err) {
           console.error(err);
