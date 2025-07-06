@@ -339,19 +339,18 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+// ✅ تحديث loadProfile بدعم السحب على الهاتف والحذف
 async function loadProfile(currentUser) {
   if (usernameFromURL === "profile") {
     showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
     return;
   }
-
   const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
   onSnapshot(q, async (qs) => {
     if (qs.empty) {
       showMessage("🚫 المستخدم غير موجود.");
       return;
     }
-
     const userDoc = qs.docs[0];
     const data = userDoc.data();
     const isOwner = currentUser && currentUser.uid === userDoc.id;
@@ -359,10 +358,7 @@ async function loadProfile(currentUser) {
     currentName.textContent = data.name;
     displayBioInput.textContent = data.bio;
     bannerImg.src = data.banner || "";
-
-    const imgSrc = isOwner
-      ? (currentUser?.photoURL || data.photo || "../img/user.jpg")
-      : (data.photo || "../img/user.jpg");
+    const imgSrc = isOwner ? (currentUser?.photoURL || data.photo || "../img/user.jpg") : (data.photo || "../img/user.jpg");
     const img = new Image();
     img.onload = () => {
       photoPreview.src = imgSrc;
@@ -385,9 +381,7 @@ async function loadProfile(currentUser) {
       statusEl.style.fontSize = "14px";
       statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
       statusEl.style.marginTop = "4px";
-      statusEl.textContent = diffSec < 60
-        ? "online"
-        : `last seen ${formatTimeAgo(diffSec)}`;
+      statusEl.textContent = diffSec < 60 ? "online" : `last seen ${formatTimeAgo(diffSec)}`;
     }
 
     const socialLinksDiv = document.getElementById("socialLinks");
@@ -396,14 +390,15 @@ async function loadProfile(currentUser) {
     const socialUsernameInput = document.getElementById("socialUsernameInput");
     const saveSocialBtn = document.getElementById("saveSocialBtn");
 
-    let userSocials = Array.isArray(data.socials) ? data.socials : [];
+    let userSocials = Array.isArray(data.socials) ? data.socials : Object.entries(data.socials || {}).map(([platform, username]) => ({ platform, username }));
 
     function renderSocials() {
       socialLinksDiv.innerHTML = "";
       userSocials.forEach(({ platform, username }, index) => {
         let url = "", icon = "";
         switch (platform) {
-          case "twitter": url = `https://x.com/${username}`; icon = "logo-twitter"; break;
+          case "twitter":
+          case "x": url = `https://x.com/${username}`; icon = "logo-twitter"; break;
           case "github": url = `https://github.com/${username}`; icon = "logo-github"; break;
           case "linkedin": url = `https://linkedin.com/in/${username}`; icon = "logo-linkedin"; break;
           case "facebook": url = `https://facebook.com/${username}`; icon = "logo-facebook"; break;
@@ -412,74 +407,30 @@ async function loadProfile(currentUser) {
           case "email": url = `mailto:${username}`; icon = "mail-outline"; break;
         }
 
-        const card = document.createElement("div");
-        card.className = "link_card";
-        card.setAttribute("draggable", isOwner);
-        card.setAttribute("data-index", index);
-        card.innerHTML = `
-          <ion-icon name="${icon}"></ion-icon> ${platform}
-          ${isOwner ? `<button class="delete-btn" data-index="${index}">🗑️</button>` : ""}
+        const wrapper = document.createElement("div");
+        wrapper.className = "link_card";
+        wrapper.setAttribute("draggable", isOwner);
+        wrapper.dataset.index = index;
+        wrapper.innerHTML = `
+          <ion-icon name="${icon}" style="font-size:18px;"></ion-icon>
+          <a href="${url}" target="_blank" style="color:inherit;text-decoration:none">${platform}</a>
+          ${isOwner ? `<button class="delete-btn" style="float:right;border:none;background:none;color:red;cursor:pointer">🗑️</button>` : ""}
         `;
-        socialLinksDiv.appendChild(card);
-      });
-    }
 
-    function reorderSocials(from, to) {
-      const moved = userSocials.splice(from, 1)[0];
-      userSocials.splice(to, 0, moved);
-      renderSocials();
-      addDragAndDropEvents();
-    }
+        // حذف
+        if (isOwner) {
+          wrapper.querySelector(".delete-btn").onclick = async () => {
+            userSocials.splice(index, 1);
+            await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
+            renderSocials();
+          };
+        }
 
-    async function saveSocialsOrder() {
-      await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
-    }
-
-    function addDragAndDropEvents() {
-      const cards = socialLinksDiv.querySelectorAll(".link_card");
-
-      cards.forEach((card) => {
-        card.addEventListener("dragstart", (e) => {
-          dragStartIndex = +card.getAttribute("data-index");
-        });
-
-        card.addEventListener("dragover", (e) => e.preventDefault());
-
-        card.addEventListener("drop", async (e) => {
-          const dropIndex = +e.currentTarget.getAttribute("data-index");
-          reorderSocials(dragStartIndex, dropIndex);
-          await saveSocialsOrder();
-        });
-
-        card.addEventListener("touchstart", (e) => {
-          touchStartY = e.touches[0].clientY;
-          dragStartIndex = +card.getAttribute("data-index");
-        }, { passive: true });
-
-        card.addEventListener("touchend", async (e) => {
-          const touchEndY = e.changedTouches[0].clientY;
-          const direction = touchEndY > touchStartY ? "down" : "up";
-          const targetIndex = direction === "up" ? dragStartIndex - 1 : dragStartIndex + 1;
-          if (targetIndex >= 0 && targetIndex < userSocials.length) {
-            reorderSocials(dragStartIndex, targetIndex);
-            await saveSocialsOrder();
-          }
-        });
-      });
-
-      socialLinksDiv.querySelectorAll(".delete-btn").forEach((btn) => {
-        btn.onclick = async () => {
-          const index = +btn.getAttribute("data-index");
-          userSocials.splice(index, 1);
-          await saveSocialsOrder();
-          renderSocials();
-          addDragAndDropEvents();
-        };
+        socialLinksDiv.appendChild(wrapper);
       });
     }
 
     renderSocials();
-    addDragAndDropEvents();
 
     if (isOwner) {
       editBtn.style.display = "inline-block";
@@ -493,16 +444,17 @@ async function loadProfile(currentUser) {
         bioInput.style.display = isEditing ? "block" : "none";
         saveAllBtn.style.display = isEditing ? "inline-block" : "none";
         addSocialForm.style.display = isEditing ? "block" : "none";
+
         displayNameInput.value = data.name || "";
         bioInput.value = data.bio || "";
         editBtn.textContent = isEditing ? "close" : "Edit profile";
       };
 
+      // حفظ الاسم والبروفايل
       saveAllBtn.onclick = async () => {
         const newName = displayNameInput.value.trim();
         const newBio = bioInput.value.trim().slice(0, 200);
         if (!newName) return alert("⚠️ يجب إدخال اسم.");
-
         const snapCheck = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
         const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
         if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
@@ -514,7 +466,7 @@ async function loadProfile(currentUser) {
             name: newName,
             bio: newBio,
             photo: currentUser.photoURL || data.photo,
-            socials: userSocials,
+            socials: userSocials
           }, { merge: true });
           alert("✅ تم حفظ التعديلات");
           window.location.href = "/profile/";
@@ -534,11 +486,32 @@ async function loadProfile(currentUser) {
         const username = socialUsernameInput.value.trim();
         if (!username) return alert("⚠️ أدخل اسم المستخدم");
         userSocials.push({ platform, username });
-        await saveSocialsOrder();
+        await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
         renderSocials();
-        addDragAndDropEvents();
         socialUsernameInput.value = "";
       };
+
+      // دعم السحب/الإفلات (مع الموبايل)
+      let dragSrcIndex = null;
+      socialLinksDiv.addEventListener("dragstart", (e) => {
+        dragSrcIndex = +e.target.dataset.index;
+        e.dataTransfer.effectAllowed = "move";
+      });
+
+      socialLinksDiv.addEventListener("dragover", (e) => e.preventDefault());
+
+      socialLinksDiv.addEventListener("drop", async (e) => {
+        e.preventDefault();
+        const target = e.target.closest(".link_card");
+        if (!target) return;
+        const dropIndex = +target.dataset.index;
+        if (dragSrcIndex === null || dragSrcIndex === dropIndex) return;
+
+        const movedItem = userSocials.splice(dragSrcIndex, 1)[0];
+        userSocials.splice(dropIndex, 0, movedItem);
+        await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
+        renderSocials();
+      });
     }
   });
 }
