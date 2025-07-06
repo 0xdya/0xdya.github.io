@@ -420,15 +420,12 @@ async function loadProfile(currentUser) {
     } else if (platform === "faceBook") {
       url = `https://FaceBook.com/${username}`;
       icon = "logo-FaceBook";
-    }
     } else if (platform === "instagram") {
       url = `https://instagram.com/${username}`;
       icon = "logo-instageam";
-    }
-    } else if (platform === "youtube") {
+    }else if (platform === "youtube") {
       url = `https://youtube.com/@${username}`;
       icon = "logo-instageam";
-    }
     } else if (platform === "email") {
       url = `mailto/@${username}`;
       icon = "email-outline";
@@ -485,7 +482,7 @@ async function loadProfile(currentUser) {
 
           alert("✅ تم حفظ التعديلات");
           currentName.textContent = newName;
-          window.location.href = "/";
+          window.location.href = "/profile/";
         } catch (err) {
           console.error("Save error:", err);
           alert("❌ حدث خطأ أثناء الحفظ.");
