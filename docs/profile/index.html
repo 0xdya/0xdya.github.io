@@ -435,86 +435,95 @@ async function loadProfile(currentUser) {
     renderSocials();
 
     if (isOwner) {
-      editBtn.style.display = "inline-block";
-      logoutBtn.style.display = "block";
+  editBtn.style.display = "inline-block";
+  logoutBtn.style.display = "block";
+  let isEditing = false;
+  let sortable = null;
 
-      let isEditing = false;
-      editBtn.onclick = () => {
-        isEditing = !isEditing;
-        edit_section.style.display = isEditing ? "block" : "none";
-        displayNameInput.style.display = isEditing ? "block" : "none";
-        bioInput.style.display = isEditing ? "block" : "none";
-        saveAllBtn.style.display = isEditing ? "inline-block" : "none";
-        addSocialForm.style.display = isEditing ? "block" : "none";
+  editBtn.onclick = () => {
+    isEditing = !isEditing;
 
-        displayNameInput.value = data.name || "";
-        bioInput.value = data.bio || "";
-        editBtn.textContent = isEditing ? "close" : "Edit profile";
-      };
+    edit_section.style.display = isEditing ? "block" : "none";
+    displayNameInput.style.display = isEditing ? "block" : "none";
+    bioInput.style.display = isEditing ? "block" : "none";
+    saveAllBtn.style.display = isEditing ? "inline-block" : "none";
+    addSocialForm.style.display = isEditing ? "block" : "none";
+    displayNameInput.value = data.name || "";
+    bioInput.value = data.bio || "";
+    editBtn.textContent = isEditing ? "close" : "Edit profile";
 
-      // حفظ الاسم والبروفايل
-      saveAllBtn.onclick = async () => {
-        const newName = displayNameInput.value.trim();
-        const newBio = bioInput.value.trim().slice(0, 200);
-        if (!newName) return alert("⚠️ يجب إدخال اسم.");
-        const snapCheck = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
-        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
-        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
-
-        try {
-          await updateProfile(currentUser, { displayName: newName });
-          await setDoc(doc(db, "users", currentUser.uid), {
-            ...data,
-            name: newName,
-            bio: newBio,
-            photo: currentUser.photoURL || data.photo,
-            socials: userSocials
-          }, { merge: true });
-          alert("✅ تم حفظ التعديلات");
-          window.location.href = "/profile/";
-        } catch (err) {
-          console.error("Save error:", err);
-          alert("❌ حدث خطأ أثناء الحفظ.");
-        }
-      };
-
-      logoutBtn.onclick = async () => {
-        await signOut(auth);
-        window.location.href = "/";
-      };
-
-      saveSocialBtn.onclick = async () => {
-        const platform = platformSelect.value;
-        const username = socialUsernameInput.value.trim();
-        if (!username) return alert("⚠️ أدخل اسم المستخدم");
-        userSocials.push({ platform, username });
-        await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
-        renderSocials();
-        socialUsernameInput.value = "";
-      };
-
-      // دعم السحب/الإفلات (مع الموبايل)
-      let dragSrcIndex = null;
-      socialLinksDiv.addEventListener("dragstart", (e) => {
-        dragSrcIndex = +e.target.dataset.index;
-        e.dataTransfer.effectAllowed = "move";
-      });
-
-      socialLinksDiv.addEventListener("dragover", (e) => e.preventDefault());
-
-      socialLinksDiv.addEventListener("drop", async (e) => {
-        e.preventDefault();
-        const target = e.target.closest(".link_card");
-        if (!target) return;
-        const dropIndex = +target.dataset.index;
-        if (dragSrcIndex === null || dragSrcIndex === dropIndex) return;
-
-        const movedItem = userSocials.splice(dragSrcIndex, 1)[0];
-        userSocials.splice(dropIndex, 0, movedItem);
-        await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
-        renderSocials();
-      });
+    // تفعيل السحب فقط عند التعديل
+    if (isEditing) {
+      enableSorting();
+    } else {
+      if (sortable) sortable.destroy();
     }
+
+    renderSocials(); // إعادة رسم عند التبديل
+  };
+
+  function enableSorting() {
+    if (sortable) sortable.destroy();
+    sortable = new Sortable(socialLinksDiv, {
+      animation: 150,
+      handle: ".link_card",
+      draggable: ".link_card",
+      onEnd: async function (evt) {
+        const oldIndex = evt.oldIndex;
+        const newIndex = evt.newIndex;
+        if (oldIndex !== newIndex) {
+          const movedItem = userSocials.splice(oldIndex, 1)[0];
+          userSocials.splice(newIndex, 0, movedItem);
+          await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
+          renderSocials(); // إعادة رسم بعد الترتيب الجديد
+          enableSorting(); // إعادة التهيئة
+        }
+      }
+    });
+  }
+
+  // الحذف والإضافة
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+    window.location.href = "/";
+  };
+
+  saveAllBtn.onclick = async () => {
+    const newName = displayNameInput.value.trim();
+    const newBio = bioInput.value.trim().slice(0, 200);
+    if (!newName) return alert("⚠️ يجب إدخال اسم.");
+    const snapCheck = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
+    const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
+    if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+    try {
+      await updateProfile(currentUser, { displayName: newName });
+      await setDoc(doc(db, "users", currentUser.uid), {
+        ...data,
+        name: newName,
+        bio: newBio,
+        photo: currentUser.photoURL || data.photo,
+        socials: userSocials
+      }, { merge: true });
+      alert("✅ تم حفظ التعديلات");
+      window.location.href = "/profile/";
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("❌ حدث خطأ أثناء الحفظ.");
+    }
+  };
+
+  saveSocialBtn.onclick = async () => {
+    const platform = platformSelect.value;
+    const username = socialUsernameInput.value.trim();
+    if (!username) return alert("⚠️ أدخل اسم المستخدم");
+    userSocials.push({ platform, username });
+    await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
+    renderSocials();
+    if (isEditing) enableSorting();
+    socialUsernameInput.value = "";
+  };
+}
+
   });
 }
 
@@ -534,23 +543,6 @@ function showProfile() {
   loading.style.display = "none";
   profileContainer.style.display = "block";
 }
-</script>
-<script>
-  const sortable = new Sortable(document.getElementById("socialLinks"), {
-    animation: 150,
-    handle: ".link_card",
-    draggable: ".link_card",
-    onEnd: async function (evt) {
-      const oldIndex = evt.oldIndex;
-      const newIndex = evt.newIndex;
-      if (oldIndex !== newIndex) {
-        const movedItem = userSocials.splice(oldIndex, 1)[0];
-        userSocials.splice(newIndex, 0, movedItem);
-        await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
-        renderSocials(); // لإعادة الترتيب في الواجهة
-      }
-    }
-  });
 </script>
 
 <script src="../js/script.js"></script>
