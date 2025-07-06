@@ -507,10 +507,8 @@ async function loadProfile(currentUser) {
         }
     }
   });
+});
 }
-
-    
-
 
   // أدوات مساعدة
   function formatTimeAgo(sec) {
@@ -518,11 +516,9 @@ async function loadProfile(currentUser) {
     if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
     return `${Math.floor(sec / 86400)} days ago`;
   }
-
   function showMessage(msg) {
     profileContainer.innerHTML = `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
   }
-
   function showProfile() {
     loading.style.display = "none";
     profileContainer.style.display = "block";
