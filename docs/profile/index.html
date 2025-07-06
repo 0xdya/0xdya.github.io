@@ -22,7 +22,6 @@
       max-width: 600px;
     }
     .profile-header {
-      position: relative;
       height: 200px;
       background-color: #1c1c1c;
     }
@@ -33,11 +32,11 @@
     }
     .profile-pic {
       position: absolute;
-      bottom: -50px;
+      top: 10rem;
       left: 20px;
       width: 100px;
       height: 100px;
-      border-radius: 50%;
+      border-radius: 8px;
       border: 4px solid #000;
       object-fit: cover;
     }
@@ -48,6 +47,9 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      position: absolute;
+      top: 12.4rem;
+      left: 8rem;
     }
     .name-section span {
       font-size: 22px;
@@ -174,7 +176,8 @@ ion-icon{
   .imgsvg{
     width: 18px !important;
     height: 18px !important;
-    margin-bottom: -2px;
+    margin-top: 0 !important;
+    margin-left: 0;
   }
   .theme_toggle_container{
     display: none ;
@@ -182,6 +185,7 @@ ion-icon{
   #roleIcons{
     display: flex;
     gap: 4px;
+    
   }
   .edit_section{
     display: none !important;
@@ -193,8 +197,7 @@ ion-icon{
     border: 1px solid #555;
     padding: 8px;
     background: transparent;
-    border-radius: 2px;
-    color: var(--text-color);
+    border-radius: 4px;
     ion-icon{
       font-size: 1.6rem !important;
       margin: 0 4px -7px 0;
@@ -206,8 +209,17 @@ ion-icon{
 }
 .delete-btn {
   font-size: 14px;
+  display: none;
 }
+#currentName{
+  display: flex;
 
+}
+#statusEl{
+  position: absolute;
+  top: 14.2rem;
+  left: 8rem;
+}
   </style>
 </head>
 <body>
@@ -305,6 +317,7 @@ const displayBioInput = document.getElementById("displayBioInput");
 const edit_section = document.getElementById("edit_section");
 const bannerImg = document.getElementById("bannerImg");
 const bioInput = document.getElementById("bioInput");
+const deleteLinks = document.getElementById("deleteLinks");
 const statusEl = document.getElementById("statusEl");
 const saveAllBtn = document.getElementById("saveAllBtn");
 
@@ -416,7 +429,7 @@ async function loadProfile(currentUser) {
         wrapper.innerHTML = `
           <ion-icon name="${icon}" style="font-size:18px;"></ion-icon>
           <a href="${url}" target="_blank" style="color:inherit;text-decoration:none">${platform}</a>
-          ${isOwner ? `<button class="delete-btn" style="float:right;border:none;background:none;color:red;cursor:pointer">🗑️</button>` : ""}
+          ${isOwner ? `<button id="deleteLinks" class="delete-btn" style="float:right;border:none;background:none;color:red;cursor:pointer">🗑️</button>` : ""}
         `;
 
         // حذف
@@ -548,4 +561,4 @@ function showProfile() {
 <script src="../js/script.js"></script>
 <script src="../js/user.js"></script>
 </body>
-  </html>
+</html>
