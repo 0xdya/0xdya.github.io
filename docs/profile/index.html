@@ -343,16 +343,12 @@ async function loadProfile(currentUser) {
       showMessage("🚫 المستخدم غير موجود.");
       return;
     }
-
     const userDoc = qs.docs[0];
     const data = userDoc.data();
-
     const isOwner = currentUser && currentUser.uid === userDoc.id;
-
     currentName.textContent = data.name;
     displayBioInput.textContent = data.bio;
     bannerImg.src = data.banner || null;
-
     const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
     const img = new Image();
     img.onload = () => {
@@ -364,21 +360,17 @@ async function loadProfile(currentUser) {
     // عرض الأيقونات
     roleIcons.innerHTML = "";
     const role = data.role || "";
-    const isVerified = data.verified === true;
-    let iconsHTML = "";
-
+  const isVerified = data.verified === true;
+  let iconsHTML = "";
     if (isVerified) {
       iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
     }
-
     if (role === "admin") {
       iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
     } else if (role === "dev") {
       iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
     }
-
     roleIcons.innerHTML = iconsHTML;
-
     // آخر تسجيل دخول
     if (data.lastLogin?.toDate) {
       const lastLoginDate = data.lastLogin.toDate();
@@ -518,8 +510,7 @@ async function loadProfile(currentUser) {
     } else {
           console.error(err);
     }
-  });
-}
+  )};
     
 
 
