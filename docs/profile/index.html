@@ -428,7 +428,7 @@ async function loadProfile(currentUser) {
         wrapper.dataset.index = index;
         wrapper.innerHTML = `
           <ion-icon name="${icon}" style="font-size:18px;"></ion-icon>
-          <a href="${url}" target="_blank" style="color:inherit;text-decoration:none">${platform}</a>
+          <a href="${url}" target="_blank" style="color:inherit;text-decoration:none">${username}</a>
           ${isOwner ? `<button id="deleteLinks" class="delete-btn" style="float:right;border:none;background:none;color:red;cursor:pointer">🗑️</button>` : ""}
         `;
 
