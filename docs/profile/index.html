@@ -198,7 +198,14 @@ ion-icon{
       margin: 0 4px -7px 0;
     }
   }
-  
+  .link_card[draggable="true"] {
+  cursor: move;
+  opacity: 0.9;
+}
+.delete-btn {
+  font-size: 14px;
+}
+
   </style>
 </head>
 <body>
@@ -420,12 +427,27 @@ async function loadProfile(currentUser) {
             url = `mailto:${username}`; icon = "mail-outline"; break;
         }
 
-        socialLinksDiv.innerHTML += `
-          <a href="${url}" target="_blank" >
-            <p class="link_card">
-              <ion-icon name="${icon}" style="font-size:18px;"></ion-icon> ${platform}
-            </p>
-          </a>`;
+const linkEl = document.createElement("div");
+linkEl.className = "link_card";
+linkEl.setAttribute("draggable", isOwner); // يسمح بالسحب
+
+linkEl.innerHTML = `
+  <ion-icon name="${icon}" style="font-size:18px;"></ion-icon> ${platform}
+  ${isOwner ? `<button class="delete-btn" data-platform="${platform}" style="margin-right:6px;color:red;background:none;border:none;cursor:pointer;">🗑️</button>` : ""}
+`;
+
+if (isOwner) {
+  linkEl.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", platform);
+  });
+}
+
+const linkWrapper = document.createElement("a");
+linkWrapper.href = url;
+linkWrapper.target = "_blank";
+linkWrapper.appendChild(linkEl);
+socialLinksDiv.appendChild(linkWrapper);
+
       }
     }
 
@@ -500,6 +522,37 @@ async function loadProfile(currentUser) {
           alert("❌ حدث خطأ في الحفظ");
         }
       };
+      let draggedPlatform = null;
+
+socialLinksDiv.addEventListener("dragstart", (e) => {
+  draggedPlatform = e.target.textContent.trim().toLowerCase();
+});
+
+socialLinksDiv.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+
+socialLinksDiv.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  const targetPlatform = e.target.textContent.trim().toLowerCase();
+  if (!draggedPlatform || !targetPlatform || draggedPlatform === targetPlatform) return;
+
+  // إعادة ترتيب العناصر
+  const entries = Object.entries(userSocials);
+  const draggedIndex = entries.findIndex(([k]) => k === draggedPlatform);
+  const targetIndex = entries.findIndex(([k]) => k === targetPlatform);
+
+  if (draggedIndex === -1 || targetIndex === -1) return;
+
+  const reordered = [...entries];
+  const [moved] = reordered.splice(draggedIndex, 1);
+  reordered.splice(targetIndex, 0, moved);
+
+  userSocials = Object.fromEntries(reordered);
+  await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
+  renderSocials();
+});
+
     }
   });
 }
@@ -518,290 +571,6 @@ function showProfile() {
   profileContainer.style.display = "block";
 }
 </script>
-
-<!--
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import {
-    getFirestore,
-    collection,
-    query,
-    where,
-    getDocs,
-    doc,
-    getDoc,
-    setDoc,
-    onSnapshot,
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signOut,
-    updateProfile
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // DOM elements
-  const currentName       = document.getElementById("currentName");
-  const roleIcons         = document.getElementById("roleIcons");
-  const editBtn           = document.getElementById("editBtn");
-  const photoPreview      = document.getElementById("photoPreview");
-  const loading           = document.getElementById("loading");
-  const profileContainer  = document.getElementById("profileContainer");
-  const logoutBtn         = document.getElementById("logoutBtn");
-  const displayNameInput  = document.getElementById("displayNameInput");
-  const displayBioInput   = document.getElementById("displayBioInput");
-  const edit_section   = document.getElementById("edit_section");
-  const bannerImg = document.getElementById("bannerImg");
-  const bioInput          = document.getElementById("bioInput");
-  const statusEl          = document.getElementById("statusEl");
-  const saveAllBtn        = document.getElementById("saveAllBtn");
-
-  // استخراج اسم المستخدم من URL
-  let usernameFromURL = window.location.pathname.startsWith("/@")
-    ? window.location.pathname.slice(2)
-    : "profile";
-
-displayNameInput.addEventListener("input", () => {
-  // تحويل المسافات إلى _
-  displayNameInput.value = displayNameInput.value.replace(/\s+/g, "_");
-
-  // السماح فقط بالحروف العربية والإنجليزية والأرقام والشرطة السفلية
-  displayNameInput.value = displayNameInput.value.replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
-});
-
-  // متابعة حالة تسجيل الدخول
-  onAuthStateChanged(auth, async (user) => {
-    try {
-      if (!user && usernameFromURL === "profile") {
-        showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
-        return;
-      }
-
-      if (user && usernameFromURL === "profile") {
-        const snap = await getDoc(doc(db, "users", user.uid));
-        if (snap.exists() && snap.data().name) {
-          window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
-          return;
-        }
-      }
-
-      loadProfile(user);
-    } catch (err) {
-      console.error("Error loading profile:", err);
-      showMessage("🚨 حدث خطأ، الرجاء المحاولة لاحقاً.");
-    } 
-    
-  });
-
-  // تحميل البروفايل ومراقبته
-async function loadProfile(currentUser) {
-  if (usernameFromURL === "profile") {
-    showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
-    return;
-  }
-
-  const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
-  onSnapshot(q, async (qs) => {
-    if (qs.empty) {
-      showMessage("🚫 المستخدم غير موجود.");
-      return;
-    }
-    const userDoc = qs.docs[0];
-    const data = userDoc.data();
-    const isOwner = currentUser && currentUser.uid === userDoc.id;
-    currentName.textContent = data.name;
-    displayBioInput.textContent = data.bio;
-    bannerImg.src = data.banner || null;
-    const imgSrc = (isOwner && currentUser?.photo) || data.photo || "../img/user.jpg";
-    const img = new Image();
-    img.onload = () => {
-      photoPreview.src = imgSrc;
-      showProfile();
-    };
-    img.src = imgSrc;
-
-    // عرض الأيقونات
-    roleIcons.innerHTML = "";
-    const role = data.role || "";
-  const isVerified = data.verified === true;
-  let iconsHTML = "";
-    if (isVerified) {
-      iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
-    }
-    if (role === "admin") {
-      iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
-    } else if (role === "dev") {
-      iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
-    }
-    roleIcons.innerHTML = iconsHTML;
-    // آخر تسجيل دخول
-    if (data.lastLogin?.toDate) {
-      const lastLoginDate = data.lastLogin.toDate();
-      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
-      statusEl.style.fontSize = "14px";
-      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
-      statusEl.style.marginTop = "4px";
-      statusEl.textContent = diffSec < 60
-        ? "online"
-        : `last seen ${formatTimeAgo(diffSec)}`;
-    }
-
-    // ⚡️ روابط السوشيال ميديا
-    const socialLinksDiv = document.getElementById("socialLinks");
-    const addSocialForm = document.getElementById("addSocialForm");
-    const platformSelect = document.getElementById("platformSelect");
-    const socialUsernameInput = document.getElementById("socialUsernameInput");
-    const saveSocialBtn = document.getElementById("saveSocialBtn");
-
-    let userSocials = data.socials || {};
-
-    function renderSocials() {
-  socialLinksDiv.innerHTML = "";
-  for (const platform in userSocials) {
-    const username = userSocials[platform];
-    let url = "";
-    let icon = "";
-
-    if (platform === "twitter") {
-      url = `https://x.com/${username}`;
-      icon = "logo-twitter";
-    } else if (platform === "github") {
-      url = `https://github.com/${username}`;
-      icon = "logo-github";
-    } else if (platform === "linkedin") {
-      url = `https://linkedin.com/in/${username}`;
-      icon = "logo-linkedin";
-    } else if (platform === "faceBook") {
-      url = `https://FaceBook.com/${username}`;
-      icon = "logo-FaceBook";
-    } else if (platform === "instagram") {
-      url = `https://instagram.com/${username}`;
-      icon = "logo-instageam";
-    } else if (platform === "youtube") {
-      url = `https://youtube.com/@${username}`;
-      icon = "logo-instageam";
-    } else if (platform === "email") {
-      url = `mailto/@${username}`;
-      icon = "email-outline";
-    }
-
-    socialLinksDiv.innerHTML += `
-        <a href="${url}" target="_blank" style="margin-left:6px;">
-        <p class="link_card">
-        <ion-icon name="${icon}" style="font-size:18px;"></ion-icon>
-        ${platform}</p>
-        </a>
-    `;
-  }
-}
-
-
-    renderSocials();
-
-    // أدوات التعديل للمالك فقط
-    if (isOwner) {
-      editBtn.style.display = "inline-block";
-      logoutBtn.style.display = "block";
-
-      let isEditing = false;
-
-      editBtn.onclick = () => {
-        isEditing = !isEditing;
-        edit_section.style.display = isEditing ? "block" : "none";
-        saveAllBtn.style.display = isEditing ? "inline-block" : "none";
-        displayNameInput.value = data.name || "";
-        bioInput.value = data.bio || "";
-        editBtn.textContent = isEditing ? "close" : "Edit profile";
-      };
-
-      saveAllBtn.onclick = async () => {
-        const newName = displayNameInput.value.trim();
-        const newBio = bioInput.value.trim().slice(0, 200);
-        if (!newName) return alert("⚠️ يجب إدخال اسم.");
-
-        const snapCheck = await getDocs(
-          query(collection(db, "users"), where("name", "==", newName))
-        );
-        const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
-        if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
-
-        try {
-          await updateProfile(currentUser, { displayName: newName });
-          await setDoc(doc(db, "users", currentUser.uid), {
-            ...data,
-            name: newName,
-            bio: newBio,
-            photo: currentUser.photo || data.photo
-          }, { merge: true });
-
-          alert("✅ تم حفظ التعديلات");
-          currentName.textContent = newName;
-          window.location.href = "/profile/";
-        } catch (err) {
-          console.error("Save error:", err);
-          alert("❌ حدث خطأ أثناء الحفظ.");
-        }
-      };
-
-      logoutBtn.onclick = async () => {
-        await signOut(auth);
-        window.location.href = "/";
-      };
-
-      saveSocialBtn.onclick = async () => {
-        const platform = platformSelect.value;
-        const username = socialUsernameInput.value.trim();
-        if (!username) return alert("⚠️ أدخل اسم المستخدم");
-
-        userSocials[platform] = username;
-
-        try {
-          await setDoc(doc(db, "users", currentUser.uid), {
-            socials: userSocials
-          }, { merge: true });
-
-          alert("✅ تم الحفظ");
-          renderSocials();
-          addSocialForm.style.display = "none";
-          socialUsernameInput.value = "";
-        } catch (err) {
-          console.error(err);
-          alert("❌ حدث خطأ في الحفظ");
-        }
-    }
-  });
-});
-}
-
-  // أدوات مساعدة
-  function formatTimeAgo(sec) {
-    if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
-    if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
-    return `${Math.floor(sec / 86400)} days ago`;
-  }
-  function showMessage(msg) {
-    profileContainer.innerHTML = `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
-  }
-  function showProfile() {
-    loading.style.display = "none";
-    profileContainer.style.display = "block";
-  }
-</script>
--->
-
 <script src="../js/script.js"></script>
 <script src="../js/user.js"></script>
 </body>
