@@ -1,16 +1,17 @@
-document.addEventListener('DOMContentLoaded', () => {
-    AOS.init({
-      duration: 600,
-      easing: 'ease',
-      once: true
-    });
+gsap.registerPlugin(ScrollTrigger);
 
-    // fallback إذا لم تُعرض العناصر
-    setTimeout(() => {
-      document.querySelectorAll('[data-aos]').forEach(el => {
-        if (!el.classList.contains('aos-animate')) {
-          el.removeAttribute('data-aos');
-        }
-      });
-    }, 3000);
+gsap.utils.toArray(".ScrollTrigger").forEach((el, i) => {
+  gsap.from(el, {
+    y: 80,
+    opacity: 0,
+    duration: 1,
+    ease: "power4.out",
+    delay: i * 0.2,
+    scrollTrigger: {
+      trigger: el,
+      start: "top 100%",
+      toggleActions: "play none none none",
+      once: true,
+    }
   });
+});
