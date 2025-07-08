@@ -220,6 +220,20 @@ ion-icon{
   top: 14.2rem;
   left: 8rem;
 }
+#userStats{
+  border: 1px solid #444;
+  padding: 1rem;
+  font-size: 15px;
+  margin: 4rem 0 0;
+  h2{
+    font-size: 18px;
+    font-style: blod;
+  }
+  ion-icon{
+  font-size: 14px;
+    
+  }
+}
   </style>
 </head>
 <body>
@@ -240,7 +254,17 @@ ion-icon{
 </div>
 <div id="statusEl"></div>
 <div id="displayBioInput"></div>
+<div id="userStats" >
+  <h2>user info :</h2>
+  <p id="ideasCount"><ion-icon name="bulb-outline"></ion-icon></p> 
+  <p id="commentsCount"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></p>
+  <p id="starsCount"><ion-icon name="trophy-outline"></ion-icon></p>
+  <br>
+  <hr>
+  <br>
+  <h2>accounts :</h2>
 <div id="socialLinks" class="social-links"></div>
+</div>
 
 <section id="edit_section" style="display:none">
 <input type="text" id="displayNameInput" class="edit-field" placeholder="new name "  style="display:none"/>
@@ -354,7 +378,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ✅ تحديث loadProfile بدعم السحب على الهاتف والحذف
 async function loadProfile(currentUser) {
   if (usernameFromURL === "profile") {
     showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
@@ -446,7 +469,7 @@ async function loadProfile(currentUser) {
     }
 
     renderSocials();
-
+    loadUserStats(userDoc.id);
     if (isOwner) {
   editBtn.style.display = "inline-block";
   logoutBtn.style.display = "block";
@@ -538,6 +561,21 @@ async function loadProfile(currentUser) {
 }
 
   });
+async function loadUserStats(uid) {
+  const ideasCountSpan = document.getElementById("ideasCount");
+  const commentsCountSpan = document.getElementById("commentsCount");
+
+  // 🔹 عدد الأفكار
+  const ideasQuery = query(collection(db, "ideas"), where("uid", "==", uid));
+  const ideasSnap = await getDocs(ideasQuery);
+  ideasCountSpan.textContent = `🧠 الأفكار: ${ideasSnap.size}`;
+
+  // 🔹 عدد التعليقات من مجموعة comments مباشرة
+  const commentsQuery = query(collection(db, "comments"), where("uid", "==", uid));
+  const commentsSnap = await getDocs(commentsQuery);
+  commentsCountSpan.innerHTML = `<ion-icon name="chatbubble-ellipses"></ion-icon> total comments: ${commentsSnap.size}`;
+}
+
 }
 
 let dragStartIndex = null;
