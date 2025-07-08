@@ -1,6 +1,16 @@
-  document.addEventListener("DOMContentLoaded", () => {
-    const elements = document.querySelectorAll('.animate_up_bouncy');
-    elements.forEach((el, index) => {
-      el.style.animationDelay = `${index * 200}ms`; // كل عنصر يتأخر بـ 100ms إضافية
+document.addEventListener('DOMContentLoaded', () => {
+    AOS.init({
+      duration: 600,
+      easing: 'ease',
+      once: true
     });
+
+    // fallback إذا لم تُعرض العناصر
+    setTimeout(() => {
+      document.querySelectorAll('[data-aos]').forEach(el => {
+        if (!el.classList.contains('aos-animate')) {
+          el.removeAttribute('data-aos');
+        }
+      });
+    }, 3000);
   });

@@ -20,6 +20,7 @@ const db = getFirestore(app);
 document.addEventListener("DOMContentLoaded", () => {
   const userAvatar = document.getElementById("userAvatar");
   const userName = document.getElementById("userName");
+  const login_txt = document.getElementById("login_txt");
 
   onAuthStateChanged(auth, async user => {
     if (user) {
@@ -67,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ تم تحديث صورة الحساب");
           }
         } else {
-          loginIcon.style.display = "inline-block";
+          loginIcon.style.display = "none";
           console.warn("⚠️ لم يتم العثور على وثيقة المستخدم");
         }
       } catch (error) {
