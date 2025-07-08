@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>0xDya - التعليقات</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/en.css" />
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+  <script type="module" src="../js/user.js"></script>
+  
+<style>
+
+*{
+  box-sizing: border-box !important;
+}
+  .hashtag_title {
+    font-size: var(--body-font-size-title);
+    margin: 1rem 0;
+  }
+
+  .idea-container {
+    gap: 0;
+    width: 100%;
+  }
+
+  .idea-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: #111;
+    color: #ccc;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+
+  .idea-form button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    margin-bottom: 2rem;
+  }
+
+  .idea-form button:hover {
+    background-color: #333;
+  }
+
+  .idea-card {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #333;
+    border-radius: 4px;
+    direction: ltr;
+    position: relative;
+    margin: 0  ;
+    img{
+      width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    cursor: grab;
+    }
+    span {
+    color: #777;
+    display: block;
+    margin-top: 0;
+    font-size: 10px;
+  }
+  }
+  
+  .idea-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+  }
+/* reply */
+ .idea_replies {
+  width: 100%;
+  margin: 0 0 14px;
+  margin-left: 2rem !important;
+  padding: 0 1rem 0;
+  border-left: 2px solid #333;
+  border-end-start-radius: 4px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+
+ .reply-card {
+    width: 100%;
+  display: flex;
+  background-color: transparent;
+  border: 1px solid #222;
+  padding: 0.8rem;
+  color: var(--text-color);
+  box-sizing: border-box;
+    strong {
+    color: var(--text-color);
+    font-size: var(--body-font-size);
+  }
+   span {
+    color: #777;
+    display: block;
+    margin-top: 0;
+    font-size: 10px;
+  }
+  .name_time{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+  }
+  .reply_text{
+    font-size: var(--body-font-size);
+  }
+  }
+  .reply-card img {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+  }
+
+   svg {
+    width: 14px;
+    fill: #0af;
+    margin-bottom: -2px;
+  }
+
+  .idea-text {
+    font-size: var(--body-font-size) !important;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+
+  .reply-toggle, .delete-idea, .pin{
+    background: none;
+    color: #ccc;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    font-size: 1.4rem;
+  }
+  .delete-idea{ top: 1rem; right: 3rem;}
+  .pin{ top: 1.2rem; right: 3.4rem;}
+  .delete-reply{ top: 12px; right: 12px;font-size:1rem}
+  .reply-toggle{ top: 1rem; right: 1rem;cursor:none}
+  .reply-toggle:hover {
+    color: #ccc;
+  }
+
+  .reply-form {
+    margin-top: 0.5rem;
+  }
+
+  .reply-input {
+    background: #111;
+    border: 1px solid #333;
+    color: #eee;
+    border-radius: 6px;
+    padding: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+
+ 
+  .idea_name_time{
+    top: 1rem;
+    left: 4.6rem ;
+    position: absolute;
+  }
+
+
+
+  .delete-idea,
+  .delete-reply,
+  .delete-btn {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+  }
+  
+  .delete-btn {
+    background-color: #222;
+    padding: 4px 10px;
+    border: 1px solid #ff4d4d;
+    border-radius: 6px;
+  }
+
+  .logBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff10;
+    border: 1px solid #ffffff30;
+    color: #eee;
+    font-family: monospace;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    transition: background 0.3s ease;
+  }
+
+  .logBtn:hover {
+    background-color: #ffffff20;
+  }
+
+  .logBtn img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: -6px;
+  }
+
+  .idea-alert {
+    background: #222;
+    color: #0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+
+  .patch_note {
+    font-size: 12px;
+    text-align: right;
+    direction: rtl;
+    margin-top: 1rem;
+    color: #aaa;
+  }
+  
+  #alertBox{
+    z-index: 999999;
+    position: fixed;
+    top: 4rem;
+    left: 50%;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    width: fit-content !important;
+    font-size: 1.2rem;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(-50%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    direction: rtl;
+  }
+  .tr_txt2, .doted{
+    text-align: center !important;
+  }
+  #ideasList{
+    gap 1rem;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    position: relative;
+  }
+  .reply-submit{
+    background: transparent;
+    border: none;
+    color: #66ff99;
+  }
+  .imgsvg{
+    width: 14px !important;
+    height: 14px !important;
+    margin-bottom: -2px;
+  }
+</style>
+
+
+  </head>
+
+<h1 class="title">
+  <span class="prompt">~/</span>ideas
+</h1>
+
+<body>
+  <header class="h">
+    <a href="../" class="back_to_home">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </a>
+    <div class="control">
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/">
+          <ion-icon name="person-outline"></ion-icon>
+        </a>
+        <a class="user_photo_href" href="../profile/">
+          <img id="userAvatar" style="display:none" src="img/user.jpg">
+        </a>
+      </div>
+      <div class="theme_toggle_container">
+        <button id="themeToggle">
+          <ion-icon name="settings-outline"></ion-icon>
+        </button>
+        <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
+        <div class="dropdown" id="themeDropdown">
+          <button data-theme="light">Light</button>
+          <button data-theme="dark">Dark</button>
+          <button data-theme="system">System</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
+
+  <div class="container">
+    <div class="patch">
+      <div class="terminal_dote">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <p>$ pwd <br>/<a href="../">home</a>/<a href="./">idea</a></p>
+      <p>$ cd note.txt <br>
+        <span class="patch_note">
+          You can delete your idea at any time
+        </span>
+        <br>
+      </p>
+    </div>
+
+    <div class="idea-container">
+      <h1 class="hashtag_title" class="home_title_font">#ideas</h1>
+       <p style="display:none" id="write_idea" class="Jetbrains_font">
+         > if u wanna leave a idea <a class="Jetbrains_font" dir="ltr" 
+         href="../login/">login first</a></p><br>
+         
+      <div id="ideasList">
+        <img width="40" id="load" src="../img/load.gif">
+      </div>
+      <div id="alertBox"></div>
+      <form id="ideaForm" class="idea-form" style="display:none">
+        <textarea id="ideaInput" placeholder="Write your idea..." required></textarea>
+        <button type="submit">Submit idea</button>
+      </form>
+    </div>
+  </div>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, deleteDoc, doc, query,
+  orderBy, serverTimestamp, onSnapshot, getDocs,
+  updateDoc, getDoc, setDoc
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import {
+  getAuth, GoogleAuthProvider, FacebookAuthProvider,
+  GithubAuthProvider, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getDatabase, ref, increment, update } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+
+// Firebase init
+const firebaseConfig = {
+  apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+  authDomain: "oxdyaa.firebaseapp.com",
+  projectId: "oxdyaa",
+  storageBucket: "oxdyaa.appspot.com",
+  messagingSenderId: "604062703590",
+  appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// DOM
+const ideaForm = document.getElementById('ideaForm');
+const ideaInput = document.getElementById('ideaInput');
+const ideasList = document.getElementById('ideasList');
+const write_idea = document.getElementById('write_idea');
+const alertBox = document.getElementById('alertBox');
+const rtdb = getDatabase(app);
+
+// Utils
+function showAlert(message, error = false) {
+  alertBox.innerHTML = `<div style="border: 1px solid rgba(255, 255, 255, 0.2);padding:4px;color:${error ? 'red' : 'limegreen'}">${message}</div>`;
+  setTimeout(() => alertBox.innerHTML = "", 4000);
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
+
+  const intervals = {
+    year: 31536000,
+    month: 2592000,
+    day: 86400,
+    hour: 3600,
+    min: 60,
+    second: 1
+  };
+
+  for (const [unit, value] of Object.entries(intervals)) {
+    const count = Math.floor(seconds / value);
+    if (count >= 1) {
+      const unitLabel = count === 1 ? unit : unit + "s";
+      return ` ${count} ${unitLabel} ago`;
+    }
+  }
+
+  return "just now";
+}
+async function getUserData(uid) {
+  try {
+    const snap = await getDoc(doc(db, "users", uid));
+    if (snap.exists()) {
+      const data = snap.data();
+      return {
+        name: data.name || "user",
+        photo: data.avatar || `https://0xdya.vercel.app/img/user.jpg`,
+        role: data.role || null,
+        verified: data.verified || false,
+        stars: data.stars || 0
+      };
+    }
+  } catch (e) {
+    console.error("error when return user data", e);
+  }
+  return {
+    name: "user",
+    photo: `https://0xdya.vercel.app/img/user.jpg`,
+    verified: false
+  };
+}
+function loadideas() {
+  const q = query(collection(db, "ideas"), orderBy("timestamp", "desc"));
+
+  let pinned = [], normal = [];
+
+  onSnapshot(q, (snapshot) => {
+    snapshot.docChanges().forEach(async (change) => {
+      const docSnap = change.doc;
+      const data = docSnap.data();
+      const ideaId = docSnap.id;
+
+      if (change.type === "added") {
+        // لا تضف إذا التعليق موجود مسبقًا
+        if (document.getElementById(`idea-${ideaId}`)) return;
+
+        const timeStr = formatDate(data.timestamp?.toDate() || new Date());
+        const userData = await getUserData(data.uid);
+        const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "admin";
+
+        const roleIcons = {
+          admin: `<img src="../badges/server-owner.svg" class="imgsvg">`,
+          dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
+        };
+        const roleIconHTML = userData.role && roleIcons[userData.role] ? roleIcons[userData.role] : "";
+
+        const ideaDiv = document.createElement("div");
+        ideaDiv.className = "idea-card";
+        ideaDiv.id = `idea-${ideaId}`;
+        ideaDiv.innerHTML = `
+          <div class="idea-header">
+            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
+              <img src="${userData.photo}">
+            </a>
+            <div class="idea_name_time">
+              <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;text-decoration:none;">
+                <strong>
+                  ${userData.name}
+              ${userData.verified ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path></svg>' : ''}
+                  ${roleIconHTML}
+              </a><br>
+                </strong>
+              <span>${timeStr}</span>
+            </div>
+            ${isOwner ? `<button class="delete-idea" data-id="${ideaId}"><ion-icon name="trash-outline"></ion-icon></button>` : ""}
+          </div>
+          <div class="idea-text">${data.text}</div>
+          ${data.pinned ? '<div class="pin"><ion-icon name="push-outline"></ion-icon></div>' : ''}
+          <button class="reply-toggle" data-id="${ideaId}" style="display:none">
+            <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+          </button>
+          <div class="reply-form" style="display:none;" data-id="${ideaId}">
+            <textarea placeholder=" write ur reply ..." class="reply-input"></textarea>
+            <button class="reply-submit">sent</button>
+          </div>
+        `;
+// إظهار زر الرد فقط إن كان لديه الدور المناسب
+if (["admin", "dev"].includes(currentUserData?.role)) {
+  const replyToggle = ideaDiv.querySelector(".reply-toggle");
+  if (replyToggle) replyToggle.style.display = "inline-block";
+}
+
+        // تخزين التعليق مؤقتًا
+        const entry = { el: ideaDiv, id: ideaId, pinned: data.pinned, timestamp: data.timestamp };
+
+        if (data.pinned) {
+          pinned.push(entry);
+        } else {
+          normal.push(entry);
+        }
+
+        // حذف
+        if (isOwner) {
+          ideaDiv.querySelector(".delete-idea").addEventListener("click", async () => {
+            if (confirm("do you want to delete ur idea")) {
+              await deleteDoc(doc(db, "ideas", ideaId));
+              await update(ref(rtdb, '/'), { ideas_count: increment(-1) });
+              const ideaOwnerRef = doc(db, "users", data.uid);
+              await updateDoc(ideaOwnerRef, {
+  stars: increment(-1)
+});
+
+              showAlert("delete successful!");
+            }
+          });
+        }
+
+        // فتح الرد
+        ideaDiv.querySelector(".reply-toggle").addEventListener("click", () => {
+          if (!currentUser) {
+            showAlert("login to write", true);
+            return;
+          }
+          const form = ideaDiv.querySelector(".reply-form");
+          form.style.display = form.style.display === "none" ? "block" : "none";
+        });
+
+        // إرسال الرد
+        ideaDiv.querySelector(".reply-submit").addEventListener("click", async () => {
+          const input = ideaDiv.querySelector(".reply-input");
+          const text = input.value.trim();
+          if (!text || !currentUser) return;
+
+          await addDoc(collection(db, "ideas", ideaId, "idea_replies"), {
+            uid: currentUser.uid,
+            email: currentUser.email,
+            text,
+            timestamp: serverTimestamp()
+          });
+
+          input.value = "";
+          loadidea_replies(ideaId);
+        });
+
+        loadidea_replies(ideaId);
+
+        // ✅ تحديث واجهة العرض بعد كل إضافة
+        const all = [...pinned, ...normal];
+
+        // ترتيب المثبتة أولاً ثم غير المثبتة حسب التاريخ
+        all.sort((a, b) => {
+          if (a.pinned !== b.pinned) return b.pinned - a.pinned;
+          return b.timestamp?.seconds - a.timestamp?.seconds;
+        });
+
+        // إعادة رسم DOM كامل (آمن لأننا نبني من الصفر هنا)
+        ideasList.innerHTML = "";
+        all.forEach(({ el, id }) => {
+          ideasList.appendChild(el);
+          const idea_repliesDiv = document.createElement("div");
+          idea_repliesDiv.className = "idea_replies";
+          idea_repliesDiv.id = `idea_replies-${id}`;
+          ideasList.appendChild(idea_repliesDiv);
+          loadidea_replies(id);
+        });
+      }
+
+      if (change.type === "removed") {
+        const el = document.getElementById(`idea-${ideaId}`);
+        const idea_replies = document.getElementById(`idea_replies-${ideaId}`);
+        if (el) el.remove();
+        if (idea_replies) idea_replies.remove();
+      }
+    });
+
+    ideaForm.style.display = currentUser ? "block" : "none";
+    write_idea.style.display = currentUser ? "none" : "block";
+  });
+}
+async function loadidea_replies(ideaId) {
+  const idea_repliesDiv = document.getElementById(`idea_replies-${ideaId}`);
+  idea_repliesDiv.innerHTML = "<small>Loading idea_replies...</small>";
+
+  const q = query(collection(db, "ideas", ideaId, "idea_replies"), orderBy("timestamp", "desc"));
+  const idea_repliesSnap = await getDocs(q);
+
+  idea_repliesDiv.innerHTML = "";
+
+  for (const docSnap of idea_repliesSnap.docs) {
+    const d = docSnap.data();
+    const replyId = docSnap.id;
+    const timeStr = formatDate(d.timestamp?.toDate() || new Date());
+    const userData = await getUserData(d.uid);
+
+    // ✅ انتظر حتى يتم تحميل currentUserData
+    while (currentUser && currentUserData === null) {
+      await new Promise((resolve) => setTimeout(resolve, 50)); // انتظر قليلاً
+    }
+
+    const isOwner =
+      currentUser?.uid === d.uid ||
+      currentUserData?.role === "admin";
+
+    const roleIcons = {
+      admin: `<img src="../badges/server-owner.svg" class="imgsvg">`,
+      dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
+    };
+    const roleIconHTML =
+      userData.role && roleIcons[userData.role] ? roleIcons[userData.role] : "";
+
+    const replyCard = document.createElement("div");
+    replyCard.className = "reply-card";
+    replyCard.style.cssText = "display:flex;gap:10px;margin-top:10px;";
+    replyCard.innerHTML = `
+      <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
+        <img src="${userData.photo}">
+      </a>
+      <div style="flex:1;">
+        <div class="name_time">
+          <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
+            <strong>
+              ${userData.name}
+              ${userData.verified ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path></svg>' : ''}
+              ${roleIconHTML}
+            </strong>
+          </a>
+          <span>${timeStr}</span>
+        </div>
+        <div class="reply_text">${d.text}</div>
+      </div>
+      ${isOwner ? `<button class="delete-reply" style="background:none;border:none;cursor:pointer;" data-reply-id="${replyId}" data-idea-id="${ideaId}"><ion-icon name="trash-outline"></ion-icon></button>` : ""}
+    `;
+    idea_repliesDiv.appendChild(replyCard);
+
+    if (isOwner) {
+      replyCard.querySelector(".delete-reply").addEventListener("click", async () => {
+        if (confirm("do you want to delete ur reply ??")) {
+          await deleteDoc(doc(db, "ideas", ideaId, "idea_replies", replyId));
+          await update(ref(rtdb, '/'), {
+            ideas_count: increment(-1)
+          });
+
+
+          showAlert("delete successful!");
+          loadidea_replies(ideaId);
+        }
+      });
+    }
+  }
+}
+ideaForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const text = ideaInput.value.trim();
+  if (!text || !currentUser) return;
+  
+  try {
+  await addDoc(collection(db, "ideas"), {
+    uid: currentUser.uid,
+    email: currentUser.email,
+    text,
+    pinned: false,
+    timestamp: serverTimestamp()
+  });
+
+  await update(ref(rtdb, '/'), {
+    ideas_count: increment(1)
+  });
+  
+  const userRef = doc(db, "users", currentUser.uid);
+  await updateDoc(userRef, {
+  stars: increment(1)
+});
+
+  ideaForm.reset();
+  showAlert("sent successful  !");
+} catch (err) {
+  console.error(err);
+  showAlert("error sent", true);
+}
+
+});
+let currentUser = null;
+let currentUserData = null;
+
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+
+    // تحديث بيانات المستخدم
+    await setDoc(userRef, {
+      name: user.displayName || "user",
+      avatar: user.photoURL || `https://0xdya.vercel.app/img/user.jpg`
+    }, { merge: true });
+
+    try {
+      const snap = await getDoc(userRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        currentUserData = {
+          role: data.role || null
+        };
+      }
+    } catch (err) {
+      console.error("error loading currentUserData", err);
+    }
+  }
+
+  loadideas();
+});
+
+
+</script>
+  <script src="../js/script.js"></script>
+</body>
+</html>
