@@ -260,9 +260,10 @@ ion-icon{
 <div id="displayBioInput"></div>
 <div id="userStats" >
   <h2>user info :</h2>
-  <p id="ideasCount"><ion-icon name="bulb-outline"></ion-icon></p> 
-  <p id="commentsCount"><ion-icon name="chatbubble-ellipses-outline"></ion-icon></p>
-  <p id="starsCount"><ion-icon name="trophy-outline"></ion-icon></p>
+  <p id="createdAt"></p>
+  <p id="commentsCount"></p>
+  <p id="ideasCount"></p> 
+  <p id="starsCount"></p>
   <br>
   <hr>
   <br>
@@ -587,7 +588,7 @@ const userSnap = await getDoc(doc(db, "users", uid));
     const stars = data.stars || 0;
     const createdAt = data.createdAt?.toDate?.();
 
-    starsCountSpan.innerHTML = `stars: ${stars}`;
+    starsCountSpan.innerHTML = `<ion-icon name="trophy-outline"></ion-icon> stars: ${stars}`;
 
 if (createdAt) {
   const day = createdAt.getDate();
