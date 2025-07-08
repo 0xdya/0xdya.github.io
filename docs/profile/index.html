@@ -91,9 +91,8 @@
       display: flex;
       gap: 8px;
       padding: 0 8px;
-      position: fixed;
-      right: 50%;
-      transform: translateX(50%);
+      margin: 1rem 0 0;
+      position: relative;
       bottom: 1rem;
       width: 100%;
     }
@@ -188,6 +187,11 @@ ion-icon{
     
   }
   .edit_section{
+    position: fixed;
+    top: 14rem;
+    margin: 0 2rem;
+    padding: 1rem;
+    background: #111;
     display: none !important;
   }
     .link_card{
@@ -564,16 +568,39 @@ async function loadProfile(currentUser) {
 async function loadUserStats(uid) {
   const ideasCountSpan = document.getElementById("ideasCount");
   const commentsCountSpan = document.getElementById("commentsCount");
+  const starsCountSpan = document.getElementById("starsCount");
 
   // 🔹 عدد الأفكار
   const ideasQuery = query(collection(db, "ideas"), where("uid", "==", uid));
   const ideasSnap = await getDocs(ideasQuery);
-  ideasCountSpan.textContent = `🧠 الأفكار: ${ideasSnap.size}`;
+  ideasCountSpan.textContent = `<ion-icon name="bulb-outline"></ion-icon> ideas :  ${ideasSnap.size}`;
 
   // 🔹 عدد التعليقات من مجموعة comments مباشرة
   const commentsQuery = query(collection(db, "comments"), where("uid", "==", uid));
   const commentsSnap = await getDocs(commentsQuery);
-  commentsCountSpan.innerHTML = `<ion-icon name="chatbubble-ellipses"></ion-icon> total comments: ${commentsSnap.size}`;
+  commentsCountSpan.innerHTML = `<ion-icon name="chatbubble-ellipses-outline"></ion-icon> comments: ${commentsSnap.size}`;
+
+  
+const userSnap = await getDoc(doc(db, "users", uid));
+  if (userSnap.exists()) {
+    const data = userSnap.data();
+    const stars = data.stars || 0;
+    const createdAt = data.createdAt?.toDate?.();
+
+    starsCountSpan.innerHTML = `stars: ${stars}`;
+
+if (createdAt) {
+  const day = createdAt.getDate();
+  const monthIndex = createdAt.getMonth();
+  const year = createdAt.getFullYear();
+
+  createdAtSpan.textContent = `created at: ${day} ${monthIndex} ${year}`;
+} else {
+  createdAtSpan.textContent = `cant find date ._., idk why `;
+}
+
+  }
+  
 }
 
 }
