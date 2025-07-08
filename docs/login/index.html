@@ -21,6 +21,7 @@
       height: 100vh;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
     }
     .terminal {
       max-width: 700px;
@@ -68,8 +69,10 @@
       margin-top: 10px;
     }
     p{
-      font-size: 12px;
-      text-align: justify;
+      font-size: 14px;
+      text-align: left;
+      line-height: 1.6;
+      color: #ececec;
     }
     .login_note{
       width: 100%;
@@ -77,6 +80,13 @@
       border: 1px solid #444;
       background: #060606;
       line-height: 1;
+      filter: sepia(40%);
+    }
+    .login_note_p{
+      color: #a0a0a0;
+      line-height: 1.4;
+      position: fixed;
+      bottom: 4px;
     }
     ion-icon{
       margin-bottom: -2px;
@@ -107,6 +117,70 @@
     .loginComandCode{
       margin: 0 0 8px;
     }
+    #emailInput{
+      width: 100%;
+      padding: 8px 20px;
+      background: #060606;
+      color: white;
+      border: 1px solid #444;
+      position: relative;
+    }
+input[type="email"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #111;   
+  color: #fff;  
+  outline: none;
+  transition: 0.3s ease all;
+  box-shadow: inset 0 0 0 0 transparent;
+}
+
+input[type="email"]::placeholder {
+  color: #888;
+  font-size: 12px;
+}
+
+input[type="email"]:hover {
+  border-color: #666;
+}
+
+input[type="email"]:focus {
+  border: 1px solid white !important;
+}
+
+input[type="email"]:invalid {
+  border-color: #ff4d4d;
+}
+
+input[type="email"]:required:invalid {
+  background-color: #1a0000;
+}
+
+@media (max-width: 480px) {
+  input[type="email"] {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+}
+
+    #sendLoginLink{
+      position: absolute;
+      font-size: 1.2rem;
+      top: 6px;
+      right: 8px;
+    }
+    #emailLoginBox{
+      position: relative;
+      margin: 1rem 0;
+    }
+    #login-buttons{
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -117,8 +191,6 @@
   </div>
   <div class="login_note">
     <img width="100%" src="lain.gif">
-    <p> => you can log out at any time </p>
-    <p> => high security protect</p>
   </div>
   <div id="loader">
     <span class="doted">Authenticating...</span>
@@ -137,14 +209,20 @@
     </div>
     <div id="userDetails" style="font-size: 13px; line-height: 1.4;"></div>
   </div>
+  
   <div id="login-buttons">
+<div id="emailLoginBox">
+  <input type="email" id="emailInput" placeholder="ur email to sent login link" />
+  <div id="sendLoginLink"><ion-icon name="checkmark-outline"></ion-icon></div>
+</div>
+
     <button id="googleLogin" dir="ltr">
       <ion-icon name="logo-google"></ion-icon>
-      <span class="home_title_font"> Sign in with Google </span>
+      <span class="home_title_font"> continue with Google </span>
     </button>
     <button id="githubLogin" dir="ltr">
       <ion-icon name="logo-github"></ion-icon>
-      <span class="home_title_font"> Sign in with GitHub </span>
+      <span class="home_title_font"> continue with GitHub </span>
     </button>
   </div>
   <div id="error"></div>
@@ -153,17 +231,21 @@
     <button id="logoutBtn">logout</button>
   </div>
 </div>
-
+    <p class="login_note_p">  no tracking ..</p>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
   getAuth, GoogleAuthProvider, GithubAuthProvider,
-  signInWithPopup, signOut, onAuthStateChanged
+  signInWithPopup, signOut, onAuthStateChanged,
+  sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDocFromServer, deleteDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+
+
 
 // إعداد Firebase
 const firebaseConfig = {
@@ -283,8 +365,42 @@ runTransaction(countRef, (currentCount) => {
     message.textContent = "";
   }
 });
+// إعدادات إرسال الرابط
+const actionCodeSettings = {
+  url: window.location.href,
+  handleCodeInApp: true
+};
+document.getElementById("sendLoginLink").addEventListener("click", async () => {
+  const email = document.getElementById("emailInput").value;
+  if (!email) return alert("📧 أدخل البريد الإلكتروني");
+  try {
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem("emailForSignIn", email);
+    alert("📨 تم إرسال الرابط إلى بريدك الإلكتروني");
+  } catch (err) {
+    console.error("خطأ أثناء الإرسال:", err);
+    errorEl.textContent = "❌ فشل في إرسال الرابط.";
+  }
+});
+// التحقق من الرابط بعد الضغط عليه في البريد
+if (isSignInWithEmailLink(auth, window.location.href)) {
+  let email = window.localStorage.getItem("emailForSignIn");
+  if (!email) {
+    email = window.prompt("📧 أدخل بريدك لتسجيل الدخول");
+  }
 
-// تسجيل الخروج + حذف المستند
+  signInWithEmailLink(auth, email, window.location.href)
+    .then((result) => {
+      window.localStorage.removeItem("emailForSignIn");
+      console.log("✅ تم تسجيل الدخول بدون كلمة مرور");
+      // هنا يمكن متابعة بقية عملية تسجيل المستخدم في Firestore
+    })
+    .catch((error) => {
+      console.error("❌ فشل تسجيل الدخول:", error);
+      errorEl.textContent = "❌ فشل في تسجيل الدخول بالرابط.";
+    });
+}
+// تسجيل الخروج  
 document.getElementById("logoutBtn")?.addEventListener("click", async () => {
   const user = auth.currentUser;
   if (user) {
