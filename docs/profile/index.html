@@ -186,12 +186,12 @@ ion-icon{
     gap: 4px;
     
   }
-  .edit_section{
+  #edit_section{
     position: fixed;
     top: 14rem;
     margin: 0 2rem;
     padding: 1rem;
-    background: #111;
+    background: var(--profile-bg);
     display: none !important;
   }
     .link_card{
@@ -213,7 +213,6 @@ ion-icon{
 }
 .delete-btn {
   font-size: 14px;
-  display: none;
 }
 #currentName{
   display: flex;
@@ -260,7 +259,7 @@ ion-icon{
 <div id="displayBioInput"></div>
 <div id="userStats" >
   <h2>user info :</h2>
-  <p id="createdAt"></p>
+  <p id="createdAtCount"></p>
   <p id="commentsCount"></p>
   <p id="ideasCount"></p> 
   <p id="starsCount"></p>
@@ -567,6 +566,7 @@ async function loadProfile(currentUser) {
 
   });
 async function loadUserStats(uid) {
+  const createdAtSpan = document.getElementById("createdAtCount");
   const ideasCountSpan = document.getElementById("ideasCount");
   const commentsCountSpan = document.getElementById("commentsCount");
   const starsCountSpan = document.getElementById("starsCount");
@@ -574,7 +574,7 @@ async function loadUserStats(uid) {
   // 🔹 عدد الأفكار
   const ideasQuery = query(collection(db, "ideas"), where("uid", "==", uid));
   const ideasSnap = await getDocs(ideasQuery);
-  ideasCountSpan.textContent = `<ion-icon name="bulb-outline"></ion-icon> ideas :  ${ideasSnap.size}`;
+  ideasCountSpan.innerHTML = `<ion-icon name="bulb-outline"></ion-icon> ideas :  ${ideasSnap.size}`;
 
   // 🔹 عدد التعليقات من مجموعة comments مباشرة
   const commentsQuery = query(collection(db, "comments"), where("uid", "==", uid));
@@ -595,7 +595,7 @@ if (createdAt) {
   const monthIndex = createdAt.getMonth();
   const year = createdAt.getFullYear();
 
-  createdAtSpan.textContent = `created at: ${day} ${monthIndex} ${year}`;
+  createdAtSpan.innerHTML = `created at: ${day} ${monthIndex} ${year}`;
 } else {
   createdAtSpan.textContent = `cant find date ._., idk why `;
 }
