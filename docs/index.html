@@ -52,7 +52,8 @@ html::before {
   pointer-events: none;
 }
 </style>
-
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 </head>
 <body dir="ltr">
 <div class="old"></div>
@@ -84,25 +85,17 @@ html::before {
   <main>
 
   <section class="about_header">
-    <h1 data-aos="fade-up"
-   data-aos-delay="20" >Welcome to 0xdya community</h1>
-    <p data-aos="fade-up"
-   data-aos-delay="100" >
+    <h1 class="ScrollTrigger">Welcome to 0xdya community</h1>
+    <p class="ScrollTrigger">
        best growing open-source space for genius developers, creators, and problem solvers. We’re building tools, writing content, and more
     </p>
     <div class="about_btn">
-      <a data-aos="fade-up"
-   data-aos-delay="200"class="login" href="./login/">join</a>
-      <a data-aos="fade-up"
-   data-aos-delay="250" href="./info/" class="about">repo & log</a>
+      <a class="ScrollTrigger login" href="./login/">join</a>
+      <a href="./info/" class="ScrollTrigger about">repo & log</a>
     </div>
   </section>
-    <h2 data-aos="fade-up" 
-    data-aos-delay="300"
-    class="home_title_font">#</span> info's</h2>
-    <div data-aos="fade-up" 
-    data-aos-delay="400"
-    class="terminal_bg">
+    <h2 class="ScrollTrigger home_title_font">#</span> info's</h2>
+    <div   class="ScrollTrigger terminal_bg">
       <div class="terminal">
         <div class="terminal_dote"><span></span><span></span><span></span></div>
         <div class="ascii"><pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -141,27 +134,17 @@ html::before {
       </div>
     </div>
 
-    <h2 data-aos="fade-up" 
-    data-aos-delay="300"
-    class="home_title_font"><span>#</span> sitemap</h2>
-    <div data-aos="fade-up" 
-    data-aos-delay="400"
-    id="network"></div>
-    <div data-aos="fade-right"
-   data-aos-delay="200"
-   class="note_section">
+    <h2 class="ScrollTrigger home_title_font"><span>#</span> sitemap</h2>
+    <div class="ScrollTrigger"id="network"></div>
+    <div class="ScrollTrigger note_section">
       <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Click to open</div>
       <div><div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Draggable</div></div>
       <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Zoomable</div>
     </div>
-<p data-aos="fade-right" 
-data-aos-delay="200"
-   class="homepage_note Jetbrains_font">
+<p class="ScrollTrigger homepage_note Jetbrains_font">
   Want to join the community?
 When you sign up, you become part of a tight-knit open-source circle. You'll get a profile, the right to contribute, and much more.</p>
-<p data-aos="fade-right" 
-data-aos-delay="400"
-    class="homepage_note Jetbrains_font">
+<p class="ScrollTrigger homepage_note Jetbrains_font">
   if u wanna support the project 💗🐧<br>
   please report for any bugs in <a href="./report/">report page</a><br>
   and also if u have idea <a href="./idea/">idea page</a>
@@ -187,8 +170,11 @@ data-aos-delay="400"
     <br>
   </p>
 </footer>
-<script type="module" src="./js/user.js"></script>
+
+<script src="./js/animate.js"></script>
+
 <script src="./js/home.js"></script>
+<script type="module" src="./js/user.js"></script>
 <script type="module" src="./js/view.js"></script>
 <script type="application/ld+json">
 {
@@ -213,4 +199,4 @@ data-aos-delay="400"
 
 </body>
 
-        </html>
+</html>
