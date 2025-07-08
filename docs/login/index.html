@@ -232,6 +232,185 @@ input[type="email"]:required:invalid {
   </div>
 </div>
     <p class="login_note_p">  no tracking ..</p>
+
+<script type="module">
+  // 🧩 1. استيراد Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, GithubAuthProvider,
+    signInWithPopup, signOut, onAuthStateChanged,
+    sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import {
+    getFirestore, doc, setDoc, getDocFromServer, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import {
+    getDatabase, ref, runTransaction
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+  // 🛠️ 2. إعداد Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+    authDomain: "oxdyaa.firebaseapp.com",
+    projectId: "oxdyaa",
+    storageBucket: "oxdyaa.appspot.com",
+    messagingSenderId: "604062703590",
+    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const rtdb = getDatabase(app);
+
+  const providers = {
+    google: new GoogleAuthProvider(),
+    github: new GithubAuthProvider()
+  };
+
+  // 🎛️ 3. عناصر DOM
+  const loginBtns = document.getElementById("login-buttons");
+  const userSection = document.getElementById("userSection");
+  const userInfo = document.getElementById("userInfo");
+  const userComand = document.getElementById("userComand");
+  const loginComand = document.getElementById("loginComand");
+  const userName = document.getElementById("userName");
+  const userPhoto = document.getElementById("userPhoto");
+  const errorEl = document.getElementById("error");
+  const message = document.getElementById("message");
+  const loader = document.getElementById("loader");
+  const emailInput = document.getElementById("emailInput");
+
+  // 🧠 4. تهيئة بيانات المستخدم
+  async function initUserData(user) {
+    const userRef = doc(db, "users", user.uid);
+    const defaultName = user.displayName?.replace(/\s+/g, '_') || "user_" + user.uid.slice(0, 6);
+    const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
+    const defaultEmail = user.email || "";
+
+    userName.textContent = defaultName;
+    userPhoto.src = defaultPhoto;
+
+    try {
+      const snap = await getDocFromServer(userRef);
+      if (!snap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: defaultName,
+          email: defaultEmail,
+          photo: defaultPhoto,
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+          role: "user",
+          hidden: false,
+          verified: false,
+          bio: "",
+          banner: "",
+          social: { github: "", twitter: "", website: "" }
+        });
+
+        const countRef = ref(rtdb, 'users_count');
+        await runTransaction(countRef, c => (c || 0) + 1);
+      } else {
+        await setDoc(userRef, {
+          name: defaultName,
+          email: defaultEmail,
+          photo: defaultPhoto,
+          lastLogin: serverTimestamp()
+        }, { merge: true });
+      }
+    } catch (err) {
+      console.error("❌ أثناء معالجة بيانات المستخدم:", err);
+    }
+  }
+
+  // 🔐 5. تسجيل الدخول بمزود
+  function loginWithProvider(provider) {
+    errorEl.textContent = "";
+    signInWithPopup(auth, provider)
+      .catch(err => {
+        console.error(err);
+        errorEl.textContent = "❌ cant login !";
+      });
+  }
+
+  // 📧 6. إرسال رابط تسجيل الدخول
+  const actionCodeSettings = {
+    url: window.location.href,
+    handleCodeInApp: true
+  };
+
+  document.getElementById("sendLoginLink").addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email || !email.includes("@")) {
+      errorEl.textContent = "❌ أدخل بريدًا صالحًا.";
+      return;
+    }
+
+    try {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      alert("📨 تحقق من بريدك الإلكتروني");
+    } catch (err) {
+      console.error("❌ فشل في الإرسال:", err);
+      errorEl.textContent = "❌ error when sent the link to ur eml.";
+    }
+  });
+
+  // ✅ 7. التحقق من رابط الدخول عبر الإيميل
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+    let email = window.localStorage.getItem("emailForSignIn") || prompt("📧 put email first ");
+    signInWithEmailLink(auth, email, window.location.href)
+      .then(async (result) => {
+        window.localStorage.removeItem("emailForSignIn");
+        await initUserData(result.user);
+        message.innerHTML = "login  successfully 🐧";
+      })
+      .catch((error) => {
+        console.error("❌ عند تسجيل الدخول بالرابط:", error);
+        errorEl.textContent = "❌ خطأ أثناء تسجيل الدخول.";
+      });
+  }
+
+  // 👁️ 8. مراقبة حالة المستخدم
+  onAuthStateChanged(auth, async user => {
+    loader.style.display = "none";
+
+    if (user) {
+      loginBtns.style.display = "none";
+      userSection.style.display = "block";
+      userInfo.style.display = "flex";
+      userComand.style.display = "block";
+      loginComand.style.display = "block";
+      await initUserData(user);
+      message.innerHTML = "login  successfully 🐧";
+    } else {
+      loginBtns.style.display = "block";
+      userSection.style.display = "none";
+      userInfo.style.display = "none";
+      userComand.style.display = "none";
+      loginComand.style.display = "block";
+      message.textContent = "";
+    }
+  });
+
+  // 🚪 9. تسجيل الخروج
+  document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      console.log("signOut successfully ☕");
+    } catch (err) {
+      console.error("❌ cant  signOut :", err);
+      errorEl.textContent = "❌ cant signOut.";
+    }
+  });
+
+  // 🎯 10. أزرار تسجيل الدخول بمزود
+  document.getElementById("googleLogin").addEventListener("click", () => loginWithProvider(providers.google));
+  document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
+</script>
+
+
+<!-- bac2
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
@@ -303,7 +482,7 @@ onAuthStateChanged(auth, async user => {
 
     const userRef = doc(db, "users", user.uid);
     const defaultName = (user.displayName?.replace(/\s+/g, '_')) || "user_" + user.uid.slice(0, 6);
-    const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
+    const defaultPhoto = user.photo || "https://0xdya.github.io/img/user.jpg";
     const defaultEmail = user.email || "";
 
     userName.textContent = defaultName;
@@ -372,14 +551,13 @@ const actionCodeSettings = {
 };
 document.getElementById("sendLoginLink").addEventListener("click", async () => {
   const email = document.getElementById("emailInput").value;
-  if (!email) return alert("📧 أدخل البريد الإلكتروني");
   try {
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     window.localStorage.setItem("emailForSignIn", email);
-    alert("📨 تم إرسال الرابط إلى بريدك الإلكتروني");
+    alert("📨  check ur email inbox");
   } catch (err) {
-    console.error("خطأ أثناء الإرسال:", err);
-    errorEl.textContent = "❌ فشل في إرسال الرابط.";
+    console.error("  :", err);
+    errorEl.textContent = "❌  error sent the link.";
   }
 });
 // التحقق من الرابط بعد الضغط عليه في البريد
@@ -392,12 +570,11 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
   signInWithEmailLink(auth, email, window.location.href)
     .then((result) => {
       window.localStorage.removeItem("emailForSignIn");
-      console.log("✅ تم تسجيل الدخول بدون كلمة مرور");
+      console.log("✅ login  successfully);
       // هنا يمكن متابعة بقية عملية تسجيل المستخدم في Firestore
     })
     .catch((error) => {
-      console.error("❌ فشل تسجيل الدخول:", error);
-      errorEl.textContent = "❌ فشل في تسجيل الدخول بالرابط.";
+      errorEl.textContent = "❌ error when login.";
     });
 }
 // تسجيل الخروج  
@@ -415,11 +592,11 @@ document.getElementById("logoutBtn")?.addEventListener("click", async () => {
   if (user) {
   const userRef = doc(db, "users", user.uid);
   const defaultName = (user.displayName?.replace(/\s+/g, '_')) || "user_" + user.uid.slice(0, 6);
-  const defaultPhoto = user.photoURL || "https://0xdya.github.io/img/user.jpg";
+  const defaultPhoto = user.photo || "https://0xdya.github.io/img/user.jpg";
   
   userName.textContent = defaultName;
   userPhoto.src = defaultPhoto;
-  localStorage.setItem("avatarUrl", defaultPhoto); // هام
+  localStorage.setItem("photo", defaultPhoto);
   
   const userSnap = await getDocFromServer(userRef);
   if (!userSnap.exists()) {
@@ -428,236 +605,12 @@ document.getElementById("logoutBtn")?.addEventListener("click", async () => {
     const data = userSnap.data();
     userPhoto.src = data.photo || defaultPhoto;
     userName.textContent = data.name || defaultName;
-    localStorage.setItem("avatarUrl", data.photo || defaultPhoto); // تحديث التخزين المحلي
+    localStorage.setItem("photo", data.photo || defaultPhoto); // تحديث التخزين المحلي
   }
 }
 
 });
 </script>
-
-
-<!-- bac2
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-// ✅ إعداد Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-  authDomain: "oxdyaa.firebaseapp.com",
-  projectId: "oxdyaa",
-  storageBucket: "oxdyaa.appspot.com",
-  messagingSenderId: "604062703590",
-  appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const providers = {
-  google: new GoogleAuthProvider(),
-  github: new GithubAuthProvider()
-};
-
-// ✅ عناصر من الصفحة
-const loginBtns = document.getElementById("login-buttons");
-const userSection = document.getElementById("userSection");
-const userInfo = document.getElementById("userInfo");
-const userComand = document.getElementById("userComand");
-const loginComand = document.getElementById("loginComand");
-const userDetails = document.getElementById("userDetails");
-const userName = document.getElementById("userName");
-const userPhoto = document.getElementById("userPhoto");
-const message = document.getElementById("message");
-const errorEl = document.getElementById("error");
-const loader = document.getElementById("loader");
-
-// ✅ تسجيل الدخول
-function login(provider) {
-  errorEl.textContent = "";
-  signInWithPopup(auth, provider).catch(err => {
-    console.error(err);
-    errorEl.textContent = "فشل تسجيل الدخول!";
-  });
-}
-
-// ✅ أزرار الدخول والخروج
-document.getElementById("googleLogin").onclick = () => login(providers.google);
-document.getElementById("githubLogin").onclick = () => login(providers.github);
-
-// ✅ مراقبة تسجيل الدخول
-onAuthStateChanged(auth, async user => {
-  loader.style.display = "none";
-  if (user) {
-    loginBtns.style.display = "none";
-    userSection.style.display = "block";
-    userInfo.style.display = "flex";
-    userComand.style.display = "block";
-    loginComand.style.display = "block";
-
-    userName.textContent = user.displayName || "مستخدم";
-    userPhoto.src = user.photoURL || "https://via.placeholder.com/40";
-    message.textContent = "تم تسجيل الدخول.    ";
-
-    // ✅ إنشاء أو تحديث ملف المستخدم باستخدام uid كمفتاح
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    const defaultName = (user.displayName?.replace(/\s+/g, '_')) || "user_" + user.uid.slice(0, 6);
-
-    if (!userSnap.exists()) {
-      // 🟢 أول مرة يسجل دخول
-      await setDoc(userRef, {
-        uid: user.uid,
-        name: defaultName, // هذا الاسم هو الذي يظهر في رابط البروفايل
-        email: user.email,
-        photo: user.photoURL || "https://via.placeholder.com/40",
-        createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp(),
-        role: "user",
-        isOnline: true
-      });
-    } else {
-      // 🔁 موجود مسبقًا - نحدّث المعلومات
-      await setDoc(userRef, {
-        lastLogin: serverTimestamp(),
-        photo: user.photoURL || "https://via.placeholder.com/40"
-      }, { merge: true });
-    }
-
-  } else {
-    loginBtns.style.display = "block";
-    userSection.style.display = "none";
-    userInfo.style.display = "none";
-    userComand.style.display = "none";
-    loginComand.style.display = "block";
-    message.textContent = "";
-  }
-});
-document.getElementById("logoutBtn").onclick = async () => {
-  const user = auth.currentUser;
-  if (user) {
-    try {
-      // ✅ تحديث حالة الاتصال بدلاً من الحذف
-      await setDoc(doc(db, "users", user.uid), {
-        isOnline: false
-      }, { merge: true });
-      await signOut(auth);
-    } catch (err) {
-      console.error("خطأ أثناء تسجيل الخروج:", err);
-      errorEl.textContent = "حدث خطأ أثناء تسجيل الخروج!";
-    }
-  }
-};
-
-</script>
-<!-- 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      GithubAuthProvider,
-      signInWithPopup,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-      authDomain: "oxdyaa.firebaseapp.com",
-      projectId: "oxdyaa",
-      storageBucket: "oxdyaa.appspot.com",
-      messagingSenderId: "604062703590",
-      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const providers = {
-      google: new GoogleAuthProvider(),
-      github: new GithubAuthProvider(),
-    };
-
-    const loginBtns = document.getElementById("login-buttons");
-    const userSection = document.getElementById("userSection");
-    const userInfo = document.getElementById("userInfo");
-    const userComand = document.getElementById("userComand");
-    const loginComand = document.getElementById("loginComand");
-    const userDetails = document.getElementById("userDetails");
-    const userName = document.getElementById("userName");
-    const userPhoto = document.getElementById("userPhoto");
-    const message = document.getElementById("message");
-    const errorEl = document.getElementById("error");
-
-    function login(provider) {
-      errorEl.textContent = "";
-      signInWithPopup(auth, provider)
-        .catch(err => {
-          console.error(err);
-          errorEl.textContent = "فشل تسجيل الدخول!";
-        });
-    }
-
-    document.getElementById("googleLogin").onclick = () => login(providers.google);
-    document.getElementById("githubLogin").onclick = () => login(providers.github);
-    document.getElementById("logoutBtn").onclick = () => signOut(auth);
-
-      onAuthStateChanged(auth, async user => {
-    if (user) {
-      loginBtns.style.display = "none";
-      loader.style.display = "none";
-      userSection.style.display = "block";
-      userInfo.style.display = "flex";
-      userComand.style.display = "block";
-      loginComand.style.display = "block";
-
-      userDetails.innerHTML = `
-        <div><strong>📧 البريد:</strong> ${user.email || "غير متاح"}</div>
-        <div><strong>✅ تحقق البريد:</strong> ${user.emailVerified ? "نعم" : "لا"}</div>
-        <div><strong>🔑 الموزع:</strong> ${user.providerData[0]?.providerId || "غير معروف"}</div>
-      `;
-      userName.textContent = user.displayName || "مستخدم";
-      userPhoto.src = user.photoURL || "https://via.placeholder.com/40";
-      message.textContent = " تم تسجيل الدخول. يمكنك الآن كتابة التعليقات ";
-
-      // 🔹 تسجيل بيانات المستخدم في Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        name: user.displayName || "مستخدم",
-        email: user.email,
-        photoURL: user.photoURL || "https://via.placeholder.com/40",
-        lastLogin: serverTimestamp()
-      }, { merge: true });
-
-    } else {
-      loader.style.display = "none";
-      loginBtns.style.display = "block";
-      userSection.style.display = "none";
-      userInfo.style.display = "none";
-      userComand.style.display = "none";
-      loginComand.style.display = "block";
-      message.textContent = "";
-    }
-  });
-
-  </script>
 -->
 </body>
 </html>
