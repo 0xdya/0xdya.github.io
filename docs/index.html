@@ -28,7 +28,34 @@
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
   <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+<style>
+html::before {
+  --size: 45px;
+  --line: color-mix(in lch, canvasText, transparent 85%);
+  content: '';
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  background: linear-gradient(
+        90deg,
+        #55527C 1px,
+        transparent 1px var(--size)
+      )
+      50% 50% / var(--size) var(--size),
+    linear-gradient(#55527C 1px, transparent 1px var(--size)) 50% 50% /
+      var(--size) var(--size);
+  -webkit-mask: linear-gradient(-25deg, transparent 30%, red);
+          mask: linear-gradient(-25deg, transparent 30%, red);
+  top: 0;
+  transform-style: flat;
+  z-index: -1;
+  pointer-events: none;
+}
+
+</style>
+
 </head>
 <body dir="ltr">
 <div class="old"></div>
@@ -55,10 +82,35 @@
   </div>
 </header>
 <div class="container">
+<button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
+ 
+  <!-- 
+<p data-aos="fade-down"  data-aos-delay="0" class="homepage_note Jetbrains_font">
+  Lost? => #crawl_back_to_your_cave  hh...</p>
+
+  -->
   <main>
-    
-    <h2 class="home_title_font">#</span> info's</h2>
-    <div class="terminal_bg">
+
+  <section class="about_header">
+    <h1 data-aos="fade-up"
+   data-aos-delay="20" >Welcome to 0xdya community</h1>
+    <p data-aos="fade-up"
+   data-aos-delay="100" >
+       best growing open-source space for genius developers, creators, and problem solvers. We’re building tools, writing content, and more
+    </p>
+    <div class="about_btn">
+      <a data-aos="fade-up"
+   data-aos-delay="200"class="login" href="./login/">join</a>
+      <a data-aos="fade-up"
+   data-aos-delay="250" href="./info/" class="about">repo & log</a>
+    </div>
+  </section>
+    <h2 data-aos="fade-up" 
+    data-aos-delay="300"
+    class="home_title_font">#</span> info's</h2>
+    <div data-aos="fade-up" 
+    data-aos-delay="400"
+    class="terminal_bg">
       <div class="terminal">
         <div class="terminal_dote"><span></span><span></span><span></span></div>
         <!--
@@ -122,6 +174,10 @@
             <div class="update_line"><span class="tr_txt">> users:</span> <span class="tr_txt2"><span id="users_count"><span class="doted">Loading </span></span></span></div>
             <div class="update_line"><span class="tr_txt">> comments:</span> <span class="tr_txt2"><span id="comments_count"><span class="doted">Loading </span></span></span></div>
             <br>
+               <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> docs()</span><br></div>
+            <div class="update_line"><span class="tr_txt">> archive:</span> <span class="tr_txt2"> <a>read</a></span></div>
+            <div class="update_line"><span class="tr_txt">> source:</span> <span class="tr_txt2"> <a href="https://github.com/0xdya/0xdya.github.io/">open</a></span></span></div>
+            <br>
             <div><span class="tr_txt3"><ion-icon class="amd_ion" name="mail-unread-outline"></ion-icon> Latest_News()</span><br></div>
             <div class="update-info" id="update-details">
               <p dir="ltr" class="bracket">
@@ -132,31 +188,59 @@
         </div>
       </div>
     </div>
- <span class="Jetbrains_font">
-      <ion-icon name="cube-outline"></ion-icon> repo & about <a class="Jetbrains_font" href="./info/">read</a></span><br>
-<!-- <span class="Jetbrains_font">
-  >  archive <a class="" href="./info/">read</a></span>
--->
-    <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
-    <h2 class="home_title_font"><span>#</span> map</h2>
-    <div id="network"></div>
-    <div class="note_section">
+
+    <h2 data-aos="fade-up" 
+    data-aos-delay="300"
+    class="home_title_font"><span>#</span> sitemap</h2>
+    <div data-aos="fade-up" 
+    data-aos-delay="400"
+    id="network"></div>
+    <div data-aos="fade-right"
+   data-aos-delay="200"
+   class="note_section">
       <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Click to open</div>
       <div><div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Draggable</div></div>
       <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Zoomable</div>
     </div>
-
-<p class="homepage_note Jetbrains_font">
-  Lost? => #crawl_back_to_your_cave  hh...<span class="hide_in_light"><br><br>
-  This community is only for genius & who use dark theme. <br>(if u see this note = u use dark mode) ._. 👍🏻
-  <br><br>
-  For high IQ folks, I've hidden some badges across the site. If you find them, they’ll be added to your profile automatically. Good luck for all 🧢
-  </span>
-</p>
+<p data-aos="fade-right" 
+data-aos-delay="200"
+   class="homepage_note Jetbrains_font">
+  Want to join the community?
+When you sign up, you become part of a tight-knit open-source circle. You'll get a profile, the right to contribute, and much more.</p>
+<p data-aos="fade-right" 
+data-aos-delay="400"
+    class="homepage_note Jetbrains_font">
+  if u wanna support the project 💗🐧<br>
+  please report for any bugs in <a href="./report/">report page</a><br>
+  and also if u have idea <a href="./idea/">idea page</a>
+<!---
+<div class="card-3d">
+  <div> </div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+-->
   </main>
 </div>
-
+<footer>
+  <p class="Jetbrains_font">
+   be your self 
+    <br>
+  </p>
+</footer>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="./js/animate.js"></script>
 <script type="module" src="./js/user.js"></script>
+<script src="./js/home.js"></script>
+<script type="module" src="./js/view.js"></script>
+<script src="./js/tg.js"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -177,26 +261,7 @@
 }
 </script>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.firebasestorage.app",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
-  const app = initializeApp(firebaseConfig);
-
-
-</script>
-
-<script type="module" src="./js/view.js"></script>
-<script src="./js/script.js"></script>
-<script src="./js/tg.js"></script>
-<script src="./js/time_ago.js"></script>
-<script src="./js/home.js"></script>
 
 </body>
+
 </html>
