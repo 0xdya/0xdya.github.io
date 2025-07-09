@@ -181,10 +181,63 @@ input[type="email"]:required:invalid {
     #login-buttons{
       display: none;
     }
+    .modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #111;
+  padding: 6rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 90%;
+  height: 100vh;
+}
+
+.modal-content h2 {
+  color: #0ff;
+  margin-bottom: 1rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+}
+
+.modal-content button {
+  background: #0ff;
+  color: #000;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
   </style>
 </head>
 <body>
-<!-- واجهة تسجيل الدخول -->
+
+<div id="nameModal" style="display: none;" class="modal">
+  <div class="modal-content">
+    <h2>welcome 🐐</h2>
+    <input type="text" id="nameInput" placeholder="chose ur username >= 3" />
+    <button id="saveNameBtn">save</button>
+  </div>
+</div>
 <div class="terminal">
   <div class="loginComandCode" dir="ltr">
     <span class="prompt">0xdya@auth:~$</span> cd login.md
@@ -310,6 +363,27 @@ input[type="email"]:required:invalid {
 
         const countRef = ref(rtdb, 'users_count');
         await runTransaction(countRef, c => (c || 0) + 1);
+        setTimeout(() => {
+  const nameModal = document.getElementById("nameModal");
+  nameModal.style.display = "flex";
+
+  document.getElementById("saveNameBtn").onclick = async () => {
+    const newName = document.getElementById("nameInput").value.trim();
+    if (newName.length < 3) {
+      alert("⚠️ الاسم يجب أن يحتوي على 3 أحرف على الأقل");
+      return;
+    }
+
+    await setDoc(doc(db, "users", user.uid), {
+      name: newName
+    }, { merge: true });
+
+    userName.textContent = newName;
+    nameModal.style.display = "none";
+    alert("✅ تم حفظ الاسم بنجاح!");
+  };
+}, 1000);
+
       } else {
         await setDoc(userRef, {
           name: defaultName,
