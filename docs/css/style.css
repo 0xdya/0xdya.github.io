@@ -11,7 +11,8 @@
    --profile-txt: #eaeaea;
  /*  --bg-color: #1a1a1a; */
    --text-color: #e0e0e0;
-   --text-color2: #fdf8f0;
+   --text-color2: #ededed;
+   --blog-code-bg: #1e1e1e;
    --bg-cod: #111;
    --homepage_note_bg: #111;
    --homepage_note_border: beige;
@@ -61,6 +62,7 @@
    --profile-txt: #000;
    --text-color: #000000;
    --text-color2: #000000;
+   --blog-code-bg: #ededed;
    --bg-cod: #fff;
     --bg-cod-header: #ededed;
    --accent-color: #4caf50;
@@ -460,10 +462,12 @@ nav a:hover {
    margin-bottom: 0.5rem;
 }
 
-code{
-  width: 100%;
-  color: var(--terminal-color);
-}
+code {
+      background: var(--blog-code-bg);
+      padding: 3px 6px;
+      border-radius: 4px;
+      color: #ff6161;
+    }
 .ascii{
   font-size: 10px !important;
   padding: 0 !important;
@@ -1163,27 +1167,7 @@ article{
     }
     }
     
-  
-.waviy {
-  text-align: center;
-  position: relative;
-  -webkit-box-reflect: below -26px linear-gradient(transparent, var(--text-color));
-}
-.waviy span {
-  font-size: 2rem;
-  position: relative;
-  display: inline-block;
-  color: var(--text-color);
-  animation-delay: calc(.1s * var(--i));
-}
-@keyframes waviy {
-  0%,40%,100% {
-    transform: translateY(0)
-  }
-  20% {
-    transform: translateY(-16px)
-  }
-}
+
 
 mark {
   display: inline-block;
@@ -1227,11 +1211,6 @@ mark {
   font-size: var(--fs-sm);
 }
 .read_blog_btn{
-}
-.blog_date{
-  position: absolute;
-  top: 8px;
-  left: 8px;
 }
 :root {
   --touch-color: rgba(255, 0, 150, 0.5); /* مثال */
