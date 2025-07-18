@@ -275,6 +275,9 @@ ion-icon{
 <textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3" style="display:none"></textarea>
 
 <!-- social links -->
+
+<button id="saveAllBtn" class="edit-btn">save</button>
+</section>
 <div id="addSocialForm" class="social-link-form" style="display:none">
   <select class="edit-field-link" id="platformSelect">
     <option value="twitter">Twitter</option>
@@ -289,9 +292,6 @@ ion-icon{
   <button id="saveSocialBtn" class="edit-field-link">💾 save</button>
   
 </div>
-
-<button id="saveAllBtn" class="edit-btn">save</button>
-</section>
   </div>
 <section class="sectionbtn">
 <button id="logoutBtn">logout  </button>
@@ -477,6 +477,7 @@ async function loadProfile(currentUser) {
     if (isOwner) {
   editBtn.style.display = "inline-block";
   logoutBtn.style.display = "block";
+  addSocialForm.style.display = "block";
   let isEditing = false;
   let sortable = null;
 
@@ -487,7 +488,7 @@ async function loadProfile(currentUser) {
     displayNameInput.style.display = isEditing ? "block" : "none";
     bioInput.style.display = isEditing ? "block" : "none";
     saveAllBtn.style.display = isEditing ? "inline-block" : "none";
-    addSocialForm.style.display = isEditing ? "block" : "none";
+    
     displayNameInput.value = data.name || "";
     bioInput.value = data.bio || "";
     editBtn.textContent = isEditing ? "close" : "Edit profile";
