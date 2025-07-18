@@ -254,6 +254,8 @@ ion-icon{
 <div class="name-section">
   <span id="currentName"></span>
   <span id="roleIcons"></span> 
+  <button id="syncPhotoBtn">🔄 Sync photo</button>
+  
 </div>
 <div id="statusEl"></div>
 <div id="displayBioInput"></div>
@@ -336,6 +338,7 @@ const db = getFirestore(app);
 const currentName = document.getElementById("currentName");
 const roleIcons = document.getElementById("roleIcons");
 const editBtn = document.getElementById("editBtn");
+const syncPhotoBtn = document.getElementById("syncPhotoBtn");
 const photoPreview = document.getElementById("photoPreview");
 const loading = document.getElementById("loading");
 const profileContainer = document.getElementById("profileContainer");
@@ -350,9 +353,13 @@ const statusEl = document.getElementById("statusEl");
 const saveAllBtn = document.getElementById("saveAllBtn");
 
 // استخراج اسم المستخدم من URL
-let usernameFromURL = window.location.pathname.startsWith("/@")
+ let usernameFromURL = window.location.pathname.startsWith("/@")
   ? decodeURIComponent(window.location.pathname.slice(2))
   : "profile";
+
+// باستخدام ?user=username
+//const urlParams = new URLSearchParams(window.location.search);
+//const usernameFromURL = urlParams.get("user") || "profile";
 
 // تصفية الاسم المدخل
 displayNameInput.addEventListener("input", () => {
@@ -371,6 +378,7 @@ onAuthStateChanged(auth, async (user) => {
     if (user && usernameFromURL === "profile") {
       const snap = await getDoc(doc(db, "users", user.uid));
       if (snap.exists() && snap.data().name) {
+    //    window.location.replace(`/?user=${encodeURIComponent(snap.data().name)}`);
         window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
         return;
       }
@@ -478,6 +486,7 @@ async function loadProfile(currentUser) {
   editBtn.style.display = "inline-block";
   logoutBtn.style.display = "block";
   addSocialForm.style.display = "block";
+  syncPhotoBtn.style.display = "inline-block"; // أظهر الزر فقط للمالك
   let isEditing = false;
   let sortable = null;
 
@@ -502,6 +511,30 @@ async function loadProfile(currentUser) {
 
     renderSocials(); // إعادة رسم عند التبديل
   };
+syncPhotoBtn.onclick = async () => {
+  try {
+    await currentUser.reload();
+
+    // استخدم providerData فقط إن كانت الصورة صالحة
+    const googleData = currentUser.providerData.find((p) => p.providerId === "google.com");
+    let newPhotoURL = googleData?.photoURL;
+
+    // تحقق إن كانت الصورة المؤقتة تؤدي إلى 429 (لا تستخدمها إن حصل ذلك سابقًا)
+    if (newPhotoURL?.includes("googleusercontent.com")) {
+      await updateProfile(currentUser, { photoURL: newPhotoURL });
+      await setDoc(doc(db, "users", currentUser.uid), { photo: newPhotoURL }, { merge: true });
+      photoPreview.src = newPhotoURL;
+      alert("✅ تم تحديث الصورة بنجاح (قد تأخذ بضع دقائق لتظهر)");
+    } else {
+      alert("❌ تعذر الحصول على صورة صالحة من Google.");
+    }
+  } catch (err) {
+    console.error("Sync photo error:", err);
+    alert("🚨 حدث خطأ أثناء المزامنة");
+  }
+};
+
+  
 
   function enableSorting() {
     if (sortable) sortable.destroy();
