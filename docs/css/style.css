@@ -10,6 +10,7 @@
        --text-gradient-yellow: linear-gradient(to right, beige);
    
 	--bg-color: #000;
+	--bg-card: #000;
 	--profile-bg: #000;
 	--profile-txt: #eaeaea;
 	/*  --bg-color: #1a1a1a; */
@@ -66,6 +67,7 @@ body.dark_theme {
 
 .light_theme {
 	--bg-color: #ffffff;
+		--bg-card: #000;
 	--profile-bg: #ffffff;
 	--profile-txt: #000;
 	--text-color: #000000;
@@ -455,7 +457,6 @@ code {
 	background: transparent;
 	padding: 3px 6px;
 	border-radius: 4px;
-	color: var(--terminal-color);
 }
 
 .ascii {
@@ -467,12 +468,10 @@ code {
 .tr_txt,
 .tr_txt2,
 .tr_txt3 {
-	font-weight: 200;
 	font-size: 12px;
 	font-family: "JetBrains Mono" !important;
 }
 
-.tr_txt,
 #repoInfo strong,
 #latestCommit strong,
 #ownerInfo strong {
@@ -496,11 +495,6 @@ code {
 	margin: 4px 0 0;
 	display: flex;
 	gap: 8px;
-}
-
-.tr_txt3 {
-	font-weight: 600;
-	color: var(--text-color);
 }
 
 .prompt {
@@ -598,7 +592,7 @@ code {
 	z-index: 1;
 }
 
-.note {
+.note, .ion_note {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -610,7 +604,9 @@ code {
 	border-radius: 8px;
 	color: var(--muted);
 }
-
+.ion_note{
+  font-size: 16px;
+}
 .home_note {
 	font-size: 14px;
 	color: grey;
@@ -927,6 +923,19 @@ article {
 	border-radius: 6px;
 	font-size: 12px;
 	color: var(--text-color);
+	text-decoration: none;
+	transition: background 0.2s, border 0.2s;
+}
+.ion_list_btn {
+  width: 100%;
+	gap: 6px;
+	padding: 8px 14px;
+	background-color: transparent;
+	border: 1px solid #2a2a2a;
+	border-radius: 6px;
+	font-size: 14px;
+	color: var(--text-color);
+	text-align: center;
 	text-decoration: none;
 	transition: background 0.2s, border 0.2s;
 }
@@ -1327,17 +1336,5 @@ overflow: hidden;
   border: none;
   border-radius: 4px;
   padding: 4px 8px !important;
-}
-.ion_note {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	gap: 4px;
-	padding: 4px 8px;
-	font-size: 14px ;
-	border: 1px solid #333;
-	border-radius: 8px;
-	color: #c9d1d9;
 }
 */
