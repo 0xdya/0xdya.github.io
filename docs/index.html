@@ -27,6 +27,8 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
     <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" type="text/css" />
     <style>
@@ -66,7 +68,7 @@
     </style>
 </head>
 
-<body dir="ltr" class="body">
+<body dir="ltr" class="body" >
     <header class="h">
         <h1 class="logo_name">
             <span class="prompt">
@@ -105,48 +107,34 @@
         <button id="back_to_top">
 				<ion-icon name="chevron-up-circle-outline"></ion-icon>
 			</button>
-        <main>
-            <!--			<section class=" about_header">
-					<h1 class="an1">Welcome to 0xdya 
-					</h1>
-					<p class=" ">
-little open-source community for genius developers & problem solvers & writers 
-				
-							best growing open-source space for genius developers, creators, & problem solvers. We’re building tools, writing content, and more
-						
-					</p>
-					<div class="about_btn">
-						<a class="an3 login" href="./login/">join</a>
-						<a href="./info/" class=" about">repo & log</a>
-					</div>
-				</section> -->
-            <h2 class=" home_title_font">#</span> about me</h2>
-            <p class=" homepage_note Jetbrains_font">
+        <main id="ion_list">
+        <button data-id="1"class="ion_list_btn"id="ion_list_btn">edit mode is off <ion-icon name="lock-closed-outline"></ion-icon></button>
+            <h2 data-id="2" class=" home_title_font">#</span> whoami</h2>
+            <p data-id="3"class=" homepage_note Jetbrains_font">
             I'm 18y dev, writer, painter, editor, poet
             <br>
                         + i use Arch btw ._.
                       
                         
                         </p>
-            <p class=" homepage_note Jetbrains_font">
+            <p data-id="4" class=" homepage_note Jetbrains_font">
 Actually, this site isn’t just a personal page — it’s a small open-source community of brilliant developers. <br>good luck
             </p>
-                        
-                        <div class=" note_section">
-<ion-icon class="note" name="logo-html5"></ion-icon>
-<ion-icon class="note" name="logo-css3"></ion-icon>
-<ion-icon class="note" name="logo-android"></ion-icon>
-<ion-icon class="note" name="logo-nodejs"></ion-icon>
-<ion-icon class="note" name="logo-javascript"></ion-icon>
-<ion-icon class="note" name="logo-firebase"></ion-icon>
-<ion-icon class="note" name="logo-gitlab"></ion-icon>
-<ion-icon class="note" name="logo-npm"></ion-icon>
-<ion-icon class="note" name="logo-tux"></ion-icon>
-<ion-icon class="note" name="logo-sass"></ion-icon>
-<ion-icon class="note" name="logo-vercel"></ion-icon>
+<div data-id="5" class=" note_section" >
+<ion-icon class="ion_note" name="logo-html5"></ion-icon>
+<ion-icon class="ion_note" name="logo-react"></ion-icon>
+<ion-icon class="ion_note" name="logo-css3"></ion-icon>
+<ion-icon class="ion_note" name="logo-nodejs"></ion-icon>
+<ion-icon class="ion_note" name="logo-sass"></ion-icon>
+<ion-icon class="ion_note" name="logo-javascript"></ion-icon>
+<ion-icon class="ion_note" name="logo-firebase"></ion-icon>
+<ion-icon class="ion_note" name="logo-gitlab"></ion-icon>
+<ion-icon class="ion_note" name="logo-npm"></ion-icon>
+<ion-icon class="ion_note" name="logo-tux"></ion-icon>
+<ion-icon class="ion_note" name="logo-android"></ion-icon>
             </div>
-            <h2 class=" home_title_font">#</span> info's</h2>
-            <div class=" terminal_bg">
+            <h2 data-id="6"class=" home_title_font">#</span> info's</h2>
+            <div data-id="7"class=" terminal_bg">
                 <div class="terminal">
                     <div class="terminal_dote"><span></span><span></span><span></span></div>
                     <div class="ascii">
@@ -167,36 +155,35 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
                     <div class="code-box" id="draggable-box">
                         <div class="code_box_content">
                             <div>
-                                <span class="tr_txt3">
+                                <span class="Jetbrains_font tr_txt3">
 										<ion-icon class="amd_ion" name="analytics-outline"></ion-icon>
 										realtime_data()
 									</span>
                                 <br>
                             </div>
-                            <div class="update_line"><span class="tr_txt">> visits:</span> <span class="tr_txt2"><span id="counter"><span class="doted">Loading </span></span>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> visits:</span> <span class="Jetbrains_font tr_txt2"><span id="counter"><span class="doted">Loading </span></span>
                                 </span>
                             </div>
-                            <div class="update_line"><span class="tr_txt">> users:</span> <span class="tr_txt2"><span id="users_count"><span class="doted">Loading </span></span>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> users:</span> <span class="Jetbrains_font tr_txt2"><span id="users_count"><span class="doted">Loading </span></span>
                                 </span>
                             </div>
-                            <div class="update_line"><span class="tr_txt">> comments:</span> <span class="tr_txt2"><span id="comments_count"><span class="doted">Loading </span></span>
-                                </span>
-                            </div>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> comments:</span> <span class="Jetbrains_font tr_txt2"><span id="comments_count"><span class="doted">Loading </span></span></span></div>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> old:</span> <span class="Jetbrains_font tr_txt2"><span class="time_ago">2025-05-09</span></span></div>
                             <br>
                             <div>
-                                <span class="tr_txt3">
+                                <span class="Jetbrains_font tr_txt3">
 										<ion-icon class="amd_ion" name="folder-outline"></ion-icon>
 										docs()
 									</span>
                                 <br>
                             </div>
-                            <div class="update_line"><span class="tr_txt">> archive:</span> <span class="tr_txt2"> <a href="./archive/">read</a></span></div>
-                            <div class="update_line"><span class="tr_txt">> repo info:</span> <span class="tr_txt2"> <a href="./info/">read</a></span></div>
-                            <div class="update_line"><span class="tr_txt">> source:</span> <span class="tr_txt2"> <a href="https://github.com/0xdya/0xdya.github.io/">open</a></span></span>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> archive:</span> <span class="Jetbrains_font tr_txt2"> <a href="./archive/">read</a></span></div>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> repo info:</span> <span class="Jetbrains_font tr_txt2"> <a href="./info/">read</a></span></div>
+                            <div class="update_line"><span class="Jetbrains_font tr_txt">> source:</span> <span class="Jetbrains_font tr_txt2"> <a href="https://github.com/0xdya/0xdya.github.io/">open</a></span></span>
                             </div>
                             <br>
                             <div>
-                                <span class="tr_txt3">
+                                <span class="Jetbrains_font tr_txt3">
 										<ion-icon class="amd_ion" name="mail-unread-outline"></ion-icon>
 										Latest_News()
 									</span>
@@ -212,9 +199,9 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
                 </div>
             </div>
             
-            <h2 id="sitemap" class=" home_title_font"><span>#</span> sitemap</h2>
-            <div class="" id="network"></div>
-            <div class=" note_section">
+            <h2 data-id="8" id="sitemap" class=" home_title_font"><span>#</span> sitemap</h2>
+            <div data-id="9" class="" id="network"></div>
+            <div data-id="10"class=" note_section">
                 <div class="note">
                     <ion-icon name="alert-circle-outline"></ion-icon>
                     Click to open
@@ -230,14 +217,14 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
                     Zoomable
                 </div>
             </div>
-            <p class=" homepage_note Jetbrains_font">
+            <p data-id="11"class=" homepage_note Jetbrains_font">
                 if u are (developer / designer / writer / bugs hunter or just have skills can help the 0xdya community to grow up) join and be Project partner
                 <br> => go to <a>Partner Request</a>
             </p>
-            <p class=" homepage_note Jetbrains_font">
+            <p data-id="12"class=" homepage_note Jetbrains_font">
                 also if u want to join the community as user when you <a href="./login/">sign up</a> , you become part of a tight-knit open-source circle. You'll get a profile, the right to contribute, and much more.
             </p>
-            <p class=" homepage_note Jetbrains_font">
+            <p data-id="13" class=" homepage_note Jetbrains_font">
                 site is still in beta test if u wanna support the project 💗🐧<br> please report for any bugs in <a href="./report/">report page</a><br> and also if u have idea <a href="./idea/">idea page</a>
             </p>
             
@@ -278,6 +265,7 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
         </p>
     </footer>
     <script src="./js/home.js"></script>
+    <script src="./js/time_ago.js"></script>
     <script type="module" src="./js/user.js"></script>
     <script type="module" src="./js/view.js"></script>
     <script type="application/ld+json">
@@ -299,6 +287,9 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
         			  ]
         			}
     </script>
+
+<script src="./js/draggable.js"></script>
+
 </body>
 
 </html>
