@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 👤 تحديث الواجهة
       if (userAvatar) {
         loginIcon.style.display = "none";
-        userAvatar.src = user.photoURL || "https://0xdya.github.io/img/user.jpg";
+        userAvatar.src = user.photoURL;
         userAvatar.title = user.displayName || user.email || "حساب المستخدم";
         userAvatar.style.display = "inline-block";
         userAvatar.style.verticalAlign = "middle";
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log("✅ تم تحديث lastLogin بنجاح");
 
           // ✅ تحديث photo إن تغيّرت
-          if (user.photoURL && user.photoURL !== userData.photo) {
+          if (user.photo && user.photo !== userData.photo) {
             await updateDoc(userRef, {
               photo: user.photoURL
             });
