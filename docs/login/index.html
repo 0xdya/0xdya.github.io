@@ -277,6 +277,10 @@ input[type="email"]:required:invalid {
       <ion-icon name="logo-github"></ion-icon>
       <span class="home_title_font"> continue with GitHub </span>
     </button>
+    <button id="facebookLogin" dir="ltr">
+  <ion-icon name="logo-facebook"></ion-icon>
+  <span class="home_title_font"> continue with Facebook </span>
+</button>
   </div>
   <div id="error"></div>
   <div id="userSection" class="none">
@@ -290,10 +294,11 @@ input[type="email"]:required:invalid {
   // 🧩 1. استيراد Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
   import {
-    getAuth, GoogleAuthProvider, GithubAuthProvider,
+    getAuth, GoogleAuthProvider, GithubAuthProvider,FacebookAuthProvider,
     signInWithPopup, signOut, onAuthStateChanged,
     sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
   } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  
   import {
     getFirestore, doc, setDoc, getDocFromServer, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
@@ -315,9 +320,12 @@ input[type="email"]:required:invalid {
   const db = getFirestore(app);
   const rtdb = getDatabase(app);
 
+
   const providers = {
     google: new GoogleAuthProvider(),
-    github: new GithubAuthProvider()
+    github: new GithubAuthProvider(),
+    facebook: new FacebookAuthProvider()
+      
   };
 
   // 🎛️ 3. عناصر DOM
@@ -487,6 +495,8 @@ input[type="email"]:required:invalid {
   // 🎯 10. أزرار تسجيل الدخول بمزود
   document.getElementById("googleLogin").addEventListener("click", () => loginWithProvider(providers.google));
   document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
+  document.getElementById("facebookLogin").addEventListener("click", () => loginWithProvider(providers.facebook));
+  
 </script>
 
 
