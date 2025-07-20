@@ -1,5 +1,10 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import {
+  getFirestore,
+  collection,
+  getCountFromServer
+} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
 // إعداد Firebase
 const firebaseConfig = {
@@ -13,6 +18,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const firestore = getFirestore(app);
+
 
 // --- عدد الزوار ---
 const visitsRef = ref(db, 'visits');
@@ -30,15 +37,26 @@ if (!last || now - last > ONE_DAY) {
 }
 
 // --- عدد المستخدمين ---
-const usersRef = ref(db, 'users_count');
-onValue(usersRef, (snapshot) => {
-  const users = snapshot.exists() ? snapshot.val() : 0;
-  document.getElementById("users_count").innerText = `${users}`;
-});
+async function fetchUsersCount() {
+  const usersCol = collection(firestore, "users");
+  const snapshot = await getCountFromServer(usersCol);
+  const count = snapshot.data().count;
+  document.getElementById("users_count").innerText = `${count}`;
+}
+
+fetchUsersCount();
+
 
 // --- عدد التعليقات ---
-const commentsRef = ref(db, 'comments_count');
-onValue(commentsRef, (snapshot) => {
-  const comments = snapshot.exists() ? snapshot.val() : 0;
-  document.getElementById("comments_count").innerText = `${comments}`;
-});
+async function fetchCommentsCount() {
+  try {
+    const commentsCol = collection(firestore, "comments");
+    const snapshot = await getCountFromServer(commentsCol);
+    const count = snapshot.data().count;
+    document.getElementById("comments_count").innerText = `${count}`;
+  } catch (error) {
+    console.error("خطأ في قراءة عدد التعليقات:", error);
+  }
+}
+
+fetchCommentsCount();
