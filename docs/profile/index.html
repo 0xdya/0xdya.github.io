@@ -178,7 +178,7 @@ ion-icon{
     margin-top: 0 !important;
     margin-left: 0;
   }
-  .theme_toggle_container{
+  .theme_toggle_container, .hidden {
     display: none ;
   }
   #roleIcons{
@@ -429,9 +429,9 @@ async function loadProfile(currentUser) {
       const lastLoginDate = data.lastLogin.toDate();
       const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
       statusEl.style.fontSize = "14px";
-      statusEl.style.color = diffSec < 60 ? "lime" : "#aaa";
+      statusEl.style.color = diffSec < 300 ? "lime" : "#aaa";
       statusEl.style.marginTop = "4px";
-      statusEl.textContent = diffSec < 60 ? "online" : `last seen ${formatTimeAgo(diffSec)}`;
+      statusEl.textContent = diffSec < 300 ? "online" : `last seen ${formatTimeAgo(diffSec)}`;
     }
 
     const socialLinksDiv = document.getElementById("socialLinks");
