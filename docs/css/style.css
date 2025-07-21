@@ -198,7 +198,7 @@ ul, li{
 	img {
 		width: 44px;
 		height: 44px;
-		border-radius: 50%;
+		border-radius: 4px;
 		vertical-align: middle;
 		margin-left: 8px;
 	}
@@ -221,8 +221,8 @@ ul, li{
 	color: #66ccff !important;
 }
 
-.dev {
-	color: #ffcc66 !important;
+.writer {
+	color: rgb(207 146 120) !important;
 }
 
 .joined {
