@@ -1,5 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-  
+    // back_to_top 
+  const btn = document.getElementById("back_to_top");
+  window.addEventListener("scroll", function () {
+    const scrollTop = window.scrollY;
+
+    if (scrollTop > 200) {
+      // إظهار الزر بتأثير الصعود إذا لم يكن ظاهراً أو قيد الهبوط
+      if (!btn.classList.contains("show-up") && btn.style.display !== "block") {
+        btn.classList.remove("show-down");
+        btn.classList.add("show-up");
+        btn.style.display = "block";
+      }
+    } else {
+      // إخفاء الزر بتأثير الهبوط إذا كان ظاهراً أو قيد الصعود
+      if (!btn.classList.contains("show-down") && btn.style.display === "block") {
+        btn.classList.remove("show-up");
+        btn.classList.add("show-down");
+
+        // إخفاء الزر بعد انتهاء الأنميشن
+        setTimeout(() => {
+          btn.style.display = "none";
+        }, 500); // نفس مدة الأنميشن
+      }
+    }
+  });
+  // التنقل السلس للأعلى عند الضغط على الزر
+  btn.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
   
 
 	const list = document.getElementById("ion_list");
@@ -259,6 +290,14 @@ container.addEventListener('touchend', () => {
       }
     }
   });
+  
+  
+  
+
+  
+  
+  
+  
 });
 
 // update card
@@ -316,39 +355,4 @@ function getBackgroundColor() {
     return '#111';
   }
 }
-// back_to_top 
-document.addEventListener("DOMContentLoaded", function () {
-  const btn = document.getElementById("back_to_top");
 
-  window.addEventListener("scroll", function () {
-    const scrollTop = window.scrollY;
-
-    if (scrollTop > 200) {
-      // إظهار الزر بتأثير الصعود إذا لم يكن ظاهراً أو قيد الهبوط
-      if (!btn.classList.contains("show-up") && btn.style.display !== "block") {
-        btn.classList.remove("show-down");
-        btn.classList.add("show-up");
-        btn.style.display = "block";
-      }
-    } else {
-      // إخفاء الزر بتأثير الهبوط إذا كان ظاهراً أو قيد الصعود
-      if (!btn.classList.contains("show-down") && btn.style.display === "block") {
-        btn.classList.remove("show-up");
-        btn.classList.add("show-down");
-
-        // إخفاء الزر بعد انتهاء الأنميشن
-        setTimeout(() => {
-          btn.style.display = "none";
-        }, 500); // نفس مدة الأنميشن
-      }
-    }
-  });
-
-  // التنقل السلس للأعلى عند الضغط على الزر
-  btn.addEventListener("click", function () {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-});
