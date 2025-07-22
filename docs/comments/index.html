@@ -466,10 +466,10 @@ function loadComments() {
 
         const timeStr = formatDate(data.timestamp?.toDate() || new Date());
         const userData = await getUserData(data.uid);
-        const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "admin";
+        const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "owner";
 
         const roleIcons = {
-          admin: `<img src="../badges/server-owner.svg" class="imgsvg">`,
+          owner: `<img src="../badges/server-owner.svg" class="imgsvg">`,
           dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
         };
         const roleIconHTML = userData.role && roleIcons[userData.role] ? roleIcons[userData.role] : "";
@@ -563,7 +563,6 @@ function loadComments() {
           return b.timestamp?.seconds - a.timestamp?.seconds;
         });
 
-        // إعادة رسم DOM كامل (آمن لأننا نبني من الصفر هنا)
         commentsList.innerHTML = "";
         all.forEach(({ el, id }) => {
           commentsList.appendChild(el);
@@ -609,10 +608,10 @@ async function loadReplies(commentId) {
 
     const isOwner =
       currentUser?.uid === d.uid ||
-      currentUserData?.role === "admin";
+      currentUserData?.role === "owner";
 
     const roleIcons = {
-      admin: `<img src="../badges/server-owner.svg" class="imgsvg">`,
+      owner: `<img src="../badges/server-owner.svg" class="imgsvg">`,
       dev: `<ion-icon name="code-slash-outline" style="color:violet;" title="Developer"></ion-icon>`
     };
     const roleIconHTML =
