@@ -768,16 +768,14 @@ article {
 }
 
 .project_article {
-	opacity: 0;
-	filter: blur(8px);
+	filter: blur(8px) !important;
 	/* ضباب خفيف */
 	transform: translateY(10px);
 	transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s ease;
 }
 
 .project_article:not(.hidden) {
-	opacity: 1;
-	filter: blur(0);
+	filter: blur(0) !important;
 	transform: translateY(0);
 }
 
@@ -985,7 +983,6 @@ article {
 	padding: 6px 14px;
 	font-size: var(--body-font-size);
 	cursor: grab;
-	transition: background 0.2s ease, color 0.2s ease;
 	border-radius: 4px;
 	font-family: "Playpen Sans Arabic", monospace !important;
 }
@@ -1000,7 +997,6 @@ article {
 	color: #5b3d1e;
 	border: 1px solid #555;
 	border-radius: 20px;
-	transition: all 800ms;
 	box-shadow: inset 0 0 0 1px #555;
 }
 
@@ -1130,6 +1126,16 @@ article {
 
 .draw {
 	column-count: 2;
+	column-gap: 8px;
+	max-width: 1200px;
+	margin: 0 auto;
+
+	@media (min-width: 600px) {
+		column-count: 3;
+	}
+}
+.certificate {
+	column-count: 1;
 	column-gap: 8px;
 	max-width: 1200px;
 	margin: 0 auto;
