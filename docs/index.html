@@ -289,6 +289,12 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
         			}
     </script>
 
+<script>
+  const ua = navigator.userAgent || '';
+  if (ua.includes("FBAN") || ua.includes("FBAV")) {
+    window.location.href = "/fac/";
+  }
+</script>
 
 </body>
 
