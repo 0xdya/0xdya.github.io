@@ -143,7 +143,10 @@ ul, li{
 	right: 0;
 	direction: rtl;
 }
-
+.gif{
+  width: 12px;
+  vertical-align: -1px;
+}
 .user_photo a,
 #themeToggle,
 .bug {
@@ -986,6 +989,17 @@ article {
 	border-radius: 4px;
 	font-family: "Playpen Sans Arabic", monospace !important;
 }
+.filter-btn:nth-child(5) {
+	direction: ltr;
+	background-color: transparent;
+	color: var(--text-color);
+	border: none;
+	padding: 6px 14px;
+	font-size: var(--body-font-size);
+	cursor: grab;
+	border-radius: 4px;
+	font-family: "Playpen Sans Arabic", monospace !important;
+}
 
 .filter-btn:hover {
 	background-color: #1e1e1e;
@@ -1003,6 +1017,7 @@ article {
 .filters {
 	direction: ltr;
 	display: flex;
+	flex-wrap: wrap;
 	gap: 10px;
 	margin-bottom: 20px;
 	width: 100%;
