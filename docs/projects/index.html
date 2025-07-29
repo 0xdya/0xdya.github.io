@@ -13,6 +13,11 @@
       <!-- GLightbox CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
    <script type="module" src="../js/user.js"></script>
+   <style>
+     a{
+       cursor: grab;
+     }
+   </style>
   </head>
   <h1 class="title home_title_font">
     <span class="prompt ">~/</span>projects
@@ -63,22 +68,22 @@
 <p class="intro home_title_font">Here you’ll find all my projects</p>
 <div class="filters home_title_font">
   <button class="filter-btn active" data-type="web">web</button>
-  <button class="filter-btn" data-type="draw">draw</button>
+  <button class="filter-btn" data-type="draw">paint</button>
   <button class="filter-btn" data-type="photo">photo</button>
-  <button class="filter-btn" data-type="certificate">certificate</button>
+  <button class="filter-btn" data-type="book">book</button>
 </div>
 
 <article data-type="web" dir="ltr" class="project_article ">
   <h2 class="blog_title">
-    <a>Dya Quran</a>
+    <a >Dya Quran</a>
   </h2>
   <p>A website hav around 14 famous Quran reciters with all surahs, no-ads, with options to download individual surahs or all 114 in one zip file.</p>
   <div class="buttons">
     <a class="btn" href="https://dya-quran.web.app" target="_blank">
       <ion-icon name="eye-outline"></ion-icon> Open
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=dya-quran">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -92,8 +97,11 @@
     <a class="btn" href="https://0xdya.github.io/kitsuba/" target="_blank">
       <ion-icon name="eye-outline"></ion-icon> Open
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" href="https://github.com/0xdya/kitsuba/" target="_blank">
+      <ion-icon name="logo-github"></ion-icon> Source
+    </a>
+    <a class="btn" target="_blank" href="project.html?slug=kitsuba">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -110,8 +118,8 @@
     <a class="btn" href="https://github.com/0xdya/d1master_beta" target="_blank">
       <ion-icon name="logo-github"></ion-icon> Source
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=d1master_beta">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -126,8 +134,8 @@
     <a class="btn" href="https://d1shop.web.app" target="_blank">
       <ion-icon name="eye-outline"></ion-icon> Open
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=d1shop">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -144,8 +152,8 @@
     <a class="btn" href="https://github.com/0xdya/d1scan_beta" target="_blank">
       <ion-icon name="logo-github"></ion-icon> Source
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=d1scan_beta">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -162,8 +170,8 @@
     <a class="btn" href="https://github.com/0xdya/d1bac" target="_blank">
       <ion-icon name="logo-github"></ion-icon> Source
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=d1bac">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -180,8 +188,8 @@
     <a class="btn" href="https://github.com/0xdya/d1_ip" target="_blank">
       <ion-icon name="logo-github"></ion-icon> Source
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=d1_ip">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -198,8 +206,8 @@
     <a class="btn" href="https://github.com/0xdya/lu" target="_blank">
       <ion-icon name="logo-github"></ion-icon> Source
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=lu">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -213,8 +221,8 @@
     <a class="btn" href="https://el-ghazali.web.app" target="_blank">
       <ion-icon name="eye-outline"></ion-icon> Open
     </a>
-    <a class="btn" target="_blank">
-      <ion-icon name="logo-github"></ion-icon> Comments
+    <a class="btn" target="_blank" href="project.html?slug=abihamed">
+      <ion-icon name="chatbubbles-outline"></ion-icon> Comments
     </a>
   </div>
 </article>
@@ -223,52 +231,55 @@
 
 
       <div class="draw project_article" data-type="draw">
-    <div class="draw-item"><a href="./draw/1.webp" class="glightbox" data-draw="draw"><img src="./draw/1.webp"></a></div>
-    <div class="draw-item"><a href="./draw/2.webp" class="glightbox" data-draw="draw"><img src="./draw/2.webp"></a></div>
-    <div class="draw-item"><a href="./draw/3.webp" class="glightbox" data-draw="draw"><img src="./draw/3.webp"></a></div>
-    <div class="draw-item"><a href="./draw/4.webp" class="glightbox" data-draw="draw"><img src="./draw/4.webp"></a></div>
-    <div class="draw-item"><a href="./draw/5.webp" class="glightbox" data-draw="draw"><img src="./draw/5.webp"></a></div>
-    <div class="draw-item"><a href="./draw/6.webp" class="glightbox" data-draw="draw"><img src="./draw/6.webp"></a></div>
-    <div class="draw-item"><a href="./draw/7.webp" class="glightbox" data-draw="draw"><img src="./draw/7.webp"></a></div>
-    <div class="draw-item"><a href="./draw/8.webp" class="glightbox" data-draw="draw"><img src="./draw/8.webp"></a></div>
-    <div class="draw-item"><a href="./draw/9.webp" class="glightbox" data-draw="draw"><img src="./draw/9.webp"></a></div>
-    <div class="draw-item"><a href="./draw/10.webp" class="glightbox" data-draw="draw"><img src="./draw/10.webp"></a></div>
-    <div class="draw-item"><a href="./draw/11.webp" class="glightbox" data-draw="draw"><img src="./draw/11.webp"></a></div>
-    <div class="draw-item"><a href="./draw/12.webp" class="glightbox" data-draw="draw"><img src="./draw/12.webp"></a></div>
-    <div class="draw-item"><a href="./draw/13.webp" class="glightbox" data-draw="draw"><img src="./draw/13.webp"></a></div>
-    <div class="draw-item"><a href="./draw/14.webp" class="glightbox" data-draw="draw"><img src="./draw/14.webp"></a></div>
-    <div class="draw-item"><a href="./draw/15.webp" class="glightbox" data-draw="draw"><img src="./draw/15.webp"></a></div>
-    <div class="draw-item"><a href="./draw/16.webp" class="glightbox" data-draw="draw"><img src="./draw/16.webp"></a></div>
-    <div class="draw-item"><a href="./draw/17.webp" class="glightbox" data-draw="draw"><img src="./draw/17.webp"></a></div>
-    <div class="draw-item"><a href="./draw/18.webp" class="glightbox" data-draw="draw"><img src="./draw/18.webp"></a></div>
+    <div class="photo_item"><a href="./draw/1.webp" class="glightbox" data-draw="draw"><img src="./draw/1.webp"></a></div>
+    <div class="photo_item"><a href="./draw/2.webp" class="glightbox" data-draw="draw"><img src="./draw/2.webp"></a></div>
+    <div class="photo_item"><a href="./draw/3.webp" class="glightbox" data-draw="draw"><img src="./draw/3.webp"></a></div>
+    <div class="photo_item"><a href="./draw/4.webp" class="glightbox" data-draw="draw"><img src="./draw/4.webp"></a></div>
+    <div class="photo_item"><a href="./draw/5.webp" class="glightbox" data-draw="draw"><img src="./draw/5.webp"></a></div>
+    <div class="photo_item"><a href="./draw/6.webp" class="glightbox" data-draw="draw"><img src="./draw/6.webp"></a></div>
+    <div class="photo_item"><a href="./draw/7.webp" class="glightbox" data-draw="draw"><img src="./draw/7.webp"></a></div>
+    <div class="photo_item"><a href="./draw/8.webp" class="glightbox" data-draw="draw"><img src="./draw/8.webp"></a></div>
+    <div class="photo_item"><a href="./draw/9.webp" class="glightbox" data-draw="draw"><img src="./draw/9.webp"></a></div>
+    <div class="photo_item"><a href="./draw/10.webp" class="glightbox" data-draw="draw"><img src="./draw/10.webp"></a></div>
+    <div class="photo_item"><a href="./draw/11.webp" class="glightbox" data-draw="draw"><img src="./draw/11.webp"></a></div>
+    <div class="photo_item"><a href="./draw/12.webp" class="glightbox" data-draw="draw"><img src="./draw/12.webp"></a></div>
+    <div class="photo_item"><a href="./draw/13.webp" class="glightbox" data-draw="draw"><img src="./draw/13.webp"></a></div>
+    <div class="photo_item"><a href="./draw/14.webp" class="glightbox" data-draw="draw"><img src="./draw/14.webp"></a></div>
+    <div class="photo_item"><a href="./draw/15.webp" class="glightbox" data-draw="draw"><img src="./draw/15.webp"></a></div>
+    <div class="photo_item"><a href="./draw/16.webp" class="glightbox" data-draw="draw"><img src="./draw/16.webp"></a></div>
+    <div class="photo_item"><a href="./draw/17.webp" class="glightbox" data-draw="draw"><img src="./draw/17.webp"></a></div>
+    <div class="photo_item"><a href="./draw/18.webp" class="glightbox" data-draw="draw"><img src="./draw/18.webp"></a></div>
   </div>
   
         <div class="draw project_article" data-type="photo">
-    <div class="draw-item"><a href="./photo/1.webp" class="glightbox" data-draw="draw"><img src="./photo/1.webp"></a></div>
-    <div class="draw-item"><a href="./photo/2.webp" class="glightbox" data-draw="draw"><img src="./photo/2.webp"></a></div>
-    <div class="draw-item"><a href="./photo/3.webp" class="glightbox" data-draw="draw"><img src="./photo/3.webp"></a></div>
-    <div class="draw-item"><a href="./photo/4.webp" class="glightbox" data-draw="draw"><img src="./photo/4.webp"></a></div>
-    <div class="draw-item"><a href="./photo/5.webp" class="glightbox" data-draw="draw"><img src="./photo/5.webp"></a></div>
-    <div class="draw-item"><a href="./photo/6.webp" class="glightbox" data-draw="draw"><img src="./photo/6.webp"></a></div>
-    <div class="draw-item"><a href="./photo/7.webp" class="glightbox" data-draw="draw"><img src="./photo/7.webp"></a></div>
-    <div class="draw-item"><a href="./photo/8.webp" class="glightbox" data-draw="draw"><img src="./photo/8.webp"></a></div>
-    <div class="draw-item"><a href="./photo/9.webp" class="glightbox" data-draw="draw"><img src="./photo/9.webp"></a></div>
-    <div class="draw-item"><a href="./photo/10.webp" class="glightbox" data-draw="draw"><img src="./photo/10.webp"></a></div>
-    <div class="draw-item"><a href="./photo/11.webp" class="glightbox" data-draw="draw"><img src="./photo/11.webp"></a></div>
-    <div class="draw-item"><a href="./photo/12.webp" class="glightbox" data-draw="draw"><img src="./photo/12.webp"></a></div>
-    <div class="draw-item"><a href="./photo/13.webp" class="glightbox" data-draw="draw"><img src="./photo/13.webp"></a></div>
-    <div class="draw-item"><a href="./photo/14.webp" class="glightbox" data-draw="draw"><img src="./photo/14.webp"></a></div>
-    <div class="draw-item"><a href="./photo/15.webp" class="glightbox" data-draw="draw"><img src="./photo/15.webp"></a></div>
-    <div class="draw-item"><a href="./photo/16.webp" class="glightbox" data-draw="draw"><img src="./photo/16.webp"></a></div>
-    <div class="draw-item"><a href="./photo/17.webp" class="glightbox" data-draw="draw"><img src="./photo/17.webp"></a></div>
-    <div class="draw-item"><a href="./photo/18.webp" class="glightbox" data-draw="draw"><img src="./photo/18.webp"></a></div>
+    <div class="photo_item"><a href="./photo/1.webp" class="glightbox" data-photo="gallery"><img src="./photo/1.webp"></a></div>
+    <div class="photo_item"><a href="./photo/2.webp" class="glightbox" data-photo="gallery"><img src="./photo/2.webp"></a></div>
+    <div class="photo_item"><a href="./photo/3.webp" class="glightbox" data-photo="gallery"><img src="./photo/3.webp"></a></div>
+    <div class="photo_item"><a href="./photo/4.webp" class="glightbox" data-photo="gallery"><img src="./photo/4.webp"></a></div>
+    <div class="photo_item"><a href="./photo/5.webp" class="glightbox" data-photo="gallery"><img src="./photo/5.webp"></a></div>
+    <div class="photo_item"><a href="./photo/6.webp" class="glightbox" data-photo="gallery"><img src="./photo/6.webp"></a></div>
+    <div class="photo_item"><a href="./photo/7.webp" class="glightbox" data-photo="gallery"><img src="./photo/7.webp"></a></div>
+    <div class="photo_item"><a href="./photo/8.webp" class="glightbox" data-photo="gallery"><img src="./photo/8.webp"></a></div>
+    <div class="photo_item"><a href="./photo/9.webp" class="glightbox" data-photo="gallery"><img src="./photo/9.webp"></a></div>
+    <div class="photo_item"><a href="./photo/10.webp" class="glightbox" data-photo="gallery"><img src="./photo/10.webp"></a></div>
+    <div class="photo_item"><a href="./photo/11.webp" class="glightbox" data-photo="gallery"><img src="./photo/11.webp"></a></div>
+    <div class="photo_item"><a href="./photo/12.webp" class="glightbox" data-photo="gallery"><img src="./photo/12.webp"></a></div>
+    <div class="photo_item"><a href="./photo/13.webp" class="glightbox" data-photo="gallery"><img src="./photo/13.webp"></a></div>
+    <div class="photo_item"><a href="./photo/14.webp" class="glightbox" data-photo="gallery"><img src="./photo/14.webp"></a></div>
+    <div class="photo_item"><a href="./photo/15.webp" class="glightbox" data-photo="gallery"><img src="./photo/15.webp"></a></div>
+    <div class="photo_item"><a href="./photo/16.webp" class="glightbox" data-photo="gallery"><img src="./photo/16.webp"></a></div>
+    <div class="photo_item"><a href="./photo/17.webp" class="glightbox" data-photo="gallery"><img src="./photo/17.webp"></a></div>
+    <div class="photo_item"><a href="./photo/18.webp" class="glightbox" data-photo="gallery"><img src="./photo/18.webp"></a></div>
   </div>
   
-        <div class="certificate project_article" data-type="certificate">
-    <div class="draw-item"><a href="./cert/cert1.jpg" class="glightbox"><img src="./cert/cert1.jpg"></a></div>
-    <div class="draw-item"><a href="./cert/cert2.jpg" class="glightbox"><img src="./cert/cert2.jpg"></a></div>
+        <div class="books project_article" data-type="book">
+<a href="../book/المنهاج.pdf">
+<div class="book-container" href="" target="_blank" rel="noreferrer noopener">
+							<div class="book"> <img data-sound="" alt="book" src="https://raw.githubusercontent.com/dyaa-edin/dyaa/refs/heads/main/img/book.jpg" /> </div>
+						</div>
+          </a>
         </div>
-  
+        
       </section>
     </div>
         
@@ -305,6 +316,8 @@ buttons.forEach(button => {
   <script>
     const lightbox = GLightbox({
       touchNavigation: true,
+      selector: '.glightbox',
+      closeEffect: 'fade',
       loop: true
     });
   </script>
