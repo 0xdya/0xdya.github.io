@@ -190,9 +190,6 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
                                 <br>
                             </div>
                             <div class="update-info" id="latestCommit">
-                              <p dir="ltr" class="bracket">
-                                    <span class="doted">Loading </span><br>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -307,9 +304,32 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
 
 
       document.getElementById("latestCommit").innerHTML += `
-        <p><strong>commit note:</strong> ${latestCommit.commit.message}</p>
-        <p><strong>auth:</strong> ${latestCommit.commit.author.name}</p>
-        <p><strong>date:</strong> ${new Date(latestCommit.commit.author.date).toLocaleString()}</p>
+        <div class="update_line">
+        <span class="Jetbrains_font tr_txt">
+        > note:
+        </span> 
+        <span class="Jetbrains_font tr_txt2">
+        ${latestCommit.commit.message}
+        </span>
+        </div>
+        
+        <div class="update_line">
+        <span class="Jetbrains_font tr_txt">
+        > auth:
+        </span> 
+        <span class="Jetbrains_font tr_txt2">
+       ${latestCommit.commit.author.name}
+        </span>
+        </div>
+        
+        <div class="update_line">
+        <span class="Jetbrains_font tr_txt">
+        > date:
+        </span> 
+        <span class="Jetbrains_font tr_txt2">
+       ${new Date(latestCommit.commit.author.date).toLocaleString()}
+        </span>
+        </div>
       `;
 
       const releaseRes = await fetch(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
