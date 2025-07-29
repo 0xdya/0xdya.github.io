@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/en.css" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+     <script type="module" src="../js/user.js"></script>
+    <style>
+      /* *{
+      font-family: 'Amiri', serif !important;
+  } */
+      ion-icon {
+        color: #2b1d0e !important;
+      }
+
+      body {
+        background-color: #fdf8f0;
+        color: #2b1d0e;
+        padding: 4rem 1rem 0;
+        margin: 0 auto !important;
+        max-width: 800px;
+      }
+
+      .diwan_title {
+        font-size: 1.4rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #cbb07c;
+        display: inline-block;
+        padding: 0;
+      }
+
+      .poem-block {
+        margin: 0 auto 0;
+        position: relative;
+        max-width: 600px;
+        padding: 0;
+      }
+
+      .poem_title {
+        font-size: 1.7rem;
+        margin-bottom: 0.5rem;
+        text-align: right;
+        color: #5c4120;
+        padding-left: 7rem;
+      }
+
+      .meta {
+        color: #888;
+        font-size: 14px;
+        position: absolute;
+        left: 0;
+        top: 32px;
+      }
+
+      .tag {
+        background-color: #f2e0c2;
+        padding: 0.1rem 0.5rem;
+        border-radius: 6px;
+        font-size: 12px;
+        color: #5b3d1e;
+        margin-right: 0.4rem;
+      }
+
+      .bayt {
+        font-size: 1.5rem;
+        margin: 1.5rem 0;
+        text-align: center;
+      }
+
+      .sadr,
+      .ajz {
+        font-family: 'Amiri', serif !important;
+        display: inline-block;
+        padding: 0 0.5rem;
+      }
+
+      .separator {
+        color: #c19a6b;
+        margin: 0 0.4rem;
+      }
+
+      @media (max-width: 600px) {
+        .bayt {
+          display: flex;
+          flex-direction: column;
+          font-size: 1.4rem;
+          line-height: 2.2;
+          text-align: right;
+        }
+
+        .sadr {
+          align-self: flex-start;
+          width: 100%;
+        }
+
+        .ajz {
+          align-self: flex-end;
+          width: 100%;
+          text-align: left;
+        }
+
+        .separator {
+          display: none;
+        }
+      }
+
+      .books {
+        padding: 0 4px 8px;
+        margin-right: 0;
+        border: 1px solid #3d2b1f;
+        background: #fdf3e0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .book-section {
+        display: flex;
+        gap: 8px;
+      }
+
+      .book-block {
+        border-radius: 10px;
+        padding: 0;
+        margin: 0 auto;
+        max-width: 600px;
+
+        img {
+          width: 100px;
+          height: 150px;
+        }
+      }
+
+      .book-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #5a3a1e;
+      }
+
+      .book-description {
+        font-size: 1.1rem;
+        color: #3d2b1f;
+        margin-bottom: 0.8rem;
+        text-align: justify;
+      }
+
+      .download-link {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        color: #000;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .copyright {
+        position: relative;
+        direction: rtl !important;
+        text-align: justify !important;
+        font-size: 12px;
+        color: #000;
+        background-color: #fdf3e0;
+        border: 1px solid #3d2b1f;
+        padding: 8px 8px 4rem;
+        margin: 4rem 0 1rem;
+
+        a {
+          font-size: 14px;
+          color: #58a6ff;
+          font-weight: 600;
+          text-decoration: underline 1px solid grey;
+        }
+      }
+
+      .sen {
+        left: 0;
+        bottom: 0;
+        direction: ltr;
+        text-align: left !important;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+
+      .date_creat {
+        margin: 0 0;
+        color: grey;
+        font-size: 12px;
+
+        span {
+          position: absolute;
+          left: 0;
+        }
+      }
+
+      .hr {
+        max-width: 400px;
+        margin: 0 auto !important;
+      }
+
+      .category {
+        font-size: 2rem;
+        padding: 0 1rem;
+        margin: 2rem 0 1rem;
+        color: #000;
+        background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%);
+        text-align: center 
+      }
+
+      .filters {
+        margin: 1rem auto;
+      }
+
+      .patch {
+        background: transparent;
+        color: #5b3d1e !important;
+      }
+
+      .patch span {
+        color: grey;
+        font-size: 14px;
+
+        a {
+          font-size: 12px;
+          color: #58a6ff !important;
+          font-weight: 600;
+        }
+      }
+
+      .time_ago {
+        position: relative !important;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <h1 dir="ltr" class="title">
+    <span class="prompt">~/</span>المساحة_الأدبية
+  </h1>
+  <body dir="rtl">
+    <header class="h">
+      <a href="../" class="back_to_home">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </a>
+      <div class="control">
+        <div class="user_photo">
+          <a id="loginIcon" href="../login/">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+          <a class="user_photo_href" href="../profile/">
+            <img id="userAvatar" style="display:none" src="../img/user.jpg">
+          </a>
+        </div>
+        <div class="theme_toggle_container">
+          <a href="report/" class="bug">
+            <ion-icon name="bug-outline"></ion-icon>
+          </a>
+        </div>
+      </div>
+    </header>
+    <div dir="ltr" class="patch">
+      <div class="terminal_dote">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <p>$ pwd <br>/ <a style="color: #5b3d1e;" href="../">home</a>/ <a style="color: #5b3d1e;" href="./">شعر & كتب</a>
+      </p>
+      <p>$ cd note.md <br>
+        <span> حقوق الطبع و النشر محفوظة [<a href="#copyright">انظر إلى</a>] </span>
+      </p>
+    </div>
+    <button id="back_to_top">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </button>
+    <div class="poem ">
+<p dir="rtl" class="category Caveat">
+  "أبياتٌ سطّرتها بقلمي، 
+  <br>
+  تروي شيئًا من فكري ومعتقداتي."
+</p>
+    </div>
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon> كتب يوم جوان 25، 2025 — <span class="time_ago">2025-06-25T19:10</span>
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">تذكرة</div>
+      <div class="meta">4 أبيات <span class="tag">موعظة </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">أما بان بيان المنايا بين أوساط بنياكم</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">ولا زالت زلائل أقدامكم فالزلل تزلفُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">عجبًا لغفلة قلوبكم وانطماس أبصاركم</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">فاستيقظوا ما دام في مقدورِكمُ التصرّفُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فلم نُخلق في الحياةِ لنكون دوابًا تعلفُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">بل جئنا لعبادةٍ وجهادٍ على نهج من سلفوا</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فالجنة أصلنا والفردوس تمام ختامنا</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">لا يليق بنا عباد الشهوات و الهوى يعصفُ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon> كتب يوم جوان 24، 2025 — <span class="time_ago">2025-06-24T19:10</span>
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">عطرة العرب</div>
+      <div class="meta">8 بيتًا <span class="tag">اسلامي </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr"> واعتلي مكارم العرب فإنهُ </span>
+        <span class="separator">⸺</span>
+        <span class="ajz">يُعرف الشريف بالخُلق الفاضلِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وخالل جُل من كان قلبهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">مُعلقًا بعبادة الخالق العادلِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">واذا أُغلقت أبواب وصالهِ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">فأصلح سريرتك من الزلَلِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">والزم لباس التقوى فإنه</span>
+        <span class="separator">⸺</span>
+        <span class="ajz"> يرفع المرء بمظهره المعتلي </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">واعتز بدين محمد وسنته</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">واقتدي بسيرة السلف الأولِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وتطهر قبل حمل رسالتهِ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">فكن نقي الظاهر والداخلِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">واخلص أعمالك ولا تكن</span>
+        <span class="separator">⸺</span>
+        <span class="ajz"> بدعيًا أو قليل علم وعَملِِ </span>
+      </div>
+      <div class="bayt">
+        <div class=" sadr"> وهاته ثمانية فجعلها منهاجًا </div>
+        <div class=" ajz"> ففيها عطرة خير الملَلِ </div>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon>
+        كتب يوم جوان 19، 2025  
+        — <span class="time_ago">2025-06-19T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">سمات الضاد</div>
+      <div class="meta">8 أبيات <span class="tag">موعظة </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">اني أهوى كل من كنت هواهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">وإن كان بقلبي بعض البغوضِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وابغض من قلبي لا يهوى سواهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">ان صار لمكانتي منه خِفضُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فإني عزيز على من رفع عزتي</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">وليثٌ على من عليا معرضُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وأهجر كل منان في ما وهبه</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">وإن كان مردودهُ خيرٌ فيِّضُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وامدح عدوًا له مبدأ واخلاق</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">واذم خليلا له قلب مريضُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">واقدِّر كل سنيٍ طلق دنياه</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">ولمبادء الغرب ونهجهم رافضُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">واصاحب من صحت عقيدته</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">و أُعادي من للأصول ناقضُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وأرفع شأن الفتى العربي اذا</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">أتقن علم النحو و العروضِ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon> 
+        كتب يوم جوان 17، 2025  
+        — <span class="time_ago">2025-06-17T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">الترف</div>
+      <div class="meta">2 أبيات <span class="tag">موعظة </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">دع الترفَ فليس للعارفين له موضِعُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">وخذ لُب الحياة واترك الحُسن وحِملهُ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فما يغنيني تمام خلقي وعقلي مُستنقعُ؟</span>
+        <span class="separator">⸺</span>
+        <span class="ajz"> ما رفعة الفتى إلا بعقل رزينٍ يحملهُ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon> 
+        كتب يوم جوان 11، 2025  
+        — <span class="time_ago">2025-06-11T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">مقتطف من اللامية المئوية </div>
+      <div class="meta">3 أبيات <span class="tag">اسلامي </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">أتستقوي على غير قادر وتنسا</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">بأنك خاضع لرب جبار عادلِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">أولا تخشى اذا احتما والتجأ </span>
+        <span class="separator">⸺</span>
+        <span class="ajz">فدعا عليك بجوف ليل مظلَّلِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فتنقلب رفعة تجبرك إلى ذلة </span>
+        <span class="separator">⸺</span>
+        <span class="ajz"> وتسقى ما ارتكبت من الزلَلِ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon>
+        كتب يوم ماي 22، 2025  
+        — <span class="time_ago">2025-05-22T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">كن سنيًا</div>
+      <div class="meta">3 أبيات <span class="tag">اسلامي </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">كن سنيً لأهل الأثر منتسبًا</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">وإن كان رفض البشر ملاقيكَ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فما يغنيك رفعتك بينهم</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">و غضب من الله موليكَ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وما يضرك اعراض قوم</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">ورضا رب القوم آتيكَ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon>
+        كتب يوم أبريل 22، 2025  
+        — <span class="time_ago">2025-04-22T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">مقتطف من هجاء </div>
+      <div class="meta">3 أبيات <span class="tag">هجاء </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">انهزم الذليل في رده على حُجتي</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">فأقبل يسرق من أبيات أسياده</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">ولما رأى حدة وتري وسرعة كتابتي</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">جعل من السلام راية عماده</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">اني قد عفوت عنكَ يا صغير مكانتي</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">فإني رحيم على من نفد عتاده</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon>
+         كتب يوم أبريل 22، 2025  
+        — <span class="time_ago">2025-04-22T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">مقتطف من هجاء</div>
+      <div class="meta">6 أبيات <span class="tag">هجاء </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">متى صار العبدُ يتحدا سيدهُ !؟</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">عجبا لرويبضة الزمان قد انفعلتْ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">طويل الرأس ,عريضٌ أنفهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">لو ضُرب بصخرة لصرخت وبكتْ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">ولو عرضوك على أحزن إمرأة</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">لنفجعت وضحكت عليك وقهقهتْ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">انت الذي اذا نظرت المرآة لوجههِ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">لشكت لرب العباد وانكسرتْ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">ولو جعلنا لمحة هيئتك في منزل</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">لذاب البيت و اغراضه انحرقتْ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon>
+        كتب يوم أبريل 22، 2025  
+        — <span class="time_ago">2025-04-22T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">مقتطف من هجاء </div>
+      <div class="meta">2 أبيات <span class="tag">هجاء </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">يفتخر السفيه بسفهه و يقول</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">انا اعلى منك في الذكاء و الرُتبِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وليس لي حاجة في الرد فإنه</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">ينتقس قدر السيف اذا قرن بالحطبِ</span>
+      </div>
+    </div>
+    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="poem poem-block">
+      <div class="date_creat">
+        <ion-icon name="file-tray-full-outline"></ion-icon>
+        كتب يوم يناير 14، 2025  
+        — <span class="time_ago">2025-01-14T19:10</span> 
+        <span dir="ltr">@0xdya</span>
+      </div>
+      <div class="poem_title">الخليل </div>
+      <div class="meta">6 أبيات <span class="tag">اسلامي </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">خالل كل من أمنت دينهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">من اعتقد بعقيدة أحمَدِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">من اذا اذنبت ذنبًا سترهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">ومعك رؤفٌ شديدُ الجَوادِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فذاك صالحٌ صح إسلامهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">وذاك من ازكى العبَادِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وابغظ من ابغظه الإلهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">واحبب عُبَّادَ الحق الودُودِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">فحبك للمسخوط من اللهِ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">دليل لضعفٍ في التوحيدِ</span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">وحبك لكل مؤمن فإنهُ</span>
+        <span class="separator">⸺</span>
+        <span class="ajz">برهان إخلاصك للصمَدِ</span>
+      </div>
+    </div>
+    <div class="copyright patch_note">
+      <ion-icon name="shield-checkmark-outline"></ion-icon> تم تأريخ ونشر المحتوى في <a href="https://archive.org/web/" target="_blank">archive.org</a> كدليل زمني موثق. <br /> كل من يقوم بمشاركة الشعر بدون إذن أو نسبها إلى نفسه سيُعرّض نفسه للملاحقة القانونية وفق قوانين حماية الملكية الفكرية العالمية. <br>
+      <img class="sen" width="80" src="../sen.png">
+    </div>
+    <script>
+      function filterContent(type) {
+        const poems = document.querySelectorAll('.poem');
+        const books = document.querySelectorAll('.book');
+        if (type === 'poem') {
+          poems.forEach(p => p.style.display = 'block');
+          books.forEach(b => b.style.display = 'none');
+        } else if (type === 'book') {
+          poems.forEach(p => p.style.display = 'none');
+          books.forEach(b => b.style.display = 'block');
+        } else {
+          poems.forEach(p => p.style.display = 'block');
+          books.forEach(b => b.style.display = 'block');
+        }
+      }
+    </script>
+    <script type="module" src="../js/time_ago.js"></script>
+  </body>
+        </html>
