@@ -189,8 +189,8 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
 									</span>
                                 <br>
                             </div>
-                            <div class="update-info" id="update-details">
-                                <p dir="ltr" class="bracket">
+                            <div class="update-info" id="latestCommit">
+                              <p dir="ltr" class="bracket">
                                     <span class="doted">Loading </span><br>
                                 </p>
                             </div>
@@ -294,7 +294,39 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
     window.location.href = "/fac/";
   }
 </script>
+  <script>
+    async function fetchGitHubData() {
+      const res = await fetch("/api/github_data");
+      const data = await res.json();
 
+      const repoData = data.repo;
+      const userData = data.user;
+      const latestCommit = data.commit;
+      const user = userData.login;
+      const repo = repoData.name;
+
+
+      document.getElementById("latestCommit").innerHTML += `
+        <p><strong>commit note:</strong> ${latestCommit.commit.message}</p>
+        <p><strong>auth:</strong> ${latestCommit.commit.author.name}</p>
+        <p><strong>date:</strong> ${new Date(latestCommit.commit.author.date).toLocaleString()}</p>
+      `;
+
+      const releaseRes = await fetch(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
+
+      const userRes = await fetch(`https://api.github.com/users/${user}`);
+      const fullUser = await userRes.json();
+
+      const contribRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contributors`);
+      const contribs = await contribRes.json();
+      document.getElementById("contributors").innerHTML += `
+        <ul>${contribs.map(c => `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`).join('')}</ul>
+      `;
+    }
+
+    fetchGitHubData();
+  </script>
+  
 </body>
 
 </html>
