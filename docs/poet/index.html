@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/en.css" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -206,11 +206,12 @@
       }
 
       .category {
-        font-size: 1.5rem;
+        font-size: 2rem;
+        padding: 0 1rem;
         margin: 2rem 0 1rem;
         color: #000;
         background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%);
-        width: fit-content;
+        text-align: center 
       }
 
       .filters {
@@ -278,27 +279,12 @@
     <button id="back_to_top">
       <ion-icon name="chevron-up-circle-outline"></ion-icon>
     </button>
-    <div class="filters">
-      <button onclick="filterContent('all')">
-        <ion-icon name="apps-outline"></ion-icon> الكل
-      </button>
-      <button onclick="filterContent('poem')">
-        <ion-icon name="book-outline"></ion-icon> القصائد
-      </button>
-      <button onclick="filterContent('book')">
-        <ion-icon name="library-outline"></ion-icon> الكتب
-      </button>
-    </div>
-    <div class="book ">
-      <p dir="rtl" class="category ">#كُتب:</p>
-    </div>
-      <div class="book book-block">
-        <a href="../book/المنهاج المبين في مسالك المتقين.pdf" class="download-link">
-          <img src="../img/المنهاج.png">
-        </a>
-    </div>
     <div class="poem ">
-      <p dir="rtl" class="category">#مقتطفات من أبياتي الشعرية 🍃  :</p>
+<p dir="rtl" class="category Caveat">
+  "أبياتٌ سطّرتها بقلمي، 
+  <br>
+  تروي شيئًا من فكري ومعتقداتي."
+</p>
     </div>
     <div class="poem poem-block">
       <div class="date_creat">
