@@ -18,6 +18,7 @@
 	--text-color2: #ededed;
 	--blog-code-bg: #1e1e1e;
 	--bg-cod: #111;
+	--beige2: #f5f5dcec;
 	--homepage_note_bg: #111;
 	--homepage_note_border: beige;
 	--bg-cod-header: #222;
@@ -47,6 +48,7 @@
 	--fg: #f1f1f1;
 	--muted: #a0a0a0;
 	--accent: #4fbcff;
+	--mark: #4fbcff;
 
 
 	--fs-xl: 2.5rem;
@@ -68,6 +70,7 @@ body.dark_theme {
 .light_theme {
 	--bg-color: #ffffff;
 		--bg-card: #000;
+	--beige2: #000;
 	--profile-bg: #ffffff;
 	--profile-txt: #000;
 	--text-color: #000000;
@@ -738,6 +741,7 @@ article {
 }
 
 .project_list {
+  width: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -1149,7 +1153,7 @@ article {
 		column-count: 3;
 	}
 }
-.certificate {
+.books {
 	column-count: 1;
 	column-gap: 8px;
 	max-width: 1200px;
@@ -1160,16 +1164,17 @@ article {
 	}
 }
 
-.draw-item {
+.photo_item {
 	margin-bottom: 8px;
 	break-inside: avoid;
 	overflow: hidden;
-
 	img {
 		width: 100%;
 		display: block;
 		border-radius: 4px;
 		object-fit: cover;
+border: 4px solid #1c1c1c; 
+
 	}
 }
 
@@ -1383,3 +1388,83 @@ overflow: hidden;
   padding: 4px 8px !important;
 }
 */
+
+/* book */
+.book-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 600px;
+}
+.book-container:focus .book,
+.book-container:hover .book {
+  transform: rotateY(0);
+}
+.book,
+.book > :first-child {
+  width: 200px;
+  height: 300px;
+}
+.book::after,
+.book > :first-child {
+  position: absolute;
+  left: 0;
+  border-radius: 0 2px 2px 0;
+}
+.book {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(-30deg);
+  transition: 1s;
+  animation: 1s initAnimation;
+  margin: 1rem 0 2rem;
+}
+.book > :first-child {
+  top: 0;
+  transform: translateZ(15px);
+  background-color: #01060f;
+  box-shadow: 5px 5px 20px #666;
+}
+.book::before {
+  position: absolute;
+  content: " ";
+  background-color: #00f;
+  left: 0;
+  top: 1px;
+  width: 28px;
+  height: 298px;
+  transform: translateX(184px) rotateY(90deg);
+  background: linear-gradient(
+    90deg,
+    #fff 0,
+    #f9f9f9 5%,
+    #fff 10%,
+    #f9f9f9 15%,
+    #fff 20%,
+    #f9f9f9 25%,
+    #fff 30%,
+    #f9f9f9 35%,
+    #fff 40%,
+    #f9f9f9 45%,
+    #fff 50%,
+    #f9f9f9 55%,
+    #fff 60%,
+    #f9f9f9 65%,
+    #fff 70%,
+    #f9f9f9 75%,
+    #fff 80%,
+    #f9f9f9 85%,
+    #fff 90%,
+    #f9f9f9 95%,
+    #fff 100%
+  );
+}
+.book::after {
+  top: 0;
+  content: " ";
+  width: 200px;
+  height: 300px;
+  transform: translateZ(-15px);
+  background-color: #01060f;
+  box-shadow: -10px 0 50px 10px #666;
+}
