@@ -4,13 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/en.css" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
      <script type="module" src="../js/user.js"></script>
     <style>
+    
+    /* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Playpen+Sans+Arabic:ital,wght@0,200..900;1,200..900&family=Gulzar&display=swap");
+* {
+   font-family: 'IBM Plex Sans Arabic', sans-serif ;
+    font-weight: 400;
+}
+.logo_name{
+  direction: ltr !important;
+  font-family: "Jetbrains Mono", monospace ;
+}
+.dropdown button {
+  text-align: left;
+}
+
+.comment_title p{
+   line-height: 1.6;
+    font-family: "Playpen Sans Arabic", monospace !important;
+  }
+.home_title_font{
+  font-weight: 400;
+   /*
+   font-family: "Jetbrains Mono", monospace !important;
+   font-family: "Courier New", monospace;
+   */
+   font-family: "Playpen Sans Arabic", monospace !important; 
+}
+.Jetbrains_font, .patch_code{
+  font-size: 12px;
+   font-family: "JetBrains Mono" !important;
+}
+
+.Caveat{
+  font-family: "Gulzar" !important;
+  font-size: 4rem;
+}
+
+
       /* *{
       font-family: 'Amiri', serif !important;
   } */
@@ -37,7 +74,7 @@
       .poem-block {
         margin: 0 auto 0;
         position: relative;
-        max-width: 600px;
+        max-width: 700px;
         padding: 0;
       }
 
@@ -200,18 +237,28 @@
         }
       }
 
-      .hr {
-        max-width: 400px;
-        margin: 0 auto !important;
-      }
 
       .category {
         font-size: 2rem;
         padding: 0 1rem;
-        margin: 2rem 0 1rem;
+        margin: 0 auto;
         color: #000;
-        background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%);
-        text-align: center 
+        line-height: 2 !important;
+      /*  background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%); */
+        text-align: center ;
+        max-width: 600px
+      }
+      .category2 {
+        font-size: 2rem;
+        margin: 0 auto;
+        color: #000;
+        line-height: 2 !important;
+      /*  background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%); */
+        text-align: center ;
+        max-width: 600px;
+        border: 1px solid #333 ;
+        padding: 1rem 1rem 0; 
+        
       }
 
       .filters {
@@ -238,6 +285,17 @@
         position: relative !important;
         font-weight: 600;
       }
+      .hr_container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .hr {
+        width: 100%;
+        max-width: 400px;
+      }
+
     </style>
   </head>
   <h1 dir="ltr" class="title">
@@ -264,28 +322,18 @@
         </div>
       </div>
     </header>
-    <div dir="ltr" class="patch">
-      <div class="terminal_dote">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <p>$ pwd <br>/ <a style="color: #5b3d1e;" href="../">home</a>/ <a style="color: #5b3d1e;" href="./">شعر & كتب</a>
-      </p>
-      <p>$ cd note.md <br>
-        <span> حقوق الطبع و النشر محفوظة [<a href="#copyright">انظر إلى</a>] </span>
-      </p>
-    </div>
     <button id="back_to_top">
       <ion-icon name="chevron-up-circle-outline"></ion-icon>
     </button>
-    <div class="poem ">
 <p dir="rtl" class="category Caveat">
-  "أبياتٌ سطّرتها بقلمي، 
-  <br>
-  تروي شيئًا من فكري ومعتقداتي."
+  
+"هنا، أُسطّر أبياتًا من نظم قلمي، تروي<br> شيئًا من فكري، وتُجاري نهجَ<br> معتقدي."
+
+  <!--
+  "
+  هنا، حيث أُسطّر أبياتًا من نسج يديَّ، تغترف من بحر فكري، وتُجاري معتقدي.
+  " -->
 </p>
-    </div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon> كتب يوم جوان 25، 2025 — <span class="time_ago">2025-06-25T19:10</span>
@@ -315,7 +363,8 @@
         <span class="ajz">لا يليق بنا عباد الشهوات و الهوى يعصفُ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    
+<div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon> كتب يوم جوان 24، 2025 — <span class="time_ago">2025-06-24T19:10</span>
@@ -364,7 +413,7 @@
         <div class=" ajz"> ففيها عطرة خير الملَلِ </div>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon>
@@ -416,7 +465,7 @@
         <span class="ajz">أتقن علم النحو و العروضِ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon> 
@@ -438,7 +487,7 @@
         <span class="ajz"> ما رفعة الفتى إلا بعقل رزينٍ يحملهُ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon> 
@@ -465,7 +514,7 @@
         <span class="ajz"> وتسقى ما ارتكبت من الزلَلِ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon>
@@ -492,7 +541,7 @@
         <span class="ajz">ورضا رب القوم آتيكَ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon>
@@ -519,7 +568,7 @@
         <span class="ajz">فإني رحيم على من نفد عتاده</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon>
@@ -556,7 +605,7 @@
         <span class="ajz">لذاب البيت و اغراضه انحرقتْ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon>
@@ -578,7 +627,7 @@
         <span class="ajz">ينتقس قدر السيف اذا قرن بالحطبِ</span>
       </div>
     </div>
-    <img width="100%" class="poem hr" src="../img/hr.png">
+    <div class="hr_container"><img class="poem hr" src="https://0xdya.vercel.app/img/hr.png"></div>
     <div class="poem poem-block">
       <div class="date_creat">
         <ion-icon name="file-tray-full-outline"></ion-icon>
@@ -619,10 +668,13 @@
         <span class="separator">⸺</span>
         <span class="ajz">برهان إخلاصك للصمَدِ</span>
       </div>
+      <p dir="rtl" class="category2  Caveat">
+  فإن أبصرتَ في مقالي زَلَلًا، وكنتَ فصيحَ اللسان، بصيرًا بعِلم القوافي والميزان، فألحق إليَّ تصحيحك مُدعَّمًا بدليلٍ وبُرهان.
+  </p>
     </div>
     <div class="copyright patch_note">
       <ion-icon name="shield-checkmark-outline"></ion-icon> تم تأريخ ونشر المحتوى في <a href="https://archive.org/web/" target="_blank">archive.org</a> كدليل زمني موثق. <br /> كل من يقوم بمشاركة الشعر بدون إذن أو نسبها إلى نفسه سيُعرّض نفسه للملاحقة القانونية وفق قوانين حماية الملكية الفكرية العالمية. <br>
-      <img class="sen" width="80" src="../sen.png">
+      <img class="sen" width="80" src="./sen.png">
     </div>
     <script>
       function filterContent(type) {
@@ -642,4 +694,4 @@
     </script>
     <script type="module" src="../js/time_ago.js"></script>
   </body>
-        </html>
+</html>
