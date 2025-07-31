@@ -105,6 +105,8 @@
         font-size: 1.5rem;
         margin: 1.5rem 0;
         text-align: center;
+        user-select: none;
+        -webkit-user-select: none;
       }
 
       .sadr,
@@ -764,6 +766,9 @@
       <img class="sen" width="80" src="./sen.png">
     </div>
     <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+
       function filterContent(type) {
         const poems = document.querySelectorAll('.poem');
         const books = document.querySelectorAll('.book');
