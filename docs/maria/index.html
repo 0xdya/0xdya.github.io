@@ -439,6 +439,8 @@
     .chapter p {
       margin: 0;
       white-space: pre-line;
+      user-select: none;
+  -webkit-user-select: none;
     }
 
     .novel button {
@@ -505,7 +507,20 @@
 		right: calc((100% - 700px) / 2);
 	}
 }
-
+/*
+.chapter::before {
+  content: "© maria";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 3rem;
+  color: #80808061;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+}
+*/
   </style>
 </head>
 <body>
@@ -555,6 +570,9 @@
   </div>
 
   <script type="module">
+  document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+
     import {
       initializeApp
     } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
@@ -779,4 +797,4 @@ loadNovels();
   <script src="../js/script.js"></script>
   <script src="../js/user.js"></script>
 </body>
-	</html>
+</html>
