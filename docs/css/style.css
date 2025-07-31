@@ -10,6 +10,9 @@
        --text-gradient-yellow: linear-gradient(to right, beige);
    
 	--bg-color: #000;
+	--poetry-bg: #121212;
+	--poetry-body: #ccc;
+	--poetry-title: #C0A36E;
 	--bg-card: #000;
 	--profile-bg: #000;
 	--profile-txt: #eaeaea;
@@ -60,15 +63,24 @@
 	--fs-sm: 0.95rem;
 	/* ~15px */
 	--radius: 14px;
+			.hide_in_light{
+	  display: block ;
+	}
+
 }
 
 body.dark_theme {
 	--node-bg: #111;
 	--node-txt: #e0e0e0;
+
 }
+
 
 .light_theme {
 	--bg-color: #ffffff;
+	--poetry-bg: #fdf8f0;
+	--poetry-body: #2b1d0e;
+	--poetry-title: #5c4120;
 		--bg-card: #000;
 	--beige2: #000;
 	--profile-bg: #ffffff;
@@ -95,8 +107,11 @@ body.dark_theme {
 
 	--btn-color: transparent;
 	--muted: #222;
+		.hide_in_light{
+	  display: none;
+	}
 }
-
+	
 #preloader {
 	position: fixed;
 	top: 0;
