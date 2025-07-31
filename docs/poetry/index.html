@@ -13,6 +13,7 @@
     
     /* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Playpen+Sans+Arabic:ital,wght@0,200..900;1,200..900&family=Gulzar&display=swap");
+
 * {
    font-family: 'IBM Plex Sans Arabic', sans-serif ;
     font-weight: 400;
@@ -51,13 +52,10 @@
       /* *{
       font-family: 'Amiri', serif !important;
   } */
-      ion-icon {
-        color: #2b1d0e !important;
-      }
 
       body {
-        background-color: #fdf8f0;
-        color: #2b1d0e;
+        background-color: var(--poetry-bg);
+        color: var(--poetry-body);
         padding: 4rem 1rem 0;
         margin: 0 auto !important;
         max-width: 800px;
@@ -82,7 +80,7 @@
         font-size: 1.7rem;
         margin-bottom: 0.5rem;
         text-align: right;
-        color: #5c4120;
+        color: var(--poetry-title);
         padding-left: 7rem;
       }
 
@@ -244,8 +242,8 @@
       .category {
         font-size: 2rem;
         padding: 0 1rem;
-        margin: 0 auto;
-        color: #000;
+        margin: 4rem auto 6rem;
+        color: var(--muted);
         line-height: 2 !important;
       /*  background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%); */
         text-align: center ;
@@ -254,7 +252,7 @@
       .category2 {
         font-size: 2rem;
         margin: 0 auto;
-        color: #000;
+        color: var(--muted);
         line-height: 2 !important;
       /*  background: linear-gradient(to top, #58a6ff3d 40%, transparent 40%); */
         text-align: center ;
@@ -302,7 +300,7 @@
     </style>
   </head>
   <h1 dir="ltr" class="title">
-    <span class="prompt">~/</span>المساحة_الأدبية
+    <span class="prompt">~/</span>شِعر
   </h1>
   <body dir="rtl">
     <header class="h">
@@ -319,15 +317,25 @@
           </a>
         </div>
         <div class="theme_toggle_container">
+          <button id="themeToggle">
+						<ion-icon name="contrast-outline"></ion-icon>
+					</button>
           <a href="report/" class="bug">
             <ion-icon name="bug-outline"></ion-icon>
           </a>
+                <div class="dropdown" id="themeDropdown">
+                    <button data-theme="light">Light</button>
+                    <button data-theme="dark">Dark</button>
+                    <button data-theme="system">System</button>
+                </div>
+
         </div>
       </div>
     </header>
     <button id="back_to_top">
       <ion-icon name="chevron-up-circle-outline"></ion-icon>
     </button>
+    <p class="hide_in_light">يفضل استعمال الثيم الفاتح  </p>
 <p dir="rtl" class="category Caveat">
   
 "هنا، أُسطّر أبياتًا من نظم قلمي، تروي<br> شيئًا من فكري، وتُجاري نهجَ<br> معتقدي."
@@ -339,58 +347,76 @@
 </p>
     <div class="poem poem-block">
       <div class="date_creat">
-        <ion-icon name="file-tray-full-outline"></ion-icon> كتب يوم جويلية 31، 2025 — <span class="time_ago">2025-07-31T12:04</span>
+        <ion-icon name="file-tray-full-outline"></ion-icon> كتب يوم جويلية 31، 2025 — <span class="time_ago">2025-07-31T15:00</span>
         <span dir="ltr">@0xdya</span>
       </div>
       <div class="poem_title">لا تكُ ثرثارًا</div>
       <div class="meta">5 أبيات <span class="tag">موعظة </span>
       </div>
-      <div class="bayt bayt_row">
+      <div class="bayt">
         <span class="sadr">
-          لا تك الثرثار بين القومِ
+          لا تكُ الثرثار بين جموعهمْ
         </span>
         <span class="separator">⸺</span>
         <span class="ajz">
-مسرحًا لسانه لكل أمرِ
+          مرعى اللسان وموطنُ الاستكثارِ 
         </span>
       </div>
-      <div class="bayt bayt_row">
+      <div class="bayt">
         <span class="sadr">
-لا يعرف للغيب حرمةً
+          اذا نفذ الهراء وعم السكوت
         </span>
         <span class="separator">⸺</span>
         <span class="ajz">
-في الصمت فاتك للسرِ
+          أذاع سرًّا كان في طيِّ الدررِ
         </span>
       </div>
-      <div class="bayt bayt_row">
+      <div class="bayt">
         <span class="sadr">
-          حضــوره مجلبـةٌ للكتمِ
+          ثم يغتاب كل غريب ويقذفُ
         </span>
         <span class="separator">⸺</span>
         <span class="ajz">
-          كغيم صيــف بلا مطرِ
-          
+          عرضه بقصد التعالي والكِبرِ
         </span>
       </div>
-      <div class="bayt bayt_row">
+      <div class="bayt">
         <span class="sadr">
-          حقير القدر قليل الفهمِ
+          يغنيك عن ذكر الدناءة محضره
         </span>
         <span class="separator">⸺</span>
         <span class="ajz">
-        تشـم فيـه ريح الغـــدرِ
+          كغيوم صيفٍ خابتِ المطرِ
         </span>
       </div>
-      <div class="bayt bayt_row">
+      <div class="bayt">
         <span class="sadr">
-          لا يرضا به إلا السفيهُ
+          تنفر النفـــــوس عــــن قربه
         </span>
         <span class="separator">⸺</span>
         <span class="ajz">
-          منبوذ عند كل حُــــرِ
+          قليل القبول، فائح بريح الغدرِ
         </span>
       </div>
+      <div class="bayt">
+        <span class="sadr">
+          لا يستطيب ودّهُ إلا امرءٌ
+        </span>
+        <span class="separator">⸺</span>
+        <span class="ajz">
+          قد باع العقل بسعرِ الحُـمُـرِ
+        </span>
+      </div>
+      <div class="bayt">
+        <span class="sadr">
+          منبوذ الشهامة، مسلوب المهابةٍ
+        </span>
+        <span class="separator">⸺</span>
+        <span class="ajz">
+          لا يقصده سوا حثالة البشرِ
+        </span>
+      </div>
+
 
     </div>
     <div class="poem poem-block">
@@ -752,5 +778,6 @@
       }
     </script>
     <script type="module" src="../js/time_ago_ar.js"></script>
+    <script type="module" src="../js/script.js"></script>
   </body>
 </html>
