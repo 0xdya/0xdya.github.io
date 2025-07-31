@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 1, label: 'blog', link: './blog/', x: 100, y: -120 },
     { id: 2, label: 'users', link: './users/', x: 100, y: -40 },
     { id: 3, label: 'projects', link: './projects/', x: 100, y: 40 },
-    { id: 4, label: 'poetry', link: './poet/', x: 100, y: 120 },
+    { id: 4, label: 'شِعر', link: './poetry/', x: 100, y: 120 },
     { id: 5, label: 'comments', link: './comments/', x: -100, y: 160 }
   ]);
 
