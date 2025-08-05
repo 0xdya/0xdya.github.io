@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>  كيفاش تحمي راصك من الاختراق ؟</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./blog.css">
+  <meta name="description" content="مقالة مختصرة وشاملة لكل طرق الاختراق الممكنة مع كيفاش تحمي راصك" />
+  <meta property="og:description" content="مقالة مختصرة وشاملة لكل طرق الاختراق الممكنة مع كيفاش تحمي راصك" />
+  <meta name="keywords" content="0x, الأمن السبراني, المبرمجين, hex, hexadecimal, GitHub, Ethereum, 0xDya, اختراق" />
+  <meta name="author" content="0xDya" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="ar_AR" />
+
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  
+  <style>
+    
+  </style>
+</head>
+
+<body dir="rtl">
+
+  <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
+
+  <header dir="ltr" class="h">
+    <a href="../" class="back_to_home">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </a>
+    <div class="control">
+      <div class="user_photo">
+        <a id="loginIcon" href="../../login/">
+          <ion-icon name="person-outline"></ion-icon>
+        </a>
+        <a class="user_photo_href" href="../../profile/">
+          <img id="userAvatar" style="display:none" src="img/user.jpg">
+        </a>
+      </div>
+      <div class="theme_toggle_container">
+        <button id="themeToggle">
+          <ion-icon name="settings-outline"></ion-icon>
+        </button>
+        <a href="../report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
+        <div class="dropdown" id="themeDropdown">
+          <button data-theme="light">Light</button>
+          <button data-theme="dark">Dark</button>
+          <button data-theme="system">System</button>
+        </div>
+      </div>
+    </div>
+  </header>
+ <div class="container">
+  <section class="blog_patch">
+    <h1>
+      كيفاش تحمي راصك من الاختراق ؟
+    </h1>
+    <p class="article_auth" >
+      بواسطة @ضياء الدين 
+    </p>
+    <p class="article_date">اوت 05, 2025</p>
+  </section>
+  <div class="article_container">
+    <main style="flex:1; max-width:800px;">
+      <article data-aos="fade-up">
+        <h2>1. هجوم التخمين والقاموس (Dictionary Attack)</h2>
+        <p>
+كما يظهر من الاسم، يحاول المخترق تخمين كلمة المرور من معلوماتك الشخصية (اسمك، تاريخ ميلادك، هواياتك...) ثم يضعها في قاموس موحد.
+<br>
+<span class="pre">مثال :
+- اسمك: أحمد 
+- تاريخ الميلاد: 1337/09/11
+يستخدم: ahmed09, med1337, ahmed1337
+</span>
+
+يقوم بجمع كل الاحتمالات (التي يمكنه توليدها بأدوات متعددة) وبعدها باستخدام أدوات مثل Hashcat أو John the Ripper يجربها جميعاً بشكل تلقائي ومتتابع.
+<br>
+<p class="article_note">
+الحماية من هذا الهجوم:
+- لا تستخدم أي معلومات شخصية في كلمات المرور
+- استخدم كلمات مرور طويلة وعشوائية (16+ حرف)
+- استعن بـ مدير كلمات المرور لتوليد كلمات مرور قوية
+
+</p>
+</p>
+
+
+<h2>
+2. الهجوم الأعمى (Brute Force Attack)
+</h2>
+<p>
+إذا لم يستطع التخمين، ينتقل لاستخدام قواميس ضخمة من:
+ كلمات المرور الأكثر استخداماً (مثل: `123456`, `password`)
+و كلمات المرور المسربة من الاختراقات السابقة
+<br>
+مثل: اختراق شركة Yahoo في 2013 الذي تسبب في تسريب 3 مليار حساب، وملفات كلمات المرور لا تزال تُستخدم حتى اليوم.
+<br>
+<p class="article_note pre">للتحقق من أن كلمات مرورك و حساباتك غير موجودة في هاته القواميس استخدم موقع <a href="https://haveibeenpwned.com">Have i Been Pwned</a>
+- غيّر جميع كلمات المرور إلى كلمات طويلة ومولدة عشوائياً مثل : `K7@q$_t8!...`
+</p>
+(لا تحتاج الى حفظ كل كلمات المرور يمكنك استعمال  مدير كلمات مرور مثل Bitwarden أو 1Password) سوف اتكلم عنهم في مقالة اخرى
+</p>
+
+<h2>
+3. البرامج المشبوهة والكراك
+</h2>
+<p class="pre">يقوم المخترق بحقن تطبيقات الكراك   بـ:
+- فيروسات التتبع والتحكم عن بُعد (RAT)
+- برامج تسجيل المفاتيح (Keyloggers)
+### المخاطر المحتملة:
+- سرقة كلمات المرور وجميع البيانات الحساسة
+- تدمير أو تشفير الملفات (Ransomware)
+- استخدام جهازك في أنشطة إجرامية دون علمك
+- في أقل الأضرار: فرمتة كاملة للنظام
+</p>
+<p class="article_note">الحماية:
+- لا تحمل برامج الكراك وابتعد عنها بشراء النسخ الرسمية واذا لم يكن بالامكان فاستخدم البدائل المجانية
+- حمّل البرامج من مصادرها الرسمية فقط
+- استخدم برامج مكافحة فيروسات موثوقة
+- فعّل Windows Defender أو استخدم Malwarebytes
+</p>
+
+<h2>
+4. استخدام الإنترنت المفتوح (Public Wi-Fi)
+</h2>
+<p class="pre">الذي يكون في المطاعم و الفنادق و ... "عادة يكون بدون كلمة مرور ومتاح للكل" والذي كل معلومات ترسلها في الانترنات او تستقبلها قد تكون مراقبة. ابحث عن
+- هجمات الرجل في المنتصف (Man-in-the-Middle)
+-
+</p>
+<p class="article_note pre">الحماية:
+- تجنب تسجيل دخول بحساب وانت متصل به أو القيام بأشياء حساسة 
+</p>
+
+<p class="article_note pre">نصائح إضافية مهمة:
+- المصادقة الثنائية (2FA)
+- استخدم تطبيقات مثل: Authy ...
+- حدث النظام بشكل دوري خاصة اذا كنت تستعمل Windows & iOS
+- حدّث جميع التطبيقات لسد الثغرات الأمنية
+- تابع اخر اخبار الثغرات المكتشفة "cve" 
+- لا تفتح ملف من تلجرام او واتساب او ... وانت لا تثق في هذا الشخص او لا تثق في سلامة الملف
+</p>
+<h2>
+الهندسة الاجتماعية
+</h2>
+<p>
+لا يوجد ولا شركة في العالم تطلب منك معلومات حساسة مثل كلمة مرورك او رمز التحقق 
+<br>
+رغم انه امر بديهي الا انه لازال بعض من كبار السن يقغ في هذا النوع من الاحتيال، فيجب تنبيه هاته الفئة من المجتمع والتبيين لهم
+</p>
+        </p>
+        <div>
+          <h2>المصادر</h2>
+          - <a href="https://salamatechwiki.org/wiki/%D9%87%D8%AC%D9%88%D9%85_%D8%A7%D9%84%D9%82%D8%A7%D9%85%D9%88%D8%B3_Dictionary_Attack" target="_blank">
+            هجوم القاموس "Dictionary Attack"</a><br>
+          - <a href="https://alkrsan.net/%D8%AA%D8%AD%D9%84%D9%8A%D9%84-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-man-in-the-middle-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D8%B4%D8%A8%D9%83%D8%A7%D8%AA-%D9%88%D8%A7%D9%84%D8%A3%D9%86%D8%B8%D9%85%D8%A9/" target="_blank">
+            هجمة الرجل في المنتصف "MITM"
+            </a><br>
+          - <a href="https://scm.bz/tips_for_media_workers5/" target="_blank">
+            مقالة من scm حول الكراك   
+          </a><br>
+          - <a href="https://www.ifhmsah.com/cypher-RAT" target="_blank">
+            مقالة عن فيروس التحكم عن بُعد "RAT"
+          </a><br>
+          - <a href="https://www.secprint.sa/ransomware-virus/" target="_blank">
+            مقالة عن فيروس الفدية "Ransomware"
+           </a><br>
+          - <a href="https://www.fortinet.com/resources/cyberglossary/what-is-keyloggers" target="_blank">
+            مقالة عن فيروس تتبع لوحة المفاتيح "Keyloggers"
+          </a><br>
+        </div>
+
+      </article>
+    </main>
+  </div>
+  </div>
+
+  <script src="../../js/script.js"></script>
+</body>
+
+</html>
