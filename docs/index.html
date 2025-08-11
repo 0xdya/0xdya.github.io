@@ -65,7 +65,9 @@
         			animation-delay: 3s; 
         			animation-duration: 1s; 
         			}
-        			
+        			hr{
+        			  margin: 0 auto;
+        			}
     </style>
 </head>
 
@@ -326,9 +328,10 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
         <span class="Jetbrains_font tr_txt">
         > date:
         </span> 
-        <span class="Jetbrains_font tr_txt2">
-       ${new Date(latestCommit.commit.author.date).toLocaleString()}
-        </span>
+       <span class="Jetbrains_font tr_txt2">
+  ${new Date(latestCommit.commit.author.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+</span>
+
         </div>
       `;
 
