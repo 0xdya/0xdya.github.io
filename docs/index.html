@@ -329,8 +329,11 @@ Actually, this site isn’t just a personal page — it’s a small open-source 
         > date:
         </span> 
        <span class="Jetbrains_font tr_txt2">
-  ${new Date(latestCommit.commit.author.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+  ${new Date(latestCommit.commit.author.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"})}
 </span>
+
 
         </div>
       `;
