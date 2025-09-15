@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>📚 روايات ماريا</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    * {
+      line-height: 1.6;
+      font-weight: 400;
+      box-sizing: border-box;
+    }
+
+    :root {
+
+      --jet: hsl(0, 0%, 22%);
+      --text-gradient-yellow: linear-gradient(to right, beige);
+
+      --bg-color: #000;
+      --bg-card: #000;
+      --bg-chapter: #111;
+      --profile-bg: #000;
+      --profile-txt: #eaeaea;
+      /*  --bg-color: #1a1a1a; */
+      --text-color: #e0e0e0;
+      --text-color2: #ededed;
+      --blog-code-bg: #1e1e1e;
+      --bg-cod: #111;
+      --homepage_note_bg: #111;
+      --homepage_note_border: beige;
+      --bg-cod-header: #222;
+      --accent-color: #2196f3;
+      --color-keyword: #8f8f8f;
+      --color-string: #8f8f8f;
+      --color-comment: #8f8f8f;
+      --color-variable: rgb(207 146 120);
+      --color-bracket: #333333;
+      --color-function: #005cc5;
+      --color-background: #ffffff;
+      --terminal-bg: #000;
+      --terminal-color2: #8f8f8f;
+      --terminal-color: #fff;
+      --terminal-color-old: #eec35e;
+      --terminal-color-green: #56d364;
+
+      --body-font-size: 14px;
+      --body-font-size-title: 1.3rem;
+
+      --btn-color: #1c1c1c;
+      --node-bg: #fff;
+      --node-txt: #000000;
+
+
+      --bg: #0c0c0c;
+      --fg: #f1f1f1;
+      --muted: #a0a0a0;
+      --accent: #4fbcff;
+
+
+      --fs-xl: 2.5rem;
+      /* ~44px */
+      --fs-lg: 1.5rem;
+      /* ~24px */
+      --fs-md: 1.125rem;
+      /* ~18px */
+      --fs-sm: 0.95rem;
+      /* ~15px */
+      --radius: 14px;
+    }
+
+    body.dark_theme {
+      --node-bg: #111;
+      --node-txt: #e0e0e0;
+    }
+
+    .light_theme {
+      --bg-color: #ffffff;
+      --bg-card: #fff;
+      --bg-chapter: #fdf8f0;
+      --profile-bg: #ffffff;
+      --profile-txt: #000;
+      --text-color: #000000;
+      --text-color2: #000000;
+      --blog-code-bg: #ededed;
+      --bg-cod: #fff;
+      --bg-cod-header: #ededed;
+      --accent-color: #4caf50;
+      --terminal-bg: #fdf8f0;
+      --homepage_note_bg: #eceded;
+      --homepage_note_border: #767676;
+      --color-keyword: #d2a8ff;
+      --color-string: #25928d;
+      --color-comment: #767676;
+      --color-variable: #5d3a9b;
+      --color-bracket: #333333;
+      --color-function: #005cc5;
+      --color-background: #ffffff;
+      --color-text: #1a1a1a;
+
+      --terminal-color: #121212;
+
+      --btn-color: transparent;
+      --muted: #222;
+    }
+
+    /* تنسيق عام */
+    body {
+      padding: 2rem 1rem 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+      line-height: 1.6;
+      min-height: 100vh;
+      /* display: flex;
+   justify-content: center;
+   align-items:  space-between;
+   flex-direction: column; */
+    }
+
+
+    .control {
+      display: flex;
+      position: fixed;
+      top: 0;
+      right: 12px;
+    }
+
+    .user_photo a,
+    #themeToggle,
+    .bug {
+      display: inline-block;
+      padding: 8px 4px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      background-color: transparent;
+      color: var(--text-color) !important;
+      cursor: grab;
+    }
+
+    .user_photo_href {
+      padding: 0 !important;
+    }
+
+    /* زر التحكم بالثيم */
+    .theme_toggle_container {
+      display: inline-block;
+    }
+
+    /* القائمة المنبثقة */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 1rem;
+      width: 80px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0.5rem 0.1rem;
+      z-index: 2;
+      background-color: var(--bg-color);
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      margin: 0.2rem 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    html {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    main {
+      padding: 0;
+      position: relative;
+      display: block;
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .logo_name {
+      font-size: 1rem;
+      position: fixed;
+      top: 0;
+      left: 1rem;
+      display: flex;
+      gap: 4px;
+    }
+.prompt {
+	color: rgb(207 146 120);
+	font-size: 18px;
+	margin-top: 4px;
+}
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    nav a {
+      border-bottom: 1px solid transparent;
+    }
+
+    nav a:hover {
+      border-bottom: 1px solid #8b949e;
+    }
+
+    .about_header {
+      padding: 6rem 0 4rem;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+
+      h1 {
+        font-size: var(--fs-xl);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        color: var(--muted);
+        font-size: var(--fs-lg);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+    }
+
+    .login {
+      background-color: var(--text-color);
+      color: var(--bg-color);
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: background 0.3s;
+    }
+
+    .login:hover {
+      background-color: var(--text-color);
+    }
+
+    .about {
+      background: transparent;
+      color: var(--text-color);
+      border: 1px solid #333;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: border 0.3s;
+    }
+
+    .about:hover {
+      border-color: #666;
+    }
+    .title {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      z-index: 3;
+    }
+
+    .header {
+      direction: flex;
+      flex-direction: row;
+      direction: ltr;
+      background: var(--bg-cod-header);
+      padding: 8px;
+      font-weight: bold;
+      border-radius: 5px 5px 0 0;
+      font-size: var(--body-font-size);
+    }
+
+    .h {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 3rem;
+      width: 100%;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+    #back_to_top {
+      position: fixed;
+      bottom: -50px;
+      /* يبدأ خارج الشاشة */
+      right: 20px;
+      display: none;
+      padding: 0;
+      background-color: transparent;
+      color: var(--text-color);
+      border: none;
+      cursor: none;
+      font-size: 2rem;
+      z-index: 9999;
+      opacity: 0;
+    }
+    .hidden {
+      display: none;
+    }
+
+    .doted::after {
+      content: '';
+      display: inline-block;
+      width: 0.6em;
+      height: 1em;
+      animation: dots 1.5s infinite step-start both;
+    }
+
+    @keyframes dots {
+      0% {
+        content: '';
+      }
+
+      25% {
+        content: '.';
+      }
+
+      50% {
+        content: '..';
+      }
+
+      75% {
+        content: '...';
+      }
+
+      100% {
+        content: '';
+      }
+    }
+    .dots {
+      flex: 1;
+      border-bottom: 1px dotted #888;
+      margin: 0 10px;
+      height: 0.5em;
+    }
+
+
+    .novel {
+      position: relative;
+      background: var(--bg-card, #fff);
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.3s ease;
+
+    }
+
+    .novel:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .novel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .novel-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .novel-author img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    .novel-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .novel-title {
+      font-size: 1.2rem;
+      margin: 4px 0;
+
+    }
+
+    .chapter {
+      background: var(--bg-chapter, #f9f9f9);
+      color: var(--text-color);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      direction: rtl;
+    }
+
+    .chapter_name {
+      font-weight: 600;
+      font-size: 1rem;
+      border-bottom: 1px dashed #333;
+      margin-bottom: 16px !important;
+      padding-bottom: 8px;
+    }
+
+    .chapter p {
+      margin: 0;
+      white-space: pre-line;
+      user-select: none;
+  -webkit-user-select: none;
+    }
+
+    .novel button {
+      align-self: flex-start;
+      margin-top: 8px;
+      background: #ff5252;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .novel button:hover {
+      background: #e53935;
+    }
+
+    .name_role {
+      padding: 0;
+      height: 40px;
+      position: relative;
+      font-size: 14px;
+
+      .s1 {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        color: var(--muted);
+      }
+    }
+
+    #publishSection {
+      width: 100%;
+      border: 1px dashed #333;
+      padding: 8px;
+    }
+
+    input,
+    textarea {
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 8px 16px;
+      color: var(--text-color);
+    }
+    .container {
+	max-width: 700px;
+	margin: 0 auto;
+	direction: rtl;
+}
+@media (min-width:900px) {
+
+	.control {
+		right: calc((100% - 700px) / 2);
+	}
+
+	.logo_name,
+	.back_to_home {
+		left: calc((100% - 700px) / 2);
+	}
+
+	#back_to_top {
+		right: calc((100% - 700px) / 2);
+	}
+}
+/*
+.chapter::before {
+  content: "© maria";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 3rem;
+  color: #80808061;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+}
+*/
+  </style>
+</head>
+<body>
+    <div class="container">
+  <button id="back_to_top">
+    <ion-icon name="chevron-up-circle-outline"></ion-icon>
+  </button>
+
+    <header class="h">
+        <h1 class="logo_name">
+				Maria 
+					<ion-icon class="prompt"name="cafe-outline"> </ion-icon>
+        </h1>
+        <div class="control">
+            <div class="user_photo">
+                <a id="loginIcon" href="../login/">
+                    <ion-icon name="person-add-outline"></ion-icon>
+                </a>
+                <a class="user_photo_href" href="../profile/"><img id="userAvatar" style="display:none" src="img/user.jpg"></a>
+            </div>
+            <div class="theme_toggle_container">
+                <button id="themeToggle">
+						<ion-icon name="contrast-outline"></ion-icon>
+					</button>
+                <div class="dropdown" id="themeDropdown">
+                    <button data-theme="light">Light</button>
+                    <button data-theme="dark">Dark</button>
+                    <button data-theme="system">System</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+  <div class="novels_container">
+  <br>
+    <div id="novels">⌛ جاري تحميل الروايات...</div>
+
+    <div id="publishSection" dir="rtl" class="hidden">
+      <h3>✍️ نشر رواية</h3>
+      <input id="novelTitle" placeholder="عنوان الرواية (اختياري)">
+      <div id="chapters"></div>
+      <br>
+      <button class="about" onclick="addChapter()">➕ إضافة فصل</button>
+      <button class="login" onclick="publish()">📤 نشر</button>
+    </div>
+  </div>
+  </div>
+
+  <script type="module">
+  document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp,
+      onSnapshot,
+      query,
+      orderBy,
+      doc,
+      getDoc,
+      getDocs,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+      authDomain: "oxdyaa.firebaseapp.com",
+      projectId: "oxdyaa",
+      storageBucket: "oxdyaa.firebasestorage.app",
+      messagingSenderId: "604062703590",
+      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    async function loadNovels() {
+  novelsContainer.innerHTML = "⌛ جاري تحميل الروايات...";
+  try {
+    const snapshot = await getDocs(novelsQuery);
+    renderNovels(snapshot);
+  } catch (e) {
+    novelsContainer.innerHTML = "❌ فشل في تحميل الروايات.";
+    console.error(e);
+  }
+}
+
+loadNovels();
+
+    let currentUser = null;
+    let userRole = null;
+    const publishSection = document.getElementById("publishSection");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+
+        // جلب الدور من Firestore
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        userRole = userSnap.exists() ? userSnap.data().role : null;
+
+        // فقط admin أو writer يمكنهم النشر
+        if (userRole === "admin" || userRole === "writer") {
+          publishSection.classList.remove("hidden");
+          addChapter(); // فصل أول افتراضي
+        }
+      }
+    });
+
+    const novelsContainer = document.getElementById("novels");
+    const novelsQuery = query(collection(db, "novels"), orderBy("createdAt", "desc"));
+
+    onSnapshot(novelsQuery, snapshot => {
+      novelsContainer.innerHTML = "";
+      if (snapshot.empty) {
+        novelsContainer.innerHTML = "<p>لا توجد روايات بعد.</p>";
+        return;
+      }
+
+      snapshot.forEach(docSnap => {
+        const novel = docSnap.data();
+        if (!novel.createdAt || !novel.createdAt.toDate) return;
+
+        const div = document.createElement("div");
+        div.className = "novel";
+
+        const dateObj = novel.createdAt?.toDate?.();
+        let date = "—";
+        if (dateObj) {
+          const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+          const month = months[dateObj.getMonth()];
+          const day = dateObj.getDate();
+          const year = dateObj.getFullYear();
+          const hour = dateObj.getHours().toString().padStart(2, "0");
+          const minute = dateObj.getMinutes().toString().padStart(2, "0");
+          date = `${month}, ${day} ${year} - ${hour}:${minute}`;
+        }
+
+
+        const canDelete =
+          (currentUser?.displayName === novel.name) || (userRole === "admin");
+
+        let html = `
+      <div class="novel-header" dir="rtl">
+        <div class="novel-author">
+          ${novel.photo ? `<img src="${novel.photo}" alt="صورة المؤلف">` : ""}
+           <div class="name_role">
+          <span>${novel.name}</span>
+          <span class="s1">كاتب</span>
+        </div>
+        </div>
+        <div class="novel-date"> ${date}</div>
+      </div>
+    `;
+
+        if (Array.isArray(novel.chapters)) {
+          novel.chapters.forEach((chapter, i) => {
+            html += `
+          <div class="chapter">
+          ${novel.title ? `<div class="novel-title">📘 ${novel.title}</div>` : ""}
+          ${chapter.title ? `<p class="chapter_name">الفصل ${i + 1}: ${chapter.title}</p>` : ""}
+
+      
+            <p>${chapter.content}</p>
+          </div>
+        `;
+          });
+        }
+
+        if (canDelete) {
+          html += `<button onclick="deleteNovel('${docSnap.id}')">🗑️ حذف</button>`;
+        }
+
+        div.innerHTML = html;
+        novelsContainer.appendChild(div);
+      });
+    });
+
+
+    function addChapter() {
+      const chaptersDiv = document.getElementById("chapters");
+      const index = chaptersDiv.children.length + 1;
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <h4>الفصل ${index}
+        <input placeholder="عنوان الفصل (اختياري) ">
+        </h4>
+        <textarea  placeholder="نص الفصل"></textarea>
+      `;
+      chaptersDiv.appendChild(div);
+    }
+
+    async function publish() {
+      if (!currentUser || !(userRole === "admin" || userRole === "writer")) {
+        alert("❌ لا تملك صلاحية النشر.");
+        return;
+      }
+
+      const title = document.getElementById("novelTitle").value.trim();
+      const chapterNodes = document.querySelectorAll("#chapters > div");
+
+      if (chapterNodes.length === 0) {
+        alert("أدخل فصلًا واحدًا على الأقل.");
+        return;
+      }
+
+
+      const chapters = [];
+      chapterNodes.forEach(div => {
+        const chapterTitle = div.querySelector("input").value.trim();
+        const content = div.querySelector("textarea").value.trim();
+        if (content.trim()) {
+          chapters.push({
+            title: chapterTitle.trim(),
+            content
+          });
+        }
+
+
+      });
+
+      if (chapters.length === 0) {
+        alert("أدخل فصلًا واحدًا على الأقل.");
+        return;
+      }
+
+      const novel = {
+        title,
+        chapters,
+        createdAt: serverTimestamp(),
+        name: currentUser.displayName || "مستخدم مجهول",
+        photo: currentUser.photoURL || ""
+
+      };
+
+      try {
+        const docRef = await addDoc(collection(db, "novels"), novel);
+        alert("✅ تم نشر الرواية!");
+        document.getElementById("novelTitle").value = "";
+        document.getElementById("chapters").innerHTML = "";
+        addChapter();
+      } catch (e) {
+        console.error("❌ خطأ في النشر:", e);
+        alert("❌ حدث خطأ أثناء النشر.");
+      }
+    }
+
+    async function deleteNovel(id) {
+      if (!confirm("هل أنت متأكد أنك تريد حذف هذه الرواية؟")) return;
+      try {
+        await deleteDoc(doc(db, "novels", id));
+      } catch (e) {
+        console.error("❌ خطأ في الحذف:", e);
+        alert("❌ فشل في الحذف.");
+      }
+    }
+
+    window.publish = publish;
+    window.addChapter = addChapter;
+    window.deleteNovel = deleteNovel;
+
+
+  </script>
+  <script src="../js/script.js"></script>
+  <script src="../js/user.js"></script>
+</body>
+</html>
