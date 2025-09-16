@@ -787,6 +787,9 @@ article {
 	/* ضباب خفيف */
 	transform: translateY(10px);
 	transition: opacity 0.6s ease, filter 0.6s ease, transform 0.6s ease;
+	p{
+	text-align: left;
+}
 }
 
 .project_article:not(.hidden) {
