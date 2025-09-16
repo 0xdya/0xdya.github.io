@@ -320,6 +320,7 @@ main {
 	padding: 0;
 	position: relative;
 	display: block;
+	width: 100%;
 }
 
 
@@ -332,7 +333,7 @@ main {
 }
 
 .container {
-	max-width: 800px;
+	max-width: 720px;
 	margin: auto;
 	padding: 1rem 0;
 	display: flex;
@@ -379,7 +380,7 @@ nav a:hover {
 .about_header {
 	padding: 6rem 0 4rem;
 	text-align: center;
-	max-width: 800px;
+	max-width: 720px;
 	margin: 0 auto;
 
 	h1 {
@@ -469,23 +470,6 @@ nav a:hover {
 	padding: 1rem;
 }
 
-.terminal-header {
-	color: #ffd700;
-	margin-bottom: 0.5rem;
-}
-
-code {
-	background: transparent;
-	padding: 3px 6px;
-	border-radius: 4px;
-}
-
-.ascii {
-	font-size: 10px !important;
-	padding: 0 !important;
-	margin: 0 !important;
-}
-
 .tr_txt,
 .tr_txt2,
 .tr_txt3 {
@@ -551,11 +535,19 @@ code {
 	font-size: 1rem;
 	z-index: 3;
 }
-
+.home_ascii {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	code{
+	color: var(--muted);
+	}
+	span{
+	color: var(--text-color);
+	}
+}
 .code-box {
-	border-radius: 8px;
 	width: 100%;
-	margin: 0 auto;
 	position: relative;
 	cursor: grab;
 	user-select: none;
@@ -595,10 +587,9 @@ code {
 }
 
 #network {
-	width: 90vw;
-	max-width: 800px;
-	height: 400px;
-	margin: 14px auto 0;
+	width: 100%;
+	height: 300px;
+	max-width: 720px;
 	border: 1px solid #333;
 	border-radius: 8px;
 	overflow: hidden;
@@ -737,7 +728,7 @@ article {
 }
 
 .blog_container {
-	max-width: 800px;
+	max-width: 720px;
 	margin: 0 auto;
 	padding: 2rem 0 0;
 	display: flex;
@@ -1048,16 +1039,6 @@ article {
 	width: 100%;
 }
 
-.terminal-card {
-	background-color: #111;
-	color: #00ff88;
-	font-family: 'Fira Code', monospace;
-	padding: 15px 20px;
-	margin: 10px 0;
-	border-radius: 8px;
-	border: 1px solid #00ff8855;
-}
-
 .command-line {
 	color: #ededed;
 }
@@ -1126,12 +1107,8 @@ article {
 	}
 
 	.code-box {
-		border-radius: 8px;
-		width: 100%;
-		margin: 0 auto;
-		margin-left: ;
+		width: 420px;
 		position: relative;
-		cursor: grab;
 		user-select: none;
 		padding: 16px;
 		font-size: var(--body-font-size);
@@ -1147,14 +1124,13 @@ article {
 	}
 
 	.code-box {
-		min-width: 100% !important;
 		border-radius: 8px;
 		cursor: grab;
 		padding: 1rem !important;
 	}
 
 	.ascii {
-		display: none;
+		display: none ;
 	}
 }
 
