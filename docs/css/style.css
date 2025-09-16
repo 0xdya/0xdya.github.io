@@ -540,7 +540,9 @@ nav a:hover {
 	justify-content: center;
 	gap: 8px;
 	code{
+		max-width: 100px !important;
 	color: var(--muted);
+	font-size: 16px;
 	}
 	span{
 	color: var(--text-color);
