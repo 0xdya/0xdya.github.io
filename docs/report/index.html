@@ -365,27 +365,40 @@
 
 
       try {
-        const response = await fetch('/api/tg', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, message, ipAddress })
-        });
+  let response;
+  if (image) {
+    const formData = new FormData();
+    formData.append('chat_id', 5962064921);
+    formData.append('photo', image);
+    formData.append('caption', caption);
 
+    response = await fetch('/api/tg', {
+      method: 'POST',
+      body: formData
+    });
+  } else {
+    response = await fetch('/api/tg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: 5962064921, text: caption })
+    });
+  }
 
-        const data = await response.json();
-        if (data.ok) {
-          showAlert('تم إرسال الرسالة بنجاح!', 'success');
-        } else {
-          console.error('Telegram API Error:', data);
-          showAlert('حدث خطأ أثناء الإرسال.', 'error');
-        }
-      } catch (error) {
-        console.error('Fetch Error:', error);
-        showAlert('حدث خطأ أثناء الإرسال.', 'error');
-      } finally {
-        sendingMessage.style.display = 'none';
-        clearForm();
-      }
+  const data = await response.json();
+  if (data.ok) {
+    showAlert('تم إرسال الرسالة بنجاح!', 'success');
+  } else {
+    console.error('Telegram API Error:', data);
+    showAlert('حدث خطأ أثناء الإرسال.', 'error');
+  }
+} catch (error) {
+  console.error('Fetch Error:', error);
+  showAlert('حدث خطأ أثناء الإرسال.', 'error');
+} finally {
+  sendingMessage.style.display = 'none';
+  clearForm();
+}
+
     });
   </script>
 
