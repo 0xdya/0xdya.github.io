@@ -1134,7 +1134,7 @@ article {
 		padding: 1rem !important;
 	}
 
-	.ascii {
+	.ascii, model-viewer{
 		display: none ;
 	}
 }
