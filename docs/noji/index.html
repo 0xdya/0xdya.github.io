@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>☕ نوجي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+    * {
+      line-height: 1.6;
+      font-weight: 400;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --jet: hsl(0, 0%, 22%);
+      --text-gradient-yellow: linear-gradient(to right, beige);
+      --bg-color: #000;
+      --bg-card: #000;
+      --bg-chapter: #111;
+      --profile-bg: #000;
+      --profile-txt: #eaeaea;
+      --text-color: #e0e0e0;
+      --text-color2: #ededed;
+      --blog-code-bg: #1e1e1e;
+      --bg-cod: #111;
+      --homepage_note_bg: #111;
+      --homepage_note_border: beige;
+      --bg-cod-header: #222;
+      --accent-color: #2196f3;
+      --color-keyword: #8f8f8f;
+      --color-string: #8f8f8f;
+      --color-comment: #8f8f8f;
+      --color-variable: rgb(207 146 120);
+      --color-bracket: #333333;
+      --color-function: #005cc5;
+      --color-background: #ffffff;
+      --terminal-bg: #000;
+      --terminal-color2: #8f8f8f;
+      --terminal-color: #fff;
+      --terminal-color-old: #eec35e;
+      --terminal-color-green: #56d364;
+      --body-font-size: 14px;
+      --body-font-size-title: 1.3rem;
+      --btn-color: #1c1c1c;
+      --node-bg: #fff;
+      --node-txt: #000000;
+      --bg: #0c0c0c;
+      --fg: #f1f1f1;
+      --muted: #a0a0a0;
+      --accent: #4fbcff;
+      --fs-xl: 2.5rem;
+      --fs-lg: 1.5rem;
+      --fs-md: 1.125rem;
+      --fs-sm: 0.95rem;
+      --radius: 14px;
+    }
+
+    body.dark_theme {
+      --node-bg: #111;
+      --node-txt: #e0e0e0;
+    }
+
+    .light_theme {
+      --bg-color: #ffffff;
+      --bg-card: #fff;
+      --bg-chapter: #fdf8f0;
+      --profile-bg: #ffffff;
+      --profile-txt: #000;
+      --text-color: #000000;
+      --text-color2: #000000;
+      --blog-code-bg: #ededed;
+      --bg-cod: #fff;
+      --bg-cod-header: #ededed;
+      --accent-color: #4caf50;
+      --terminal-bg: #fdf8f0;
+      --homepage_note_bg: #eceded;
+      --homepage_note_border: #767676;
+      --color-keyword: #d2a8ff;
+      --color-string: #25928d;
+      --color-comment: #767676;
+      --color-variable: #5d3a9b;
+      --color-bracket: #333333;
+      --color-function: #005cc5;
+      --color-background: #ffffff;
+      --color-text: #1a1a1a;
+      --terminal-color: #121212;
+      --btn-color: transparent;
+      --muted: #222;
+    }
+
+    body {
+      padding: 2rem 1rem 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: all 0.3s ease;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .control {
+      display: flex;
+      position: fixed;
+      top: 0;
+      right: 12px;
+    }
+
+    .user_photo a,
+    #themeToggle,
+    .bug {
+      display: inline-block;
+      padding: 8px 4px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      background-color: transparent;
+      color: var(--text-color) !important;
+      cursor: grab;
+    }
+
+    .user_photo_href {
+      padding: 0 !important;
+    }
+
+    .theme_toggle_container {
+      display: inline-block;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 1rem;
+      width: 80px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0.5rem 0.1rem;
+      z-index: 2;
+      background-color: var(--bg-color);
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      margin: 0.2rem 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+
+    html {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    main {
+      padding: 0;
+      position: relative;
+      display: block;
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .logo_name {
+      font-size: 1rem;
+      position: fixed;
+      top: 0;
+      left: 1rem;
+      display: flex;
+      gap: 4px;
+    }
+
+    .prompt {
+      color: rgb(207 146 120);
+      font-size: 18px;
+      margin-top: 4px;
+    }
+
+    .h {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 3rem;
+      width: 100%;
+      backdrop-filter: blur(4px);
+      z-index: 2;
+    }
+
+    #back_to_top {
+      position: fixed;
+      bottom: -50px;
+      right: 20px;
+      display: none;
+      padding: 0;
+      background-color: transparent;
+      color: var(--text-color);
+      border: none;
+      cursor: none;
+      font-size: 2rem;
+      z-index: 9999;
+      opacity: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .novel {
+      position: relative;
+      background: var(--bg-card, #fff);
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .novel:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .novel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .novel-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .novel-author img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    .novel-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .novel-title {
+      font-size: 1.2rem;
+      margin: 4px 0;
+    }
+
+    .chapter {
+      background: var(--bg-chapter, #f9f9f9);
+      color: var(--text-color);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      direction: rtl;
+    }
+
+    .chapter_name {
+      font-weight: 600;
+      font-size: 1rem;
+      border-bottom: 1px dashed #333;
+      margin-bottom: 16px !important;
+      padding-bottom: 8px;
+    }
+
+    .chapter p {
+      margin: 0;
+      white-space: pre-line;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .novel button {
+      align-self: flex-start;
+      margin-top: 8px;
+      background: #ff5252;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .novel button:hover {
+      background: #e53935;
+    }
+
+    .name_role {
+      padding: 0;
+      height: 40px;
+      position: relative;
+      font-size: 14px;
+    }
+
+    .name_role .s1 {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      color: var(--muted);
+    }
+
+    #publishSection {
+      width: 100%;
+      border: 1px dashed #333;
+      padding: 8px;
+    }
+
+    input,
+    textarea {
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 8px 16px;
+      color: var(--text-color);
+      width: 100%;
+      margin: 8px 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      direction: rtl;
+    }
+
+    @media (min-width:900px) {
+      .control {
+        right: calc((100% - 700px) / 2);
+      }
+
+      .logo_name {
+        left: calc((100% - 700px) / 2);
+      }
+
+      #back_to_top {
+        right: calc((100% - 700px) / 2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="back_to_top">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </button>
+
+    <header class="h">
+      <h1 class="logo_name">
+        noji 
+        <ion-icon class="prompt" name="cafe-outline"></ion-icon>
+      </h1>
+      <div class="control">
+        <div class="user_photo">
+          <a id="loginIcon" href="../login/">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </a>
+          <a class="user_photo_href" href="../profile/">
+            <img id="userAvatar" style="display:none; width: 32px; height: 32px; border-radius: 50%;" src="img/user.jpg">
+          </a>
+        </div>
+        <div class="theme_toggle_container">
+          <button id="themeToggle">
+            <ion-icon name="contrast-outline"></ion-icon>
+          </button>
+          <div class="dropdown" id="themeDropdown">
+            <button data-theme="light">Light</button>
+            <button data-theme="dark">Dark</button>
+            <button data-theme="system">System</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="novels_container">
+      <br>
+      <div id="novels">⌛ جاري تحميل المحتوى...</div>
+
+      <div id="publishSection" dir="rtl" class="hidden">
+        <h3>✍️ نشر محتوى جديد</h3>
+        <input id="novelTitle" placeholder="العنوان (اختياري)">
+        <div id="chapters"></div>
+        <br>
+        <button class="about" onclick="addChapter()">➕ إضافة فصل</button>
+        <button class="login" onclick="publish()">📤 نشر</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp,
+      onSnapshot,
+      query,
+      orderBy,
+      doc,
+      getDoc,
+      getDocs,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+      authDomain: "oxdyaa.firebaseapp.com",
+      projectId: "oxdyaa",
+      storageBucket: "oxdyaa.firebasestorage.app",
+      messagingSenderId: "604062703590",
+      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+    let userRole = null;
+    const publishSection = document.getElementById("publishSection");
+    const novelsContainer = document.getElementById("novels");
+    const loginIcon = document.getElementById("loginIcon");
+    const userAvatar = document.getElementById("userAvatar");
+
+    const allowedEmails = [
+      "anotheruser@outlook.com"
+    ];
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        
+        console.log("✅ المستخدم مسجل:", user.email);
+        console.log("UID:", user.uid);
+        
+        loginIcon.style.display = "none";
+        if (user.photoURL) {
+          userAvatar.src = user.photoURL;
+          userAvatar.style.display = "block";
+        }
+
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+          
+          console.log("📄 مستند المستخدم موجود؟", userSnap.exists());
+          
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            console.log("📋 بيانات المستخدم:", userData);
+            userRole = userData.role;
+            console.log("🎭 الدور:", userRole);
+          } else {
+            console.warn("⚠️ مستند المستخدم غير موجود في Firestore");
+            userRole = null;
+          }
+
+          const hasRolePermission = userRole === "owner" || userRole === "admin" || userRole === "writer";
+          const hasEmailPermission = allowedEmails.includes(user.email);
+          
+          if (hasRolePermission || hasEmailPermission) {
+            console.log("✅ إظهار فصل النشر");
+            if (hasEmailPermission) {
+              console.log("✅ مسموح عبر الإيميل:", user.email);
+            }
+            publishSection.classList.remove("hidden");
+            if (document.getElementById("chapters").children.length === 0) {
+              addChapter(); 
+            }
+          } else {
+            console.log("❌ الدور غير مناسب للنشر:", userRole);
+            console.log("❌ الإيميل غير مسموح:", user.email);
+          }
+        } catch (e) {
+          console.error("❌ خطأ في جلب بيانات المستخدم:", e);
+        }
+      } else {
+        console.log("❌ لا يوجد مستخدم مسجل");
+        loginIcon.style.display = "block";
+        userAvatar.style.display = "none";
+        publishSection.classList.add("hidden");
+      }
+    });
+
+    const novelsQuery = query(collection(db, "noji"), orderBy("createdAt", "desc"));
+
+    async function loadNovels() {
+      novelsContainer.innerHTML = "⌛ جاري تحميل المحتوى...";
+      try {
+        const snapshot = await getDocs(novelsQuery);
+        renderNovels(snapshot);
+      } catch (e) {
+        novelsContainer.innerHTML = "❌ فشل في تحميل المحتوى.";
+        console.error(e);
+      }
+    }
+
+    function renderNovels(snapshot) {
+      novelsContainer.innerHTML = "";
+      if (snapshot.empty) {
+        novelsContainer.innerHTML = "<p>لا يوجد محتوى بعد.</p>";
+        return;
+      }
+
+      snapshot.forEach(docSnap => {
+        const novel = docSnap.data();
+        if (!novel.createdAt || !novel.createdAt.toDate) return;
+
+        const div = document.createElement("div");
+        div.className = "novel";
+
+        const dateObj = novel.createdAt?.toDate?.();
+        let date = "—";
+        if (dateObj) {
+          const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+          const month = months[dateObj.getMonth()];
+          const day = dateObj.getDate();
+          const year = dateObj.getFullYear();
+          const hour = dateObj.getHours().toString().padStart(2, "0");
+          const minute = dateObj.getMinutes().toString().padStart(2, "0");
+          date = `${month}, ${day} ${year} - ${hour}:${minute}`;
+        }
+
+        const canDelete = 
+          (currentUser?.displayName === novel.name) || 
+          (userRole === "owner" || userRole === "admin") ||
+          allowedEmails.includes(currentUser?.email);
+
+        let html = `
+          <div class="novel-header" dir="rtl">
+            <div class="novel-author">
+              ${novel.photo ? `<img src="${novel.photo}" alt="صورة المؤلف">` : ""}
+              <div class="name_role">
+                <span>${novel.name}</span>
+                <span class="s1">كاتب</span>
+              </div>
+            </div>
+            <div class="novel-date">${date}</div>
+          </div>
+          ${novel.title ? `<div class="novel-title">📘 ${novel.title}</div>` : ""}
+        `;
+
+        if (Array.isArray(novel.chapters)) {
+          novel.chapters.forEach((chapter, i) => {
+            html += `
+              <div class="chapter">
+                ${chapter.title ? `<p class="chapter_name">الفصل ${i + 1}: ${chapter.title}</p>` : ""}
+                <p>${chapter.content}</p>
+              </div>
+            `;
+          });
+        }
+
+        if (canDelete) {
+          html += `<button onclick="deleteNovel('${docSnap.id}')">🗑️ حذف</button>`;
+        }
+
+        div.innerHTML = html;
+        novelsContainer.appendChild(div);
+      });
+    }
+
+    onSnapshot(novelsQuery, snapshot => {
+      renderNovels(snapshot);
+    });
+
+    loadNovels();
+
+    function addChapter() {
+      const chaptersDiv = document.getElementById("chapters");
+      const index = chaptersDiv.children.length + 1;
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <h4>الفصل ${index}</h4>
+        <input placeholder="عنوان الفصل (اختياري)">
+        <textarea placeholder="المحتوى"></textarea>
+      `;
+      chaptersDiv.appendChild(div);
+    }
+
+    async function publish() {
+      const hasRolePermission = userRole === "owner" || userRole === "admin" || userRole === "writer";
+      const hasEmailPermission = allowedEmails.includes(currentUser?.email);
+      
+      if (!currentUser || !(hasRolePermission || hasEmailPermission)) {
+        alert("❌ لا تملك صلاحية النشر.");
+        return;
+      }
+
+      const title = document.getElementById("novelTitle").value.trim();
+      const chapterNodes = document.querySelectorAll("#chapters > div");
+
+      if (chapterNodes.length === 0) {
+        alert("أدخل فصلًا واحدًا على الأقل.");
+        return;
+      }
+
+      const chapters = [];
+      chapterNodes.forEach(div => {
+        const chapterTitle = div.querySelector("input").value.trim();
+        const content = div.querySelector("textarea").value.trim();
+        if (content) {
+          chapters.push({
+            title: chapterTitle,
+            content
+          });
+        }
+      });
+
+      if (chapters.length === 0) {
+        alert("أدخل فصلًا واحدًا على الأقل.");
+        return;
+      }
+
+      const novel = {
+        title,
+        chapters,
+        createdAt: serverTimestamp(),
+        name: currentUser.displayName || "مستخدم مجهول",
+        photo: currentUser.photoURL || ""
+      };
+
+      try {
+        await addDoc(collection(db, "noji"), novel);
+        document.getElementById("novelTitle").value = "";
+        document.getElementById("chapters").innerHTML = "";
+        addChapter();
+      } catch (e) {
+        console.error("❌ خطأ في النشر:", e);
+        alert("❌ حدث خطأ أثناء النشر.");
+      }
+    }
+
+    async function deleteNovel(id) {
+      if (!confirm("هل أنت متأكد أنك تريد حذف هذا المحتوى؟")) return;
+      try {
+        await deleteDoc(doc(db, "noji", id));
+      } catch (e) {
+        console.error("❌ خطأ في الحذف:", e);
+        alert("❌ فشل في الحذف.");
+      }
+    }
+
+    window.publish = publish;
+    window.addChapter = addChapter;
+    window.deleteNovel = deleteNovel;
+  </script>
+</body>
+  </html>
