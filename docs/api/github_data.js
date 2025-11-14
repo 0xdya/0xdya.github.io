@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   const username = "0xdya";
   const repoName = "0xdya.github.io";
   const branch = "main";
-  const token = process.env.GITHUB_token;
+  const token = process.env.GITHUB_TOKEN;
 
   const headers = {
     Authorization: `Bearer ${token}`,
