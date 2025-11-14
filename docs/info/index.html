@@ -1,4 +1,174 @@
-export default async function handler(req, res) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>0xdya | Dyaa Eddine</title>
+  <meta name="author" content="0xdya" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/en.css" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
+  <style>
+    * { line-height: 1 !important; }
+    .accounts-board {
+      font-family: monospace;
+      padding: 1rem;
+      width: 100%;
+    }
+    .account {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    }
+    .platform, .username {
+      z-index: 1;
+      padding: 0 4px;
+    }
+    .dots {
+      flex-grow: 1;
+      border-bottom: 1.6px dotted var(--text-color);
+      margin: 0 4px;
+    }
+  </style>
+</head>
+<body dir="ltr">
+
+  <header class="h">
+    <h1 class="logo_name">
+      <span class="prompt"><ion-icon name="paw-outline"></ion-icon></span> 0xdya
+    </h1>
+    <div class="control">
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/"><ion-icon name="person-outline"></ion-icon></a>
+        <a class="user_photo_href" href="profile"><img id="userAvatar" style="display:none" src="img/user.jpg"></a>
+      </div>
+      <div class="theme_toggle_container">
+        <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
+        <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
+        <div class="dropdown" id="themeDropdown">
+          <button data-theme="light">Light</button>
+          <button data-theme="dark">Dark</button>
+          <button data-theme="system">System</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      <h2 class="home_title_font"># log</h2>
+      <div class="terminal_bg">
+        <div class="terminal">
+          <div class="terminal_dote"><span></span><span></span><span></span></div>
+          <div class="ascii">
+            <pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⢔⣒⠂⣀⣀⣤⣄⣀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣴⣿⠋⢠⣟⡼⣷⠼⣆⣼⢇⣿⣄⠱⣄
+⠀⠀⠀⠀⠀⠀⠀⠹⣿⡀⣆⠙⠢⠐⠉⠉⣴⣾⣽⢟⡰⠃
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣦⠀⠤⢴⣿⠿⢋⣴⡏⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡙⠻⣿⣶⣦⣭⣉⠁⣿⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣷⠀⠈⠉⠉⠉⠉⠇⡟⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⣘⣦⣀⠀⠀⣀⡴⠊⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠛⢻⣿⣿⣿⣿⠻⣧⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠫⣿⠉⠻⣇⠘⠓⠂⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⢶⣾⣿⣿⣿⣿⣿⣶⣄⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣧⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠈⠙⠻⢿⣿⣿⠿⠛⣄⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣹⣷⠂⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠸⡄⡠
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⡀⠀⠀⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠇⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠀⠀⠀⠀⠀⠀⠀⠀</code></pre>
+          </div>
+          <div class="code-box" id="draggable-box">
+            <div>
+              <span class="tr_txt3" id="repoInfo">
+                <ion-icon name="folder-outline"></ion-icon> repo info
+              </span>
+            </div><br>
+            <div>
+              <span class="tr_txt3" id="latestCommit">
+                <ion-icon name="folder-outline"></ion-icon> last commit
+              </span>
+            </div><br>
+            <div>
+              <span class="tr_txt3" id="ownerData">
+                <ion-icon name="folder-outline"></ion-icon> owner info's
+              </span>
+            </div><br>
+            <div>
+              <span class="tr_txt3" id="contributors">
+                <ion-icon name="folder-outline"></ion-icon> contributors
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acount_terminal">
+        <div>
+          <span class="tr_txt3">
+            <ion-icon name="folder-outline"></ion-icon> accounts
+          </span>
+        </div>
+        <div class="accounts-board">
+          <div class="account">
+            <span class="platform">instagram</span>
+            <span class="dots"></span>
+            <a href="https://instagram.com/0xdiya" class="username">@0xdiya</a>
+          </div>
+          <div class="account">
+            <span class="platform">github</span>
+            <span class="dots"></span>
+            <a href="https://github.com/0xdya" class="username">@0xdya</a>
+          </div>
+          <div class="account">
+            <span class="platform">youtube</span>
+            <span class="dots"></span>
+            <a href="https://youtube.com/@0xdya" class="username">@0xdya</a>
+          </div>
+          <div class="account">
+            <span class="platform">bsky</span>
+            <span class="dots"></span>
+            <a href="https://0xdya.bsky.social" class="username">@0xdya</a>
+          </div>
+          <div class="account">
+            <span class="platform">facebook</span>
+            <span class="dots"></span>
+            <a href="https://facebook.com/0xdya" class="username">@0xdya</a>
+          </div>
+          <div class="account">
+            <span class="platform">linkedin</span>
+            <span class="dots"></span>
+            <a href="https://dz.linkedin.com/in/0xdya" class="username">@0xdya</a>
+          </div>
+          <div class="account">
+            <span class="platform">email</span>
+            <span class="dots"></span>
+            <a href="mailto:0xdya@proton.me" class="username">0xdya@proton.me</a>
+          </div>
+        </div>
+      </div>
+
+      <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
+    </main>
+  </div>
+
+  <script type="module" src="./js/user.js"></script>
+  <script type="module" src="../js/view.js"></script>
+  <script>
+    export default async function handler(req, res) {
   const username = "0xdya";
   const repoName = "0xdya.github.io";
   const branch = "main";
@@ -34,3 +204,11 @@ export default async function handler(req, res) {
 
   }
       }
+  </script>
+
+  <script src="../js/script.js"></script>
+  <script src="../js/tg.js"></script>
+  <script src="../js/time_ago.js"></script>
+  <script src="../js/home.js"></script>
+</body>
+</html>
