@@ -1,71 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>0xdya | Dyaa Eddine</title>
-  <meta name="author" content="0xdya" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/en.css" />
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
-  <style>
-    * { line-height: 1 !important; }
-    .accounts-board {
-      font-family: monospace;
-      padding: 1rem;
-      width: 100%;
-    }
-    .account {
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      margin-bottom: 4px;
-    }
-    .platform, .username {
-      z-index: 1;
-      padding: 0 4px;
-    }
-    .dots {
-      flex-grow: 1;
-      border-bottom: 1.6px dotted var(--text-color);
-      margin: 0 4px;
-    }
-  </style>
-</head>
-<body dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>0xdya | Dyaa Eddine</title>
+    <meta name="author" content="0xdya" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/en.css" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        line-height: 1 !important;
+      }
 
-  <header class="h">
-    <h1 class="logo_name">
-      <span class="prompt"><ion-icon name="paw-outline"></ion-icon></span> 0xdya
-    </h1>
-    <div class="control">
-      <div class="user_photo">
-        <a id="loginIcon" href="../login/"><ion-icon name="person-outline"></ion-icon></a>
-        <a class="user_photo_href" href="profile"><img id="userAvatar" style="display:none" src="img/user.jpg"></a>
-      </div>
-      <div class="theme_toggle_container">
-        <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
-        <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
-        <div class="dropdown" id="themeDropdown">
-          <button data-theme="light">Light</button>
-          <button data-theme="dark">Dark</button>
-          <button data-theme="system">System</button>
+      .accounts-board {
+        font-family: monospace;
+        padding: 1rem;
+        width: 100%;
+      }
+
+      .account {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        margin-bottom: 4px;
+      }
+
+      .platform,
+      .username {
+        z-index: 1;
+        padding: 0 4px;
+      }
+
+      .dots {
+        flex-grow: 1;
+        border-bottom: 1.6px dotted var(--text-color);
+        margin: 0 4px;
+      }
+    </style>
+  </head>
+
+  <body dir="ltr">
+    <header class="h">
+      <h1 class="logo_name">
+        <span class="prompt"><ion-icon name="paw-outline"></ion-icon></span>
+        0xdya
+      </h1>
+      <div class="control">
+        <div class="user_photo">
+          <a id="loginIcon" href="../login/"
+            ><ion-icon name="person-outline"></ion-icon
+          ></a>
+          <a class="user_photo_href" href="profile"
+            ><img id="userAvatar" style="display: none" src="img/user.jpg"
+          /></a>
+        </div>
+        <div class="theme_toggle_container">
+          <button id="themeToggle">
+            <ion-icon name="contrast-outline"></ion-icon>
+          </button>
+          <a href="report/" class="bug"
+            ><ion-icon name="bug-outline"></ion-icon
+          ></a>
+          <div class="dropdown" id="themeDropdown">
+            <button data-theme="light">Light</button>
+            <button data-theme="dark">Dark</button>
+            <button data-theme="system">System</button>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <div class="container">
-    <main>
-      <h2 class="home_title_font"># log</h2>
-      <div class="terminal_bg">
-        <div class="terminal">
-          <div class="terminal_dote"><span></span><span></span><span></span></div>
-          <div class="ascii">
-            <pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⢔⣒⠂⣀⣀⣤⣄⣀⠀⠀
+    <div class="container">
+      <main>
+        <h2 class="home_title_font"># log</h2>
+        <div class="terminal_bg">
+          <div class="terminal">
+            <div class="terminal_dote">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="ascii">
+              <pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⢔⣒⠂⣀⣀⣤⣄⣀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⣴⣿⠋⢠⣟⡼⣷⠼⣆⣼⢇⣿⣄⠱⣄
 ⠀⠀⠀⠀⠀⠀⠀⠹⣿⡀⣆⠙⠢⠐⠉⠉⣴⣾⣽⢟⡰⠃
 ⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣦⠀⠤⢴⣿⠿⢋⣴⡏⠀⠀
@@ -90,125 +117,283 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⡀⠀⠀⡀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠇⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠀⠀⠀⠀⠀⠀⠀⠀</code></pre>
-          </div>
-          <div class="code-box" id="draggable-box">
-            <div>
-              <span class="tr_txt3" id="repoInfo">
-                <ion-icon name="folder-outline"></ion-icon> repo info
-              </span>
-            </div><br>
-            <div>
-              <span class="tr_txt3" id="latestCommit">
-                <ion-icon name="folder-outline"></ion-icon> last commit
-              </span>
-            </div><br>
-            <div>
-              <span class="tr_txt3" id="ownerData">
-                <ion-icon name="folder-outline"></ion-icon> owner info's
-              </span>
-            </div><br>
-            <div>
-              <span class="tr_txt3" id="contributors">
-                <ion-icon name="folder-outline"></ion-icon> contributors
-              </span>
+            </div>
+            <div class="code-box" id="draggable-box">
+              <div>
+                <span class="tr_txt3" id="repoInfo">
+                  <ion-icon name="folder-outline"></ion-icon> repo info
+                </span>
+              </div>
+              <br />
+              <div>
+                <span class="tr_txt3" id="latestCommit">
+                  <ion-icon name="folder-outline"></ion-icon> last commit
+                </span>
+              </div>
+              <br />
+              <div>
+                <span class="tr_txt3" id="ownerData">
+                  <ion-icon name="folder-outline"></ion-icon> owner info's
+                </span>
+              </div>
+              <br />
+              <div>
+                <span class="tr_txt3" id="contributors">
+                  <ion-icon name="folder-outline"></ion-icon> contributors
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="acount_terminal">
-        <div>
-          <span class="tr_txt3">
-            <ion-icon name="folder-outline"></ion-icon> accounts
-          </span>
+        <div class="acount_terminal">
+          <div>
+            <span class="tr_txt3">
+              <ion-icon name="folder-outline"></ion-icon> accounts
+            </span>
+          </div>
+          <div class="accounts-board">
+            <div class="account">
+              <span class="platform">instagram</span>
+              <span class="dots"></span>
+              <a href="https://instagram.com/0xdiya" class="username"
+                >@0xdiya</a
+              >
+            </div>
+            <div class="account">
+              <span class="platform">github</span>
+              <span class="dots"></span>
+              <a href="https://github.com/0xdya" class="username">@0xdya</a>
+            </div>
+            <div class="account">
+              <span class="platform">youtube</span>
+              <span class="dots"></span>
+              <a href="https://youtube.com/@0xdya" class="username">@0xdya</a>
+            </div>
+            <div class="account">
+              <span class="platform">bsky</span>
+              <span class="dots"></span>
+              <a href="https://0xdya.bsky.social" class="username">@0xdya</a>
+            </div>
+            <div class="account">
+              <span class="platform">facebook</span>
+              <span class="dots"></span>
+              <a href="https://facebook.com/0xdya" class="username">@0xdya</a>
+            </div>
+            <div class="account">
+              <span class="platform">linkedin</span>
+              <span class="dots"></span>
+              <a href="https://dz.linkedin.com/in/0xdya" class="username"
+                >@0xdya</a
+              >
+            </div>
+            <div class="account">
+              <span class="platform">email</span>
+              <span class="dots"></span>
+              <a href="mailto:0xdya@proton.me" class="username"
+                >0xdya@proton.me</a
+              >
+            </div>
+          </div>
         </div>
-        <div class="accounts-board">
-          <div class="account">
-            <span class="platform">instagram</span>
-            <span class="dots"></span>
-            <a href="https://instagram.com/0xdiya" class="username">@0xdiya</a>
-          </div>
-          <div class="account">
-            <span class="platform">github</span>
-            <span class="dots"></span>
-            <a href="https://github.com/0xdya" class="username">@0xdya</a>
-          </div>
-          <div class="account">
-            <span class="platform">youtube</span>
-            <span class="dots"></span>
-            <a href="https://youtube.com/@0xdya" class="username">@0xdya</a>
-          </div>
-          <div class="account">
-            <span class="platform">bsky</span>
-            <span class="dots"></span>
-            <a href="https://0xdya.bsky.social" class="username">@0xdya</a>
-          </div>
-          <div class="account">
-            <span class="platform">facebook</span>
-            <span class="dots"></span>
-            <a href="https://facebook.com/0xdya" class="username">@0xdya</a>
-          </div>
-          <div class="account">
-            <span class="platform">linkedin</span>
-            <span class="dots"></span>
-            <a href="https://dz.linkedin.com/in/0xdya" class="username">@0xdya</a>
-          </div>
-          <div class="account">
-            <span class="platform">email</span>
-            <span class="dots"></span>
-            <a href="mailto:0xdya@proton.me" class="username">0xdya@proton.me</a>
-          </div>
+
+        <button id="back_to_top">
+          <ion-icon name="chevron-up-circle-outline"></ion-icon>
+        </button>
+      </main>
+    </div>
+
+    <script type="module" src="./js/user.js"></script>
+    <script type="module" src="../js/view.js"></script>
+    <script>
+      async function fetchGitHubData() {
+        const res = await fetch("/api/github_data");
+
+        const data = await res.json();
+
+        const repoData = data.repo;
+
+        const userData = data.user;
+
+        const latestCommit = data.commit;
+
+        const user = userData.login;
+
+        const repo = repoData.name;
+
+        document.getElementById("repoInfo").innerHTML += `
+
+
+        <p><strong>repo name:</strong> ${repoData.name}</p>
+
+
+        <p><strong>desc:</strong> ${repoData.description}</p>
+
+
+        <p><strong>visibility:</strong> ${repoData.visibility}</p>
+
+
+        <p><strong>language:</strong> ${repoData.language}</p>
+
+
+        <p><strong>branch:</strong> ${repoData.default_branch}</p>
+
+
+        <p><strong>license & copyright:</strong> ${
+          repoData.license?.name || "None"
+        }</p>
+
+
+        <p><strong>stars:</strong>  ${repoData.stargazers_count}</p>
+
+
+        <p><strong>watchers:</strong>  ${repoData.watchers_count}</p>
+
+
+        <p><strong>forks:</strong>  ${repoData.forks_count}</p>
+
+
+        <p><strong>subscribers:</strong>  ${repoData.subscribers_count}</p>
+
+
+        <p><strong>issues:</strong>  ${repoData.open_issues_count}</p>
+
+
+        <p><strong>project sixe:</strong> ${repoData.size} KB</p>
+
+
+        <p><strong>archived:</strong> ${repoData.archived ? "Yes" : "No"}</p>
+
+
+        <p><strong>disabled:</strong> ${repoData.disabled ? "Yes" : "No"}</p>
+
+
+        <p><strong>dreated at:</strong> ${new Date(
+          repoData.created_at
+        ).toLocaleString()}</p>
+
+
+        <p><strong>last updated:</strong> ${new Date(
+          repoData.updated_at
+        ).toLocaleString()}</p>
+
+
+        <p><strong>last push:</strong> ${new Date(
+          repoData.pushed_at
+        ).toLocaleString()}</p>
+
+
+        <p><strong>git:</strong> <a href="${
+          repoData.html_url
+        }" target="_blank">${repoData.html_url}</a></p>
+
+
+        <p><strong>homepage:</strong> <a href="${
+          repoData.homepage
+        }" target="_blank">${repoData.homepage}</a></p>
+
+
+        <p><strong>tags:</strong> ${repoData.topics
+          .map((tag) => `<span class="tag">${tag}</span>`)
+          .join(" ")}</p>
+
+
+      `;
+
+        document.getElementById("latestCommit").innerHTML += `
+
+
+        <p><strong>commit note:</strong> ${latestCommit.commit.message}</p>
+
+
+        <p><strong>auth:</strong> ${latestCommit.commit.author.name}</p>
+
+
+        <p><strong>date:</strong> ${new Date(
+          latestCommit.commit.author.date
+        ).toLocaleString()}</p>
+
+
+      `;
+
+        const releaseRes = await fetch(
+          `https://api.github.com/repos/${user}/${repo}/releases/latest`
+        );
+
+        const userRes = await fetch(`https://api.github.com/users/${user}`);
+
+        const fullUser = await userRes.json();
+
+        document.getElementById("ownerData").innerHTML += `
+
+
+      <div class="ownerInfoImg">
+
+
+        <img src="${fullUser.avatar_url}" alt="avatar" width="60">
+
+
+        <p><strong>@:</strong> ${fullUser.login}</p>
+
+
         </div>
-      </div>
 
-      <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
-    </main>
-  </div>
 
-  <script type="module" src="./js/user.js"></script>
-  <script type="module" src="../js/view.js"></script>
-  <script>
-    export default async function handler(req, res) {
-  const username = "0xdya";
-  const repoName = "0xdya.github.io";
-  const branch = "main";
-  const token = process.env.GITHUB_TOKEN;
+        <p><strong>bio:</strong> ${fullUser.bio || "None"}</p>
 
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    Accept: "application/vnd.github+json"
-  };
 
-  try {
-    const [repoRes, userRes, commitsRes] = await Promise.all([
-      fetch(`https://api.github.com/repos/${username}/${repoName}`, { headers }),
-      fetch(`https://api.github.com/users/${username}`, { headers }),
-      fetch(`https://api.github.com/repos/${username}/${repoName}/commits?sha=${branch}&per_page=1`, { headers })
-    ]);
+        <p><strong>location:</strong> ${
+          fullUser.location || "Not specified"
+        }</p>
 
-    const [repoData, userData, commits] = await Promise.all([
-      repoRes.json(),
-      userRes.json(),
-      commitsRes.json()
-    ]);
 
-    res.status(200).json({
-      repo: repoData,
-      user: userData,
-      commit: commits[0]
-    });
+        <p><strong>web:</strong> <a href="${fullUser.blog}" target="_blank">${
+          fullUser.blog
+        }</a></p>
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch GitHub data" });
 
-  }
+        <p><strong>followers:</strong> ${fullUser.followers}</p>
+
+
+        <p><strong>following:</strong> ${fullUser.following}</p>
+
+
+        <p><strong>public Repos:</strong> ${fullUser.public_repos}</p>
+
+
+        <p><strong>account Created:</strong> ${new Date(
+          fullUser.created_at
+        ).toLocaleString()}</p>
+
+
+      `;
+
+        const contribRes = await fetch(
+          `https://api.github.com/repos/${user}/${repo}/contributors`
+        );
+
+        const contribs = await contribRes.json();
+
+        document.getElementById("contributors").innerHTML += `
+
+
+        <ul>${contribs
+          .map(
+            (c) =>
+              `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`
+          )
+          .join("")}</ul>
+
+
+      `;
       }
-  </script>
 
-  <script src="../js/script.js"></script>
-  <script src="../js/tg.js"></script>
-  <script src="../js/time_ago.js"></script>
-  <script src="../js/home.js"></script>
-</body>
+      fetchGitHubData();
+    </script>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/tg.js"></script>
+    <script src="../js/time_ago.js"></script>
+    <script src="../js/home.js"></script>
+  </body>
 </html>
