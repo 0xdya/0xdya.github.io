@@ -732,6 +732,7 @@ article {
 
 .blog_container {
 	max-width: 720px;
+	margin: 0 auto;
 	padding: 2rem 0 0;
 	display: flex;
 	justify-content: center;
@@ -1004,7 +1005,7 @@ article {
 	border-radius: 4px;
 	font-family: "Playpen Sans Arabic", monospace !important;
 }
-.filter-btn:nth-child(5) {
+/* .filter-btn:nth-child(5) {
 	direction: ltr;
 	background-color: transparent;
 	color: var(--text-color);
@@ -1014,7 +1015,7 @@ article {
 	cursor: grab;
 	border-radius: 4px;
 	font-family: "Playpen Sans Arabic", monospace !important;
-}
+} */
 
 .filter-btn:hover {
 	background-color: #1e1e1e;
