@@ -52,33 +52,38 @@
     </style>
   </head>
 
-  <body dir="ltr">
+  <h1 class="title home_title_font">
+    <span class="prompt ">~/</span>info
+  </h1>
+  <body class="terminal-bg">
+    <button id="back_to_top">
+      <ion-icon name="chevron-up-circle-outline"></ion-icon>
+    </button>
     <header class="h">
-      <h1 class="logo_name">
-        <span class="prompt"><ion-icon name="paw-outline"></ion-icon></span>
-        0xdya
-      </h1>
-      <div class="control">
+      <a href="../#sitemap" class="back_to_home">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </a>
+      <div class="control" dir="rtl">
         <div class="user_photo">
-          <a id="loginIcon" href="../login/"
-            ><ion-icon name="person-outline"></ion-icon
-          ></a>
-          <a class="user_photo_href" href="profile"
-            ><img id="userAvatar" style="display: none" src="img/user.jpg"
-          /></a>
+          <a id="loginIcon" href="../login/">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+          <a class="user_photo_href" href="../profile/">
+            <img id="userAvatar" style="display:none" src="../img/user.jpg">
+          </a>
         </div>
         <div class="theme_toggle_container">
           <button id="themeToggle">
-            <ion-icon name="contrast-outline"></ion-icon>
+            <ion-icon name="settings-outline"></ion-icon>
           </button>
-          <a href="report/" class="bug"
-            ><ion-icon name="bug-outline"></ion-icon
-          ></a>
-          <div class="dropdown" id="themeDropdown">
-            <button data-theme="light">Light</button>
-            <button data-theme="dark">Dark</button>
-            <button data-theme="system">System</button>
-          </div>
+          <a href="report/" class="bug">
+            <ion-icon name="bug-outline"></ion-icon>
+          </a>
+        <div class="dropdown" id="themeDropdown">
+          <button data-theme="light">Light</button>
+          <button data-theme="dark">Dark</button>
+          <button data-theme="system">System</button>
+        </div>
         </div>
       </div>
     </header>
@@ -145,7 +150,7 @@
             </div>
           </div>
         </div>
-
+<br>
         <div class="acount_terminal">
           <div>
             <span class="tr_txt3">
