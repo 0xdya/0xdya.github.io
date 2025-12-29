@@ -135,6 +135,8 @@ html {
 	scroll-behavior: smooth;
 	box-sizing: border-box;
 	overflow-x: hidden;
+	cursor: crosshair;
+
 }
 
 /* تنسيق عام */
@@ -175,7 +177,7 @@ ul, li{
 	border-radius: 5px;
 	background-color: transparent;
 	color: var(--text-color) !important;
-	cursor: grab;
+	cursor: pointer;
 }
 
 .user_photo_href {
@@ -552,7 +554,7 @@ nav a:hover {
 .code-box {
 	width: 100%;
 	position: relative;
-	cursor: grab;
+	/* cursor: none; */
 	user-select: none;
 	padding: 0;
 	font-size: var(--body-font-size);
@@ -623,7 +625,7 @@ nav a:hover {
   font-size: 16px;
 }
 .home_note {
-	font-size: 14px;
+	font-size: var(--body-font-size);
 	color: grey;
 	text-align: justify !important;
 }
@@ -979,6 +981,7 @@ article {
 	text-align: center;
 	text-decoration: none;
 	transition: background 0.2s, border 0.2s;
+	cursor: pointer;
 }
 
 .btn:hover {
@@ -1485,3 +1488,75 @@ overflow: hidden;
   background-color: #01060f;
   box-shadow: -10px 0 50px 10px #666;
 }
+/* cert */
+    .cert_container{
+      display: flex;
+	  justify-content: center;
+      flex-wrap: wrap;
+	  gap: 4px;
+      width: 100%;
+    }
+.cert_card {
+direction: rtl;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1rem auto 0;
+  width: 340px;
+  /* max-width: 400px; */
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #333;
+  position: relative;
+  text-decoration: none;
+}
+.cert_card:hover {
+	transform: scale(1.02);
+  text-decoration: none !important;
+    transition: 0.25s ease;
+}
+
+
+.cert_card img {
+  width: 140px;
+  height: auto;
+  object-fit: cover;
+  z-index: 999;
+}
+
+
+/* .cert_card:hover img {
+  width: 100%;
+  } */
+  /* .cert_card:hover .cert_detiles {
+	position: relative;
+  } */
+
+
+    .cert_detiles {
+		position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+      text-align: left;
+      right: 0;
+      z-index: 1;
+    }
+    
+    .cert_title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+
+    .cert_org {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .cert_date {
+      font-size: 0.8rem;
+      color: #a0a0a0;
+      margin-top: 0.2rem;
+    }
