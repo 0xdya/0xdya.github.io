@@ -64,8 +64,14 @@
         <a href="./archive/" class="bug">
           <ion-icon name="archive-outline"></ion-icon>
         </a>
-        <a href="./certificate/" class="bug">
+        <!-- <a href="./certificate/" class="bug">
           <ion-icon name="trophy-outline"></ion-icon>
+        </a> -->
+        <a class="bug">
+          <ion-icon id="ion_list_btn" name="color-wand-outline"></ion-icon>
+        </a>
+        <a class="bug">
+          <ion-icon id="reset_btn" name="refresh-outline"></ion-icon>
         </a>
         <div class="dropdown" id="themeDropdown">
           <button data-theme="light">Light</button>
@@ -80,8 +86,10 @@
       <button id="back_to_top">
         <ion-icon name="chevron-up-circle-outline"></ion-icon>
       </button>
-      <button data-id="1" class="ion_list_btn" id="ion_list_btn">edit mode is off <ion-icon
-          name="lock-closed-outline"></ion-icon></button>
+      <div class="ion_list_container">
+    
+      </div>
+
       <h2 data-id="2" class=" home_title_font">#</span> whoami</h2>
       <div data-id="3"class="home_ascii">
         <div>
@@ -119,8 +127,43 @@ auto-rotate-speed="90deg"
 </model-viewer>
 
        </div>
-      <h2 data-id="4" class=" home_title_font">#</span> in this web</h2>
-      <div data-id="5" class=" terminal_bg">
+             <h2 data-id="4" id="sitemap" class=" home_title_font"><span>#</span> certificate</h2>
+        <div   data-id="5" class="cert_container" >
+    <a class="cert_card"  href="./certificate/cert1.jpg">
+      <img src="./certificate/cert1.jpg">
+      <div class="cert_detiles">
+        <div class="cert_title"> arduino project </div>
+        <div class="cert_org Jetbrains_font">Algiera AutoTech</div>
+        <div class="cert_date Jetbrains_font">may 19, 2024</div>
+      </div>
+    </a>
+    <a class="cert_card"  href="./certificate/cert2.jpg">
+      <img src="./certificate/cert2.jpg">
+      <div class="cert_detiles">
+        <div class="cert_title">  web dev </div>
+        <div class="cert_org Jetbrains_font">ثانوية أبي حامد الغزالي</div>
+        <div class="cert_date Jetbrains_font">mar 2024</div>
+      </div>
+    </a>
+    <a class="cert_card"  href="./certificate/linux+.jpg">
+      <img src="./certificate/linux+.jpg">
+      <div class="cert_detiles">
+        <div class="cert_title">linux+  networking</div>
+        <div class="cert_org Jetbrains_font">pro profs</div>
+        <div class="cert_date Jetbrains_font"> dec 29, 2025</div>
+      </div>
+    </a>
+    <a class="cert_card"  href="./certificate/basic.jpg">
+      <img src="./certificate/basic.jpg">
+      <div class="cert_detiles">
+        <div class="cert_title">  linux file system </div>
+        <div class="cert_org Jetbrains_font">pro profs</div>
+        <div class="cert_date Jetbrains_font">dec 29, 2024</div>
+      </div>
+    </a>
+  </div>
+      <h2 data-id="6" class=" home_title_font">#</span> in this web</h2>
+      <div data-id="7" class=" terminal_bg">
         <div class="terminal">
           <div class="terminal_dote"><span></span><span></span><span></span></div>
           <div id="network"></div>
@@ -180,7 +223,7 @@ auto-rotate-speed="90deg"
       </div>
 
 
-      <div data-id="6" class=" note_section">
+      <div data-id="8" class=" note_section">
         <div class="note">
           <ion-icon name="alert-circle-outline"></ion-icon>
           Click to open
@@ -196,41 +239,7 @@ auto-rotate-speed="90deg"
           Zoomable
         </div>
       </div>
-      <h2 data-id="7" id="sitemap" class=" home_title_font"><span>#</span> certificate</h2>
-        <div   data-id="8" class="cert_container" >
-    <a class="cert_card"  href="./certificate/cert1.jpg">
-      <img src="./certificate/cert1.jpg">
-      <div class="cert_detiles">
-        <div class="cert_title"> arduino project </div>
-        <div class="cert_org Jetbrains_font">Algiera AutoTech</div>
-        <div class="cert_date Jetbrains_font">may 19, 2024</div>
-      </div>
-    </a>
-    <a class="cert_card"  href="./certificate/cert2.jpg">
-      <img src="./certificate/cert2.jpg">
-      <div class="cert_detiles">
-        <div class="cert_title">  web dev </div>
-        <div class="cert_org Jetbrains_font">ثانوية أبي حامد الغزالي</div>
-        <div class="cert_date Jetbrains_font">mar 2024</div>
-      </div>
-    </a>
-    <a class="cert_card"  href="./certificate/linux+.jpg">
-      <img src="./certificate/linux+.jpg">
-      <div class="cert_detiles">
-        <div class="cert_title">linux+  networking</div>
-        <div class="cert_org Jetbrains_font">pro profs</div>
-        <div class="cert_date Jetbrains_font"> dec 29, 2025</div>
-      </div>
-    </a>
-    <a class="cert_card"  href="./certificate/basic.jpg">
-      <img src="./certificate/basic.jpg">
-      <div class="cert_detiles">
-        <div class="cert_title">  linux file system </div>
-        <div class="cert_org Jetbrains_font">pro profs</div>
-        <div class="cert_date Jetbrains_font">dec 29, 2024</div>
-      </div>
-    </a>
-  </div>
+
       <!--
                  <p data-id="11" class=" homepage_note Jetbrains_font">
                 if u are (developer / designer / writer / bugs hunter or just have skills can help the 0xdya community

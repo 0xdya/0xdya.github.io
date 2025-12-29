@@ -624,6 +624,10 @@ nav a:hover {
 .ion_note{
   font-size: 16px;
 }
+.ion_note:hover{
+	transform: scale(1.1);
+    transition: 0.25s ease;
+}
 .home_note {
 	font-size: var(--body-font-size);
 	color: grey;
@@ -969,8 +973,13 @@ article {
 	text-decoration: none;
 	transition: background 0.2s, border 0.2s;
 }
+/* .ion_list_container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
 .ion_list_btn {
-  width: 100%;
+	width: 30px;
 	gap: 6px;
 	padding: 8px 14px;
 	background-color: transparent;
@@ -982,7 +991,7 @@ article {
 	text-decoration: none;
 	transition: background 0.2s, border 0.2s;
 	cursor: pointer;
-}
+} */
 
 .btn:hover {
 	background-color: #2a2a2a;

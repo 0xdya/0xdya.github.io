@@ -33,55 +33,63 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
 
-	const list = document.getElementById("ion_list");
-	const ion_list_btn = document.getElementById("ion_list_btn");
-	const storageKey = "ion_list_order";
+const list = document.getElementById("ion_list");
+const ion_list_btn = document.getElementById("ion_list_btn");
+const reset_btn = document.getElementById("reset_btn"); // زر جديد
+const storageKey = "ion_list_order";
 
-	let sortable = null;
-	let isActive = false;
+let sortable = null;
+let isActive = false;
 
-	function loadOrder() {
-		const savedOrder = JSON.parse(localStorage.getItem(storageKey));
-		if (savedOrder) {
-			const items = Array.from(list.children);
-			savedOrder.forEach(id => {
-				const item = items.find(el => el.dataset.id === id);
-				if (item) list.appendChild(item);
-			});
-		}
-	}
-
-	function saveOrder() {
-		const order = Array.from(list.children).map(el => el.dataset.id);
-		localStorage.setItem(storageKey, JSON.stringify(order));
-	}
-
-	function enableSortable() {
-		sortable = new Sortable(list, {
-			animation: 150,
-			onEnd: saveOrder
+function loadOrder() {
+	const savedOrder = JSON.parse(localStorage.getItem(storageKey));
+	if (savedOrder) {
+		const items = Array.from(list.children);
+		savedOrder.forEach(id => {
+			const item = items.find(el => el.dataset.id === id);
+			if (item) list.appendChild(item);
 		});
 	}
+}
 
-	function disableSortable() {
-		if (sortable) {
-			sortable.destroy();
-			sortable = null;
-		}
-	}
+function saveOrder() {
+	const order = Array.from(list.children).map(el => el.dataset.id);
+	localStorage.setItem(storageKey, JSON.stringify(order));
+}
 
-	ion_list_btn.addEventListener("click", () => {
-		isActive = !isActive;
-		if (isActive) {
-			enableSortable();
-			ion_list_btn.innerHTML = ' edit mode is on<ion-icon name="lock-open-outline"></ion-icon>';
-		} else {
-			disableSortable();
-			ion_list_btn.innerHTML = 'edit mode is off <ion-icon name="lock-closed-outline"></ion-icon>';
-		}
+function resetOrder() {
+	localStorage.removeItem(storageKey);
+	location.reload(); // أو أعد ترتيب العناصر حسب الترتيب الأصلي
+}
+
+function enableSortable() {
+	sortable = new Sortable(list, {
+		animation: 150,
+		onEnd: saveOrder
 	});
+}
 
-	loadOrder();
+function disableSortable() {
+	if (sortable) {
+		sortable.destroy();
+		sortable = null;
+	}
+}
+
+ion_list_btn.addEventListener("click", () => {
+	isActive = !isActive;
+	if (isActive) {
+		enableSortable();
+		ion_list_btn.setAttribute("name", "checkmark-outline");
+	} else {
+		disableSortable();
+		ion_list_btn.setAttribute("name", "color-wand-outline");
+	}
+});
+
+reset_btn.addEventListener("click", resetOrder);
+
+loadOrder();
   
   
   const themeToggle = document.getElementById('themeToggle');
