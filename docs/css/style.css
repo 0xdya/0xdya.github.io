@@ -1569,3 +1569,42 @@ direction: rtl;
       color: #a0a0a0;
       margin-top: 0.2rem;
     }
+
+	/* notification */
+	.info {
+		position: fixed;
+		top: 60px;
+		right: 50%;
+		transform: translate(50%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: fit-content;
+  padding: 0 12px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 4px;
+  backdrop-filter: blur(20px);
+  background: #D7F1FD;
+  border-radius: 8px;
+  border: 1px solid #509AF8;
+  box-shadow: 0px 0px 5px -3px #111;
+  display: none;
+  z-index: 99999;
+}
+
+.info__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-3px);
+}
+
+.info__icon path {
+  fill: #509AF8;
+}
+
+.info__title {
+  font-weight: 500;
+  font-size: 14px;
+  text-align: right;
+  color: #0C2A75;
+}

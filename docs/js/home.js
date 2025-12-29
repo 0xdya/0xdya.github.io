@@ -32,10 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+const notification = document.getElementById("notification");
+const notificationText = document.getElementById("notification_text");
+
+let notificationTimeout = null;
+
+function showNotification(message) {
+
+	if (notificationTimeout) {
+		clearTimeout(notificationTimeout);
+	}
+	
+	notificationText.textContent = message;
+	notification.style.display = "flex";
+	
+	notificationTimeout = setTimeout(() => {
+		notification.style.display = "none";
+	}, 3000);
+}
 
 const list = document.getElementById("ion_list");
 const ion_list_btn = document.getElementById("ion_list_btn");
-const reset_btn = document.getElementById("reset_btn"); // زر جديد
+const reset_btn = document.getElementById("reset_btn"); 
 const storageKey = "ion_list_order";
 
 let sortable = null;
@@ -59,8 +77,16 @@ function saveOrder() {
 
 function resetOrder() {
 	localStorage.removeItem(storageKey);
-	location.reload(); // أو أعد ترتيب العناصر حسب الترتيب الأصلي
+	
+	const items = Array.from(list.children).sort((a, b) => {
+		return parseInt(a.dataset.id) - parseInt(b.dataset.id);
+	});
+	
+	items.forEach(item => list.appendChild(item));
+	showNotification("  👍 ._. تم اعادة ترتيب ");
 }
+
+reset_btn.addEventListener("click", resetOrder);
 
 function enableSortable() {
 	sortable = new Sortable(list, {
@@ -81,13 +107,18 @@ ion_list_btn.addEventListener("click", () => {
 	if (isActive) {
 		enableSortable();
 		ion_list_btn.setAttribute("name", "checkmark-outline");
+    showNotification("تم تفعيل التعديل - يمكنك تحريك العناصر");
 	} else {
 		disableSortable();
 		ion_list_btn.setAttribute("name", "color-wand-outline");
+    showNotification("تم اغلاق التعديل")
 	}
 });
 
-reset_btn.addEventListener("click", resetOrder);
+reset_btn.addEventListener("click", () => {
+	showNotification("تم إعادة الترتيب الأصلي");
+	resetOrder();
+});
 
 loadOrder();
   
