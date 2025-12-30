@@ -111,7 +111,7 @@ ion_list_btn.addEventListener("click", () => {
 	} else {
 		disableSortable();
 		ion_list_btn.setAttribute("name", "color-wand-outline");
-    showNotification("تم اغلاق التعديل")
+    showNotification("تم الحفظ ")
 	}
 });
 
