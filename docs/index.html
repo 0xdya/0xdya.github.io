@@ -39,12 +39,16 @@
 
 <body dir="ltr" class="body">
 
-<div id="notification" class="info">
-  <p class="info__title" id="notification_text"></p>
-  <div class="info__icon">
-    <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z" fill="#393a37"></path></svg>
-  </div>
+  <div id="notification" class="info">
+    <p class="info__title" id="notification_text"></p>
+    <div class="info__icon">
+      <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m12 1.5c-5.79844 0-10.5 4.70156-10.5 10.5 0 5.7984 4.70156 10.5 10.5 10.5 5.7984 0 10.5-4.7016 10.5-10.5 0-5.79844-4.7016-10.5-10.5-10.5zm.75 15.5625c0 .1031-.0844.1875-.1875.1875h-1.125c-.1031 0-.1875-.0844-.1875-.1875v-6.375c0-.1031.0844-.1875.1875-.1875h1.125c.1031 0 .1875.0844.1875.1875zm-.75-8.0625c-.2944-.00601-.5747-.12718-.7808-.3375-.206-.21032-.3215-.49305-.3215-.7875s.1155-.57718.3215-.7875c.2061-.21032.4864-.33149.7808-.3375.2944.00601.5747.12718.7808.3375.206.21032.3215.49305.3215.7875s-.1155.57718-.3215.7875c-.2061.21032-.4864.33149-.7808.3375z"
+          fill="#393a37"></path>
+      </svg>
     </div>
+  </div>
 
   <header class="h">
     <h1 class="logo_name">
@@ -82,9 +86,9 @@
           <ion-icon id="reset_btn" name="refresh-outline"></ion-icon>
         </a>
         <div class="dropdown" id="themeDropdown">
-          <button data-theme="light">Light</button>
-          <button data-theme="dark">Dark</button>
-          <button data-theme="system">System</button>
+          <button data-theme="light"><ion-icon id="reset_btn" name="sunny-outline"></ion-icon> Light</button>
+          <button data-theme="dark"><ion-icon id="reset_btn" name="moon-outline"></ion-icon> Dark</button>
+          <button data-theme="system"><ion-icon id="reset_btn" name="contrast-outline"></ion-icon> System</button>
         </div>
       </div>
     </div>
@@ -95,160 +99,157 @@
         <ion-icon name="chevron-up-circle-outline"></ion-icon>
       </button>
       <div class="ion_list_container">
-    
+
       </div>
 
       <h2 data-id="2" class=" home_title_font">#</span> whoami</h2>
-      <div data-id="3"class="home_ascii">
+      <div data-id="3" class="home_ascii">
         <div>
-          <p  class=" homepage_note Jetbrains_font">
-            I'm 18y dev, writer, painter, editor, poet, open-source android kernels & ROMs advocate<br>+ i use Arch btw ._.
+          <p class=" homepage_note Jetbrains_font">
+            I'm 18y dev, writer, painter, editor, poet, open-source android kernels & ROMs advocate<br>+ i use Arch btw
+            ._.
           </p>
-         <p class=" homepage_note Jetbrains_font">
-                site is still in beta test if u wanna support the project ‎<3<br> report for any bugs in <a
-                    href="./report/">report page</a><br> & also if u have an idea <a href="./idea/">idea page</a>
-            </p>
-          <div  class=" note_section">
+          <p class=" homepage_note Jetbrains_font">
+            site is still in beta test if u wanna support the project ‎<3<br> report for any bugs in <a
+                href="./report/">report page</a><br> & also if u have an idea <a href="./idea/">idea page</a>
+          </p>
+          <div class=" note_section">
             <ion-icon class="ion_note" name="logo-html5"></ion-icon>
             <ion-icon class="ion_note" name="logo-react"></ion-icon>
             <ion-icon class="ion_note" name="logo-css3"></ion-icon>
             <ion-icon class="ion_note" name="logo-nodejs"></ion-icon>
             <ion-icon class="ion_note" name="logo-sass"></ion-icon>
             <ion-icon class="ion_note" name="logo-javascript"></ion-icon>
-			<ion-icon class="ion_note" name="logo-python"></ion-icon>
+            <ion-icon class="ion_note" name="logo-python"></ion-icon>
             <ion-icon class="ion_note" name="logo-firebase"></ion-icon>
             <ion-icon class="ion_note" name="logo-npm"></ion-icon>
-			<ion-icon class="ion_note" name="logo-rss"></ion-icon>
-			<ion-icon class="ion_note" name="logo-docker"></ion-icon>
+            <ion-icon class="ion_note" name="logo-rss"></ion-icon>
+            <ion-icon class="ion_note" name="logo-docker"></ion-icon>
             <ion-icon class="ion_note" name="logo-tux"></ion-icon>
             <ion-icon class="ion_note" name="logo-android"></ion-icon>
           </div>
-          
-        </div>
-        
-<model-viewer
-src="model8.glb"
-auto-rotate-speed="90deg"
-  auto-rotate
-  auto-rotate-delay="0"
-  style="width:200px;height:200px;">
-</model-viewer>
 
-       </div>
-       <h2 data-id="4" class=" home_title_font">#</span> sitemap</h2>
-       <div data-id="5" class=" terminal_bg">
-         <div class="terminal">
-           <div class="terminal_dote"><span></span><span></span><span></span></div>
-           <div id="network"></div>
-           <div class="code-box">
-             
-             <div>
-               <span class="Jetbrains_font tr_txt3">
-                 <ion-icon class="amd_ion" name="analytics-outline"></ion-icon>
-                 realtime_data()
-                </span>
-                <br>
-              </div>
-              <div class="update_line"><span class="Jetbrains_font tr_txt">> visits:</span> <span
+        </div>
+
+        <model-viewer src="model8.glb" auto-rotate-speed="90deg" auto-rotate auto-rotate-delay="0"
+          style="width:200px;height:200px;">
+        </model-viewer>
+
+      </div>
+      <h2 data-id="4" class=" home_title_font">#</span> sitemap</h2>
+      <div data-id="5" class=" terminal_bg">
+        <div class="terminal">
+          <div class="terminal_dote"><span></span><span></span><span></span></div>
+          <div id="network"></div>
+          <div class="code-box">
+
+            <div>
+              <span class="Jetbrains_font tr_txt3">
+                <ion-icon class="amd_ion" name="analytics-outline"></ion-icon>
+                realtime_data()
+              </span>
+              <br>
+            </div>
+            <div class="update_line"><span class="Jetbrains_font tr_txt">> visits:</span> <span
                 class="Jetbrains_font tr_txt2"><span id="counter"><span class="doted">Loading
-                </span></span>
+                  </span></span>
               </span>
             </div>
             <div class="update_line"><span class="Jetbrains_font tr_txt">> users:</span> <span
-              class="Jetbrains_font tr_txt2"><span id="users_count"><span class="doted">Loading
-              </span></span>
-            </span>
-          </div>
-          <div class="update_line"><span class="Jetbrains_font tr_txt">> comments:</span> <span
-            class="Jetbrains_font tr_txt2"><span id="comments_count"><span class="doted">Loading
-            </span></span></span></div>
+                class="Jetbrains_font tr_txt2"><span id="users_count"><span class="doted">Loading
+                  </span></span>
+              </span>
+            </div>
+            <div class="update_line"><span class="Jetbrains_font tr_txt">> comments:</span> <span
+                class="Jetbrains_font tr_txt2"><span id="comments_count"><span class="doted">Loading
+                  </span></span></span></div>
             <div class="update_line"><span class="Jetbrains_font tr_txt">> old:</span> <span
-              class="Jetbrains_font tr_txt2"><span class="time_ago">2025-05-09</span></span></div>
+                class="Jetbrains_font tr_txt2"><span class="time_ago">2025-05-09</span></span></div>
+            <br>
+            <div>
+              <span class="Jetbrains_font tr_txt3">
+                <ion-icon class="amd_ion" name="folder-outline"></ion-icon>
+                docs()
+              </span>
               <br>
-              <div>
-                <span class="Jetbrains_font tr_txt3">
-                  <ion-icon class="amd_ion" name="folder-outline"></ion-icon>
-                  docs()
-                </span>
-                <br>
-              </div>
-              <div class="update_line"><span class="Jetbrains_font tr_txt">> commits:</span> <span
+            </div>
+            <div class="update_line"><span class="Jetbrains_font tr_txt">> commits:</span> <span
                 class="Jetbrains_font tr_txt2"> <a href="./archive/">read</a></span></div>
-                <div class="update_line"><span class="Jetbrains_font tr_txt">> info:</span> <span
-                  class="Jetbrains_font tr_txt2"> <a href="./info/">read</a></span></div>
-                  <div class="update_line"><span class="Jetbrains_font tr_txt">> source:</span> <span
-                    class="Jetbrains_font tr_txt2"> <a
-                    href="https://github.com/0xdya/0xdya.github.io/">open</a></span></span>
-                  </div>
-                  <br>
-                  <div>
-                    <span class="Jetbrains_font tr_txt3">
-                      <ion-icon class="amd_ion" name="mail-unread-outline"></ion-icon>
-                      Latest_News()
-                    </span>
-                    <br>
-                  </div>
-                  <div class="update-info" id="latestCommit">
-                  </div>
-                  
-                </div>
-              </div>
+            <div class="update_line"><span class="Jetbrains_font tr_txt">> info:</span> <span
+                class="Jetbrains_font tr_txt2"> <a href="./info/">read</a></span></div>
+            <div class="update_line"><span class="Jetbrains_font tr_txt">> source:</span> <span
+                class="Jetbrains_font tr_txt2"> <a
+                  href="https://github.com/0xdya/0xdya.github.io/">open</a></span></span>
             </div>
-            
-            
-            <div data-id="6" class=" note_section">
-              <div class="note">
-                <ion-icon name="alert-circle-outline"></ion-icon>
-                Click to open
-              </div>
-              <div>
-                <div class="note">
-                  <ion-icon name="alert-circle-outline"></ion-icon>
-                  Draggable
-                </div>
-              </div>
-              <div class="note">
-                <ion-icon name="alert-circle-outline"></ion-icon>
-                Zoomable
-              </div>
+            <br>
+            <div>
+              <span class="Jetbrains_font tr_txt3">
+                <ion-icon class="amd_ion" name="mail-unread-outline"></ion-icon>
+                Latest_News()
+              </span>
+              <br>
             </div>
-            
-            <h2 data-id="7" id="sitemap" class=" home_title_font"><span>#</span> certificate</h2>
-       <div   data-id="8" class="cert_container" >
-     <a class="cert_card"  href="./certificate/cert1.jpg">
-     <img src="./certificate/cert1.jpg">
-     <div class="cert_detiles">
-       <div class="cert_title"> arduino project </div>
-       <div class="cert_org Jetbrains_font">Algiera AutoTech</div>
-       <div class="cert_date Jetbrains_font">may 19, 2024</div>
-     </div>
-     </a>
-     <a class="cert_card"  href="./certificate/cert2.jpg">
-     <img src="./certificate/cert2.jpg">
-     <div class="cert_detiles">
-       <div class="cert_title">  web dev </div>
-       <div class="cert_org Jetbrains_font">ثانوية أبي حامد الغزالي</div>
-       <div class="cert_date Jetbrains_font">mar 2024</div>
-     </div>
-     </a>
-     <a class="cert_card"  href="./certificate/linux+.jpg">
-     <img src="./certificate/linux+.jpg">
-     <div class="cert_detiles">
-       <div class="cert_title">linux+  networking</div>
-       <div class="cert_org Jetbrains_font">pro profs</div>
-       <div class="cert_date Jetbrains_font"> dec 29, 2025</div>
-     </div>
-     </a>
-     <a class="cert_card"  href="./certificate/basic.jpg">
-     <img src="./certificate/basic.jpg">
-     <div class="cert_detiles">
-       <div class="cert_title">  linux file system </div>
-       <div class="cert_org Jetbrains_font">pro profs</div>
-       <div class="cert_date Jetbrains_font">dec 29, 2024</div>
-     </div>
-     </a>
-     </div>
-            <!--
+            <div class="update-info" id="latestCommit">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div data-id="6" class=" note_section">
+        <div class="note">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          Click to open
+        </div>
+        <div>
+          <div class="note">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            Draggable
+          </div>
+        </div>
+        <div class="note">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          Zoomable
+        </div>
+      </div>
+
+      <h2 data-id="7" id="sitemap" class=" home_title_font"><span>#</span> certificate</h2>
+      <div data-id="8" class="cert_container">
+        <a class="cert_card" href="./certificate/cert1.jpg">
+          <img src="./certificate/cert1.jpg">
+          <div class="cert_detiles">
+            <div class="cert_title"> arduino project </div>
+            <div class="cert_org Jetbrains_font">Algiera AutoTech</div>
+            <div class="cert_date Jetbrains_font">may 19, 2024</div>
+          </div>
+        </a>
+        <a class="cert_card" href="./certificate/cert2.jpg">
+          <img src="./certificate/cert2.jpg">
+          <div class="cert_detiles">
+            <div class="cert_title"> web dev </div>
+            <div class="cert_org Jetbrains_font">ثانوية أبي حامد الغزالي</div>
+            <div class="cert_date Jetbrains_font">mar 2024</div>
+          </div>
+        </a>
+        <a class="cert_card" href="./certificate/linux+.jpg">
+          <img src="./certificate/linux+.jpg">
+          <div class="cert_detiles">
+            <div class="cert_title">linux+ networking</div>
+            <div class="cert_org Jetbrains_font">pro profs</div>
+            <div class="cert_date Jetbrains_font"> dec 29, 2025</div>
+          </div>
+        </a>
+        <a class="cert_card" href="./certificate/basic.jpg">
+          <img src="./certificate/basic.jpg">
+          <div class="cert_detiles">
+            <div class="cert_title"> linux file system </div>
+            <div class="cert_org Jetbrains_font">pro profs</div>
+            <div class="cert_date Jetbrains_font">dec 29, 2024</div>
+          </div>
+        </a>
+      </div>
+      <!--
               <p data-id="11" class=" homepage_note Jetbrains_font">
                 if u are (developer / designer / writer / bugs hunter or just have skills can help the 0xdya community
                 to grow up) join and be Project partner
@@ -390,7 +391,7 @@ auto-rotate-speed="90deg"
 
     fetchGitHubData();
   </script>
-          <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 </body>
 

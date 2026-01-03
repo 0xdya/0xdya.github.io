@@ -154,7 +154,6 @@ loadOrder();
     dropdown.classList.toggle('show');
   });
 
-  // تهيئة الشبكة ستكون هنا لاحقًا
   let network;
 
   buttons.forEach(button => {
@@ -179,7 +178,6 @@ loadOrder();
       updateToggleIcon(theme);
       dropdown.classList.remove('show');
 
-      // تحديث لون العقد بعد تغيير الثيم
       if (network) {
         network.setOptions({
           nodes: {
@@ -197,11 +195,10 @@ loadOrder();
   const savedTheme = localStorage.getItem('theme') || 'dark';
   const savedButton = dropdown.querySelector(`[data-theme="${savedTheme}"]`);
   if (savedButton) {
-    savedButton.click(); // هذا سيطبّق الكلاس الصحيح
+    savedButton.click(); 
     updateToggleIcon(savedTheme);
   }
-
-  // ⚠️ إنشاء الشبكة الآن (بعد تطبيق الثيم فعليًا)
+  
   const nodes = new vis.DataSet([
     { id: 0, label: '</>', x: 300, y: 0 },
     { id: 1, label: 'blog', link: './blog/', x: 100, y: -120 },
