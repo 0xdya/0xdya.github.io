@@ -191,7 +191,7 @@ li {
   margin: 10px auto;
   max-width: 400px;
   width: 80vw;
-  border-radius: 8px;
+  border-radius: .5rem;
   text-align: left;
   border: 1px solid #333;
   cursor: grab;
@@ -450,7 +450,7 @@ nav a:hover {
 .terminal_bg,
 .acount_terminal {
   border: 1px solid #30363d;
-  border-radius: 8px;
+  border-radius: .5rem;
   width: 100%;
   max-width: 800px !important;
   margin: 0 auto;
@@ -527,19 +527,27 @@ nav a:hover {
   z-index: 3;
 }
 
+.home_title_font {
+	margin: 1.75rem 0 .75rem;
+  }
 .home_ascii {
   display: flex;
   justify-content: center;
   gap: 8px;
-
+/* 
   code {
     max-width: 100px !important;
     color: var(--muted);
     font-size: 16px;
-  }
-
-  span {
-    color: var(--text-color);
+	
+	span {
+		color: var(--text-color);
+	}
+	} */
+   section {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
   }
 }
 
@@ -587,7 +595,7 @@ nav a:hover {
   height: 356px;
   max-width: 720px;
   border: 1px solid #333;
-  border-radius: 8px;
+  border-radius: .5rem;
   overflow: hidden;
 }
 
@@ -610,7 +618,7 @@ nav a:hover {
   padding: 4px 8px;
   font-size: 12px;
   border: 1px solid #333;
-  border-radius: 8px;
+  border-radius: .5rem;
   color: var(--muted);
 }
 
@@ -630,6 +638,7 @@ nav a:hover {
 }
 
 .homepage_note {
+  margin: 0;
   padding: 8px;
   background: var(--homepage_note_bg);
   color: grey;
@@ -725,7 +734,7 @@ ion-icon {
 /* blog */
 article {
   border: 1px dashed #333;
-  border-radius: 8px;
+  border-radius: .5rem;
   padding: 0 1rem 1rem;
   width: 100%;
   max-width: 700px;
@@ -1141,7 +1150,7 @@ article {
   }
 
   .code-box {
-    border-radius: 8px;
+    border-radius: .5rem;
     cursor: grab;
     padding: 1rem !important;
   }
@@ -1204,7 +1213,7 @@ mark {
 
 .blog__card {
   border: 1px solid #999999;
-  border-radius: 8px;
+  border-radius: .5rem;
   line-height: 1.6rem;
   padding: 1rem;
   max-width: 720px;
@@ -1490,7 +1499,7 @@ overflow: hidden;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 1rem;
   width: 100%;
 }
 
@@ -1499,20 +1508,20 @@ overflow: hidden;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 1rem auto 0;
+  /* margin: 1rem auto 0; */
   width: 340px;
   /* max-width: 400px; */
-  border-radius: 4px;
   overflow: hidden;
   border: 1px solid #333;
   position: relative;
   text-decoration: none;
+  border-radius: .5rem;
 }
 
 .cert_card:hover {
   transform: scale(1.02);
   text-decoration: none !important;
-  transition: 0.25s ease;
+  transition: all .25s ease;
 }
 
 .cert_card img {
@@ -1573,7 +1582,7 @@ overflow: hidden;
   gap: 4px;
   backdrop-filter: blur(20px);
   background: #d7f1fd;
-  border-radius: 8px;
+  border-radius: .5rem;
   border: 1px solid #509af8;
   box-shadow: 0px 0px 5px -3px #111;
   display: none;

@@ -18,10 +18,6 @@
   }
 .home_title_font{
   font-weight: 400;
-   /*
-   font-family: "Jetbrains Mono", monospace !important;
-   font-family: "Courier New", monospace;
-   */
    font-family: "Playpen Sans Arabic", monospace !important; 
 }
 .Jetbrains_font, .patch_code{
