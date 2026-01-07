@@ -255,7 +255,33 @@
       <h2 data-id="7" id="sitemap" class=" home_title_font"><span>#</span> contributions</h2>
 <div class="gh-contrib"></div>
 <script src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
 
+<div id="cal-heatmap"></div>
+
+<script>
+const cal = new CalHeatmap();
+cal.paint({
+  range: 12,
+  domain: { type: 'month' },
+  subDomain: { type: 'day' },
+  data: {
+    source: 'https://api.github.com/users/0xdya/events',
+    type: 'json'
+  },
+  date: { start: new Date('2025-01-01') },
+  scale: {
+    color: {
+      range: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
+      interpolate: 'hsl',
+      type: 'threshold'
+    }
+  }
+});
+</script>
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=0xdya&theme=dark" />
       <!--
               <p data-id="11" class=" homepage_note Jetbrains_font">
                 if u are (developer / designer / writer / bugs hunter or just have skills can help the 0xdya community
@@ -301,6 +327,15 @@
     </main>
   </div>
   <footer>
+    <div id="heatmap"></div>
+
+<script>
+fetch('https://api.github.com/users/0xdya/events')
+  .then(r => r.json())
+  .then(data => {
+    // ارسم الخريطة حسب البيانات
+  });
+</script>
     <p class="Jetbrains_font">
       be your self
       <br>
