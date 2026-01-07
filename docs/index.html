@@ -259,30 +259,7 @@
 <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
 
-<div id="cal-heatmap"></div>
-
-<script>
-const cal = new CalHeatmap();
-cal.paint({
-  range: 12,
-  domain: { type: 'month' },
-  subDomain: { type: 'day' },
-  data: {
-    source: 'https://api.github.com/users/0xdya/events',
-    type: 'json'
-  },
-  date: { start: new Date('2025-01-01') },
-  scale: {
-    color: {
-      range: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
-      interpolate: 'hsl',
-      type: 'threshold'
-    }
-  }
-});
-</script>
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=0xdya&theme=dark" />
-      <!--
+     <!--
               <p data-id="11" class=" homepage_note Jetbrains_font">
                 if u are (developer / designer / writer / bugs hunter or just have skills can help the 0xdya community
                 to grow up) join and be Project partner
@@ -327,15 +304,6 @@ cal.paint({
     </main>
   </div>
   <footer>
-    <div id="heatmap"></div>
-
-<script>
-fetch('https://api.github.com/users/0xdya/events')
-  .then(r => r.json())
-  .then(data => {
-    // ارسم الخريطة حسب البيانات
-  });
-</script>
     <p class="Jetbrains_font">
       be your self
       <br>
@@ -372,68 +340,6 @@ fetch('https://api.github.com/users/0xdya/events')
   }
 </script>
 	-->
-  <script>
-    async function fetchGitHubData() {
-      const res = await fetch("/api/github_data");
-      const data = await res.json();
-
-      const repoData = data.repo;
-      const userData = data.user;
-      const latestCommit = data.commit;
-      const user = userData.login;
-      const repo = repoData.name;
-
-
-      document.getElementById("latestCommit").innerHTML += `
-        <div class="update_line">
-        <span class="Jetbrains_font tr_txt">
-        > note:
-        </span> 
-        <span class="Jetbrains_font tr_txt2">
-        ${latestCommit.commit.message}
-        </span>
-        </div>
-        
-        <div class="update_line">
-        <span class="Jetbrains_font tr_txt">
-        > auth:
-        </span> 
-        <span class="Jetbrains_font tr_txt2">
-       ${latestCommit.commit.author.name}
-        </span>
-        </div>
-        
-        <div class="update_line">
-        <span class="Jetbrains_font tr_txt">
-        > date:
-        </span> 
-       <span class="Jetbrains_font tr_txt2">
-  ${new Date(latestCommit.commit.author.date).toLocaleDateString("en-US", {
-        month: "short", day: "numeric", year: "numeric", hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      })}
-</span>
-
-
-        </div>
-      `;
-
-      const releaseRes = await fetch(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
-
-      const userRes = await fetch(`https://api.github.com/users/${user}`);
-      const fullUser = await userRes.json();
-
-      const contribRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contributors`);
-      const contribs = await contribRes.json();
-      document.getElementById("contributors").innerHTML += `
-        <ul>${contribs.map(c => `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`).join('')}</ul>
-      `;
-    }
-
-    fetchGitHubData();
-  </script>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 </body>
 
