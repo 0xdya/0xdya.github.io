@@ -34,6 +34,7 @@
   <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"
     type="text/css" />
+<link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css"/>
 
 </head>
 
@@ -249,6 +250,23 @@
           </div>
         </a>
       </div>
+      
+      
+      <link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar.css"/>
+      
+      <h2 data-id="7" id="sitemap" class=" home_title_font"><span>#</span> contributions</h2>
+<div class="gh-contrib"></div>
+
+<script src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"></script>
+<script>
+  GitHubCalendar(".gh-contrib", "0xdya", {
+    responsive: true,
+    tooltips: true,
+    cache: 24 * 60 * 60 * 1000,
+    global_stats: true
+  });
+</script>
+
       <!--
               <p data-id="11" class=" homepage_note Jetbrains_font">
                 if u are (developer / designer / writer / bugs hunter or just have skills can help the 0xdya community
