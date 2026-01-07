@@ -1607,50 +1607,10 @@ overflow: hidden;
 }
 .gh-contrib {
   background: #0d1117;
-  padding: 16px 20px 12px;
+  padding: 1rem .75rem 1.75rem;
   border-radius: 6px;
   border: 1px solid #30363d;
   max-width: 100%;
 }
 
-/* إخفاء أي نص غير مرغوب */
-.gh-contrib h2,
-.gh-contrib .contrib-footer,
-.gh-contrib .text-muted,
-.gh-contrib .float-right {
-  display: none !important;
-}
 
-/* منع السكرول */
-.gh-contrib svg {
-  width: 100% !important;
-  height: auto;
-}
-
-/* النص (أيام + أشهر) */
-.gh-contrib text {
-  fill: #7d8590 !important;
-  font-size: 11px;
-}
-
-/* الخلايا */
-.gh-contrib .day {
-  stroke: #0d1117;
-  shape-rendering: crispEdges;
-}
-
-/* اللون الفارغ (هذا هو السر) */
-.gh-contrib .day[data-level="0"] {
-  fill: #161b22 !important;
-}
-
-/* ألوان GitHub الرسمية */
-.gh-contrib .day[data-level="1"] { fill: #0e4429; }
-.gh-contrib .day[data-level="2"] { fill: #006d32; }
-.gh-contrib .day[data-level="3"] { fill: #26a641; }
-.gh-contrib .day[data-level="4"] { fill: #39d353; }
-
-/* Less / More */
-.gh-contrib .contrib-legend text {
-  fill: #7d8590 !important;
-}
