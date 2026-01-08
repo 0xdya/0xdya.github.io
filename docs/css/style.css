@@ -638,6 +638,7 @@ nav a:hover {
 }
 
 .homepage_note {
+  text-indent: 1rem; 
   margin: 0;
   padding: 8px;
   background: var(--homepage_note_bg);
@@ -1614,3 +1615,14 @@ overflow: hidden;
 }
 
 
+/*biceps*/
+.bicep1, .bicep2{
+  margin-bottom: -3px;
+ /*
+ filter: grayscale(100%);
+ */
+ filter: brightness(70%);
+}
+.bicep2{
+  transform: scaleX(-1);
+}
