@@ -1177,7 +1177,7 @@ article {
   width: 100%;
   display: flex;
   justify-content: center;
-  /* gap: .75rem; */
+  gap: .75rem;
   margin:4rem 0 2rem;
 }
 .books {
@@ -1430,8 +1430,8 @@ overflow: hidden;
 
 .book,
 .book > :first-child {
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 250px;
 }
 
 .book::after,
@@ -1444,7 +1444,7 @@ overflow: hidden;
 .book {
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateY(-30deg);
+  transform: rotateY(45deg);
   transition: 1s;
   animation: 1s initAnimation;
   margin: 1rem 0 2rem;
@@ -1464,8 +1464,8 @@ overflow: hidden;
   left: 0;
   top: 1px;
   width: 28px;
-  height: 298px;
-  transform: translateX(184px) rotateY(90deg);
+  height: 250px;
+  transform: translateX(-8px) rotateY(90deg);
   background: linear-gradient(
     90deg,
     #fff 0,
@@ -1495,8 +1495,8 @@ overflow: hidden;
 .book::after {
   top: 0;
   content: " ";
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 250px;
   transform: translateZ(-15px);
   background-color: #01060f;
   box-shadow: -10px 0 50px 10px #666;
