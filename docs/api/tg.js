@@ -1,45 +1,44 @@
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const chatId = 5962064921;
+
   const token = process.env.TELEGRAM_BOT_TOKEN;
+  const contentType = req.headers['content-type'] || '';
+
 
   try {
-    const contentType = req.headers['content-type'] || '';
-
-    if (contentType.startsWith('multipart/form-data')) {
+    
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await parseFormData(req);
+      
       const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
         method: 'POST',
-        headers: {},
-        body: req,   
+        body: formData
       });
-
+      
       const data = await tgRes.json();
-      if (data.ok) return res.status(200).json({ success: true });
-      return res.status(500).json({ error: 'Telegram API error', data });
-    } else {
-      const { username, message, ipAddress } = req.body;
-      const caption = `usr: ${username}\nmsg: ${message}\nIP Address: ${ipAddress}`;
-
+      return res.status(data.ok ? 200 : 500).json(data);
+    } 
+    else {
+      const { chat_id, text } = req.body;
+      
       const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: caption }),
+        body: JSON.stringify({ chat_id, text })
       });
-
+      
       const data = await tgRes.json();
-      if (data.ok) return res.status(200).json({ success: true });
-      return res.status(500).json({ error: 'Telegram API error', data });
+      return res.status(data.ok ? 200 : 500).json(data);
     }
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
+}
+async function parseFormData(req) {
+  const formData = new FormData();
+ 
+  return req.body; 
 }
