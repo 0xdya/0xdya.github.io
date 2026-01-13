@@ -1,9 +1,9 @@
 export default async function handler(req, res) {
-  const token = process.env.GITHUB_token;
+  const token = process.env.GITHUB_TOKEN;
   const username = "0xdya";
   const repo = "0xdya.github.io";
   const branch = "main";
-  const perPage = 30;
+  const perPage = 100;
 
   const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}&per_page=${perPage}`;
 
