@@ -1636,3 +1636,43 @@ overflow: hidden;
 .bicep2{
   transform: scaleX(-1);
 }
+
+  .poetry-page-panel {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #fff;
+    width: 100%;
+    margin: 0 auto;
+    min-width: 260px;
+    overflow: hidden;
+  }
+
+  .poetry-page-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fafafa;
+  }
+  .poetry-page-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .poetry-page-dot { width:6px; height:6px; border-radius:50%; background:#e5e5e5; }
+  .poetry-page-bar-title { font-size: 11px; color: #666; font-family: 'Amiri', serif !important;}
+
+  .poetry-page-body {
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: #000;
+  }
+
+  .poetry-page-brace { color: #999; }
+  .poetry-page-key   { color: #000; }
+  .poetry-page-val-num { color: #000; font-weight: 600; }
+  .poetry-page-val-str { color: #444; }
+  .poetry-page-comma { color: #999; }
+  .poetry-page-indent { display: inline-block; width: 18px; }
