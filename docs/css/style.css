@@ -466,6 +466,9 @@ nav a:hover {
   font-size: 12px;
   font-family: "JetBrains Mono" !important;
 }
+.tr_txt {
+  white-space: nowrap;
+}
 
 #repoInfo strong,
 #latestCommit strong,
