@@ -1526,12 +1526,16 @@ overflow: hidden;
   position: relative;
   text-decoration: none;
   border-radius: .5rem;
+    filter: brightness(60%);
+  transition: all ease .5s;
 }
 
 .cert_card:hover {
   transform: scale(1.02);
   text-decoration: none !important;
   transition: all .25s ease;
+    filter: brightness(100%);
+
 }
 
 .cert_card img {
@@ -1539,11 +1543,12 @@ overflow: hidden;
   height: auto;
   object-fit: cover;
   z-index: 999;
+
 }
 
-/* .cert_card:hover img {
-  width: 100%;
-  } */
+.cert_card:hover img {
+  filter: brightness(100%);
+  }
 /* .cert_card:hover .cert_detiles {
 	position: relative;
   } */
