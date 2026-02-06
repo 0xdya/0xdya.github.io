@@ -1628,7 +1628,7 @@ overflow: hidden;
   border-radius: 6px;
   border: 1px solid #30363d;
   max-width: 100%;
-  filter: grayscale(40%);
+  filter: grayscale(80%);
 }
 
 
