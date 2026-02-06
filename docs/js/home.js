@@ -392,9 +392,8 @@ function getBackgroundColor() {
   }
 }
 
-
   GitHubCalendar(".gh-contrib", "0xdya", {
     responsive: true,
-    tooltips: true,
-    global_stats: true
+    tooltips: false,
+    global_stats: false
   });

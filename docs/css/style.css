@@ -1623,12 +1623,12 @@ overflow: hidden;
   color: #0c2a75;
 }
 .gh-contrib {
-  background: #0d1117;
+  /* background: #0d1117; */
   padding: 1rem .75rem 1.75rem;
   border-radius: 6px;
   border: 1px solid #30363d;
   max-width: 100%;
-  filter: grayscale(80%);
+  filter: grayscale(74%);
 }
 
 
