@@ -335,7 +335,7 @@
         			  ]
         			}
     </script>
-  <script>
+  <!-- <script>
     async function fetchGitHubData() {
   const data = await fetch("github_data.json").then(r => r.json());
 
@@ -386,8 +386,8 @@
 
 fetchGitHubData();
 
-  </script>
-  <!-- <script>
+  </script> -->
+<script>
     async function fetchGitHubData() {
       const res = await fetch("/api/github_data");
       const data = await res.json();
@@ -445,10 +445,11 @@ fetchGitHubData();
         <ul>${contribs.map(c => `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`).join('')}</ul>
       `;
     }
-
+    
     fetchGitHubData();
-  </script> -->
-          <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  </script> 
+        
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 
 </body>
