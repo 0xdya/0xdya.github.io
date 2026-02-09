@@ -336,59 +336,58 @@
         			}
     </script>
   <script>
-//     async function fetchGitHubData() {
-//   const data = await fetch("github_data.json").then(r => r.json());
+    async function fetchGitHubData() {
+  const data = await fetch("github_data.json").then(r => r.json());
 
-//   const latestCommit = data.commit;
-//   const repoData = data.repo;
-//   const userData = data.user;
-//   const contribs = data.contributors;
-//   const release = data.release;
+  const latestCommit = data.commit;
+  const repoData = data.repo;
+  const userData = data.user;
+  const contribs = data.contributors;
+  const release = data.release;
 
-//   const user = userData.login;
-//   const repo = repoData.name;
+  const user = userData.login;
+  const repo = repoData.name;
 
-//   // عرض آخر commit
-//   document.getElementById("latestCommit").innerHTML = `
-//     <div class="update_line">
-//       <span class="Jetbrains_font tr_txt">> note:</span>
-//       <span class="Jetbrains_font tr_txt2">${latestCommit.commit.message}</span>
-//     </div>
-//     <div class="update_line">
-//       <span class="Jetbrains_font tr_txt">> auth:</span>
-//       <span class="Jetbrains_font tr_txt2">${latestCommit.commit.author.name}</span>
-//     </div>
-//     <div class="update_line">
-//       <span class="Jetbrains_font tr_txt">> date:</span>
-//       <span class="Jetbrains_font tr_txt2">
-//         ${new Date(latestCommit.commit.author.date).toLocaleDateString("en-US", {
-//           month: "short", day: "numeric", year: "numeric",
-//           hour: "2-digit", minute: "2-digit", second: "2-digit"
-//         })}
-//       </span>
-//     </div>
-//   `;
+  document.getElementById("latestCommit").innerHTML = `
+    <div class="update_line">
+      <span class="Jetbrains_font tr_txt">> note:</span>
+      <span class="Jetbrains_font tr_txt2">${latestCommit.commit.message}</span>
+    </div>
+    <div class="update_line">
+      <span class="Jetbrains_font tr_txt">> auth:</span>
+      <span class="Jetbrains_font tr_txt2">${latestCommit.commit.author.name}</span>
+    </div>
+    <div class="update_line">
+      <span class="Jetbrains_font tr_txt">> date:</span>
+      <span class="Jetbrains_font tr_txt2">
+        ${new Date(latestCommit.commit.author.date).toLocaleDateString("en-US", {
+          month: "short", day: "numeric", year: "numeric",
+          hour: "2-digit", minute: "2-digit", second: "2-digit"
+        })}
+      </span>
+    </div>
+  `;
 
-//   // عرض المساهمين
-//   document.getElementById("contributors").innerHTML = `
-//     <ul>
-//       ${contribs.map(c => `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`).join('')}
-//     </ul>
-//   `;
+  document.getElementById("contributors").innerHTML = `
+    <ul>
+      ${contribs.map(c => `<li><img src="${c.avatar_url}" width="30"> ${c.login} (${c.contributions} contributions)</li>`).join('')}
+    </ul>
+  `;
 
-//   // لو تريد عرض آخر release
-//   if (release && release.name) {
-//     document.getElementById("latestRelease").innerHTML = `
-//       <div class="update_line">
-//         <span class="Jetbrains_font tr_txt">> release:</span>
-//         <span class="Jetbrains_font tr_txt2">${release.name} (${release.tag_name})</span>
-//       </div>
-//     `;
-//   }
-// }
+  if (release && release.name) {
+    document.getElementById("latestRelease").innerHTML = `
+      <div class="update_line">
+        <span class="Jetbrains_font tr_txt">> release:</span>
+        <span class="Jetbrains_font tr_txt2">${release.name} (${release.tag_name})</span>
+      </div>
+    `;
+  }
+}
 
-// fetchGitHubData();
+fetchGitHubData();
 
+  </script>
+  <!-- <script>
     async function fetchGitHubData() {
       const res = await fetch("/api/github_data");
       const data = await res.json();
@@ -448,7 +447,7 @@
     }
 
     fetchGitHubData();
-  </script>
+  </script> -->
           <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 
