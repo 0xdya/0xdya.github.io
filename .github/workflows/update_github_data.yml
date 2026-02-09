@@ -3,18 +3,13 @@ name: Update GitHub Data JSON
 on:
   push:
     branches:
-      - main 
-  schedule:
-    - cron: '0 * * * *' 
+      - main
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
-
     steps:
-      
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -22,45 +17,40 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install undici
 
       - name: Fetch GitHub Data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: '0xdya/0xdya.github.io'
         run: |
           node -e "
           const fs = require('fs');
-          const fetch = require('node-fetch');
+          const { fetch } = require('undici');
 
           async function fetchData() {
             const repo = process.env.REPO;
 
-            // آخر commit
             const commitRes = await fetch(`https://api.github.com/repos/${repo}/commits?per_page=1`, {
               headers: { 'Authorization': `token ${process.env.GITHUB_TOKEN}` }
             });
             const commitData = await commitRes.json();
 
-            // آخر release
             const releaseRes = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, {
               headers: { 'Authorization': `token ${process.env.GITHUB_TOKEN}` }
             });
             const releaseData = await releaseRes.json();
 
-            // معلومات repo
             const repoRes = await fetch(`https://api.github.com/repos/${repo}`, {
               headers: { 'Authorization': `token ${process.env.GITHUB_TOKEN}` }
             });
             const repoInfo = await repoRes.json();
 
-            // معلومات user
             const userRes = await fetch(`https://api.github.com/users/${repo.split('/')[0]}`, {
               headers: { 'Authorization': `token ${process.env.GITHUB_TOKEN}` }
             });
             const userInfo = await userRes.json();
 
-            // المساهمين
             const contribRes = await fetch(`https://api.github.com/repos/${repo}/contributors`, {
               headers: { 'Authorization': `token ${process.env.GITHUB_TOKEN}` }
             });
@@ -81,7 +71,6 @@ jobs:
           fetchData();
           "
 
-      # 5. رفع التغييرات
       - name: Commit & Push
         run: |
           git config --local user.email "action@github.com"
