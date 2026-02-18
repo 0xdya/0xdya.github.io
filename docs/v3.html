@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+<link rel="alternate" type="application/rss+xml" title="ضياء الدين ملوك" href="/feed.xml">
 <!-- AOS CSS -->
 <link href="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
 
@@ -52,9 +52,10 @@ body {
   line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   position: relative;
-  overflow: hidden;
-  height: 100vh;
+ /* overflow: hidden;
+  height: 100vh; */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0 0 var(--space-8);
@@ -296,7 +297,6 @@ header {
    Footer
 ====================================================== */
 footer {
-  margin-top: var(--space-9);
   padding-bottom: var(--space-7);
   border-top: 1px solid var(--border);
 }
@@ -432,7 +432,7 @@ footer {
 ====================================================== */
 @media (max-width: 640px) {
   .container { padding-inline: var(--space-4); }
-  .hero, .section { margin-bottom: var(--space-8); }
+  .hero, .section { margin-bottom: var(--space-6); }
 
   .layout::after { display: none; }
   .nav-text { display: none; }
@@ -444,6 +444,36 @@ footer {
 @media (max-width: 380px) {
   .identity-grid { grid-template-columns: 1fr 1fr; }
 }
+
+footer {
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  background: rgba(8,8,8,.85);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  font-size: var(--text-xs);
+  font-family: "JetBrains Mono", monospace;
+}
+
+.footer-links a {
+  color: var(--dim);
+  transition: color .2s;
+}
+
+.footer-links a:hover { color: var(--text); }
+
+.footer-sep { color: var(--border); }
+
+
 </style>
 </head>
 
@@ -461,10 +491,10 @@ footer {
       18 سنة، 
       <a href="./projects/#dev" class="highlight">#مطور</a>
       مهتم بالبرمجيات الحرة، <a href="./projects/#book" class="highlight">#كاتب</a>،
-      <a href="./projects/#poetry" class="highlight">#شاعر</a>
+      <a href="./poetry/" class="highlight">#شاعر</a>
       و<a href="./projects/#paint" class="highlight">#رسام</a>
       ، أسعى لرفع جودة المحتوى العربي التقني & أميل إلى كل ماهو بسيط ونظيف...
-      + انا استخدم <a href="./rice/" dir="ltr" class="arch">#arch</a> بالمناسبة ._.
+      +  استخدم <a href="./rice/" dir="ltr" class="arch">#arch</a> بالمناسبة ._.
     </p>
     <a class="btn" href="./info/" data-aos="zoom-in">
       صفحة السِجلات
@@ -494,7 +524,7 @@ footer {
       </a>
     </div>
 
-    <div class="commit-card" data-aos="fade-up" data-aos-delay="400">
+    <a href="archive/" class="commit-card" data-aos="fade-up" data-aos-delay="400">
       <div class="commit-dot"></div>
       <div class="commit-meta">
         <span class="commit-label">آخر تحديث • <span class="time_ago">2026-02-17t18:27</span></span>
@@ -502,7 +532,7 @@ footer {
       </div>
       <span class="commit-repo" id="commit-repo"></span>
       <span class="commit-time" id="commit-time"></span>
-    </div>
+    </a>
   </section>
 
 </div>
@@ -559,68 +589,82 @@ footer {
       </a>
     </nav>
   </div>
-  
+
+
+<footer>
+  <div class="footer-links">
+    <a href="/report/">إبلاغ</a>
+    <span class="footer-sep">·</span>
+    <a href="/contact/">تواصل</a>
+    <span class="footer-sep">·</span>
+    <a href="/feed.xml">RSS</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/0xdya/0xdya.github.io/"> السورس </a>
+  </div>
+</footer>
+
 <!-- AOS JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
-<script>
-  AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
-</script>
-  <script type="module" >
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
-import {
-  getFirestore,
-  collection,
-  getCountFromServer
-} from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+<script type="module"src="./js/view.js"></script>
+  <script>
+async function loadLatestCommit() {
+  const repoOwner = "0xdya";
+  const repoName = "0xdya.github.io";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-  authDomain: "oxdyaa.firebaseapp.com",
-  projectId: "oxdyaa",
-  storageBucket: "oxdyaa.firebasestorage.app",
-  messagingSenderId: "604062703590",
-  appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-};
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits`);
+    if (!res.ok) throw new Error("فشل تحميل الكوميتات");
+    const commits = await res.json();
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const firestore = getFirestore(app);
+    if (commits.length === 0) return;
 
-// --- عدد الزوار ---
-const visitsRef = ref(db, 'visits');
-const last = localStorage.getItem('lastVisit');
-const now = Date.now();
-const ONE_DAY = 24 * 60 * 60 * 1000;
+    const latest = commits[0];
+    const message = latest.commit.message;
+    const date = new Date(latest.commit.author.date);
+    const repoUrl = latest.html_url;
 
-async function initVisits() {
-  if (!last || now - last > ONE_DAY) {
-    // عند الزائر الجديد: transaction تجلب القيمة وتحدثها في نفس الوقت
-    await runTransaction(visitsRef, (current) => (current || 0) + 1);
-    localStorage.setItem('lastVisit', now);
-    document.getElementById("welcome").innerText = "أهلاً بك لأول مرة!";
+    // عناصر HTML
+    document.getElementById("commit-msg").textContent = message;
+    document.getElementById("commit-repo").textContent = repoName;
+    document.getElementById("commit-repo").setAttribute("onclick", `window.open('${repoUrl}', '_blank')`);
+    document.getElementById("commit-time").textContent = date.toLocaleString("ar-EG", {
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit"
+    });
+
+    // لو تحب تحول الوقت لشيء زي "قبل ساعتين" بدل التاريخ الدقيق
+    const timeAgoElem = document.querySelector(".time_ago");
+    if (timeAgoElem) {
+      timeAgoElem.textContent = timeAgo(date);
+    }
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("commit-msg").textContent = "فشل تحميل الكوميت";
   }
-
-  // قراءة واحدة فقط بدل listener مستمر
-  const snapshot = await get(visitsRef);
-  const count = snapshot.exists() ? snapshot.val() : 0;
-  document.getElementById("counter").innerText = `${count}`;
 }
 
-// --- تشغيل كل الطلبات معاً (بدل واحد تلو الآخر) ---
-async function fetchCounts() {
-  const [usersSnap, commentsSnap] = await Promise.all([
-    getCountFromServer(collection(firestore, "users")),
-    getCountFromServer(collection(firestore, "comments"))
-  ]);
+// دالة بسيطة لحساب الوقت المنقضي
+function timeAgo(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  const intervals = [
+    { label: "سنة", sec: 31536000 },
+    { label: "شهر", sec: 2592000 },
+    { label: "أسبوع", sec: 604800 },
+    { label: "يوم", sec: 86400 },
+    { label: "ساعة", sec: 3600 },
+    { label: "دقيقة", sec: 60 },
+  ];
 
-  document.getElementById("users_count").innerText = `${usersSnap.data().count}`;
-  document.getElementById("comments_count").innerText = `${commentsSnap.data().count}`;
+  for (const i of intervals) {
+    const count = Math.floor(seconds / i.sec);
+    if (count > 0) return `قبل ${count} ${i.label}${count > 1 ? "s" : ""}`;
+  }
+  return "الآن";
 }
 
-initVisits();
-fetchCounts();
-  </script>
+loadLatestCommit();
+</script>
   <script src="./js/time_ago_ar.js"></script>
 </body>
 </html>
