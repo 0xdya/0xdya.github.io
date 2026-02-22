@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="feed.xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ضياء الدين ملوك</title>
+    <link>https://0xdya.github.io</link>
+    <description>هاوٍ تقني مُتعدد الشغف — مطور، كاتب، شاعر، رسام</description>
+    <language>ar</language>
+    <managingEditor>contact@0xdya.github.io (ضياء الدين ملوك)</managingEditor>
+    <atom:link href="https://0xdya.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Wed, 18 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://0xdya.github.io/avatar.png</url>
+      <title>ضياء الدين ملوك</title>
+      <link>https://0xdya.github.io</link>
+    </image>
+
+    <!-- أضف مقالاتك هنا على هذا النمط -->
+    <item>
+      <title>مثال: مقالتي الأولى</title>
+      <link>https://0xdya.github.io/blog/first-post/</link>
+      <description>وصف مختصر للمقالة يظهر في RSS readers.</description>
+      <pubDate>Mon, 17 Feb 2026 12:00:00 +0000</pubDate>
+      <guid>https://0xdya.github.io/blog/first-post/</guid>
+      <category>مقالات</category>
+    </item>
+
+    <item>
+      <title>مثال: قصيدة جديدة</title>
+      <link>https://0xdya.github.io/poetry/poem-1/</link>
+      <description>قصيدة نثرية عن البرمجة والليل والنوافذ المضيئة.</description>
+      <pubDate>Sun, 16 Feb 2026 18:00:00 +0000</pubDate>
+      <guid>https://0xdya.github.io/poetry/poem-1/</guid>
+      <category>شعر</category>
+    </item>
+
+  </channel>
+</rss>

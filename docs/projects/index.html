@@ -17,12 +17,106 @@
      a{
        cursor: grab;
      }
+     .navbar_section {
+      display: flex;
+      position: fixed;
+      bottom: var(--space-5);
+      left: 50%;
+      transform: translateX(-50%);
+      gap: var(--space-2);
+      z-index: 1000;
+    }
+
+    .navbar {
+      background: rgba(10, 10, 10, .85);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: var(--space-2) var(--space-3);
+      display: flex;
+      gap: var(--space-1);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .05) inset;
+    }
+
+    .nav-item {
+      padding: 9px 18px;
+      border-radius: 9px;
+      text-decoration: none;
+      color: var(--dim);
+      font-size: var(--text-sm);
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, .07);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, .1);
+      color: var(--text);
+    }
+
+    .nav-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding-inline: var(--space-4);
+      }
+
+      .hero,
+      .section {
+        margin-bottom: var(--space-6);
+      }
+
+      .layout::after {
+        display: none;
+      }
+
+      .nav-text {
+        display: none;
+      }
+
+      .nav-item {
+        padding: 10px 14px;
+      }
+
+      .navbar {
+        padding: 8px 10px;
+      }
+
+      .identity-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .commit-time,
+      .commit-repo {
+        display: none;
+      }
+
+      .mc-head-wrap {
+        width: 80px;
+        height: 80px;
+      }
+
+      .mc-head-wrap canvas {
+        width: 80px !important;
+        height: 80px !important;
+      }
+    }
    </style>
   </head>
   <h1 class="title home_title_font">
     <span class="prompt ">~/</span>projects
   </h1>
-  <body class="terminal-bg">
+  <body >
     <button id="back_to_top">
       <ion-icon name="chevron-up-circle-outline"></ion-icon>
     </button>
@@ -346,7 +440,58 @@
       </section>
     </div>
         
-  
+    <div class="navbar_section">
+      <nav class="navbar">
+        <a href="../" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          <span class="nav-text">Home</span>
+        </a>
+        <a href="./" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          <span class="nav-text">Projects</span>
+        </a>
+        <a href="../blog/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+          <span class="nav-text">Articles</span>
+        </a>
+        <a href="../poetry/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+            <line x1="16" y1="8" x2="2" y2="22" />
+            <line x1="17.5" y1="15" x2="9" y2="15" />
+          </svg>
+          <span class="nav-text">Poetry</span>
+        </a>
+      </nav>
+      <nav class="navbar">
+        <a href="../comments/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          <span class="nav-text">Comments</span>
+        </a>
+        <a href="../login/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span class="nav-text">Account</span>
+        </a>
+      </nav>
+    </div>
   
     <!-- GLightbox JS -->
 <script>
