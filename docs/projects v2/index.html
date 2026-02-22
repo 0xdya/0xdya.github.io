@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — 0xdya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --text: #e8e8e8;
+      --muted: #888;
+      --dim: #555;
+      --accent: #c8b560;
+      --accent-dim: rgba(200, 181, 96, .12);
+      --border: rgba(255, 255, 255, .07);
+      --s1: 4px;
+      --s2: 8px;
+      --s3: 12px;
+      --s4: 16px;
+      --s5: 24px;
+      --s6: 32px;
+      --s7: 48px;
+      --s8: 64px;
+      --xs: .78rem;
+      --sm: .88rem;
+      --base: 1.02rem;
+      --lg: 1.2rem;
+      --xl: 1.55rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      font-size: var(--base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding-bottom: 140px
+    }
+
+    ::selection {
+      background: var(--accent-dim);
+      color: #fff
+    }
+
+    .layout {
+      position: relative;
+      z-index: 1
+    }
+
+    .container {
+      max-width: 720px;
+      margin-inline: auto;
+      padding-inline: var(--s6)
+    }
+
+    a {
+      text-decoration: none
+    }
+
+
+    .page-title {
+      font-size: var(--xl);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: var(--s2);
+      letter-spacing: -.015em
+    }
+
+    .page-desc {
+      font-size: var(--sm);
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: var(--s7)
+    }
+
+    .stats-row {
+      display: flex;
+      gap: var(--s3);
+      margin-bottom: var(--s7);
+      flex-wrap: wrap
+    }
+
+    .stat-chip {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--s2) var(--s3);
+      font-family: "JetBrains Mono", monospace
+    }
+
+    .stat-chip .val {
+      font-size: var(--lg);
+      color: var(--text);
+      display: block
+    }
+
+    .stat-chip .lbl {
+      font-size: var(--xs);
+      color: var(--dim)
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s2);
+      margin-bottom: var(--s6)
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--dim);
+      font-size: var(--xs);
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: .02em
+    }
+
+    .filter-btn:hover {
+      border-color: rgba(200, 181, 96, .25);
+      color: var(--text);
+      background: var(--accent-dim)
+    }
+
+    .filter-btn.active {
+      /* border-color: var(--accent); */
+      /* color: var(--accent); */
+      background: #111
+    }
+
+    .filter-btn .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .6;
+      flex-shrink: 0
+    }
+
+    .filter-count {
+      font-size: 10px;
+      color: var(--dim);
+      margin-left: 2px
+    }
+
+    .section-label {
+      font-size: var(--xs);
+      color: var(--dim);
+      font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: var(--s4);
+      padding-bottom: var(--s2);
+      border-bottom: 1px solid var(--border)
+    }
+
+    /* ── Standard cards ── */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3)
+    }
+
+    .project-card {
+      border-bottom: 1px solid var(--border);
+      /* border-radius: 10px; */
+      padding: var(--s4) var(--s5) var(--s7) var(--s5);
+      display: flex;
+      flex-direction: ;
+      align-items: flex-start;
+      gap: var(--s4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden
+
+    }
+
+    .project-card:hover {
+      /* border-color: rgba(200, 181, 96, .25); */
+      /* background: var(--accent-dim) */
+      scale: 1.02;
+      /* margin:  var(--s2) 0; */
+    }
+
+    .project-card.hidden {
+      display: none
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 8px
+    }
+
+    .status-dot.active {
+      background: #4caf82;
+      box-shadow: 0 0 6px rgba(76, 175, 130, .4)
+    }
+
+    .status-dot.archived {
+      background: var(--dim)
+    }
+
+    .project-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px
+    }
+
+    .project-content {
+      flex: 1;
+      min-width: 0
+    }
+
+    .project-name {
+      font-size: var(--sm);
+      color: var(--text);
+      font-weight: 400;
+      font-family: "JetBrains Mono", monospace;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: var(--s2);
+      flex-wrap: wrap
+    }
+
+    .project-name .tag {
+      position: absolute;
+      right: var(--s2);
+      font-size: 10px;
+      color: var(--accent);
+      opacity: .7;
+      border: 1px solid rgba(200, 181, 96, .2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      letter-spacing: .04em
+    }
+
+    .project-desc {
+      font-size: var(--xs);
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.5
+    }
+
+    .project-meta {
+      margin-top: var(--s2)
+    }
+
+    .project-tech {
+      font-size: 10px;
+      color: var(--dim);
+      font-family: "JetBrains Mono", monospace;
+      /* display: flex; */
+      gap: var(--s2);
+      display: none;
+      flex-wrap: wrap
+    }
+
+    .project-tech span {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px
+    }
+
+    /* ── Action buttons ── */
+    .project-actions {
+      position: absolute;
+      bottom: var(--s2);
+      display: flex;
+      gap: var(--s2);
+      flex-shrink: 0;
+      align-items: center;
+      flex-direction: row
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--dim);
+      font-size: var(--xs);
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: all .18s;
+      white-space: nowrap;
+      text-decoration: none;
+      width: 100%;
+      justify-content: center
+    }
+
+    .action-btn:hover {
+      border-color: rgba(200, 181, 96, .3);
+      color: var(--accent);
+      background: var(--accent-dim)
+    }
+
+    .action-btn.open:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, .15);
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .action-btn svg {
+      flex-shrink: 0
+    }
+
+    /* ── Books section ── */
+    .books-grid {
+      display: flex;
+      gap: var(--s6);
+      flex-wrap: wrap;
+      margin-bottom: var(--s3)
+    }
+
+    .book-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--s3);
+      cursor: pointer;
+      transition: transform .25s
+    }
+
+    .book-item:hover {
+      transform: translateY(-4px)
+    }
+
+    .book-cover {
+      width: 110px;
+      height: 155px;
+      border-radius: 4px 10px 10px 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 4px 4px 20px rgba(0, 0, 0, .5), -2px 0 0 rgba(255, 255, 255, .06);
+      position: relative
+    }
+
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .book-cover-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(200, 181, 96, .15), rgba(200, 181, 96, .04));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px
+    }
+
+    .book-title {
+      font-size: var(--xs);
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      text-align: center;
+      max-width: 110px;
+      line-height: 1.3
+    }
+
+    /* ── Paint Pinterest Grid ── */
+    .section-block {
+      margin-top: var(--s7)
+    }
+
+    .section-block.hidden-section {
+      display: none
+    }
+
+    .paint-grid {
+      columns: 2;
+      column-gap: var(--s3)
+    }
+
+    .paint-item {
+      break-inside: avoid;
+      margin-bottom: var(--s3);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .03);
+      position: relative;
+      cursor: pointer;
+      transition: border-color .25s, transform .25s
+    }
+
+    .paint-item:hover {
+      border-color: rgba(200, 181, 96, .3);
+      transform: translateY(-2px)
+    }
+
+    .paint-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      transition: transform .4s ease
+    }
+
+    .paint-item:hover img {
+      transform: scale(1.03)
+    }
+
+    .paint-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--s3) var(--s4);
+      background: linear-gradient(to top, rgba(8, 8, 8, .93) 0%, transparent 100%);
+      transform: translateY(5px);
+      opacity: 0;
+      transition: opacity .25s, transform .25s
+    }
+
+    .paint-item:hover .paint-overlay {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .paint-title {
+      font-size: var(--xs);
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace
+    }
+
+    .paint-num {
+      font-size: 10px;
+      color: var(--muted)
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: var(--s8) 0;
+      color: var(--dim);
+      font-family: "JetBrains Mono", monospace;
+      font-size: var(--sm);
+      display: none
+    }
+
+    .empty-state.show {
+      display: block
+    }
+
+    /* Navbar */
+    .navbar_section {
+      display: flex;
+      position: fixed;
+      bottom: var(--s5);
+      left: 50%;
+      transform: translateX(-50%);
+      gap: var(--s2);
+      z-index: 1000
+    }
+
+    .navbar {
+      background: rgba(10, 10, 10, .85);
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: var(--s2) var(--s3);
+      display: flex;
+      gap: var(--s1);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .05) inset
+    }
+
+    .nav-item {
+      padding: 9px 18px;
+      border-radius: 9px;
+      text-decoration: none;
+      color: var(--dim);
+      font-size: var(--sm);
+      transition: all .18s;
+      display: flex;
+      align-items: center;
+      gap: 7px
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, .07);
+      color: var(--text)
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, .1);
+      color: var(--text)
+    }
+
+    .nav-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0
+    }
+
+    @media(max-width:640px) {
+      .container {
+        padding-inline: var(--s4)
+      }
+
+      .nav-text {
+        display: none
+      }
+
+      .nav-item {
+        padding: 10px 14px
+      }
+
+      .navbar {
+        padding: 8px 10px
+      }
+
+      .paint-grid {
+        columns: 1
+      }
+
+      
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <div class="container">
+
+      <div data-aos="fade-up">
+        <h1 class="page-title">// projects</h1>
+        <p class="page-desc">a collection of things i've built, written, and made.</p>
+      </div>
+
+      <div class="stats-row" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat-chip"><span class="val" id="total-count">0</span><span class="lbl">total</span></div>
+        <div class="stat-chip"><span class="val" id="visible-count">0</span><span class="lbl">showing</span></div>
+      </div>
+
+      <div class="filter-bar" data-aos="fade-up" data-aos-delay="150">
+        <button class="filter-btn active" data-filter="all"><span class="dot"></span>all<span class="filter-count"
+            id="cnt-all"></span></button>
+        <button class="filter-btn" data-filter="web"><span class="dot"></span>webs<span class="filter-count"
+            id="cnt-web"></span></button>
+        <button class="filter-btn" data-filter="books"><span class="dot"></span>books<span class="filter-count"
+            id="cnt-books"></span></button>
+        <button class="filter-btn" data-filter="draw"><span class="dot"></span>paints<span class="filter-count"
+            id="cnt-draw"></span></button>
+        <button class="filter-btn" data-filter="tools"><span class="dot"></span>tools<span class="filter-count"
+            id="cnt-tools"></span></button>
+        <button class="filter-btn" data-filter="apps"><span class="dot"></span>apps<span class="filter-count"
+            id="cnt-apps"></span></button>
+      </div>
+
+      <p class="section-label" id="section-label">// all projects</p>
+
+      <!-- ══════════════════════════════════════
+         STANDARD CARDS  (web / tools / apps)
+    ══════════════════════════════════════ -->
+      <div class="projects-list" id="projects-list">
+
+        <!-- ── TOOLS ── -->
+        <div class="project-card" data-category="tools" data-aos="fade-up">
+          <div class="status-dot active"></div>
+          <div class="project-icon">⚡</div>
+          <div class="project-content">
+            <div class="project-name">fastpush <span class="tag">tool</span></div>
+            <p class="project-desc" dir="rtl">اداة تختصر عليك رفع مشروعك من VS Code الى GitHub بسطر واحد</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>bash</span><span>vscode</span><span>git</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://d1wiki.vercel.app/fastpush/" target="_blank" class="action-btn open"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>wiki</a>
+            <a href="https://github.com/0xdya/fastpush/" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=dya-quran" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <!-- ── APPS ── -->
+        <div class="project-card" data-category="apps" data-aos="fade-up" data-aos-delay="50">
+          <div class="status-dot active"></div>
+          <div class="project-icon">🌙</div>
+          <div class="project-content">
+            <div class="project-name">last3night <span class="tag">app</span></div>
+            <p class="project-desc" dir="rtl">تطبيق حساب الثلث الأخير</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>android</span><span>apk</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://github.com/0xdya/last3night/releases/tag/apk" target="_blank" class="action-btn open"><svg
+                width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>APK</a>
+            <a href="https://github.com/0xdya/last3night/" target="_blank" class="action-btn"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=last3night" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <!-- ── WEB ── -->
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="60">
+          <div class="status-dot active"></div>
+          <div class="project-icon">📚</div>
+          <div class="project-content">
+            <div class="project-name">d1 wiki <span class="tag">web</span></div>
+            <p class="project-desc">my own place where i share wikis for my tools</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>css</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://0xdya.github.io/d1wiki/" target="_blank" class="action-btn open"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="https://github.com/0xdya/d1wiki/" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=d1wiki" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="70">
+          <div class="status-dot active"></div>
+          <div class="project-icon">🕌</div>
+          <div class="project-content">
+            <div class="project-name">Dya Quran <span class="tag">web</span></div>
+            <p class="project-desc">14 famous Quran reciters, all surahs, no-ads. download individual surahs or all 114
+              in one zip.</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>firebase</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://dya-quran.web.app" target="_blank" class="action-btn open"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="project.html?slug=dya-quran" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="80">
+          <div class="status-dot archived"></div>
+          <div class="project-icon">🦊</div>
+          <div class="project-content">
+            <div class="project-name">kitsuba <span class="tag">web</span></div>
+            <p class="project-desc">my old main website. "kitsune" (mythical japanese fox) + "ba" (darkness).</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>css</span><span>js</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://0xdya.github.io/kitsuba/" target="_blank" class="action-btn open"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="https://github.com/0xdya/kitsuba/" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=kitsuba" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="90">
+          <div class="status-dot active"></div>
+          <div class="project-icon">🎨</div>
+          <div class="project-content">
+            <div class="project-name">D1 Master <span class="tag">web</span></div>
+            <p class="project-desc">an open-source project aimed at front-end and UI developers in general.</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>css</span><span>open-source</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://0xdya.github.io/d1master_beta" target="_blank" class="action-btn open"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="https://github.com/0xdya/d1master_beta" target="_blank" class="action-btn"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=d1master_beta" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="100">
+          <div class="status-dot active"></div>
+          <div class="project-icon">🛍️</div>
+          <div class="project-content">
+            <div class="project-name">D1 Shop <span class="tag">web</span></div>
+            <p class="project-desc">my personal store for selling social media showcase pages and website management
+              services.</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>firebase</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://d1shop.web.app" target="_blank" class="action-btn open"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="project.html?slug=d1shop" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="110">
+          <div class="status-dot active"></div>
+          <div class="project-icon">🔐</div>
+          <div class="project-content">
+            <div class="project-name">D1 Security <span class="tag">web</span></div>
+            <p class="project-desc">scan your device for web vulnerabilities and learn how to protect yourself.</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>js</span><span>security</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://0xdya.github.io/d1scan_beta" target="_blank" class="action-btn open"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="https://github.com/0xdya/d1scan_beta" target="_blank" class="action-btn"><svg width="10"
+                height="10" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=d1scan_beta" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="120">
+          <div class="status-dot active"></div>
+          <div class="project-icon">📖</div>
+          <div class="project-content">
+            <div class="project-name">D1 BAC <span class="tag">web</span></div>
+            <p class="project-desc">open-source project — lessons, summaries, and everything BAC-related for all
+              subjects and streams.</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>netlify</span><span>open-source</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://d1bac.netlify.app" target="_blank" class="action-btn open"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="https://github.com/0xdya/d1bac" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=d1bac" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="130">
+          <div class="status-dot active"></div>
+          <div class="project-icon">🎮</div>
+          <div class="project-content">
+            <div class="project-name">Level Up <span class="tag">web</span></div>
+            <p class="project-desc">a site for a game store owner to showcase games he sells (PC, PS2, PS3, PS4, PSP…)
+            </p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>vercel</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://lvup.vercel.app" target="_blank" class="action-btn open"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="https://github.com/0xdya/lu" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+              </svg>src</a>
+            <a href="project.html?slug=lu" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="140">
+          <div class="status-dot archived"></div>
+          <div class="project-icon">🏫</div>
+          <div class="project-content">
+            <div class="project-name">Abi Hamid Al-Ghazali HS <span class="tag">web</span></div>
+            <p class="project-desc">an old website i built for the high school i studied at.</p>
+            <div class="project-meta">
+              <div class="project-tech"><span>html</span><span>firebase</span></div>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a href="https://el-ghazali.web.app" target="_blank" class="action-btn open"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>open</a>
+            <a href="project.html?slug=abihamed" target="_blank" class="action-btn"><svg width="10" height="10"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>comments</a>
+          </div>
+        </div>
+
+      </div>
+      <!-- end projects-list -->
+
+      <!-- ══════════════════════════════════════
+         BOOKS
+    ══════════════════════════════════════ -->
+      <div class="section-block" id="books-section" data-aos="fade-up">
+        <p class="section-label" style="margin-top:0">// books</p>
+        <div class="books-grid">
+          <a href="../books/المنهاج-المبين-في-مسالك-المتقين.pdf" class="book-item">
+            <div class="book-cover">
+              <img src="../img/المنهاج.png" alt="المنهاج المبين في مسالك المتقين"
+                onerror="this.parentElement.innerHTML='<div class=\'book-cover-placeholder\'>📗</div>'">
+            </div>
+            <span class="book-title">المنهاج المبين في مسالك المتقين</span>
+          </a>
+          <a href="../books/الرسالة-الـمُـجبِرة.pdf" class="book-item">
+            <div class="book-cover">
+              <img src="../img/الرسالة.png" alt="الرسالة المجبرة"
+                onerror="this.parentElement.innerHTML='<div class=\'book-cover-placeholder\'>📘</div>'">
+            </div>
+            <span class="book-title">الرسالة المجبرة</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+         DRAW  — Pinterest grid
+    ══════════════════════════════════════ -->
+      <div class="section-block" id="draw-section" data-aos="fade-up">
+        <p class="section-label" style="margin-top:0">// drawings</p>
+        <div class="paint-grid" id="draw-grid">
+          <!-- 18 draw images -->
+          <div class="paint-item" data-category="draw"><img src="./draw/1.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #1</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/2.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #2</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/3.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #3</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/4.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #4</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/5.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #5</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/6.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #6</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/7.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #7</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/8.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #8</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/9.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #9</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/10.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #10</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/11.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #11</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/12.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #12</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/13.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #13</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/14.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #14</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/15.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #15</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/16.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #16</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/17.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #17</div>
+            </div>
+          </div>
+          <div class="paint-item" data-category="draw"><img src="./draw/18.webp" loading="lazy">
+            <div class="paint-overlay">
+              <div class="paint-title">drawing #18</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" id="empty-state">// no projects found in this category</div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar_section">
+    <nav class="navbar">
+      <a href="/" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg><span class="nav-text">Home</span></a>
+      <a href="/projects/" class="nav-item active"><svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg><span class="nav-text">Projects</span></a>
+      <a href="/blog/" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg><span class="nav-text">Articles</span></a>
+      <a href="/poetry/" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+          <line x1="16" y1="8" x2="2" y2="22" />
+          <line x1="17.5" y1="15" x2="9" y2="15" />
+        </svg><span class="nav-text">Poetry</span></a>
+    </nav>
+    <nav class="navbar">
+      <a href="/comments/" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg><span class="nav-text">Comments</span></a>
+      <a href="/login/" class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg><span class="nav-text">Account</span></a>
+    </nav>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 700, once: true, easing: 'ease-out-quart' });
+
+    const listCards = document.querySelectorAll('#projects-list .project-card');
+    const booksSection = document.getElementById('books-section');
+    const drawSection = document.getElementById('draw-section');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const sectionLabel = document.getElementById('section-label');
+    const emptyState = document.getElementById('empty-state');
+
+    // Count per category
+    const counts = { all: 0, web: 0, books: 2, draw: 18, tools: 0, apps: 0 };
+    listCards.forEach(c => {
+      counts.all++;
+      const cat = c.dataset.category;
+      if (counts[cat] !== undefined) counts[cat]++;
+    });
+    counts.all += counts.books + counts.draw;
+
+    Object.keys(counts).forEach(k => {
+      const el = document.getElementById('cnt-' + k);
+      if (el) el.textContent = counts[k];
+    });
+
+    document.getElementById('total-count').textContent = counts.all;
+    document.getElementById('visible-count').textContent = counts.all;
+
+    function applyFilter(filter) {
+      let visible = 0;
+
+      listCards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+
+      const showBooks = filter === 'all' || filter === 'books';
+      const showDraw = filter === 'all' || filter === 'draw';
+
+      booksSection.style.display = showBooks ? '' : 'none';
+      drawSection.style.display = showDraw ? '' : 'none';
+
+      if (showBooks) visible += counts.books;
+      if (showDraw) visible += counts.draw;
+
+      const labels = {
+        all: '// all projects', web: '// web projects', books: '// books',
+        draw: '// drawings', tools: '// tools', apps: '// apps',
+      };
+      sectionLabel.textContent = labels[filter] || '// projects';
+      emptyState.classList.toggle('show', visible === 0);
+      document.getElementById('visible-count').textContent = visible;
+      history.replaceState(null, '', filter !== 'all' ? '#' + filter : window.location.pathname);
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter(btn.dataset.filter);
+      });
+    });
+
+    const hash = window.location.hash.slice(1);
+    if (hash && counts[hash] !== undefined) {
+      const t = document.querySelector(`[data-filter="${hash}"]`);
+      if (t) { filterBtns.forEach(b => b.classList.rezmove('active')); t.classList.add('active'); applyFilter(hash); }
+    }
+  </script>
+</body>
+
+</html>
