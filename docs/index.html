@@ -13,9 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"  rel="stylesheet">
   <link rel="alternate" type="application/rss+xml" title="0xdya" href="./feed.xml">
   <link href="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
 
@@ -35,15 +33,7 @@
   <meta name="twitter:image" content="./img/cover.png" />
   <meta property="og:site_name" content="https://0xdya.vercel.app">
   <link rel="canonical" href="https://0xdya.vercel.app" />
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-
-  <link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap"
-    rel="stylesheet">
+  
   <link rel="stylesheet" href="./home.css">
 
 </head>
@@ -60,7 +50,7 @@
           </div>
           <div class="header-text">
             <a class="logo"> 0xdya </a>
-            <p class="subtitle">last online 16d</p>
+            <p class="subtitle time_ago">2026-02-22T06:30</p>
           </div>
         </div>
       </header>
@@ -188,7 +178,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" ></script>
 
   <script>
     // ======================================================
@@ -287,23 +277,10 @@
       }
     }
 
-    function timeAgo(date) {
-      const seconds = Math.floor((new Date() - date) / 1000);
-      const intervals = [
-        { label: "year", sec: 31536000 }, { label: "month", sec: 2592000 },
-        { label: "week", sec: 604800 }, { label: "day", sec: 86400 },
-        { label: "hour", sec: 3600 }, { label: "minute", sec: 60 },
-      ];
-      for (const i of intervals) {
-        const count = Math.floor(seconds / i.sec);
-        if (count > 0) return `${count} ${i.label}${count > 1 ? "s" : ""} ago`;
-      }
-      return "Now";
-    }
-
     loadLatestCommit();
   </script>
   <script type="module" src="./js/view.js"></script>
+  <script src="./js/time_ago.js"></script>
 </body>
 
 </html>
