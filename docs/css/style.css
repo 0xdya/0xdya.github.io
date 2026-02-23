@@ -1670,7 +1670,7 @@
     .poetry-page-panel {
       border: 1px solid #e5e5e5;
       border-radius: 6px;
-      background: #fff;
+      background: transparent;
       width: 100%;
       margin: 0 auto;
       min-width: 260px;
@@ -1678,6 +1678,7 @@
     }
   
     .poetry-page-bar {
+      direction: ltr;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1700,12 +1701,12 @@
       color: #000;
     }
   
-    .poetry-page-brace { color: #999; }
+    /* .poetry-page-brace { color: #999; }
     .poetry-page-key   { color: #000; }
     .poetry-page-val-num { color: #000; font-weight: 600; }
     .poetry-page-val-str { color: #444; }
     .poetry-page-comma { color: #999; }
-    .poetry-page-indent { display: inline-block; width: 18px; }
+    .poetry-page-indent { display: inline-block; width: 18px; } */
     
     .navbar_section {
       display: flex;

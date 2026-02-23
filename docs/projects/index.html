@@ -6,7 +6,7 @@
   <title>Projects — 0xdya</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="../css/static.css" rel="stylesheet">
   <style>
     :root {
       --bg: #080808;
@@ -32,22 +32,6 @@
     --text-xl: 1.55rem;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: "IBM Plex Sans", system-ui, sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      padding-bottom: 120px;
-    }
-
-
-    a { text-decoration: none; color: inherit; }
-    ::selection { background: var(--accent-dim); color: #fff; }
 
     .container {
       position: relative;
@@ -57,48 +41,35 @@
       padding: 48px 24px;
     }
 
-    /* ── Header ── */
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--dim);
-      font-family: "JetBrains Mono", monospace;
-      font-size: .82rem;
-      margin-bottom: 40px;
-      transition: color .2s;
-    }
-    .back:hover { color: var(--text); }
-
     h1 {
-      font-size: 1.5rem;
+      font-size: var(--text-xl);
       font-weight: 400;
       color: var(--text);
       margin-bottom: 6px;
     }
 
     .subtitle {
-      font-size: .88rem;
+      font-size: var(--text-xs);
       color: var(--muted);
       font-weight: 300;
-      margin-bottom: 40px;
+      margin: var(--space-6) 0 var(--space-2);
     }
 
     /* ── Filter tabs ── */
     .filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 32px;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
     }
 
     .tab {
-      padding: 6px 14px;
-      border-radius: 20px;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--space-3);
       border: 1px solid var(--border);
       background: transparent;
       color: var(--dim);
-      font-size: .8rem;
+      font-size: var(--text-xs);
       font-family: "JetBrains Mono", monospace;
       cursor: pointer;
       transition: all .18s;
@@ -107,9 +78,10 @@
     .tab:hover { color: var(--text); border-color: rgba(255,255,255,.15); }
 
     .tab.active {
-      background: var(--accent-dim);
-      border-color: rgba(200,181,96,.04);
-      color: var(--accent);
+      background: #e0e0e0;
+      margin:  0 var(--space-2);
+      /* border-color: #fc2; */
+      color: #111;
     }
 
     /* ── Cards ── */
@@ -310,58 +282,15 @@
     }
     .empty.show { display: block; }
 
-    /* ── Navbar ── */
-    .navbar-wrap {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-    }
-
-    .navbar {
-      background: rgba(10,10,10,.9);
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 8px 12px;
-      display: flex;
-      gap: 4px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.5);
-    }
-
-    .nav-a {
-      padding: 8px 16px;
-      border-radius: 9px;
-      color: var(--dim);
-      font-size: .85rem;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: all .18s;
-    }
-
-    .nav-a:hover { background: rgba(255,255,255,.07); color: var(--text); }
-    .nav-a.active { background: rgba(255,255,255,.1); color: var(--text); }
-    .nav-a svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-    @media (max-width: 500px) {
-      .nav-a span { display: none; }
-      .nav-a { padding: 10px 14px; }
-    }
 
     @media (max-width: 400px) {
       .paint-grid { columns: 1; }
     }
+
   </style>
 </head>
 <body>
 <div class="container">
-
-  <a class="back" href="/">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-    back
-  </a>
 
   <h1>// projects</h1>
   <p class="subtitle">things i've built, written & drawn</p>
@@ -651,16 +580,59 @@
   <div class="empty" id="empty">// nothing here yet</div>
 
 </div>
-
-<!-- Navbar -->
-<div class="navbar-wrap">
+<div class="navbar_section">
   <nav class="navbar">
-    <a href="/" class="nav-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
-    <a href="/projects/" class="nav-a active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Projects</span></a>
-    <a href="/blog/" class="nav-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Blog</span></a>
-    <a href="/poetry/" class="nav-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/></svg><span>Poetry</span></a>
+    <a href="../" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+      <span class="nav-text">Home</span>
+    </a>
+    <a href="./" class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+      <span class="nav-text">Projects</span>
+    </a>
+    <a href="../blog/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+      </svg>
+      <span class="nav-text">Articles</span>
+    </a>
+    <a href="../poetry/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
+        <line x1="16" y1="8" x2="2" y2="22" />
+        <line x1="17.5" y1="15" x2="9" y2="15" />
+      </svg>
+      <span class="nav-text">Poetry</span>
+    </a>
+  </nav>
+  <nav class="navbar">
+    <a href="../comments/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      <span class="nav-text">Comments</span>
+    </a>
+    <a href="../login/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <span class="nav-text">Account</span>
+    </a>
   </nav>
 </div>
+
 
 <script>
   const tabs      = document.querySelectorAll('.tab');
@@ -673,7 +645,7 @@
 
   function applyFilter(f) {
     // guard
-    if (!validFilters.includes(f)) f = 'all';
+    if (!validFilters.includes(f)) f = 'tools';
 
     let visible = 0;
 
@@ -708,7 +680,7 @@
 
   // read hash on load
   const hash = location.hash.slice(1);
-  applyFilter(hash || 'all');
+  applyFilter(hash || 'tools');
 </script>
 </body>
 </html>

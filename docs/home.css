@@ -30,12 +30,6 @@
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-base);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -93,30 +87,6 @@ a {
     text-decoration: none;
 }
 
-/* ======================================================
-details 
-====================================================== */
-* {
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-tap-highlight-color: transparent;
-}
-
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
-
-::selection {
-    background: var(--accent-dim);
-    color: #fff;
-}
-
-::-moz-selection {
-    background: rgba(88, 166, 255, 0.25);
-    color: #fff;
-}
 
 /* ======================================================
 Header — with Minecraft head
@@ -324,7 +294,7 @@ Rest of styles (unchanged)
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     border: none;
     background: transparent;
     cursor: pointer;
@@ -469,6 +439,17 @@ span {
 }
 
 @media (max-width: 640px) {
+    .nav-text {
+        display: none;
+    }
+
+    .nav-item {
+        padding: 10px 14px;
+    }
+
+    .navbar {
+        padding: 8px 10px;
+    }
     .container {
         padding-inline: var(--space-4);
     }
@@ -482,17 +463,6 @@ span {
         display: none;
     }
 
-    .nav-text {
-        display: none;
-    }
-
-    .nav-item {
-        padding: 10px 14px;
-    }
-
-    .navbar {
-        padding: 8px 10px;
-    }
 
     .identity-grid {
         grid-template-columns: repeat(3, 1fr);
