@@ -666,7 +666,6 @@
             if (data.pinned) pinned.push(entry);
             else normal.push(entry);
 
-            // Toggle reply form
             wrap.querySelector('.reply-toggle-btn').addEventListener('click', () => {
               if (!currentUser) { showAlert("Login to reply", true); return; }
               const form = document.getElementById(`reply-form-${commentId}`);
@@ -674,7 +673,6 @@
               if (form.classList.contains('open')) form.querySelector('textarea').focus();
             });
 
-            // Submit reply
             wrap.querySelector('.reply-submit-btn').addEventListener('click', async () => {
               const input = wrap.querySelector('.reply-input');
               const text = input.value.trim();
@@ -691,7 +689,6 @@
               loadReplies(commentId);
             });
 
-            // Delete comment
             if (isOwner) {
               wrap.querySelector('.delete').addEventListener('click', async () => {
                 if (confirm("Delete this comment?")) {
@@ -702,7 +699,6 @@
               });
             }
 
-            // Re-render list sorted
             const all = [...pinned, ...normal];
             all.sort((a, b) => {
               if (a.pinned !== b.pinned) return b.pinned - a.pinned;
@@ -712,7 +708,6 @@
             commentsList.innerHTML = "";
             all.forEach(({ el }) => commentsList.appendChild(el));
 
-            // استدعاء loadReplies فقط للتعليقات الجديدة
             all.forEach(({ id }) => {
               if (!loadedSet.has(id)) {
                 loadedSet.add(id);

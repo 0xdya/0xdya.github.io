@@ -1,10 +1,13 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 import {
+  doc,
+  getDoc,
   getFirestore,
   collection,
   getCountFromServer
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
@@ -48,4 +51,23 @@ async function fetchCounts() {
 initVisits();
 fetchCounts();
   AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
-  
+   
+async function fetchLastLogin(userId) {
+  const userSnap = await getDoc(doc(firestore, "users", userId));
+  if (!userSnap.exists()) return;
+
+  const lastLogin = userSnap.data().lastLogin;
+  if (!lastLogin?.toDate) return;
+
+  const diffSec = Math.floor((new Date() - lastLogin.toDate()) / 1000);
+  const text = diffSec < 1 ? "🟢 online" : `⚪ last  seen ${formatTimeAgo(diffSec)}`;
+  document.getElementById("lastOnline").innerText = text;
+}
+
+function formatTimeAgo(sec) {
+  if (sec < 3600) return `${Math.floor(sec / 60)}m`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)}h`;
+  return `${Math.floor(sec / 86400)}d`;
+}
+
+fetchLastLogin("X18SfoEU7JhtQC3Xsn0o9punnI23");

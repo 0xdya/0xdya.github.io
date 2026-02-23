@@ -49,8 +49,8 @@
             <canvas id="mc-head"></canvas>
           </div>
           <div class="header-text">
-            <a class="logo"> 0xdya </a>
-            <p class="subtitle time_ago">2026-02-22T06:30</p>
+            <a href="https://0xdya.vercel.app/@0xdya" class="logo"> 0xdya </a>
+            <p class="subtitle " id="lastOnline"></p>
           </div>
         </div>
       </header>
@@ -171,11 +171,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
   <script>
-    // ======================================================
-    // Minecraft Head — Three.js
-    // ======================================================
     (function () {
-      const SKIN_PATH = "./skin/s2.png"; // ← Change this to your skin path
+      const SKIN_PATH = "./skin/s2.png"; 
 
       const canvas = document.getElementById('mc-head');
       const SIZE = 82;
@@ -226,7 +223,7 @@
         const group = new THREE.Group();
         group.add(buildHead(img, 1, 0));
         if (img.height === 64) group.add(buildHead(img, 1.12, 32));
-        // slight tilt for profile photo feel
+
         group.rotation.x = 0.18;
         scene.add(group);
 
@@ -238,16 +235,8 @@
       };
       img.src = SKIN_PATH;
     })();
-
-    // ======================================================
-    // AOS
-    // ======================================================
-    AOS.init({ duration: 700, once: true, easing: 'ease-out-quart' });
-
-    // ======================================================
-    // GitHub Commit
-    // ======================================================
-    async function loadLatestCommit() {
+ AOS.init({ duration: 700, once: true, easing: 'ease-out-quart' });
+   async function loadLatestCommit() {
       try {
         const res = await fetch('https://api.github.com/repos/0xdya/0xdya.github.io/commits');
         if (!res.ok) throw new Error();
