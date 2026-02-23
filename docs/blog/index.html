@@ -1,276 +1,199 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>آخر ظهور</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0xdya | Articles</title>
+  <link rel="stylesheet" href="../css/static.css">
+  <link rel="icon" href="../img/icon.jpg">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
 
     :root {
-      --bg: #0d0f14;
-      --card: #161b25;
-      --border: #1e2a3a;
-      --accent: #3b82f6;
-      --accent2: #06b6d4;
-      --text: #e2e8f0;
-      --muted: #64748b;
-      --online: #22c55e;
+      --bg: #080808;
+      --text: #e8e8e8;
+      --muted: #888;
+      --dim: #555;
+      --accent: #c8b560;
+      --accent-dim: rgba(200, 181, 96, .12);
+      --border: rgba(255, 255, 255, .07);
+      --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+    --text-xs: .78rem;
+    --text-sm: .88rem;
+    --text-base: 1.02rem;
+    --text-lg: 1.2rem;
+    --text-xl: 1.55rem;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Tajawal', sans-serif;
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+      padding-bottom: 96px;
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 420px;
+  
+
+    .container {
       position: relative;
-      overflow: hidden;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    a { text-decoration: none; color: inherit; }
+
+    /* header */
+
+    h1 {
+      font-size: var(--text-xl);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: var(--space-8);
+    }
+    .sub {
+      color: var(--dim);
+      font-size: .78rem;
+      margin-bottom: 48px;
     }
 
-    .avatar-section {
+    /* divider */
+    .divider {
+      font-size: .78rem;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* article card */
+    .article {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: border-color .2s, background .2s;
+    }
+    .article:hover {
+      border-color: rgba(200,181,96,.25);
+      background: var(--accent-dim);
     }
 
-    .avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
+    .article-title { color: var(--text); }
+    .article-meta {
+      font-size: .78rem;
+      color: var(--dim);
+      margin-top: 3px;
     }
-
-    .avatar-placeholder {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: white;
-      border: 2px solid var(--accent);
+    .article-tag {
+      color: var(--accent);
+      opacity: .8;
+      margin-right: 10px;
+    }
+    .article-arrow {
+      color: var(--dim);
       flex-shrink: 0;
+      transition: transform .2s, color .2s;
+    }
+    .article:hover .article-arrow {
+      transform: translateX(3px);
+      color: var(--accent);
     }
 
-    .user-info h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    .user-info p {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .status-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 0.3rem;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--muted);
-      flex-shrink: 0;
-    }
-
-    .dot.online { background: var(--online); box-shadow: 0 0 6px var(--online); }
-
-    .last-login-box {
-      background: rgba(59, 130, 246, 0.05);
-      border: 1px solid rgba(59, 130, 246, 0.15);
-      border-radius: 12px;
-      padding: 1.2rem 1.5rem;
-    }
-
-    .label {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-      letter-spacing: 0.05em;
-    }
-
-    .time-ago {
-      font-size: 1.6rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .exact-time {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
-
-    .loading {
-      color: var(--muted);
-      font-size: 0.9rem;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .error { color: #f87171; font-size: 0.85rem; }
   </style>
 </head>
 <body>
 
-<div class="card">
-  <div class="avatar-section">
-    <div class="avatar-placeholder" id="avatarEl">O</div>
-    <div class="user-info">
-      <h2 id="userName"><span class="loading">جارٍ التحميل...</span></h2>
-      <p id="userEmail"></p>
-      <div class="status-row">
-        <div class="dot" id="statusDot"></div>
-        <span id="statusText" style="font-size:0.8rem;color:var(--muted)"></span>
+  <div class="container">
+
+    <h1>// blogs</h1>
+
+ 
+
+    <a class="article" href="./0x_mean/">
+      <div>
+        <div class="article-title" dir="rtl">علاه كي نحط 0x قبل اسمي ؟</div>
+        <div class="article-meta">
+          <span class="article-tag">#general</span>
+          <span>2025-06-28</span>
+        </div>
       </div>
-    </div>
+      <svg class="article-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M8.91 19.92l6.52-6.52c.77-.77.77-2.03 0-2.8L8.91 4.08"/>
+      </svg>
+    </a>
+
+    <!-- end posts -->
+
   </div>
 
-  <div class="last-login-box">
-    <div class="label">آخر ظهور</div>
-    <div class="time-ago" id="timeAgo"><span class="loading">...</span></div>
-    <div class="exact-time" id="exactTime"></div>
+  <div class="navbar_section">
+    <nav class="navbar">
+      <a href="../" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-text">Home</span>
+      </a>
+      <a href="../projects/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="nav-text">Projects</span>
+      </a>
+      <a href="./" class="nav-item active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span class="nav-text">Articles</span>
+      </a>
+      <a href="../poetry/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+          <line x1="16" y1="8" x2="2" y2="22"/>
+          <line x1="17.5" y1="15" x2="9" y2="15"/>
+        </svg>
+        <span class="nav-text">Poetry</span>
+      </a>
+    </nav>
+    <nav class="navbar">
+      <a href="../comments/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span class="nav-text">Comments</span>
+      </a>
+      <a href="../login/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-text">Account</span>
+      </a>
+    </nav>
   </div>
-</div>
-
-<!-- Firebase SDKs -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const USER_ID = "X18SfoEU7JhtQC3Xsn0o9punnI23";
-
-  function timeAgoAr(date) {
-    const now = new Date();
-    const diff = Math.floor((now - date) / 1000);
-    if (diff < 60) return `منذ ${diff} ثانية`;
-    if (diff < 3600) return `منذ ${Math.floor(diff / 60)} دقيقة`;
-    if (diff < 86400) return `منذ ${Math.floor(diff / 3600)} ساعة`;
-    if (diff < 2592000) return `منذ ${Math.floor(diff / 86400)} يوم`;
-    return `منذ ${Math.floor(diff / 2592000)} شهر`;
-  }
-
-  function formatExact(date) {
-    return date.toLocaleString('ar-DZ', {
-      year: 'numeric', month: 'long', day: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
-  }
-
-  function isRecentlyOnline(date) {
-    return (new Date() - date) < 5 * 60 * 1000; // 5 minutes
-  }
-
-  try {
-    const ref = doc(db, "users", USER_ID);
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-      const data = snap.data();
-      const lastLoginDate = data.lastLogin?.toDate();
-
-      // Name
-      document.getElementById("userName").textContent = data.name || "مجهول";
-      document.getElementById("userEmail").textContent = data.email || "";
-
-      // Avatar initials
-      const initial = (data.name || "?")[0].toUpperCase();
-      document.getElementById("avatarEl").textContent = initial;
-
-      // Photo
-      if (data.photo) {
-        const img = document.createElement("img");
-        img.src = data.photo;
-        img.className = "avatar";
-        img.alt = data.name;
-        img.onerror = () => {};
-        document.getElementById("avatarEl").replaceWith(img);
-      }
-
-      // Last login
-      if (lastLoginDate) {
-        const ago = timeAgoAr(lastLoginDate);
-        document.getElementById("timeAgo").textContent = ago;
-        document.getElementById("exactTime").textContent = formatExact(lastLoginDate);
-
-        const dot = document.getElementById("statusDot");
-        const statusText = document.getElementById("statusText");
-        if (isRecentlyOnline(lastLoginDate)) {
-          dot.classList.add("online");
-          statusText.textContent = "متصل الآن";
-          statusText.style.color = "var(--online)";
-        } else {
-          statusText.textContent = ago;
-        }
-
-        // Auto-refresh every minute
-        setInterval(() => {
-          document.getElementById("timeAgo").textContent = timeAgoAr(lastLoginDate);
-          if (!isRecentlyOnline(lastLoginDate)) {
-            document.getElementById("statusText").textContent = timeAgoAr(lastLoginDate);
-          }
-        }, 60000);
-      } else {
-        document.getElementById("timeAgo").textContent = "غير متاح";
-      }
-    } else {
-      document.getElementById("timeAgo").innerHTML = '<span class="error">المستخدم غير موجود</span>';
-    }
-  } catch (e) {
-    console.error(e);
-    document.getElementById("timeAgo").innerHTML = '<span class="error">خطأ في الاتصال</span>';
-  }
-</script>
 
 </body>
 </html>
