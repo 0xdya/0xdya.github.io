@@ -269,7 +269,7 @@ Rest of styles (unchanged)
 
 .commit-message.loading {
     color: var(--dim);
-    font-style: italic;
+    /* font-style: italic; */
 }
 
 .commit-time {
@@ -353,37 +353,6 @@ Rest of styles (unchanged)
 }
 
 
-footer {
-    padding: var(--space-3) var(--space-5);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    background: rgba(8, 8, 8, .85);
-    backdrop-filter: blur(12px);
-    z-index: 100;
-}
-
-.footer-links {
-    display: flex;
-    gap: var(--space-3);
-    align-items: center;
-    font-size: var(--text-xs);
-
-}
-
-.footer-links a {
-    color: var(--dim);
-    transition: color .2s;
-}
-
-.footer-links a:hover {
-    color: var(--text);
-}
-
-.footer-sep {
-    color: var(--border);
-}
 
 span {
     position: relative;
@@ -401,7 +370,7 @@ span {
 
 .navbar {
     background: rgba(10, 10, 10, .85);
-    backdrop-filter: blur(24px) saturate(180%);
+    /* backdrop-filter: blur(24px) saturate(180%); */
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: var(--space-2) var(--space-3);

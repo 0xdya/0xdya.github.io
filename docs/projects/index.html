@@ -14,33 +14,31 @@
       --muted: #888;
       --dim: #555;
       --accent: #ededed;
---accent-dim: rgba(237,237,237,.012);
-   --border: rgba(255, 255, 255, .07);
-   --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 24px;
-    --space-6: 32px;
-    --space-7: 48px;
-    --space-8: 64px;
-    --space-9: 96px;
-    --text-xs: .78rem;
-    --text-sm: .88rem;
-    --text-base: 1.02rem;
-    --text-lg: 1.2rem;
-    --text-xl: 1.55rem;
+      --accent-dim: rgba(237,237,237,.012);
+      --border: rgba(255, 255, 255, .07);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+      --text-xs: .78rem;
+      --text-sm: .88rem;
+      --text-base: 1.02rem;
+      --text-lg: 1.2rem;
+      --text-xl: 1.55rem;
     }
-
-
 
     body {
       margin: 0 0 var(--space-7);
     }
 
     .tab[data-f="all"] {
-  display: none !important;
-}
+      display: none !important;
+    }
 
     h1 {
       font-size: var(--text-xl);
@@ -80,8 +78,7 @@
 
     .tab.active {
       background: #e0e0e0;
-      margin:  0 var(--space-2);
-      /* border-color: #fc2; */
+      margin: 0 var(--space-2);
       color: #111;
     }
 
@@ -93,11 +90,28 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px 18px;
-      transition: border-color .2s, background .2s;
+      transition: border-color .2s, background .2s, opacity .35s ease, transform .35s ease;
+
+      /* initial state for animation */
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    /* visible state */
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .card:hover { border-color: #111; background: var(--accent-dim); }
     .card.hidden { display: none; }
+
+    /* exit animation */
+    .card.fade-out {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .18s ease, transform .18s ease;
+    }
 
     .card-top {
       display: flex;
@@ -122,7 +136,7 @@
       right: var(--space-3);
       font-size: .68rem;
       color: var(--accent);
-      border:none;
+      border: none;
       padding: 1px 7px;
       border-radius: 4px;
       opacity: .8;
@@ -159,8 +173,7 @@
       gap: 6px;
       padding: 7px 14px;
       border-radius: 8px;
-      border-color: rgba(200,181,96,.03); 
-      /* background: rgba(255,255,255,.04); */
+      border-color: rgba(200,181,96,.03);
       color: var(--muted);
       font-size: .78rem;
       font-family: "JetBrains Mono", monospace;
@@ -175,6 +188,17 @@
     /* ── Paint grid ── */
     .section-wrap { display: flex; flex-direction: column; gap: 12px; }
     .section-wrap.hidden { display: none; }
+
+    /* section-wrap entrance */
+    .section-wrap {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+    .section-wrap.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     .paint-grid {
       columns: 2;
@@ -283,11 +307,9 @@
     }
     .empty.show { display: block; }
 
-
     @media (max-width: 400px) {
       .paint-grid { columns: 1; }
     }
-
   </style>
 </head>
 <body>
@@ -425,7 +447,7 @@
           open
         </a>
         <a class="btn" href="https://github.com/0xdya/d1master_beta" target="_blank">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
           source
         </a>
         <a class="btn" href="project.html?slug=d1master_beta" target="_blank">
@@ -634,52 +656,76 @@
   </nav>
 </div>
 
-
 <script>
-  const tabs      = document.querySelectorAll('.tab');
-  const cards     = document.querySelectorAll('#cards .card');
-  const secBooks  = document.getElementById('sec-books');
-  const secPaint  = document.getElementById('sec-paint');
-  const empty     = document.getElementById('empty');
+  const tabs     = document.querySelectorAll('.tab');
+  const cards    = document.querySelectorAll('#cards .card');
+  const secBooks = document.getElementById('sec-books');
+  const secPaint = document.getElementById('sec-paint');
+  const empty    = document.getElementById('empty');
 
   const validFilters = ['all', 'web', 'tools', 'apps', 'books', 'paint'];
 
-  function applyFilter(f) {
+  /* ── staggered entrance animation ── */
+  function animateIn(elements, delay = 0) {
+    elements.forEach((el, i) => {
+      el.style.transition = 'opacity .35s ease, transform .35s ease';
+      el.style.opacity    = '0';
+      el.style.transform  = 'translateY(16px)';
 
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          el.style.opacity   = '1';
+          el.style.transform = 'translateY(0)';
+        }, delay + i * 55);   /* 55ms stagger between cards */
+      });
+    });
+  }
+
+  function applyFilter(f) {
     if (!validFilters.includes(f)) f = 'tools';
 
-    let visible = 0;
+    let visibleCards = [];
 
-    // cards
     cards.forEach(c => {
-      const show = f === 'all' || c.dataset.cat === f;
-      c.classList.toggle('hidden', !show);
-      if (show) visible++;
+      c.classList.add('hidden');
+      c.style.opacity   = '0';
+      c.style.transform = 'translateY(16px)';
     });
+    secBooks.classList.add('hidden');
+    secPaint.classList.add('hidden');
 
-    // books section
-    const showBooks = f === 'all' || f === 'books';
-    secBooks.classList.toggle('hidden', !showBooks);
-    if (showBooks) visible++;
+    setTimeout(() => {
+      cards.forEach(c => {
+        if (f === 'all' || c.dataset.cat === f) {
+          c.classList.remove('hidden');
+          visibleCards.push(c);
+        }
+      });
 
-    // paint section
-    const showPaint = f === 'all' || f === 'paint';
-    secPaint.classList.toggle('hidden', !showPaint);
-    if (showPaint) visible++;
+      const showBooks = f === 'all' || f === 'books';
+      const showPaint = f === 'all' || f === 'paint';
 
-    empty.classList.toggle('show', visible === 0);
+      if (showBooks) secBooks.classList.remove('hidden');
+      if (showPaint) secPaint.classList.remove('hidden');
 
-    // update tabs
+      const visible = visibleCards.length + (showBooks ? 1 : 0) + (showPaint ? 1 : 0);
+      empty.classList.toggle('show', visible === 0);
+
+      animateIn(visibleCards, 0);
+
+      /* animate sections slightly after cards */
+      if (showBooks) animateIn([secBooks], visibleCards.length * 55 + 20);
+      if (showPaint) animateIn([secPaint], (visibleCards.length + (showBooks ? 1 : 0)) * 55 + 20);
+
+    }, 30);
+
     tabs.forEach(t => t.classList.toggle('active', t.dataset.f === f));
 
-    // update URL hash silently
     history.replaceState(null, '', f === 'all' ? location.pathname : '#' + f);
   }
 
-  // tab clicks
   tabs.forEach(t => t.addEventListener('click', () => applyFilter(t.dataset.f)));
 
-  // read hash on load
   const hash = location.hash.slice(1);
   applyFilter(hash || 'web');
 </script>
