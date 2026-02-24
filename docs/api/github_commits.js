@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const token = process.env.GITHUB_TOKEN;
+  const token = process.env.github_commits;
   const username = "0xdya";
   const repo = "0xdya.github.io";
   const branch = "main";
