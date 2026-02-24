@@ -64,7 +64,13 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
 
 .navbar_section {
     direction: ltr;

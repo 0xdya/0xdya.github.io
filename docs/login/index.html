@@ -1,55 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>login | 0xdya</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/static.css" />
-  <link rel="stylesheet" href="../css/en.css">
-  <link rel="stylesheet" href="../css/style.css">
-      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
- <style>
-  *{
-      box-sizing: border-box;
-  }
+  <link rel="stylesheet" href="../css/static.css" />
+  <!-- <link rel="stylesheet" href="../css/en.css"> -->
+  <!-- <link rel="stylesheet" href="../css/style.css"> -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <style>
+
     body {
-      /* background-color: #000;
-      color: #f5f5dcec;
-      font-family: monospace; */
-      padding: 20px;
       display: flex;
-      height: 100vh;
       justify-content: center;
-      align-items: center;
-      flex-direction: column !important;
+      flex-direction: column;
+      gap: var(--space-3);
     }
+
     .login_terminal {
+      background-color: #000;
       max-width: 400px;
-      margin: auto;
+      margin: 0 auto;
       border: 1px solid beige;
       padding: 20px;
       display: flex;
       flex-direction: column;
+      line-height: .2;
+      font-size: var(--text-base);
     }
+
     .prompt {
       color: #888;
     }
+
     button {
-      display: block; 
-      width: 100%;
-      background: none;
-      color: #f5f5dcec;
-      border: 1px dashed #888;
-      padding: 8px;
-      font-family: monospace;
-      margin: 10px 0;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #fff;
-      color: #000;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 24px;
+  background: #0d0d0d;
+  color: #e8e8e8;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+}
+
+button:hover {
+  background: #1a1a1a;
+  border-color: #555;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
     .user-info {
       display: flex;
       align-items: center;
@@ -58,26 +69,31 @@
       border-bottom: 1px dashed #444;
       padding-bottom: 10px;
     }
+
     .user-info img {
       width: 32px;
       height: 32px;
       border-radius: 50%;
     }
+
     #message {
       color: #0af;
       font-size: 0.95rem;
     }
+
     #error {
       color: red;
       margin-top: 10px;
     }
-    p{
+
+    p {
       font-size: 14px;
       text-align: left;
       line-height: 1.6;
       color: #ececec;
     }
-    .login_note{
+
+    .login_note {
       width: 100%;
       padding: 0 20px;
       border: 1px solid #444;
@@ -85,42 +101,51 @@
       line-height: 1;
       filter: sepia(40%);
     }
-    .login_note_p{
+
+    .login_note_p {
       color: #a0a0a0;
       line-height: 1.4;
       position: fixed;
       bottom: 4px;
     }
-    ion-icon{
+
+    ion-icon {
       margin-bottom: -2px;
       padding: 0;
     }
-    .none{
+
+    .none {
       display: none;
     }
+
     .flex {
       display: flex;
       flex-direction: column;
     }
-    #loader{
+
+    #loader {
       margin: 1rem 0 0;
       inset: 0;
-  background: #000;
-  color: #0af;
-  font-family: monospace;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  font-size: 16px;
+      background: #000;
+      color: #0af;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-size: 16px;
     }
-    #loginComand{
+
+    #loginComand {
       margin-top: 1.4rem;
+      font-size: var(--text-sm);
     }
-    .loginComandCode{
-      margin: 0 0 8px;
+
+    .loginComandCode {
+      /* margin: 0 0 8px; */
     }
-    #emailInput{
+
+    #emailInput {
       width: 100%;
       padding: 8px 20px;
       background: #060606;
@@ -128,424 +153,417 @@
       border: 1px solid #444;
       position: relative;
     }
-input[type="email"] {
-  width: 100%;
-  max-width: 400px;
-  padding: 12px 16px;
-  font-size: 1rem;
-  font-family: inherit;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #111;   
-  color: #fff;  
-  outline: none;
-  transition: 0.3s ease all;
-  box-shadow: inset 0 0 0 0 transparent;
-}
 
-input[type="email"]::placeholder {
-  color: #888;
-  font-size: 12px;
-}
+    input[type="email"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background-color: #111;
+      color: #fff;
+      outline: none;
+      transition: 0.3s ease all;
+      box-shadow: inset 0 0 0 0 transparent;
+    }
 
-input[type="email"]:hover {
-  border-color: #666;
-}
+    input[type="email"]::placeholder {
+      color: #888;
+      font-size: 12px;
+    }
 
-input[type="email"]:focus {
-  border: 1px solid white !important;
-}
+    input[type="email"]:hover {
+      border-color: #666;
+    }
 
-input[type="email"]:invalid {
-  border-color: #ff4d4d;
-}
+    input[type="email"]:focus {
+      border: 1px solid white !important;
+    }
 
-input[type="email"]:required:invalid {
-  background-color: #1a0000;
-}
+    input[type="email"]:invalid {
+      border-color: #ff4d4d;
+    }
 
-@media (max-width: 480px) {
-  input[type="email"] {
-    font-size: 0.9rem;
-    padding: 10px 14px;
-  }
-}
+    input[type="email"]:required:invalid {
+      background-color: #1a0000;
+    }
 
-    #sendLoginLink{
+    @media (max-width: 480px) {
+      input[type="email"] {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+      }
+    }
+
+    #sendLoginLink {
       position: absolute;
       font-size: 1.2rem;
       top: 6px;
       right: 8px;
     }
-    #emailLoginBox{
+
+    #emailLoginBox {
       position: relative;
       margin: 1rem 0;
     }
-    #login-buttons{
+
+    #login-buttons {
       display: none;
     }
+
     .modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
 
-.modal-content {
-  background: #111;
-  padding: 6rem 2rem;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
-  width: 90%;
-  height: 100vh;
-}
+    .modal-content {
+      background: #111;
+      padding: 6rem 2rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      width: 90%;
+      height: 100vh;
+    }
 
-.modal-content h2 {
-  color: #0ff;
-  margin-bottom: 1rem;
-}
+    .modal-content h2 {
+      color: #0ff;
+      margin-bottom: 1rem;
+    }
 
-.modal-content input {
-  width: 100%;
-  padding: 0.7rem;
-  margin-bottom: 1rem;
-  border: none;
-  border-radius: 8px;
-  background: #222;
-  color: #fff;
-}
+    .modal-content input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+    }
 
-.modal-content button {
-  background: #0ff;
-  color: #000;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-  </style> 
+    .modal-content button {
+      background: #0ff;
+      color: #000;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="nameModal" style="display: none;" class="modal">
-  <div class="modal-content">
-    <h2>welcome 🐐</h2>
-    <input type="text" id="nameInput" placeholder="chose ur username >= 3" />
-    <button id="saveNameBtn">save</button>
-  </div>
-</div>
-<div class="login_terminal">
-  <div class="loginComandCode" dir="ltr">
-    <span class="prompt">0xdya@auth:~$</span> chafa login.gif
-  </div>
-  <div class="login_note">
-    <img width="100%" src="lain.gif">
-  </div>
-  <div id="loader">
-    <span class="doted">Authenticating...</span>
-  </div>
-  <div id="loginComand" class="none" dir="ltr">
-    <span class="prompt">0xdya@auth:~$</span> sudo login
-  </div>
-  <div class="none" dir="ltr" id="userComand" style="text-align:left">
-    <div id="message"></div><br>
-    <span class="prompt">0xdya@auth:~$</span> account-info
-  </div>
-  <div class="flex">
-    <div id="userInfo" class="user-info none">
-      <img id="userPhoto" src="" alt="User Photo">
-      <div id="userName"></div>
+  <div id="nameModal" style="display: none;" class="modal">
+    <div class="modal-content">
+      <h2>welcome 🐐</h2>
+      <input type="text" id="nameInput" placeholder="chose ur username >= 3" />
+      <button id="saveNameBtn">save</button>
     </div>
-    <div id="userDetails" style="font-size: 13px; line-height: 1.4;"></div>
   </div>
-  
-  <div id="login-buttons">
-<div id="emailLoginBox">
-  <input type="email" id="emailInput" placeholder="ur email to sent login link" />
-  <div id="sendLoginLink"><ion-icon name="checkmark-outline"></ion-icon></div>
-</div>
 
-    <button id="googleLogin" dir="ltr">
-      <ion-icon name="logo-google"></ion-icon>
-      <span class="home_title_font"> continue with Google </span>
-    </button>
-    <button id="githubLogin" dir="ltr">
-      <ion-icon name="logo-github"></ion-icon>
-      <span class="home_title_font"> continue with GitHub </span>
-    </button>
-  </div>
-  <div id="error"></div>
-  <div id="userSection" class="none">
-    <button onclick="location.href = `https://0xdya.vercel.app/profile/`" id="profile">Go to Profile</button>
-    <button id="logoutBtn">logout</button>
-  </div>
-</div>
-    <p class="login_note_p">  no tracking ..</p>
-    <div class="navbar_section">
-      <nav class="navbar">
-        <a href="../" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-            <polyline points="9 22 9 12 15 12 15 22" />
-          </svg>
-          <span class="nav-text">Home</span>
-        </a>
-        <a href="../projects/" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7" />
-            <rect x="14" y="3" width="7" height="7" />
-            <rect x="14" y="14" width="7" height="7" />
-            <rect x="3" y="14" width="7" height="7" />
-          </svg>
-          <span class="nav-text">Projects</span>
-        </a>
-        <a href="../blog/" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
-          </svg>
-          <span class="nav-text">Articles</span>
-        </a>
-        <a href="../poetry/" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" />
-            <line x1="16" y1="8" x2="2" y2="22" />
-            <line x1="17.5" y1="15" x2="9" y2="15" />
-          </svg>
-          <span class="nav-text">Poetry</span>
-        </a>
-      </nav>
-      <nav class="navbar">
-        <a href="../comments/" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-          <span class="nav-text">Comments</span>
-        </a>
-        <a href="./" class="nav-item active">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          <span class="nav-text">Account</span>
-        </a>
-      </nav>
+  <div class="login_terminal">
+
+    <div class="login_note">
+      <img width="100%" src="lain.gif">
     </div>
-  
-<script type="module">
-  // 🧩 1. استيراد Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import {
-    getAuth, GoogleAuthProvider, GithubAuthProvider,
-    signInWithPopup, signOut, onAuthStateChanged,
-    sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-  
-  import {
-    getFirestore, doc, setDoc, getDocFromServer, serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import {
-    getDatabase, ref, runTransaction
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+    <div id="loader">
+      <span class="doted">Authenticating...</span>
+    </div>
+    <div id="loginComand" class="none" dir="ltr">
+      <span class="prompt">0xdya@auth:~$</span> sudo login
+    </div>
+    <div class="none" dir="ltr" id="userComand" style="text-align:left">
+      <div id="message"></div><br>
+      <span class="prompt">0xdya@auth:~$</span> account-info
+    </div>
+    <div class="flex">
+      <div id="userInfo" class="user-info none">
+        <img id="userPhoto" src="" alt="User Photo">
+        <div id="userName"></div>
+      </div>
+      <div id="userDetails" style="font-size: 13px; line-height: 1.4;"></div>
+    </div>
 
-  // 🛠️ 2. إعداد Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const rtdb = getDatabase(app);
+    <div id="login-buttons">
+      <div id="emailLoginBox">
+        <input type="email" id="emailInput" placeholder="ur email to sent login link" />
+        <div id="sendLoginLink"><ion-icon name="checkmark-outline"></ion-icon></div>
+      </div>
+    </div>
+    <div id="error"></div>
+    <div id="userSection" class="none">
+      <button onclick="location.href = `https://0xdya.vercel.app/profile/`" id="profile">Go to Profile</button>
+      <button id="logoutBtn">logout</button>
+    </div>
+
+  </div>
+  <button id="googleLogin" dir="ltr">
+    <ion-icon name="logo-google"></ion-icon>
+    <span class="home_title_font"> continue with Google </span>
+  </button>
+  <button id="githubLogin" dir="ltr">
+    <ion-icon name="logo-github"></ion-icon>
+    <span class="home_title_font"> continue with GitHub </span>
+  </button>
 
 
-  const providers = {
-    google: new GoogleAuthProvider(),
-    github: new GithubAuthProvider(),
-      
-  };
 
-  // 🎛️ 3. عناصر DOM
-  const loginBtns = document.getElementById("login-buttons");
-  const userSection = document.getElementById("userSection");
-  const userInfo = document.getElementById("userInfo");
-  const userComand = document.getElementById("userComand");
-  const loginComand = document.getElementById("loginComand");
-  const userName = document.getElementById("userName");
-  const userPhoto = document.getElementById("userPhoto");
-  const errorEl = document.getElementById("error");
-  const message = document.getElementById("message");
-  const loader = document.getElementById("loader");
-  const emailInput = document.getElementById("emailInput");
 
-  // 🧠 4. تهيئة بيانات المستخدم
-  async function initUserData(user) {
-  const userRef = doc(db, "users", user.uid);
-  const defaultPhoto = user.photoURL || "https://0xdya.vercel.app/img/user.jpg";
-  const defaultEmail = user.email || "";
 
-  userPhoto.src = defaultPhoto;
+  <div class="navbar_section">
+    <nav class="navbar">
+      <a href="../" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <span class="nav-text">Home</span>
+      </a>
+      <a href="../projects/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+        <span class="nav-text">Projects</span>
+      </a>
+      <a href="../blog/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+        <span class="nav-text">Articles</span>
+      </a>
+      <a href="../contact/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+        <span class="nav-text">Contact</span>
+      </a>
+    </nav>
+    <nav class="navbar">
+      <a href="../comments/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span class="nav-text">Comments</span>
+      </a>
+      <a href="./" class="nav-item active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span class="nav-text">Account</span>
+      </a>
+    </nav>
+  </div>
 
-  try {
-    const snap = await getDocFromServer(userRef);
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import {
+      getAuth, GoogleAuthProvider, GithubAuthProvider,
+      signInWithPopup, signOut, onAuthStateChanged,
+      sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-    if (!snap.exists()) {
-      // 🟨 عرض النافذة أولاً قبل أي حفظ
-      setTimeout(() => {
-        const nameModal = document.getElementById("nameModal");
-        nameModal.style.display = "flex";
+    import {
+      getFirestore, doc, setDoc, getDocFromServer, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import {
+      getDatabase, ref, runTransaction
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
-        document.getElementById("saveNameBtn").onclick = async () => {
-          const newName = document.getElementById("nameInput").value.trim();
-          if (newName.length < 3) {
-            alert("⚠️ الاسم يجب أن يحتوي على 3 أحرف على الأقل");
-            return;
-          }
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+      authDomain: "oxdyaa.firebaseapp.com",
+      projectId: "oxdyaa",
+      storageBucket: "oxdyaa.appspot.com",
+      messagingSenderId: "604062703590",
+      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const rtdb = getDatabase(app);
 
-          // 🟩 حفظ البيانات بعد إدخال الاسم
+
+    const providers = {
+      google: new GoogleAuthProvider(),
+      github: new GithubAuthProvider(),
+
+    };
+
+    const loginBtns = document.getElementById("login-buttons");
+    const userSection = document.getElementById("userSection");
+    const userInfo = document.getElementById("userInfo");
+    const userComand = document.getElementById("userComand");
+    const loginComand = document.getElementById("loginComand");
+    const userName = document.getElementById("userName");
+    const userPhoto = document.getElementById("userPhoto");
+    const errorEl = document.getElementById("error");
+    const message = document.getElementById("message");
+    const loader = document.getElementById("loader");
+    const emailInput = document.getElementById("emailInput");
+
+    async function initUserData(user) {
+      const userRef = doc(db, "users", user.uid);
+      const defaultPhoto = user.photoURL || "https://0xdya.vercel.app/img/user.jpg";
+      const defaultEmail = user.email || "";
+
+      userPhoto.src = defaultPhoto;
+
+      try {
+        const snap = await getDocFromServer(userRef);
+
+        if (!snap.exists()) {
+          setTimeout(() => {
+            const nameModal = document.getElementById("nameModal");
+            nameModal.style.display = "flex";
+
+            document.getElementById("saveNameBtn").onclick = async () => {
+              const newName = document.getElementById("nameInput").value.trim();
+              if (newName.length < 3) {
+                alert("⚠️ الاسم يجب أن يحتوي على 3 أحرف على الأقل");
+                return;
+              }
+
+              await setDoc(userRef, {
+                uid: user.uid,
+                name: newName,
+                email: defaultEmail,
+                photo: defaultPhoto,
+                createdAt: serverTimestamp(),
+                lastLogin: serverTimestamp(),
+                role: "user",
+                hidden: false,
+                verified: false,
+                bio: "",
+                banner: "",
+                social: { github: "", twitter: "", website: "" }
+              });
+
+              const countRef = ref(rtdb, 'users_count');
+              await runTransaction(countRef, c => (c || 0) + 1);
+
+              userName.textContent = newName;
+              nameModal.style.display = "none";
+              alert("✅  created ssuccessfully!");
+            };
+          }, 500);
+
+        } else {
+          const savedName = snap.data().name || "user";
+          userName.textContent = savedName;
+
           await setDoc(userRef, {
-            uid: user.uid,
-            name: newName,
             email: defaultEmail,
             photo: defaultPhoto,
-            createdAt: serverTimestamp(),
-            lastLogin: serverTimestamp(),
-            role: "user",
-            hidden: false,
-            verified: false,
-            bio: "",
-            banner: "",
-            social: { github: "", twitter: "", website: "" }
-          });
+            lastLogin: serverTimestamp()
+          }, { merge: true });
+        }
 
-          // 🔢 تحديث العداد
-          const countRef = ref(rtdb, 'users_count');
-          await runTransaction(countRef, c => (c || 0) + 1);
-
-          // ✅ إغلاق النافذة وتحديث الاسم في الواجهة
-          userName.textContent = newName;
-          nameModal.style.display = "none";
-          alert("✅  created ssuccessfully!");
-        };
-      }, 500);
-
-    } else {
-      const savedName = snap.data().name || "user";
-      userName.textContent = savedName;
-
-      await setDoc(userRef, {
-        email: defaultEmail,
-        photo: defaultPhoto,
-        lastLogin: serverTimestamp()
-      }, { merge: true });
+      } catch (err) {
+        console.error("❌ أثناء معالجة بيانات المستخدم:", err);
+      }
     }
 
-  } catch (err) {
-    console.error("❌ أثناء معالجة بيانات المستخدم:", err);
-  }
-}
 
-
-  // 🔐 5. تسجيل الدخول بمزود
-  function loginWithProvider(provider) {
-    errorEl.textContent = "";
-    signInWithPopup(auth, provider)
-      .catch(err => {
-        console.error(err);
-        errorEl.textContent = "❌ cant login !";
-      });
-  }
-
-  // 📧 6. إرسال رابط تسجيل الدخول
-  const actionCodeSettings = {
-    url: window.location.href,
-    handleCodeInApp: true
-  };
-
-  document.getElementById("sendLoginLink").addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    if (!email || !email.includes("@")) {
-      errorEl.textContent = "❌ btuuuh use relay email to get ur login link.";
-      return;
+    function loginWithProvider(provider) {
+      errorEl.textContent = "";
+      signInWithPopup(auth, provider)
+        .catch(err => {
+          console.error(err);
+          errorEl.textContent = "❌ cant login !";
+        });
     }
 
-    try {
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      emailInput.value = "";
-      window.localStorage.setItem("emailForSignIn", email);
-      alert("📨  check ur mail or spam ");
-    } catch (err) {
-  console.error("❌ فشل في الإرسال:", err.code, err.message);
-  errorEl.textContent = `❌ ${err.code}`;
-}
+    const actionCodeSettings = {
+      url: window.location.href,
+      handleCodeInApp: true
+    };
 
-  });
+    document.getElementById("sendLoginLink").addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      if (!email || !email.includes("@")) {
+        errorEl.textContent = "❌ btuuuh use relay email to get ur login link.";
+        return;
+      }
 
-  // ✅ 7. التحقق من رابط الدخول عبر الإيميل
-  if (isSignInWithEmailLink(auth, window.location.href)) {
-    let email = window.localStorage.getItem("emailForSignIn");
-    signInWithEmailLink(auth, email, window.location.href)
-      .then(async (result) => {
-        window.localStorage.removeItem("emailForSignIn");
-        await initUserData(result.user);
+      try {
+        await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+        emailInput.value = "";
+        window.localStorage.setItem("emailForSignIn", email);
+        alert("📨  check ur mail or spam ");
+      } catch (err) {
+        console.error("❌ فشل في الإرسال:", err.code, err.message);
+        errorEl.textContent = `❌ ${err.code}`;
+      }
+
+    });
+
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let email = window.localStorage.getItem("emailForSignIn");
+      signInWithEmailLink(auth, email, window.location.href)
+        .then(async (result) => {
+          window.localStorage.removeItem("emailForSignIn");
+          await initUserData(result.user);
+          message.innerHTML = "login  successfully 🐧";
+        })
+        .catch((error) => {
+          console.error("❌ عند تسجيل الدخول بالرابط:", error);
+          errorEl.textContent = "❌ can't login.";
+        });
+    }
+
+    onAuthStateChanged(auth, async user => {
+      loader.style.display = "none";
+
+      if (user) {
+        loginBtns.style.display = "none";
+        userSection.style.display = "block";
+        userInfo.style.display = "flex";
+        userComand.style.display = "block";
+        loginComand.style.display = "block";
+        await initUserData(user);
         message.innerHTML = "login  successfully 🐧";
-      })
-      .catch((error) => {
-        console.error("❌ عند تسجيل الدخول بالرابط:", error);
-        errorEl.textContent = "❌ can't login.";
-      });
-  }
+      } else {
+        loginBtns.style.display = "block";
+        userSection.style.display = "none";
+        userInfo.style.display = "none";
+        userComand.style.display = "none";
+        loginComand.style.display = "block";
+        message.textContent = "";
+      }
+    });
 
-  // 👁️ 8. مراقبة حالة المستخدم
-  onAuthStateChanged(auth, async user => {
-    loader.style.display = "none";
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        console.log("signOut successfully ☕");
+      } catch (err) {
+        console.error("❌ cant  signOut :", err);
+        errorEl.textContent = "❌ cant signOut.";
+      }
+    });
 
-    if (user) {
-      loginBtns.style.display = "none";
-      userSection.style.display = "block";
-      userInfo.style.display = "flex";
-      userComand.style.display = "block";
-      loginComand.style.display = "block";
-      await initUserData(user);
-      message.innerHTML = "login  successfully 🐧";
-    } else {
-      loginBtns.style.display = "block";
-      userSection.style.display = "none";
-      userInfo.style.display = "none";
-      userComand.style.display = "none";
-      loginComand.style.display = "block";
-      message.textContent = "";
-    }
-  });
+    document.getElementById("googleLogin").addEventListener("click", () => loginWithProvider(providers.google));
+    document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
 
-  // 🚪 9. تسجيل الخروج
-  document.getElementById("logoutBtn")?.addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      console.log("signOut successfully ☕");
-    } catch (err) {
-      console.error("❌ cant  signOut :", err);
-      errorEl.textContent = "❌ cant signOut.";
-    }
-  });
-
-  // 🎯 10. أزرار تسجيل الدخول بمزود
-  document.getElementById("googleLogin").addEventListener("click", () => loginWithProvider(providers.google));
-  document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
-  
-</script>
+  </script>
 </body>
+
 </html>
