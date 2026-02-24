@@ -162,7 +162,7 @@
     <script type="module" src="../js/view.js"></script>
     <script>
       async function fetchGitHubData() {
-        const res = await fetch("/api/github_commits");
+        const res = await fetch("/api/github_data");
         const data = await res.json();
         const repoData = data.repo;
         const userData = data.user;
