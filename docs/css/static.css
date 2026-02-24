@@ -23,6 +23,7 @@
     --text-lg: 1.2rem;
     --text-xl: 1.55rem;
 }
+
 /* ======================================================
 details 
 ====================================================== */
@@ -30,6 +31,9 @@ details
     backface-visibility: hidden;
     /* transform: translateZ(0); */
     -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
@@ -43,11 +47,6 @@ details
     color: #fff;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 body {
     position: relative;
@@ -69,6 +68,7 @@ body {
     max-width: 680px;
     margin: 0 auto;
     padding: 48px 24px;
+    overflow: hidden;
   }
 
 .navbar_section {
