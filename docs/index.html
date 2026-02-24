@@ -130,7 +130,7 @@
             <span class="commit-label">Last update • <span class="time_ago">2026-02-17t18:27</span></span>
             <span class="commit-message loading" id="commit-msg">Loading...</span>
           </div>
-          <span class="commit-repo" id="commit-auth"></span>
+          by<span class="commit-repo" id="commit-auth"></span>
           <span class="commit-time" id="commit-time"></span>
         </a>
 
@@ -317,8 +317,7 @@
       document.getElementById("commit-auth").textContent = 
     latest.author ? latest.author.login : latest.commit.author.name;
       document.getElementById("commit-time").textContent = date.toLocaleString("en-US", {
-        year: "numeric", month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit"
+        year: "numeric", month: "2-digit", day: "2-digit"
       });
 
       const timeAgoElem = document.querySelector(".time_ago");
