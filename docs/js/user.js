@@ -17,7 +17,6 @@
     onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-  // إعداد Firebase (مرة واحدة فقط)
   const firebaseConfig = {
     apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
     authDomain: "oxdyaa.firebaseapp.com",
@@ -31,7 +30,6 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // دالة timeAgo
   function timeAgo(date) {
     const now = new Date();
     const seconds = Math.floor((now - date) / 1000);
@@ -44,7 +42,6 @@
     return `joined before ${days}d`;
   }
 
-  // عرض المستخدمين
   function loadUsers() {
     const usersDiv = document.getElementById("users");
     const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
@@ -73,22 +70,17 @@
       });
     });
   }
-
-  // تنفيذ عند تحميل الصفحة
   document.addEventListener("DOMContentLoaded", () => {
     const userAvatar = document.getElementById("userAvatar");
     const userName = document.getElementById("userName");
     const loginIcon = document.getElementById("loginIcon");
 
-    // تحميل قائمة المستخدمين
     loadUsers();
 
-    // التحقق من حالة تسجيل الدخول
     onAuthStateChanged(auth, async user => {
       if (user) {
         await user.reload();
 
-        // تحديث الواجهة
         if (loginIcon) loginIcon.style.display = "none";
         if (userAvatar) {
           userAvatar.src = user.photoURL;
@@ -106,7 +98,6 @@
           userName.textContent = user.displayName || "مستخدم";
         }
 
-        // تحديث Firestore
         const userRef = doc(db, "users", user.uid);
         try {
           const userSnap = await getDoc(userRef);
@@ -122,14 +113,12 @@
           console.error("❌ خطأ في تحديث Firestore:", error);
         }
       } else {
-        // غير مسجل دخول
         if (loginIcon) loginIcon.style.display = "inline-block";
         if (userAvatar) userAvatar.style.display = "none";
         if (userName) userName.textContent = "";
       }
     });
 
-    // نسخة احتياطية
     setTimeout(async () => {
       const user = auth.currentUser;
       if (user) {

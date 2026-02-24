@@ -46,19 +46,9 @@
       padding-bottom: 96px;
     }
 
-  
-
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 48px 24px;
-    }
 
     a { text-decoration: none; color: inherit; }
 
-    /* header */
 
     h1 {
       font-size: var(--text-xl);
@@ -72,7 +62,6 @@
       margin-bottom: 48px;
     }
 
-    /* divider */
     .divider {
       font-size: .78rem;
       color: var(--dim);
@@ -80,7 +69,6 @@
       margin-bottom: 12px;
     }
 
-    /* article card */
     .article {
       display: flex;
       justify-content: space-between;
@@ -116,18 +104,36 @@
       transform: translateX(3px);
       color: var(--accent);
     }
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--space-4));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate {
+  opacity: 0; 
+  transform: translateY(16px);
+  animation: fadeUp .5s ease forwards; 
+}
+
+.animate:nth-child(1) { animation-delay: 0ms; }
+/* .animate:nth-child(2) { animation-delay: 55ms; }
+.animate:nth-child(3) { animation-delay: 110ms; }
+.animate:nth-child(4) { animation-delay: 165ms; } */
 
   </style>
 </head>
 <body>
 
   <div class="container">
-
     <h1>// blogs</h1>
 
- 
-
-    <a class="article" href="./0x_mean/">
+    <a class="article animate" href="./0x_mean/">
       <div>
         <div class="article-title" dir="rtl">علاه كي نحط 0x قبل اسمي ؟</div>
         <div class="article-meta">
@@ -140,8 +146,6 @@
           d="M8.91 19.92l6.52-6.52c.77-.77.77-2.03 0-2.8L8.91 4.08"/>
       </svg>
     </a>
-
-    <!-- end posts -->
 
   </div>
 
