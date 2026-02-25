@@ -29,7 +29,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const CACHE_KEY = "userData";
-const UPDATE_INTERVAL = 10 * 60 * 1000; 
+const UPDATE_INTERVAL = 10 * 60 * 1000;
 
 function timeAgo(date) {
   const now = new Date();
@@ -44,23 +44,26 @@ function timeAgo(date) {
 }
 
 function applyUserUI(photo, name, email) {
-  const userAvatar = document.getElementById("userAvatar");
-  const loginIcon = document.getElementById("loginIcon");
-  const userName = document.getElementById("userName");
+  const container = document.getElementById("userPhotoContainer");
+  if (!container) return;
 
-  if (loginIcon) loginIcon.style.display = "none";
-  if (userAvatar) {
-    userAvatar.src = photo || "../img/user.jpg";
-    userAvatar.title = name || email || "حساب المستخدم";
-    userAvatar.style.display = "inline-block";
-    userAvatar.style.verticalAlign = "middle";
-    userAvatar.style.borderRadius = "50%";
-    userAvatar.style.width = "24px";
-    userAvatar.style.height = "24px";
-    userAvatar.style.margin = "6px 10px";
-    userAvatar.style.objectFit = "cover";
+  if (name || photo) {
+    container.innerHTML = `
+      <a class="user_photo_href nav-item" href="./profile/">
+        <img src="${photo || '../img/user.jpg'}" >
+      </a>
+    `;
+  } else {
+    container.innerHTML = `
+      <a href="./login/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span class="nav-text">Account</span>
+      </a>
+    `;
   }
-  if (userName) userName.textContent = name || "مستخدم";
 }
 
 function loadUsers() {
@@ -98,6 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cached) {
     const data = JSON.parse(cached);
     applyUserUI(data.photo, data.name, data.email);
+  } else {
+    applyUserUI(null, null, null);
   }
 
   loadUsers();
@@ -136,12 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } else {
       localStorage.removeItem(CACHE_KEY);
-      const userAvatar = document.getElementById("userAvatar");
-      const loginIcon = document.getElementById("loginIcon");
-      const userName = document.getElementById("userName");
-      if (loginIcon) loginIcon.style.display = "inline-block";
-      if (userAvatar) userAvatar.style.display = "none";
-      if (userName) userName.textContent = "";
+      applyUserUI(null, null, null);
     }
   });
 });

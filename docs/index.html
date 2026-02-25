@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>0xdya | ضياء الدين ملوك</title>
-  <script type="module" src="./js/user.js"></script>
   <meta name="description" content="
   هاوٍ تقني مُتعدِد الشغف
         " />
@@ -157,18 +156,7 @@
         </svg>
         <span class="nav-text">Comments</span>
       </a>
-      <div class="user_photo">
-        <a id="loginIcon" href="./login/" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          <span class="nav-text">Account</span>
-        </a>
-        <a class="user_photo_href" href="./profile/">
-          <img id="userAvatar" style="display:none" src="../img/user.jpg">
-        </a>
-      </div>
+      <div class="user_photo" id="userPhotoContainer"></div>
     </nav>
   </div>
 
@@ -296,7 +284,7 @@
     }
     loadLatestCommit();
   </script>
-
+  <script type="module" src="./js/view.js"></script>
   <script src="./js/time_ago.js"></script>
 </body>
 
