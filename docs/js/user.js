@@ -42,6 +42,7 @@
     return `joined before ${days}d`;
   }
 
+  
   function loadUsers() {
     const usersDiv = document.getElementById("users");
     const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
