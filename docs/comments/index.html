@@ -6,6 +6,7 @@
   <title>0xdya | Comments</title>
   <link rel="icon" href="../img/icon.jpg">
   <link rel="stylesheet" href="../css/static.css">
+  <script type="module" src="../js/user.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -22,8 +23,6 @@
       /* --border: #3e4042; */
       --online: #31a24c;
       --reaction-bg: #242526;
-
-
     }
 
  
@@ -432,13 +431,18 @@
         </svg>
         <span class="nav-text">Comments</span>
       </a>
-      <a href="../login/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-        <span class="nav-text">Account</span>
-      </a>
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span class="nav-text">Account</span>
+        </a>
+        <a class="user_photo_href" href="../profile/">
+          <img id="userAvatar" style="display:none" src="../img/user.jpg">
+        </a>
+      </div>
     </nav>
   </div>
 

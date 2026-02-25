@@ -7,6 +7,7 @@
   <title>Projects — 0xdya</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script type="module" src="../js/user.js"></script>
   <link href="../css/static.css" rel="stylesheet">
   <style>
     :root {
@@ -858,13 +859,18 @@
         </svg>
         <span class="nav-text">Comments</span>
       </a>
-      <a href="../login/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-        <span class="nav-text">Account</span>
-      </a>
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span class="nav-text">Account</span>
+        </a>
+        <a class="user_photo_href" href="../profile/">
+          <img id="userAvatar" style="display:none" src="../img/user.jpg">
+        </a>
+      </div>
     </nav>
   </div>
 

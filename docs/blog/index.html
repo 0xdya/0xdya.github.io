@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects — 0xdya</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script type="module" src="../js/user.js"></script>
   <link href="../css/static.css" rel="stylesheet">
   <style>
-
-
-
-
     h1 {
       font-size: var(--text-xl);
       font-weight: 400;
       color: var(--text);
       margin-bottom: var(--space-8);
     }
+
     .sub {
       color: var(--dim);
       font-size: .78rem;
@@ -41,55 +40,67 @@
       margin-bottom: 10px;
       transition: border-color .2s, background .2s;
     }
+
     .article:hover {
-      border-color: rgba(200,181,96,.25);
+      border-color: rgba(200, 181, 96, .25);
       background: var(--accent-dim);
     }
 
-    .article-title { color: var(--text); }
+    .article-title {
+      color: var(--text);
+    }
+
     .article-meta {
       font-size: .78rem;
       color: var(--dim);
       margin-top: 3px;
     }
+
     .article-tag {
       color: var(--accent);
       opacity: .8;
       margin-right: 10px;
     }
+
     .article-arrow {
       color: var(--dim);
       flex-shrink: 0;
       transition: transform .2s, color .2s;
     }
+
     .article:hover .article-arrow {
       transform: translateX(3px);
       color: var(--accent);
     }
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(var(--space-4));
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.animate {
-  opacity: 0; 
-  transform: translateY(16px);
-  animation: fadeUp .5s ease forwards; 
-}
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(var(--space-4));
+      }
 
-.animate:nth-child(1) { animation-delay: 0ms; }
-/* .animate:nth-child(2) { animation-delay: 55ms; }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .5s ease forwards;
+    }
+
+    .animate:nth-child(1) {
+      animation-delay: 0ms;
+    }
+
+    /* .animate:nth-child(2) { animation-delay: 55ms; }
 .animate:nth-child(3) { animation-delay: 110ms; }
 .animate:nth-child(4) { animation-delay: 165ms; } */
-
   </style>
 </head>
+
 <body>
 
   <div class="container">
@@ -105,7 +116,7 @@
       </div>
       <svg class="article-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-          d="M8.91 19.92l6.52-6.52c.77-.77.77-2.03 0-2.8L8.91 4.08"/>
+          d="M8.91 19.92l6.52-6.52c.77-.77.77-2.03 0-2.8L8.91 4.08" />
       </svg>
     </a>
 
@@ -140,8 +151,8 @@
       </a>
       <a href="../contact/" class="nav-item">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-          <polyline points="22,6 12,13 2,6"/>
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+          <polyline points="22,6 12,13 2,6" />
         </svg>
         <span class="nav-text">Contact</span>
       </a>
@@ -153,15 +164,20 @@
         </svg>
         <span class="nav-text">Comments</span>
       </a>
-      <a href="../login/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-        <span class="nav-text">Account</span>
-      </a>
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span class="nav-text">Account</span>
+        </a>
+        <a class="user_photo_href" href="../profile/">
+          <img id="userAvatar" style="display:none" src="../img/user.jpg">
+        </a>
+      </div>
     </nav>
   </div>
-
 </body>
+
 </html>

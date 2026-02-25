@@ -6,12 +6,10 @@
   <title>login | 0xdya</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../css/static.css" />
-  <!-- <link rel="stylesheet" href="../css/en.css"> -->
-  <!-- <link rel="stylesheet" href="../css/style.css"> -->
+  <script type="module" src="../js/user.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <style>
-
     body {
       display: flex;
       justify-content: center;
@@ -36,30 +34,30 @@
     }
 
     button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 380px;
-  padding: 12px 24px;
-  background: #0d0d0d;
-  color: #e8e8e8;
-  border: 1px solid #2a2a2a;
-  border-radius: 8px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 10px auto 0;
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 380px;
+      padding: 12px 24px;
+      background: #0d0d0d;
+      color: #e8e8e8;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin: 10px auto 0;
+    }
 
-button:hover {
-  background: #1a1a1a;
-  border-color: #555;
-  color: #fff;
-  transform: translateY(-1px);
-}
+    button:hover {
+      background: #1a1a1a;
+      border-color: #555;
+      color: #fff;
+      transform: translateY(-1px);
+    }
 
     .user-info {
       display: flex;
@@ -363,13 +361,18 @@ button:hover {
         </svg>
         <span class="nav-text">Comments</span>
       </a>
-      <a href="./" class="nav-item active">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-        <span class="nav-text">Account</span>
-      </a>
+      <div class="user_photo">
+        <a id="loginIcon" href="../login/" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span class="nav-text">Account</span>
+        </a>
+        <a class="user_photo_href" href="../profile/">
+          <img id="userAvatar" style="display:none" src="../img/user.jpg">
+        </a>
+      </div>
     </nav>
   </div>
 
