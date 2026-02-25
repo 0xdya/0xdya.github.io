@@ -49,13 +49,13 @@ function applyUserUI(photo, name, email) {
 
   if (name || photo) {
     container.innerHTML = `
-      <a class="user_photo_href nav-item" href="./profile/">
+      <a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/">
         <img src="${photo || '../img/user.jpg'}" >
       </a>
     `;
   } else {
     container.innerHTML = `
-      <a href="./login/" class="nav-item">
+      <a href="https://0xdya.vercel.app/login/" class="nav-item">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
           <circle cx="12" cy="7" r="4" />
