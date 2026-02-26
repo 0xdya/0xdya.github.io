@@ -261,7 +261,7 @@ Rest of styles (unchanged)
 .commit-message {
     font-size: var(--text-sm);
     color: var(--text);
-    white-space: nowrap;
+    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
 
