@@ -1,0 +1,43 @@
+name: daily commits
+
+on:
+  schedule:
+    - cron: "0 11 * * *"
+    - cron: "55 22 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  TARGET_BRANCH: main
+  GIT_NAME: "0xdya"
+  GIT_EMAIL: "0xdya@proton.me"
+  FIREBASE_URL: "https://oxdyaa-default-rtdb.firebaseio.com/visits.json"
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+
+      - name: Make commit
+        env:
+          PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        run: |
+          git config user.name "${{ env.GIT_NAME }}"
+          git config user.email "${{ env.GIT_EMAIL }}"
+
+          VISITS=$(curl -s "${{ env.FIREBASE_URL }}" | tr -d '"')
+          DATE=$(date -u +'%Y-%m-%d %H:%M:%S UTC')
+
+          echo "$DATE - visits: $VISITS" >> archive.txt
+
+          git add archive.txt
+          git commit -m "Auto commit - $DATE" || exit 0
+
+          git push https://x-access-token:${PERSONAL_TOKEN}@github.com/${{ github.repository }}.git ${{ env.TARGET_BRANCH }}
