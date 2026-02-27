@@ -40,7 +40,7 @@ jobs:
           FORMATTED_VISITS=$(printf "%'d" "$VISITS")
           FORMATTED_DIFF=$(printf "%'d" "$DIFF")
           TODAY=$(date -u +"%b %d, %Y")
-          TIME=$(date -u +"%H:%MZ")
+          TIME=$(date -u +"%H:%M")
           if [ ! -f archive.txt ]; then
             echo "$TODAY" >> archive.txt
           fi
@@ -49,7 +49,7 @@ jobs:
             echo "" >> archive.txt
             echo "$TODAY" >> archive.txt
           fi
-          echo "$TIME → $FORMATTED_VISITS visits (+$FORMATTED_DIFF)" >> archive.txt
+          echo "$TIME => $FORMATTED_VISITS visits (+$FORMATTED_DIFF)" >> archive.txt
           git add archive.txt
           git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits)" || exit 0
           git push https://x-access-token:${PERSONAL_TOKEN}@github.com/${{ github.repository }}.git ${{ env.TARGET_BRANCH }}
