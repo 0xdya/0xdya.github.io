@@ -33,11 +33,41 @@ jobs:
           git config user.email "${{ env.GIT_EMAIL }}"
 
           VISITS=$(curl -s "${{ env.FIREBASE_URL }}" | tr -d '"')
-          DATE=$(date -u +'%Y-%m-%d %H:%M:%S UTC')
 
-          echo "$DATE - visits: $VISITS" >> archive.txt
+          if ! [[ "$VISITS" =~ ^[0-9]+$ ]]; then
+            echo "Invalid visits value"
+            exit 0
+          fi
+
+          if [ -f archive.txt ]; then
+            LAST_VISITS=$(grep -oE '[0-9]+ visits' archive.txt | tail -n 1 | grep -oE '[0-9]+')
+          else
+            LAST_VISITS=0
+          fi
+
+          LAST_VISITS=${LAST_VISITS:-0}
+          DIFF=$((VISITS - LAST_VISITS))
+
+          FORMATTED_VISITS=$(printf "%'d" "$VISITS")
+          FORMATTED_DIFF=$(printf "%'d" "$DIFF")
+
+          TODAY=$(date -u +"%b %d, %Y")
+          TIME=$(date -u +"%H:%M")
+
+          if [ ! -f archive.txt ]; then
+            echo "$TODAY" >> archive.txt
+          fi
+
+          LAST_DATE=$(grep -E "^[A-Z][a-z]{2} [0-9]{2}, [0-9]{4}$" archive.txt | tail -n 1)
+
+          if [ "$TODAY" != "$LAST_DATE" ]; then
+            echo "" >> archive.txt
+            echo "$TODAY" >> archive.txt
+          fi
+
+          echo "$TIME → $FORMATTED_VISITS visits (+$FORMATTED_DIFF)" >> archive.txt
 
           git add archive.txt
-          git commit -m "Auto commit - $DATE" || exit 0
+          git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits)" || exit 0
 
           git push https://x-access-token:${PERSONAL_TOKEN}@github.com/${{ github.repository }}.git ${{ env.TARGET_BRANCH }}
