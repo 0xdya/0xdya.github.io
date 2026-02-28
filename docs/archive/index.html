@@ -17,9 +17,7 @@
     --text: #ededed;
     --text-muted: #888888;
     --text-faint: #444444;
-    --accent: #ffffff;
     --green: #50e3c2;
-    --blue: #0070f3;
     --radius: 8px;
     --font-mono: 'Geist Mono', 'Courier New', monospace;
     --font-sans: 'Geist', system-ui, sans-serif;
@@ -29,7 +27,7 @@
 
   body {
     font-family: var(--font-sans);
-    font-size: 14px;
+
     line-height: 1.5;
     min-height: 100vh;
   }
@@ -58,26 +56,9 @@
     transition: color 0.15s;
   }
   .header-back:hover { color: var(--text); }
-
-  .header-sep {
-    color: var(--text-faint);
-    font-size: 18px;
-    font-weight: 300;
-  }
-
-  .header-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    font-family: var(--font-mono);
-  }
-
-  .header-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .header-sep { color: var(--text-faint); font-size: 18px; font-weight: 300; }
+  .header-title { font-size: 13px; font-weight: 500; color: var(--text); font-family: var(--font-mono); }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 
   .icon-btn {
     display: flex;
@@ -94,21 +75,10 @@
     transition: all 0.15s;
     font-size: 16px;
   }
-  .icon-btn:hover {
-    background: var(--bg-3);
-    color: var(--text);
-    border-color: var(--border-hover);
-  }
+  .icon-btn:hover { background: var(--bg-3); color: var(--text); border-color: var(--border-hover); }
 
-  .main {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-
-  .page-header {
-    margin-bottom: 32px;
-  }
+  .main { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+  .page-header { margin-bottom: 32px; }
 
   .breadcrumb {
     display: flex;
@@ -123,68 +93,12 @@
   .breadcrumb a:hover { color: var(--text); }
   .breadcrumb .sep { color: var(--text-faint); }
 
-  .page-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
+  .page-title { font-size: 24px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+  .page-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
 
-  .page-subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 6px;
-  }
 
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 24px;
-    border: 1px solid var(--border);
-  }
 
-  .stat-item {
-    background: var(--bg-2);
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 500;
-  }
-
-  .stat-value {
-    font-family: var(--font-mono);
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1;
-  }
-
-  .stat-value.loading {
-    width: 48px;
-    height: 20px;
-    background: var(--bg-3);
-    border-radius: 4px;
-    animation: shimmer 1.5s infinite;
-  }
-
-  .table-container {
-    direction: rtl;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
+  .table-container { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; direction: rtl;}
 
   .table-header {
     display: flex;
@@ -195,13 +109,7 @@
     background: var(--bg-2);
   }
 
-  .table-header-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
+  .table-header-title { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
 
   .badge {
     font-family: var(--font-mono);
@@ -213,22 +121,10 @@
     background: var(--bg-3);
   }
 
-  #commitsList {
-    list-style: none;
-  }
-
-  #commitsList li {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-
-  #commitsList li:last-child {
-    border-bottom: none;
-  }
-
-  #commitsList li:hover {
-    background: var(--bg-2);
-  }
+  #commitsList { list-style: none; }
+  #commitsList li { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  #commitsList li:last-child { border-bottom: none; }
+  #commitsList li:hover { background: var(--bg-2); }
 
   #commitsList li a {
     display: flex;
@@ -239,74 +135,22 @@
     color: inherit;
   }
 
-  .commit-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
+  .commit-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; opacity: 0.7; }
+  .commit-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); flex-shrink: 0; width: 82px; }
+  .commit-msg { font-size: 13px; color: var(--text-muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.1s; }
+  #commitsList li:hover .commit-msg { color: var(--text); }
+  .commit-arrow { color: var(--text-faint); font-size: 14px; flex-shrink: 0; opacity: 0; transition: opacity 0.1s; }
+  #commitsList li:hover .commit-arrow { opacity: 1; }
 
-  .commit-date {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    flex-shrink: 0;
-    width: 82px;
-  }
-
-  .commit-msg {
-    font-size: 13px;
-    color: var(--text-muted);
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: color 0.1s;
-  }
-
-  #commitsList li:hover .commit-msg {
-    color: var(--text);
-  }
-
-  .commit-arrow {
-    color: var(--text-faint);
-    font-size: 14px;
-    flex-shrink: 0;
-    opacity: 0;
-    transition: opacity 0.1s;
-  }
-
-  #commitsList li:hover .commit-arrow {
-    opacity: 1;
-  }
-
-  .skeleton-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .sk {
-    background: var(--bg-3);
-    border-radius: 4px;
-    animation: shimmer 1.5s infinite;
-  }
+  .sk { background: var(--bg-3); border-radius: 4px; animation: shimmer 1.5s infinite; }
+  .skeleton-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
 
   @keyframes shimmer {
     0%, 100% { opacity: 0.4; }
     50% { opacity: 0.8; }
   }
 
-  .error-row {
-    padding: 24px 16px;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 13px;
-  }
+  .error-row { padding: 24px 16px; text-align: center; color: var(--text-muted); font-size: 13px; }
 
   #back_to_top {
     position: fixed;
@@ -327,21 +171,10 @@
     pointer-events: none;
     transition: all 0.2s;
   }
-
-  #back_to_top.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  #back_to_top:hover {
-    background: var(--bg-3);
-    color: var(--text);
-    border-color: var(--border-hover);
-  }
+  #back_to_top.visible { opacity: 1; pointer-events: auto; }
+  #back_to_top:hover { background: var(--bg-3); color: var(--text); border-color: var(--border-hover); }
 
   @media (max-width: 600px) {
-    .stats-bar { grid-template-columns: 1fr 1fr; }
-    .stat-item:last-child { grid-column: span 2; }
     .commit-date { display: none; }
   }
 </style>
@@ -356,17 +189,16 @@
   <span class="header-sep">/</span>
   <span class="header-title">archive</span>
   <div class="header-right">
-    <a href="../login/" class="icon-btn" id="loginIcon" title="Login">
+    <a href="../login/" class="icon-btn" title="Login">
       <ion-icon name="person-outline"></ion-icon>
     </a>
     <a href="../report/" class="icon-btn" title="Report bug">
       <ion-icon name="bug-outline"></ion-icon>
     </a>
-  </div >
+  </div>
 </header>
 
 <main class="container">
-
   <div class="page-header">
     <div class="breadcrumb">
       <a href="../">home</a>
@@ -374,26 +206,16 @@
       <span>archive</span>
     </div>
     <h1 class="page-title">Commit History</h1>
-    <p class="page-subtitle">Last 100 pushes across all repositories</p>
+    <p class="page-subtitle">Last 100 pushes </p>
   </div>
 
   <div class="table-container">
     <div class="table-header">
-      <span class="table-header-title">Commits</span>
+      <span class="table-header-title">اخر الكوميتات</span>
       <span class="badge" id="countBadge">—</span>
     </div>
-    <ul id="commitsList">
-      ${Array.from({length: 8}, () => `
-      <li>
-        <div class="skeleton-row">
-          <div class="sk" style="width:6px;height:6px;border-radius:50%;flex-shrink:0"></div>
-          <div class="sk" style="width:72px;height:11px"></div>
-          <div class="sk" style="width:${180 + Math.floor(Math.random()*160)}px;height:13px"></div>
-        </div>
-      </li>`).join('')}
-    </ul>
+    <ul id="commitsList"></ul>
   </div>
-
 </main>
 
 <button id="back_to_top" title="Back to top">
@@ -401,62 +223,62 @@
 </button>
 
 <script>
-async function loadCommits() {
-  try {
-    const res = await fetch("/api/github_commits");
-    const data = await res.json();
-    if (!Array.isArray(data)) throw new Error("Unexpected response");
+  const list = document.getElementById("commitsList");
 
-    const list = document.getElementById("commitsList");
-    list.innerHTML = "";
+  // Skeleton rows
+  for (let i = 0; i < 8; i++) {
+    const li = document.createElement("li");
+    li.innerHTML = `<div class="skeleton-row">
+      <div class="sk" style="width:6px;height:6px;border-radius:50%;flex-shrink:0"></div>
+      <div class="sk" style="width:72px;height:11px"></div>
+      <div class="sk" style="width:${180 + Math.floor(Math.random() * 160)}px;height:13px"></div>
+    </div>`;
+    list.appendChild(li);
+  }
 
-    const dates = new Set();
+  function escapeHtml(str) {
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
 
-    data.forEach(commit => {
-      const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
-      dates.add(date);
-      const msg = commit.commit.message.split("\n")[0];
-      const url = commit.html_url;
+  async function loadCommits() {
+    try {
+      const res = await fetch("/api/github_commits");
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error("Unexpected response");
 
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <a href="${url}" target="_blank" rel="noopener">
+      list.innerHTML = "";
+
+      data.forEach(commit => {
+        const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
+        const msg = commit.commit.message.split("\n")[0];
+        const url = commit.html_url;
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
           <span class="commit-dot"></span>
           <span class="commit-date">${date}</span>
           <span class="commit-msg">${escapeHtml(msg)}</span>
           <ion-icon name="arrow-forward-outline" class="commit-arrow"></ion-icon>
         </a>`;
-      list.appendChild(li);
-    });
+        list.appendChild(li);
+      });
 
-    document.getElementById("statTotal").textContent = data.length;
-    document.getElementById("statDays").textContent = dates.size;
-    document.getElementById("countBadge").textContent = data.length;
+      document.getElementById("countBadge").textContent = data.length;
 
-    const latest = data[0]?.commit?.author?.date;
-    if (latest) {
-      document.getElementById("statLatest").textContent =
-        new Date(latest).toISOString().slice(0, 10);
+
+
+    } catch (err) {
+      console.error(err);
+      list.innerHTML = `<li><div class="error-row">⚠️ Failed to load commits</div></li>`;
     }
-
-  } catch (err) {
-    console.error(err);
-    document.getElementById("commitsList").innerHTML =
-      `<li><div class="error-row">⚠️ Failed to load commits</div></li>`;
   }
-}
 
-function escapeHtml(str) {
-  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
+  loadCommits();
 
-loadCommits();
-
-const btn = document.getElementById("back_to_top");
-window.addEventListener("scroll", () => {
-  btn.classList.toggle("visible", window.scrollY > 400);
-});
-btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  const btn = document.getElementById("back_to_top");
+  window.addEventListener("scroll", () => {
+    btn.classList.toggle("visible", window.scrollY > 400);
+  });
+  btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 </script>
 
 </body>
