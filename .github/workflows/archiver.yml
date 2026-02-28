@@ -7,7 +7,7 @@ on:
 permissions:
   contents: write
 env:
-  TARGET_BRANCH: main
+  TARGET_BRANCH: stats
   GIT_NAME: "0xdya"
   GIT_EMAIL: "0xdya@proton.me"
   FIREBASE_URL: "https://oxdyaa-default-rtdb.firebaseio.com/visits.json"
