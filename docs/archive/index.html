@@ -180,6 +180,7 @@
   }
 
   .table-container {
+    direction: rtl;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
@@ -374,21 +375,6 @@
     </div>
     <h1 class="page-title">Commit History</h1>
     <p class="page-subtitle">Last 100 pushes across all repositories</p>
-  </div>
-
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-label">Total Commits</div>
-      <div class="stat-value" id="statTotal"><div class="loading"></div></div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-label">Latest Push</div>
-      <div class="stat-value" id="statLatest" style="font-size:13px; font-family:var(--font-mono)"><div class="loading"></div></div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-label">Unique Dates</div>
-      <div class="stat-value" id="statDays"><div class="loading"></div></div>
-    </div>
   </div>
 
   <div class="table-container">
