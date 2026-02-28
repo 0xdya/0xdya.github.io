@@ -1,87 +1,477 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>0xDya - archive</title>
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="../css/en.css" />
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
-  <script type="module" src="../js/user.js"></script>
-  <style>
-    #commitsList {
-      max-height: none !important;
-      height: auto !important;
-      overflow-y: visible !important;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>0xDya — archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/static.css">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-2: #111111;
+    --bg-3: #1a1a1a;
+    --border: #222222;
+    --border-hover: #333333;
+    --text: #ededed;
+    --text-muted: #888888;
+    --text-faint: #444444;
+    --accent: #ffffff;
+    --green: #50e3c2;
+    --blue: #0070f3;
+    --radius: 8px;
+    --font-mono: 'Geist Mono', 'Courier New', monospace;
+    --font-sans: 'Geist', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+  }
+
+  .header-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .header-back:hover { color: var(--text); }
+
+  .header-sep {
+    color: var(--text-faint);
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  .header-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    font-family: var(--font-mono);
+  }
+
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-size: 16px;
+  }
+  .icon-btn:hover {
+    background: var(--bg-3);
+    color: var(--text);
+    border-color: var(--border-hover);
+  }
+
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .page-header {
+    margin-bottom: 32px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--text); }
+  .breadcrumb .sep { color: var(--text-faint); }
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+  }
+
+  .stat-item {
+    background: var(--bg-2);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-value.loading {
+    width: 48px;
+    height: 20px;
+    background: var(--bg-3);
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .table-container {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-2);
+  }
+
+  .table-header-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: var(--bg-3);
+  }
+
+  #commitsList {
+    list-style: none;
+  }
+
+  #commitsList li {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  #commitsList li:last-child {
+    border-bottom: none;
+  }
+
+  #commitsList li:hover {
+    background: var(--bg-2);
+  }
+
+  #commitsList li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .commit-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .commit-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    width: 82px;
+  }
+
+  .commit-msg {
+    font-size: 13px;
+    color: var(--text-muted);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.1s;
+  }
+
+  #commitsList li:hover .commit-msg {
+    color: var(--text);
+  }
+
+  .commit-arrow {
+    color: var(--text-faint);
+    font-size: 14px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  #commitsList li:hover .commit-arrow {
+    opacity: 1;
+  }
+
+  .skeleton-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sk {
+    background: var(--bg-3);
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .error-row {
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  #back_to_top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s;
+  }
+
+  #back_to_top.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #back_to_top:hover {
+    background: var(--bg-3);
+    color: var(--text);
+    border-color: var(--border-hover);
+  }
+
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .stat-item:last-child { grid-column: span 2; }
+    .commit-date { display: none; }
+  }
+</style>
 </head>
-<body class="terminal-bg">
-  <h1 class="title home_title_font"><span class="prompt">~/</span>archive</h1>
-  <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
+<body>
 
-  <header class="h">
-    <a href="../" class="back_to_home"><ion-icon name="chevron-back-outline"></ion-icon></a>
-    <div class="control" dir="ltr">
-      <div class="user_photo">
-        <a id="loginIcon" href="../login/"><ion-icon name="person-outline"></ion-icon></a>
-        <a class="user_photo_href" href="../profile/"><img id="userAvatar" style="display:none" src="../img/user.jpg"></a>
-      </div>
-      <div class="theme_toggle_container">
-        <button id="themeToggle"><ion-icon name="settings-outline"></ion-icon></button>
-        <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
-        <div class="dropdown" id="themeDropdown">
-          <button data-theme="light">Light</button>
-          <button data-theme="dark">Dark</button>
-          <button data-theme="system">System</button>
-        </div>
-      </div>
+<header class="header">
+  <a href="../" class="header-back">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+    Back
+  </a>
+  <span class="header-sep">/</span>
+  <span class="header-title">archive</span>
+  <div class="header-right">
+    <a href="../login/" class="icon-btn" id="loginIcon" title="Login">
+      <ion-icon name="person-outline"></ion-icon>
+    </a>
+    <a href="../report/" class="icon-btn" title="Report bug">
+      <ion-icon name="bug-outline"></ion-icon>
+    </a>
+  </div >
+</header>
+
+<main class="container">
+
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../">home</a>
+      <span class="sep">/</span>
+      <span>archive</span>
     </div>
-  </header>
-
-  <div class="patch">
-    <div class="terminal_dote"><span></span><span></span><span></span></div>
-    <p>$ pwd <br>/ <a href="../">home</a>/ <a href="./">archive</a></p>
-  </div>
-  <div class="blog_container">
-    <section class="blog_list">
-
-      <h1 class="hashtag_title home_title_font"># last 100 commit push</h1>
-      <article dir="rtl" class="animate-up-bouncy">
-        <ul id="commitsList" class="log"></ul>
-      </article>
-    </section>
+    <h1 class="page-title">Commit History</h1>
+    <p class="page-subtitle">Last 100 pushes across all repositories</p>
   </div>
 
-  <script>
-    async function loadCommits() {
-      try {
-        const res = await fetch("/api/github_commits");
-        const data = await res.json();
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-label">Total Commits</div>
+      <div class="stat-value" id="statTotal"><div class="loading"></div></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Latest Push</div>
+      <div class="stat-value" id="statLatest" style="font-size:13px; font-family:var(--font-mono)"><div class="loading"></div></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Unique Dates</div>
+      <div class="stat-value" id="statDays"><div class="loading"></div></div>
+    </div>
+  </div>
 
-        if (!Array.isArray(data)) throw new Error("Unexpected response");
+  <div class="table-container">
+    <div class="table-header">
+      <span class="table-header-title">Commits</span>
+      <span class="badge" id="countBadge">—</span>
+    </div>
+    <ul id="commitsList">
+      ${Array.from({length: 8}, () => `
+      <li>
+        <div class="skeleton-row">
+          <div class="sk" style="width:6px;height:6px;border-radius:50%;flex-shrink:0"></div>
+          <div class="sk" style="width:72px;height:11px"></div>
+          <div class="sk" style="width:${180 + Math.floor(Math.random()*160)}px;height:13px"></div>
+        </div>
+      </li>`).join('')}
+    </ul>
+  </div>
 
-        const list = document.getElementById("commitsList");
-        data.forEach(commit => {
-          const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
-          const msg = commit.commit.message.split("\n")[0];
-          const url = commit.html_url;
-          const li = document.createElement("li");
-          li.innerHTML = `<a href="${url}" target="_blank">[${date}] ${msg}</a>`;
-          list.appendChild(li);
-        });
-      } catch (err) {
-        console.error(err);
-        document.getElementById("commitsList").innerHTML = `<li>⚠️ تعذر تحميل الكوميتات</li>`;
-      }
+</main>
+
+<button id="back_to_top" title="Back to top">
+  <ion-icon name="chevron-up-outline"></ion-icon>
+</button>
+
+<script>
+async function loadCommits() {
+  try {
+    const res = await fetch("/api/github_commits");
+    const data = await res.json();
+    if (!Array.isArray(data)) throw new Error("Unexpected response");
+
+    const list = document.getElementById("commitsList");
+    list.innerHTML = "";
+
+    const dates = new Set();
+
+    data.forEach(commit => {
+      const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
+      dates.add(date);
+      const msg = commit.commit.message.split("\n")[0];
+      const url = commit.html_url;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="${url}" target="_blank" rel="noopener">
+          <span class="commit-dot"></span>
+          <span class="commit-date">${date}</span>
+          <span class="commit-msg">${escapeHtml(msg)}</span>
+          <ion-icon name="arrow-forward-outline" class="commit-arrow"></ion-icon>
+        </a>`;
+      list.appendChild(li);
+    });
+
+    document.getElementById("statTotal").textContent = data.length;
+    document.getElementById("statDays").textContent = dates.size;
+    document.getElementById("countBadge").textContent = data.length;
+
+    const latest = data[0]?.commit?.author?.date;
+    if (latest) {
+      document.getElementById("statLatest").textContent =
+        new Date(latest).toISOString().slice(0, 10);
     }
-    loadCommits();
-  </script>
 
-  <script src="../js/script.js"></script>
-  <script src="../js/animate.js"></script>
-  <script src="../js/time_ago.js"></script>
+  } catch (err) {
+    console.error(err);
+    document.getElementById("commitsList").innerHTML =
+      `<li><div class="error-row">⚠️ Failed to load commits</div></li>`;
+  }
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+loadCommits();
+
+const btn = document.getElementById("back_to_top");
+window.addEventListener("scroll", () => {
+  btn.classList.toggle("visible", window.scrollY > 400);
+});
+btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+</script>
+
 </body>
 </html>
