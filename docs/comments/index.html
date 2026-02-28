@@ -263,7 +263,7 @@
       margin-top: 2px;
     }
     .reply-bubble {
-      background: var(--surface);
+      /* background: var(--surface); */
       border-radius: 14px;
       padding: 8px 12px;
       display: inline-block;
@@ -476,20 +476,27 @@
       setTimeout(() => alertBox.innerHTML = "", 4000);
     }
 
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      const now = new Date();
-      const seconds = Math.floor((now - date) / 1000);
-      const intervals = {
-        year: 31536000, month: 2592000, day: 86400,
-        hour: 3600, min: 60, second: 1
-      };
-      for (const [unit, value] of Object.entries(intervals)) {
-        const count = Math.floor(seconds / value);
-        if (count >= 1) return `${count} ${count === 1 ? unit : unit + "s"} ago`;
-      }
-      return "just now";
-    }
+    function formatDate(dateValue) {
+  const date = new Date(dateValue);
+  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+
+  if (seconds < 60) return `${seconds}s`;
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days}d`;
+
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months}mo`;
+
+  const years = Math.floor(months / 12);
+  return `${years}y`;
+}
 
     async function getUserData(uid) {
       try {
@@ -544,15 +551,22 @@
           </a>
           <div style="flex:1;min-width:0;">
             <div class="reply-bubble">
-              <div class="reply-author">
-                <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
-                ${userData.verified ? VERIFIED_SVG : ''}
-                ${getRoleIcon(userData.role)}
-              </div>
+
+             <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+  <a href="https://0xdya.vercel.app/@${userData.name}" 
+     target="_blank"
+     style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">
+     ${userData.name}
+  </a>
+  ${userData.verified ? VERIFIED_SVG : ''}
+  ${getRoleIcon(userData.role)}
+  <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
+</div>
+
+
               <div class="reply-text">${d.text}</div>
             </div>
             <div class="reply-meta">
-              <span>${timeStr}</span>
               ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">Delete</button>` : ''}
             </div>
           </div>
@@ -603,15 +617,22 @@
                 <div class="comment-body">
                   ${data.pinned ? `<div class="pin-badge"><ion-icon name="push-outline"></ion-icon> Pinned comment</div>` : ''}
                   <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
-                    <div class="bubble-author">
-                      <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;">${userData.name}</a>
-                      ${userData.verified ? VERIFIED_SVG : ''}
-                      ${getRoleIcon(userData.role)}
-                    </div>
+
+                   <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+  <a href="https://0xdya.vercel.app/@${userData.name}" 
+     target="_blank" 
+     style="color:inherit;font-weight:600;">
+     ${userData.name}
+  </a>
+  ${userData.verified ? VERIFIED_SVG : ''}
+  ${getRoleIcon(userData.role)}
+  <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
+</div>
+
+
                     <div class="bubble-text">${data.text}</div>
                   </div>
                   <div class="comment-meta">
-                    <span class="meta-time">${timeStr}</span>
                     <button class="meta-action reply-toggle-btn" data-id="${commentId}">Reply</button>
                     ${isOwner ? `<button class="meta-action delete" data-id="${commentId}">Delete</button>` : ''}
                   </div>
