@@ -139,7 +139,7 @@
   .commit-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); flex-shrink: 0; width: 82px; }
   .commit-msg { font-size: 13px; color: var(--text-muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.1s; }
   #commitsList li:hover .commit-msg { color: var(--text); }
-  .commit-arrow { color: var(--text-faint); font-size: 14px; flex-shrink: 0; opacity: 0; transition: opacity 0.1s; }
+  .commit-arrow { color: var(--text-faint); font-size: 14px; flex-shrink: 0; opacity: 0; transition: opacity 0.1s; rotate: 180deg;}
   #commitsList li:hover .commit-arrow { opacity: 1; }
 
   .sk { background: var(--bg-3); border-radius: 4px; animation: shimmer 1.5s infinite; }
@@ -206,7 +206,6 @@
       <span>archive</span>
     </div>
     <h1 class="page-title">Commit History</h1>
-    <p class="page-subtitle">Last 100 pushes </p>
   </div>
 
   <div class="table-container">
