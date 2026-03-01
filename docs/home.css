@@ -267,6 +267,7 @@ Rest of styles (unchanged)
 }
 
 .commit-message {
+    padding-right: var(--space-6);
     direction: rtl;
     font-size: var(--text-sm);
     color: var(--text);
@@ -486,7 +487,7 @@ span {
   
   @keyframes footerFade {
     to {
-      opacity: 1;
+      opacity: .8;
       transform: translateY(0);
     }
   }
