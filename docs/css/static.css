@@ -37,13 +37,13 @@ details
 }
 #userPhotoContainer {
     min-width: 48px; 
-    min-height: 36px;
+    min-height: 2px;
     
     img {
         padding: 0 !important;
         margin: 0 !important;
-        width: 24px !important;
-        height: 24px !important;
+        width: 20px !important;
+        height: 20px !important;
         border-radius:50%;object-fit:cover;
     }
   }
