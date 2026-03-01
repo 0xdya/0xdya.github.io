@@ -1,55 +1,83 @@
 name: visite archiver
+
 on:
   schedule:
+    - cron: "0 5 * * *"
     - cron: "0 11 * * *"
-    - cron: "55 22 * * *"
+    - cron: "0 22 * * *"
   workflow_dispatch:
+
 permissions:
   contents: write
+
 env:
   TARGET_BRANCH: stats
   GIT_NAME: "0xdya"
   GIT_EMAIL: "0xdya@proton.me"
   FIREBASE_URL: "https://oxdyaa-default-rtdb.firebaseio.com/visits.json"
+
 jobs:
   commit:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ env.TARGET_BRANCH }}
+
       - name: Make commit
         env:
           PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           git config user.name "${{ env.GIT_NAME }}"
           git config user.email "${{ env.GIT_EMAIL }}"
+
           VISITS=$(curl -s "${{ env.FIREBASE_URL }}" | tr -d '"')
+
           if ! [[ "$VISITS" =~ ^[0-9]+$ ]]; then
             echo "Invalid visits value"
             exit 0
           fi
+
           if [ -f archive.txt ]; then
             LAST_VISITS=$(grep -oE '[0-9]+ visits' archive.txt | tail -n 1 | grep -oE '[0-9]+')
           else
             LAST_VISITS=0
           fi
+
           LAST_VISITS=${LAST_VISITS:-0}
           DIFF=$((VISITS - LAST_VISITS))
+
           FORMATTED_VISITS=$(printf "%'d" "$VISITS")
           FORMATTED_DIFF=$(printf "%'d" "$DIFF")
-          TODAY=$(date -u +"%b %d, %Y")
-          TIME=$(date -u +"%H:%M")
+
+          TODAY=$(TZ=Africa/Algiers date +"%b %d, %Y")
+          CURRENT_HOUR=$(date -u +"%H")
+
+          if [ "$CURRENT_HOUR" = "05" ]; then
+            TIME="06:00"
+          elif [ "$CURRENT_HOUR" = "11" ]; then
+            TIME="12:00"
+          elif [ "$CURRENT_HOUR" = "22" ]; then
+            TIME="23:00"
+          else
+            TIME=$(TZ=Africa/Algiers date +"%H:%M")
+          fi
+
           if [ ! -f archive.txt ]; then
             echo "$TODAY" >> archive.txt
           fi
+
           LAST_DATE=$(grep -E "^[A-Z][a-z]{2} [0-9]{2}, [0-9]{4}$" archive.txt | tail -n 1)
+
           if [ "$TODAY" != "$LAST_DATE" ]; then
             echo "" >> archive.txt
             echo "$TODAY" >> archive.txt
           fi
+
           echo "$TIME => $FORMATTED_VISITS visits (+$FORMATTED_DIFF)" >> archive.txt
+
           git add archive.txt
           git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits)" || exit 0
           git push https://x-access-token:${PERSONAL_TOKEN}@github.com/${{ github.repository }}.git ${{ env.TARGET_BRANCH }}
