@@ -19,7 +19,7 @@
 
     .login_terminal {
       background-color: #000;
-      max-width: 380px;
+      max-width: 320px;
       margin: 0 auto;
       border: 1px solid beige;
       padding: 20px;
@@ -39,7 +39,7 @@
       justify-content: center;
       gap: 10px;
       width: 100%;
-      max-width: 380px;
+      max-width: 312px;
       padding: 12px 24px;
       background: #0d0d0d;
       color: #e8e8e8;
@@ -194,6 +194,14 @@
         font-size: 0.9rem;
         padding: 10px 14px;
       }
+    }
+    @media (min-width: 600px) {
+      .login_terminal {
+      max-width: 420px;
+    }
+    button {
+      max-width: 412px;
+    }
     }
 
     #sendLoginLink {
