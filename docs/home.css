@@ -78,6 +78,11 @@ body::before {
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+
     max-width: 720px;
     margin-inline: auto;
     padding-inline: var(--space-6);
@@ -159,6 +164,7 @@ Rest of styles (unchanged)
     font-weight: 400;
     opacity: .8;
     font-size: var(--text-sm);
+    text-indent: var(--space-3);
     text-align: justify;
 }
 
@@ -196,6 +202,7 @@ Rest of styles (unchanged)
     border-radius: 8px;
     padding: var(--space-3);
     transition: border-color .2s, background .2s;
+    position: relative;
 }
 
 .identity-chip:hover {
@@ -220,6 +227,7 @@ Rest of styles (unchanged)
 }
 
 .commit-card {
+    position: relative;
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: var(--space-4) var(--space-5);
@@ -300,7 +308,9 @@ Rest of styles (unchanged)
     cursor: pointer;
     transition: color .2s, gap .2s;
     padding: 0;
-    position: relative;
+    position: absolute;
+    right: var(--space-1);
+    bottom: var(--space-2);
 }
 
 .btn::after {
@@ -323,11 +333,22 @@ Rest of styles (unchanged)
     width: 100%;
 }
 
-.btn .icon {
-    /*   rotate: 180deg; */
+.icon {
     transition: transform .2s ease;
-    animation: nudge 1.4s ease-in-out infinite;
-}
+    animation: nudge 2s ease-in-out infinite;
+  }
+
+  @keyframes nudge {
+    0%, 100% {
+      transform: translateX(0);
+      opacity: .6;
+    }
+    50% {
+      transform: translateX(-4px);
+      opacity: 1;
+    }
+  }
+  
 
 .btn:hover .icon {
     animation: none;
@@ -340,17 +361,7 @@ Rest of styles (unchanged)
     color: var(--dim);
 }
 
-@keyframes nudge {
 
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    50% {
-        transform: translateX(-5px);
-    }
-}
 
 
 
@@ -457,3 +468,23 @@ span {
         display: none;
 }
 }
+
+.footer {
+    position: absolute;
+    bottom: var(--space-9);
+    font-size: var(--text-sm);
+    font-family: "JetBrains Mono", monospace;
+  
+    opacity: 0;
+    transform: translateY(20px);
+    animation: footerFade 0.8s ease forwards;
+    animation-delay: 1.2s;
+  }
+  
+  @keyframes footerFade {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
