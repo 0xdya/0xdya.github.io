@@ -267,6 +267,7 @@ Rest of styles (unchanged)
 }
 
 .commit-message {
+    direction: rtl;
     font-size: var(--text-sm);
     color: var(--text);
     /* white-space: nowrap; */
@@ -479,6 +480,8 @@ span {
     transform: translateY(20px);
     animation: footerFade 0.8s ease forwards;
     animation-delay: 1.2s;
+
+    z-index: 8;
   }
   
   @keyframes footerFade {
