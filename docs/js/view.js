@@ -32,10 +32,9 @@ async function initVisits() {
     await runTransaction(visitsRef, (current) => (current || 0) + 1);
     localStorage.setItem('lastVisit', now);
   }
-
   const snapshot = await get(visitsRef);
   const count = snapshot.exists() ? snapshot.val() : 0;
-  document.getElementById("counter").innerText = `${count}`;
+  document.getElementById("counter").innerText = count.toLocaleString('en-US');
 }
 
 async function fetchCounts() {
@@ -44,8 +43,9 @@ async function fetchCounts() {
     getCountFromServer(collection(firestore, "comments"))
   ]);
 
-  document.getElementById("users_count").innerText = `${usersSnap.data().count}`;
-  document.getElementById("comments_count").innerText = `${commentsSnap.data().count}`;
+  document.getElementById("users_count").innerText = usersSnap.data().count.toLocaleString('en-US');
+  
+  document.getElementById("comments_count").innerText = commentsSnap.data().count.toLocaleString('en-US');
 }
 
 initVisits();
