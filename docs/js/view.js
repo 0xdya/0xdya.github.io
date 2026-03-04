@@ -60,8 +60,14 @@ async function fetchLastLogin(userId) {
   if (!lastLogin?.toDate) return;
 
   const diffSec = Math.floor((new Date() - lastLogin.toDate()) / 1000);
-  const text = diffSec < 300 ? "🟢 online" : `⚪ last  seen ${formatTimeAgo(diffSec)}`;
-  document.getElementById("lastOnline").innerText = text;
+const isOnline = diffSec < 300;
+
+const statusHTML = isOnline 
+  ? `<div class="dot on"></div> Online` 
+  : `<div class="dot off"></div> last seen ${formatTimeAgo(diffSec)}`;
+
+const statusContainer = document.getElementById("lastOnline");
+statusContainer.innerHTML = statusHTML;
 }
 
 function formatTimeAgo(sec) {
