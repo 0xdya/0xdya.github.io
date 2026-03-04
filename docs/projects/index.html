@@ -158,21 +158,6 @@
       opacity: .8;
     }
 
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .dot.on {
-      background: #4caf82;
-      box-shadow: 0 0 6px rgba(76, 175, 130, .4);
-    }
-
-    .dot.off {
-      background: var(--dim);
-    }
 
     .card-desc {
       font-size: .84rem;
@@ -269,12 +254,13 @@
       transition: transform .35s;
     }
 
-    .paint-item:hover img {
+    /* .paint-item:hover img {
       transform: scale(1.04);
-    }
+    } */
 
     .paint-item .caption {
-      position: absolute;
+      display: none;
+      /* position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
@@ -284,12 +270,12 @@
       color: var(--muted);
       font-family: "JetBrains Mono", monospace;
       opacity: 0;
-      transition: opacity .2s;
+      transition: opacity .2s; */
     }
 
-    .paint-item:hover .caption {
+    /* .paint-item:hover .caption {
       opacity: 1;
-    }
+    } */
 
 
     .books-row {
@@ -367,11 +353,57 @@
       display: block;
     }
 
-    @media (max-width: 400px) {
+    @media (min-width: 600px) {
       .paint-grid {
-        columns: 1;
+        columns: 3;
       }
     }
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn .2s ease;
+}
+
+.image-modal.active {
+  display: flex;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  animation: zoomIn .2s ease;
+}
+
+.close-modal {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
   </style>
 </head>
 
@@ -866,6 +898,33 @@
     </nav>
   </div>
 
+<div class="image-modal" id="imageModal">
+  <span class="close-modal" id="closeModal">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+<script>
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeModal = document.getElementById("closeModal");
+  
+  document.querySelectorAll(".paint-item img").forEach(img => {
+    img.addEventListener("click", () => {
+      modal.classList.add("active");
+      modalImg.src = img.src;
+    });
+  });
+  
+  closeModal.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+  
+  modal.addEventListener("click", (e) => {
+    if (e.target !== modalImg) {
+      modal.classList.remove("active");
+    }
+  });
+  </script>
+  
   <script>
     const tabs = document.querySelectorAll('.tab');
     const cards = document.querySelectorAll('#cards .card');
