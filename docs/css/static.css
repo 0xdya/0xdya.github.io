@@ -4,10 +4,14 @@
     --text: #e8e8e8;
     --muted: #888;
     --dim: #555;
-    --accent: #c8b560;
-    --accent-dim: rgba(200, 181, 96, .12);
-    --border: rgba(255, 255, 255, .07);
+    --accent: #d0d0d0;
+    --accent-dim: rgba(208, 208, 208, .08);
+    --border: rgba(255, 255, 255, .09);
+    --border-hover: rgba(255, 255, 255, .18);
+    --link: #8e7fc4;
     --card-bg: rgba(255, 255, 255, .025);
+
+
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 12px;
@@ -17,6 +21,7 @@
     --space-7: 48px;
     --space-8: 64px;
     --space-9: 96px;
+
     --text-xs: .78rem;
     --text-sm: .88rem;
     --text-base: 1.02rem;
@@ -149,3 +154,27 @@ body {
 
 
     a { text-decoration: none;  }
+
+
+    #lastOnline {
+        display: inline-flex;
+        align-items: center; 
+        gap: 6px;       
+        font-family: sans-serif;
+      }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+  
+      .dot.on {
+        background: #4caf82;
+        box-shadow: 0 0 6px rgba(76, 175, 130, .4);
+      }
+  
+      .dot.off {
+        background: var(--dim);
+      }
