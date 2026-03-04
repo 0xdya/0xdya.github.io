@@ -22,11 +22,11 @@
     --space-8: 64px;
     --space-9: 96px;
 
-    --text-xs: .78rem;
-    --text-sm: .88rem;
-    --text-base: 1.02rem;
-    --text-lg: 1.2rem;
-    --text-xl: 1.55rem;
+    --text-xs:   0.78rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.2rem;
+    --text-xl:   1.45rem;
 }
 
 /* ======================================================

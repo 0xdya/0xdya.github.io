@@ -64,7 +64,14 @@ body::before {
 
 header {
     padding-top: var(--space-7);
-    margin-bottom: var(--space-7);
+    /* margin-bottom: var(--space-7); */
+}
+.section {
+    /* margin-bottom: var(--space-7); */
+}
+
+.hero {
+    margin: var(--space-7) 0 var(--space-8);
 }
 
 .header-inner {
@@ -109,22 +116,19 @@ header {
 }
 
 .subtitle {
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     color: var(--muted);
     font-weight: 300;
 }
 
-.hero {
-    margin-bottom: var(--space-9);
-}
 
 .description {
     max-width: 600px;
     margin-bottom: var(--space-1);
     color: var(--text);
     font-weight: 400;
-    /* opacity: .9; */
-    font-size: var(--text-sm);
+    opacity: .9;
+    font-size: var(--text-base);
     text-indent: var(--space-3);
     text-align: justify;
 }
@@ -134,15 +138,12 @@ header {
     font-weight: 400;
 }
 
-.section {
-    margin-bottom: var(--space-9);
-}
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
 }
 
 .section-title {
@@ -159,11 +160,13 @@ header {
 }
 
 .identity-chip {
+    opacity: .9 !important;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: var(--space-3);
     transition: border-color .2s, background .2s;
     position: relative;
+    line-height: 1.4;
 }
 
 .identity-chip:hover {
@@ -174,16 +177,14 @@ header {
 .chip-label {
     font-size: var(--text-xs);
     color: var(--dim);
-
     display: block;
     margin-bottom: var(--space-1);
 }
 
 .chip-value {
-    font-size: 1.35rem;
+    font-size: var(--text-lg);
     color: var(--text);
     font-weight: 400;
-
     letter-spacing: -.02em;
 }
 
@@ -259,6 +260,7 @@ header {
 }
 
 .btn {
+    /* opacity: 1 !important; */
     color: var(--muted);
     height: 40px;
     display: inline-flex;
@@ -272,7 +274,7 @@ header {
     padding: 0;
     position: absolute;
     right: var(--space-1);
-    bottom: var(--space-2);
+    bottom: var(--space-1);
 }
 
 .btn::after {
