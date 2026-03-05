@@ -283,6 +283,7 @@
       }
       return 'just now';
     }
+
     async function loadLatestCommit() {
       try {
         const res = await fetch('/api/github_commits');
@@ -292,8 +293,8 @@
         const message = latest.commit.message;
         const date = new Date(latest.commit.author.date);
         document.getElementById("commit-msg").textContent = message;
-        document.getElementById("commit-auth").textContent =
-          latest.author ? latest.author.login : latest.commit.author.name;
+        // document.getElementById("commit-auth").textContent =
+        //   latest.author ? latest.author.login : latest.commit.author.name;
         document.getElementById("commit-time").textContent = date.toLocaleString("en-US", {
           year: "numeric", month: "2-digit", day: "2-digit"
         });
