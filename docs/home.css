@@ -329,6 +329,12 @@ span {
     position: relative;
 }
 
+
+.commit-repo {
+        display: none;
+}
+
+
 @media (max-width: 640px) {
     .container {
         padding-inline: var(--space-4);
@@ -348,10 +354,6 @@ span {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .commit-time,
-    .commit-repo {
-        display: none;
-    }
 
     .mc-head-wrap {
         width: 80px;
