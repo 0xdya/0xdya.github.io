@@ -127,9 +127,9 @@ header {
     margin-bottom: var(--space-1);
     color: var(--text);
     line-height: 1.6;
-    opacity: .9;
+    opacity: .8;
     font-size: var(--text-sm);
-    font-weight: 600;
+    font-weight: 800;
     text-indent: var(--space-4);
     text-align: justify;
 }
@@ -153,6 +153,7 @@ header {
     font-size: var(--text-sm);
     color: var(--dim);
     text-transform: uppercase;
+    opacity: .8 !important;
 }
 
 .identity-grid {
