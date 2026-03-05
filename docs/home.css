@@ -126,12 +126,30 @@ header {
     max-width: 600px;
     margin-bottom: var(--space-1);
     color: var(--text);
-    line-height: 1.6;
-    opacity: .8;
-    font-size: var(--text-sm);
+    line-height: 1.8;
+    opacity: .75;
+    font-size: var(--text-base);
     font-weight: 800;
     text-indent: var(--space-4);
-    text-align: justify;
+    /* text-align: justify; */
+}
+
+
+.pill {
+    color:#9b87f5;
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: var(--text-sm);
+    vertical-align: middle;
+    backdrop-filter: blur(6px);
+    transition: border-color .2s, background .2s;
+}
+
+.pill:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.07);
 }
 
 .highlight {
@@ -262,6 +280,7 @@ header {
 
     flex-shrink: 0;
 }
+
 
 .btn {
     /* opacity: 1 !important; */
