@@ -111,14 +111,14 @@ header {
 .logo {
     font-size: var(--text-xl);
     color: var(--text);
-    font-weight: 400;
+    font-weight: 600;
     letter-spacing: -.01em;
 }
 
 .subtitle {
     font-size: var(--text-base);
     color: var(--muted);
-    font-weight: 300;
+    font-weight: 500;
 }
 
 
@@ -126,16 +126,19 @@ header {
     max-width: 600px;
     margin-bottom: var(--space-1);
     color: var(--text);
-    font-weight: 400;
+    line-height: 1.6;
     opacity: .9;
-    font-size: var(--text-base);
-    text-indent: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-indent: var(--space-4);
     text-align: justify;
 }
 
 .highlight {
-    color: var(--link);
-    font-weight: 400;
+  color:#9b87f5;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 
