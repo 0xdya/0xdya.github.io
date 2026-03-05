@@ -285,26 +285,31 @@
     }
 
     async function loadLatestCommit() {
-      try {
-        const res = await fetch('/api/github_commits');
-        if (!res.ok) throw new Error('فشل جلب الكوميتات');
-        const commits = await res.json();
-        const latest = commits[0];
-        const message = latest.commit.message;
-        const date = new Date(latest.commit.author.date);
-        document.getElementById("commit-msg").textContent = message;
-        // document.getElementById("commit-auth").textContent =
-        //   latest.author ? latest.author.login : latest.commit.author.name;
-        document.getElementById("commit-time").textContent = date.toLocaleString("en-US", {
-          year: "numeric", month: "2-digit", day: "2-digit"
-        });
-        const timeAgoElem = document.querySelector(".time_ago");
-        if (timeAgoElem) timeAgoElem.textContent = timeAgo(date);
-      } catch (err) {
-        console.error(err);
-        document.getElementById("commit-msg").textContent = "Failed to load commit";
-      }
-    }
+  try {
+    const res = await fetch('/api/github_commits');
+    if (!res.ok) throw new Error("Fetch failed");
+
+    const data = await res.json();
+    const latest = data.commit;
+
+    if (!latest) throw new Error("No commit found");
+
+    const message = latest.commit.message;
+    const date = new Date(latest.commit.author.date);
+
+    document.getElementById("commit-msg").textContent = message;
+    document.getElementById("commit-time").textContent =
+      date.toLocaleDateString("en-US");
+
+    const timeAgoElem = document.querySelector(".time_ago");
+    if (timeAgoElem) timeAgoElem.textContent = timeAgo(date);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("commit-msg").textContent = "Failed to load commit";
+  }
+}
+
     loadLatestCommit();
   </script>
   <script type="module" src="./js/view.js"></script>
