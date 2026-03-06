@@ -71,7 +71,7 @@ header {
 }
 
 .hero {
-    margin: var(--space-7) 0 var(--space-8);
+    margin: var(--space-5) 0 var(--space-8) !important;
 }
 
 .header-inner {
@@ -130,7 +130,6 @@ header {
     opacity: .8;
     font-size: var(--text-base);
     text-indent: var(--space-4);
-    text-align: justify; 
 }
 
 
