@@ -126,10 +126,9 @@ header {
     max-width: 600px;
     margin-bottom: var(--space-1);
     color: var(--text);
-    line-height: 1.8;
-    opacity: .75;
-    font-size: var(--text-sm);
-    font-weight: 800;
+    line-height: 1.6;
+    opacity: .8;
+    font-size: var(--text-base);
     text-indent: var(--space-4);
     text-align: justify; 
 }
@@ -153,10 +152,10 @@ header {
 }
 
 .highlight {
-  color:#9b87f5;
-  text-decoration: underline;
+  color:#D08770;
+/* text-decoration: underline; */
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
 }
 
 
@@ -214,7 +213,7 @@ header {
     position: relative;
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: var(--space-4) var(--space-5);
+    padding: var(--space-3) var(--space-5);
     display: flex;
     gap: var(--space-4);
     transition: border-color .2s, background .2s;
@@ -387,6 +386,10 @@ span {
         width: 80px !important;
         height: 80px !important;
     }
+    .commit-message {
+    padding-right: var(--space-3);
+}
+
 }
 
 @media (min-width: 1200px) {
