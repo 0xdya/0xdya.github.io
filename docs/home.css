@@ -21,7 +21,7 @@ body::before {
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
     background-size: 58px 58px;
     mask-image: radial-gradient(600px 600px at top right, black 0%, transparent 60%);
- /* animation: move-grid 160s linear infinite;*/
+    animation: move-grid 160s linear infinite;
 
 }
 
@@ -66,6 +66,7 @@ header {
     padding-top: var(--space-7);
     /* margin-bottom: var(--space-7); */
 }
+
 .section {
     /* margin-bottom: var(--space-7); */
 }
@@ -134,7 +135,7 @@ header {
 
 
 .pill {
-    color:#9b87f5;
+    color: #9b87f5;
     padding: 2px 6px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 999px;
@@ -151,10 +152,10 @@ header {
 }
 
 .highlight {
-  color:#D08770;
-/* text-decoration: underline; */
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+    color: #D08770;
+    /* text-decoration: underline; */
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
 }
 
 
@@ -352,7 +353,7 @@ span {
 
 
 .commit-repo {
-        display: none;
+    display: none;
 }
 
 
@@ -385,9 +386,10 @@ span {
         width: 80px !important;
         height: 80px !important;
     }
+
     .commit-message {
-    padding-right: var(--space-3);
-}
+        padding-right: var(--space-3);
+    }
 
 }
 
