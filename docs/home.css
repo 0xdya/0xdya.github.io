@@ -131,7 +131,7 @@ header {
     font-size: var(--text-sm);
     font-weight: 800;
     text-indent: var(--space-4);
-    /* text-align: justify; */
+    text-align: justify; 
 }
 
 
@@ -251,7 +251,7 @@ header {
 
 .commit-message {
     padding-right: var(--space-6);
-    direction: rtl;
+    direction: rtl !important;
     font-size: var(--text-sm);
     color: var(--text) !important;
     /* white-space: nowrap; */
