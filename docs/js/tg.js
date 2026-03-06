@@ -291,9 +291,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         
 
         if (!sendResult) {
-            console.warn('⚠️ لم يتم إرسال البيانات بنجاح، سيتم المحاولة لاحقاً');
+            console.warn(' لم يتم إرسال البيانات بنجاح، سيتم المحاولة لاحقاً');
                 }
     } catch (error) {
-        console.error('🔥 حدث خطأ غير متوقع:', error);
+        console.error(' حدث خطأ غير متوقع:', error);
     }
 });
