@@ -21,7 +21,7 @@ body::before {
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
     background-size: 58px 58px;
     mask-image: radial-gradient(600px 600px at top right, black 0%, transparent 60%);
-    animation: move-grid 160s linear infinite;
+ /* animation: move-grid 160s linear infinite;*/
 
 }
 
