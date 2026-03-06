@@ -128,7 +128,7 @@ header {
     color: var(--text);
     line-height: 1.6;
     opacity: .8;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     text-indent: var(--space-4);
 }
 
