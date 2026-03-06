@@ -128,7 +128,7 @@ header {
     color: var(--text);
     line-height: 1.8;
     opacity: .75;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-weight: 800;
     text-indent: var(--space-4);
     /* text-align: justify; */
@@ -141,7 +141,7 @@ header {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.04);
-    font-size: var(--text-sm);
+    font-size: var(--text-xm);
     vertical-align: middle;
     backdrop-filter: blur(6px);
     transition: border-color .2s, background .2s;
