@@ -31,9 +31,6 @@
     *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
 
     body {
-      /* display: flex;
-      justify-content: center;
-      align-items: center; */
       background: var(--bg);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
@@ -41,10 +38,10 @@
       min-height: 100dvh;
       max-width: 600px;
     }
-    main{
+    main {
       min-height: 100dvh;
-  border: 1px solid var(--border2); 
-}
+      border: 1px solid var(--border2);
+    }
 
     #loading {
       display: flex; justify-content: center;
@@ -94,6 +91,7 @@
       background: var(--surface2);
       overflow: hidden;
       flex-shrink: 0;
+      position: relative;
     }
     .avatar-wrap.owner { cursor: pointer; }
     #photoPreview { width:100%; height:100%; object-fit:cover; display:block; }
@@ -103,7 +101,6 @@
       display: flex; align-items: center; justify-content: center;
       opacity: 0; transition: opacity .2s;
     }
-    .avatar-wrap { position: relative; }
     .avatar-wrap.owner:hover .avatar-overlay { opacity: 1; }
     .avatar-overlay ion-icon { color:#fff; font-size:24px; }
 
@@ -141,7 +138,6 @@
     .profile-body { padding: 12px 16px 20px; }
 
     .name-row {
-      vertical-align: middle;
       display: flex; align-items: center;
       gap: 6px; flex-wrap: wrap; margin-bottom: 2px;
     }
@@ -149,14 +145,8 @@
       font-size: 20px; font-weight: 700;
       color: var(--accent); letter-spacing: -.3px;
     }
-
-    .role-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 20px; height: 20px; border-radius: 50%;
-      font-size: 11px; font-weight: 700;
-      flex-shrink: 0;
-    }
-    .role-badge img      { width:14px; height:14px; }
+    #roleIcons { display: flex; gap: 8px; }
+    .role-badge img { width:14px; height:14px; }
 
     .handle {
       display: none;
@@ -172,12 +162,12 @@
 
     .stats-row {
       display: flex; gap: 20px;
-      margin: 12px 0;
-       flex-wrap: wrap;
+      margin: 12px 0; flex-wrap: wrap;
     }
-    .stat-item, a {
+    .stat-item, .stat-item a {
       font-size: 14px; color: var(--muted);
       display: flex; align-items: center; gap: 5px;
+      text-decoration: none;
     }
     .stat-item .val { color: var(--text); font-weight: 700; }
     .stat-item ion-icon { font-size: 14px; }
@@ -191,11 +181,6 @@
     #statusEl.online { color: var(--green); }
 
     .divider { height:1px; background:var(--border2); margin:16px 0; }
-
-    .section-label {
-      font-size: 11px; text-transform: uppercase;
-      letter-spacing: 2px; color: var(--muted); margin-bottom: 12px;
-    }
 
     .social-links { display:flex; flex-wrap:wrap; gap:8px; }
     .link_card {
@@ -245,7 +230,11 @@
     }
     .social-add-row select:focus, .social-add-row input:focus { border-color:var(--blue); }
     .social-add-row select option { background:#111; }
-    .btn-add { padding:9px 16px; background:var(--text); color:#000; border:none; border-radius:20px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+    .btn-add {
+      padding:9px 16px; background:var(--text); color:#000;
+      border:none; border-radius:20px; font-family:inherit;
+      font-size:13px; font-weight:700; cursor:pointer;
+    }
     .btn-add:hover { background:#d7d7d7; }
     .btn-save-all {
       width:100%; padding:11px; background:var(--text); color:#000;
@@ -264,21 +253,30 @@
     }
     #syncPhotoBtn:hover { border-color:var(--blue); color:var(--blue); }
 
-    .upload-bar-wrap { display:none; height:3px; background:var(--surface3); border-radius:3px; overflow:hidden; margin-bottom:10px; }
+    /* Upload progress */
+    .upload-bar-wrap {
+      display:none; height:3px; background:var(--surface3);
+      border-radius:3px; overflow:hidden; margin-bottom:10px;
+    }
     .upload-bar { height:100%; background:var(--blue); width:0%; transition:width .3s; }
 
+    /* Upload hint shown in edit mode */
+    .upload-hint {
+      display: none;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .upload-hint.visible { display: block; }
+
     #bannerFileInput, #avatarFileInput { display:none; }
+
+    hr { margin: 1rem 0; border-color: var(--border2); }
 
     .navbar_section {
       position:fixed; bottom:0; left:50%; transform:translateX(-50%);
       width:100%; max-width:600px; z-index:100;
-    }
-    #roleIcons{
-      display: flex;
-      gap: 8px;
-    }
-    hr{
-      margin: 1rem 0;
     }
   </style>
 </head>
@@ -288,15 +286,15 @@
   <div id="msgBox"></div>
   <input type="file" id="bannerFileInput" accept="image/*"/>
   <input type="file" id="avatarFileInput" accept="image/*"/>
-  
+
   <div id="profileContainer">
-  
+
     <!-- Banner -->
     <div class="banner-wrap" id="bannerWrap">
       <img id="bannerImg" alt=""/>
       <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> change banner</div>
     </div>
-  
+
     <!-- Avatar row -->
     <div class="avatar-row">
       <div class="avatar-wrap" id="avatarWrap">
@@ -308,21 +306,19 @@
         <button class="btn-x btn-x-danger"  id="logoutBtn">Logout</button>
       </div>
     </div>
-  
+
     <!-- Body -->
     <div class="profile-body">
-  
+
       <div class="name-row">
         <span class="username" id="currentName"></span>
         <div id="roleIcons"></div>
       </div>
       <div id="statusEl"><span class="dot"></span><span id="statusText">—</span></div>
       <div class="handle" id="handleEl"></div>
-  
-  
+
       <div id="displayBioInput"></div>
-  
-      <!-- Stats row -->
+
       <div class="stats-row">
         <div class="stat-item" id="statJoined">
           <ion-icon name="calendar-outline"></ion-icon>
@@ -330,26 +326,31 @@
         </div>
         <div class="stat-item" id="statComments">
           <ion-icon name="chatbubble-outline"></ion-icon>
-          <p>comments: <span class="val">—</span></p>
+          <span>comments: <span class="val">—</span></span>
         </div>
       </div>
-  <hr>
-      <!-- Socials -->
+
+      <hr>
+
       <div id="socialLinks" class="social-links"></div>
-  
+
       <!-- Edit panel -->
       <div id="edit_section">
         <button id="syncPhotoBtn">🔄 sync avatar from Google</button>
+
         <div class="upload-bar-wrap" id="uploadBarWrap">
           <div class="upload-bar" id="uploadBar"></div>
         </div>
-  
+        <p class="upload-hint" id="uploadHint">
+          💡 click on banner or avatar above to change them
+        </p>
+
         <p class="edit-label">username</p>
         <input type="text" id="displayNameInput" class="edit-field" placeholder="new username"/>
-  
+
         <p class="edit-label">bio</p>
         <textarea id="bioInput" class="edit-field" rows="3" placeholder="write something..."></textarea>
-  
+
         <p class="edit-label">add social link</p>
         <div class="social-add-row">
           <select id="platformSelect">
@@ -364,52 +365,13 @@
           <input type="text" id="socialUsernameInput" placeholder="username"/>
           <button class="btn-add" id="saveSocialBtn">add</button>
         </div>
-  
+
         <button class="btn-save-all" id="saveAllBtn">Save changes</button>
       </div>
-  
+
     </div>
   </div>
 </main>
-
-<!-- Navbar -->
-<!-- <div class="navbar_section">
-  <nav class="navbar">
-    <a href="../" class="nav-item">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg><span class="nav-text">Home</span>
-    </a>
-    <a href="../projects/" class="nav-item">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-      </svg><span class="nav-text">Projects</span>
-    </a>
-    <a href="../blog/" class="nav-item">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-      </svg><span class="nav-text">Articles</span>
-    </a>
-    <a href="../contact/" class="nav-item">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg><span class="nav-text">Contact</span>
-    </a>
-  </nav>
-  <nav class="navbar">
-    <a href="../comments/" class="nav-item">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg><span class="nav-text">Comments</span>
-    </a>
-    <div class="user_photo" id="userPhotoContainer"></div>
-  </nav>
-</div> -->
 
 <script type="module">
   import { initializeApp }  from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -420,10 +382,8 @@
   import {
     getAuth, onAuthStateChanged, signOut, updateProfile
   } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-  import {
-    getStorage, ref as sRef, uploadBytesResumable, getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
 
+  const IMGBB_KEY = "74df1d7df65c908780380624ae8a9370";
   const cfg = {
     apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
     authDomain: "oxdyaa.firebaseapp.com",
@@ -433,10 +393,9 @@
     appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
   };
 
-  const app     = initializeApp(cfg);
-  const auth    = getAuth(app);
-  const db      = getFirestore(app);
-  const storage = getStorage(app);
+  const app  = initializeApp(cfg);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
 
   const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -474,6 +433,7 @@
   const avatarFile       = $("avatarFileInput");
   const uploadBarWrap    = $("uploadBarWrap");
   const uploadBar        = $("uploadBar");
+  const uploadHint       = $("uploadHint");
 
   const showMessage = msg => {
     loadingEl.style.display = "none";
@@ -510,13 +470,53 @@
   function getRoleBadges(data) {
     let html = "";
     if (data.verified)
-      html += `<img src="https://0xdya.vercel.app/badges/verf.svg" class="role-badge">`;
+      html += `<img src="https://0xdya.vercel.app/badges/verf.svg" style="width:14px;height:14px">`;
     if (data.role === "owner")
-      html += `<img src="https://0xdya.vercel.app/badges/server-owner.svg" class="role-badge">`;
+      html += `<img src="https://0xdya.vercel.app/badges/server-owner.svg" style="width:14px;height:14px">`;
     if (data.role === "QA-tester")
-      html += `<img src="https://0xdya.vercel.app/badges/bug-hunter-lv1.svg" class="role-badge">`;
-
+      html += `<img src="https://0xdya.vercel.app/badges/bug-hunter-lv1.svg" style="width:14px;height:14px">`;
     return html;
+  }
+
+  // ── Image compress ────────────────────────────────────────────────
+  function compressImage(file, maxWidth, quality) {
+    return new Promise(resolve => {
+      const canvas = document.createElement("canvas");
+      const img    = new Image();
+      img.onload = () => {
+        const scale   = Math.min(1, maxWidth / img.width);
+        canvas.width  = img.width  * scale;
+        canvas.height = img.height * scale;
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        URL.revokeObjectURL(img.src);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  async function uploadToImgBB(file, maxWidth, quality) {
+    const base64    = await compressImage(file, maxWidth, quality);
+    const base64Raw = base64.split(",")[1];
+
+    const form = new FormData();
+    form.append("image", base64Raw);
+    form.append("key",   IMGBB_KEY);
+
+    uploadBarWrap.style.display = "block";
+    uploadBar.style.width       = "40%";
+
+    const res  = await fetch("https://api.imgbb.com/1/upload", { method:"POST", body:form });
+    const data = await res.json();
+
+    uploadBar.style.width       = "100%";
+    setTimeout(() => {
+      uploadBarWrap.style.display = "none";
+      uploadBar.style.width       = "0%";
+    }, 400);
+
+    if (!data.success) throw new Error(data.error?.message || "ImgBB upload failed");
+    return data.data.url;
   }
 
   function applyNavUI(photo, name) {
@@ -536,37 +536,18 @@
       .replace(/\s+/g,"_").replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g,"");
   });
 
-  function uploadImage(file, path) {
-    return new Promise((resolve, reject) => {
-      const task = uploadBytesResumable(sRef(storage, path), file);
-      uploadBarWrap.style.display = "block";
-      task.on("state_changed",
-        s => { uploadBar.style.width = (s.bytesTransferred/s.totalBytes*100)+"%"; },
-        e => { uploadBarWrap.style.display="none"; reject(e); },
-        async () => {
-          const url = await getDownloadURL(task.snapshot.ref);
-          uploadBarWrap.style.display="none"; uploadBar.style.width="0%";
-          resolve(url);
-        }
-      );
-    });
-  }
-
   onAuthStateChanged(auth, async user => {
     applyNavUI(user?.photoURL, user?.displayName);
     try {
       if (!user && usernameFromURL === "profile") {
-        showMessage(`⚠️ please <a href='../login/' style='color:#1d9bf0'>login</a> first.`);
-        return;
+        showMessage(`⚠️ please <a href='../login/' style='color:#1d9bf0'>login</a> first.`); return;
       }
       if (user && usernameFromURL === "profile") {
         const snap = await getDoc(doc(db,"users",user.uid));
         if (snap.exists() && snap.data().name) {
-          window.location.replace(`?user=${encodeURIComponent(snap.data().name)}`);
-          return;
+          window.location.replace(`?user=${encodeURIComponent(snap.data().name)}`); return;
         }
-        showMessage(`⚠️ profile not set up. <a href='../login/' style='color:#1d9bf0'>go to login</a>`);
-        return;
+        showMessage(`⚠️ profile not set up. <a href='../login/' style='color:#1d9bf0'>go to login</a>`); return;
       }
       loadProfile(user);
     } catch(e) {
@@ -595,7 +576,6 @@
         : (data.photo || "../img/user.jpg");
 
       showProfile();
-
       roleIconsEl.innerHTML = getRoleBadges(data);
 
       if (data.lastLogin?.toDate) {
@@ -614,8 +594,10 @@
       getDocs(query(collection(db,"comments"), where("uid","==",uid)))
         .then(snap => {
           statComments.innerHTML = `
-            <a href="../comments/"><ion-icon name="chatbubble-outline"></ion-icon>
-            <span>comments: <span class="val">${snap.size}</span> </span> </a>`;
+            <ion-icon name="chatbubble-outline"></ion-icon>
+            <a href="../comments/" style="color:inherit;text-decoration:none">
+              comments: <span class="val">${snap.size}</span>
+            </a>`;
         })
         .catch(e => console.error("comments count:", e));
 
@@ -668,40 +650,53 @@
       bannerWrap.classList.add("owner");
       avatarWrap.classList.add("owner");
 
-      bannerWrap.addEventListener("click", () => { if(isEditing) bannerFile.click(); });
-      avatarWrap.addEventListener("click", () => { if(isEditing) avatarFile.click(); });
+      bannerWrap.addEventListener("click", () => { bannerFile.click(); });
+      avatarWrap.addEventListener("click", () => { avatarFile.click(); });
 
       bannerFile.addEventListener("change", async () => {
         const file = bannerFile.files[0]; if(!file) return;
-        if(file.size > 5*1024*1024) { alert("❌ max 5MB"); return; }
+        if(file.size > 10*1024*1024) { alert("❌ file too large (max 10MB)"); return; }
         try {
-          saveAllBtn.disabled=true;
-          const url = await uploadImage(file,`banners/${uid}`);
-          await setDoc(doc(db,"users",uid),{banner:url},{merge:true});
-          bannerImg.src=url; saveAllBtn.disabled=false;
+          saveAllBtn.disabled = true;
+          const url = await uploadToImgBB(file, 1200, 0.75);
+          await setDoc(doc(db,"users",uid), {banner:url}, {merge:true});
+          bannerImg.src       = url;
+          saveAllBtn.disabled = false;
           alert("✅ banner updated!");
-        } catch(e) { saveAllBtn.disabled=false; alert("❌ "+e.code); }
+        } catch(e) {
+          saveAllBtn.disabled = false;
+          alert("❌ upload failed: " + e.message);
+        } finally {
+          bannerFile.value = "";
+        }
       });
 
       avatarFile.addEventListener("change", async () => {
         const file = avatarFile.files[0]; if(!file) return;
-        if(file.size > 3*1024*1024) { alert("❌ max 3MB"); return; }
+        if(file.size > 10*1024*1024) { alert("❌ file too large (max 10MB)"); return; }
         try {
-          saveAllBtn.disabled=true;
-          const url = await uploadImage(file,`avatars/${uid}`);
-          await updateProfile(currentUser,{photoURL:url});
-          await setDoc(doc(db,"users",uid),{photo:url},{merge:true});
-          photoPreview.src=url; saveAllBtn.disabled=false;
+          saveAllBtn.disabled = true;
+          // 300x300, 85% quality
+          const url = await uploadToImgBB(file, 300, 0.85);
+          await updateProfile(currentUser, {photoURL:url});
+          await setDoc(doc(db,"users",uid), {photo:url}, {merge:true});
+          photoPreview.src    = url;
+          saveAllBtn.disabled = false;
           alert("✅ avatar updated!");
-        } catch(e) { saveAllBtn.disabled=false; alert("❌ "+e.code); }
+        } catch(e) {
+          saveAllBtn.disabled = false;
+          alert("❌ upload failed: " + e.message);
+        } finally {
+          avatarFile.value = "";
+        }
       });
 
       editBtn.addEventListener("click", () => {
         isEditing = !isEditing;
-        edit_section.style.display = isEditing ? "block" : "none";
-        editBtn.textContent        = isEditing ? "✕ Close" : "Edit profile";
-        displayNameInput.value     = data.name || "";
-        bioInput.value             = data.bio  || "";
+        edit_section.style.display  = isEditing ? "block" : "none";
+        editBtn.textContent         = isEditing ? "✕ Close" : "Edit profile";
+        displayNameInput.value      = data.name || "";
+        bioInput.value              = data.bio  || "";
         if(isEditing) enableSorting();
         else { if(sortable){sortable.destroy();sortable=null;} }
         renderSocials();
@@ -711,10 +706,11 @@
         try {
           await currentUser.reload();
           const gp = currentUser.providerData.find(p=>p.providerId==="google.com");
-          if(!gp?.photoURL) { alert("❌ no Google photo."); return; }
-          await updateProfile(currentUser,{photoURL:gp.photoURL});
-          await setDoc(doc(db,"users",uid),{photo:gp.photoURL},{merge:true});
-          photoPreview.src=gp.photoURL; alert("✅ synced!");
+          if(!gp?.photoURL) { alert("❌ no Google photo found."); return; }
+          await updateProfile(currentUser, {photoURL:gp.photoURL});
+          await setDoc(doc(db,"users",uid), {photo:gp.photoURL}, {merge:true});
+          photoPreview.src = gp.photoURL;
+          alert("✅ synced!");
         } catch(e) { alert("❌ "+e.code); }
       });
 
@@ -727,17 +723,20 @@
           if(!chk.empty && chk.docs[0].id!==currentUser.uid) { alert("⚠️ username taken."); return; }
         }
         try {
-          saveAllBtn.disabled=true; saveAllBtn.textContent="Saving...";
-          await updateProfile(currentUser,{displayName:newName});
-          await setDoc(doc(db,"users",uid),{
-            name:newName, bio:newBio,
-            photo:currentUser.photoURL||data.photo,
-            socials:userSocials
-          },{merge:true});
+          saveAllBtn.disabled    = true;
+          saveAllBtn.textContent = "Saving...";
+          await updateProfile(currentUser, {displayName:newName});
+          await setDoc(doc(db,"users",uid), {
+            name:    newName,
+            bio:     newBio,
+            photo:   currentUser.photoURL || data.photo,
+            socials: userSocials
+          }, {merge:true});
           alert("✅ saved!");
-          window.location.href=`?user=${encodeURIComponent(newName)}`;
+          window.location.href = `?user=${encodeURIComponent(newName)}`;
         } catch(e) {
-          saveAllBtn.disabled=false; saveAllBtn.textContent="Save changes";
+          saveAllBtn.disabled    = false;
+          saveAllBtn.textContent = "Save changes";
           alert("❌ "+e.code);
         }
       });
@@ -746,9 +745,11 @@
         const platform = platformSelect.value;
         const username = socialInput.value.trim().replace(/^@/,"");
         if(!username) { alert("⚠️ enter a username."); return; }
-        if(userSocials.find(s=>s.platform===platform&&s.username===username)) { alert("⚠️ already added."); return; }
+        if(userSocials.find(s=>s.platform===platform&&s.username===username)) {
+          alert("⚠️ already added."); return;
+        }
         userSocials.push({platform,username});
-        await setDoc(doc(db,"users",uid),{socials:userSocials},{merge:true});
+        await setDoc(doc(db,"users",uid), {socials:userSocials}, {merge:true});
         socialInput.value=""; renderSocials(); if(isEditing) enableSorting();
       });
 
