@@ -1,664 +1,710 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile | 0xdya</title>
+  <link rel="stylesheet" href="../css/static.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<link rel="stylesheet" href="../css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-
-<link rel="stylesheet" href="../css/en.css">
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <style>
-  *{
-    box-sizing: border-box;
-  }
+    :root {
+      --bg:       #111214;
+      --surface:  #1e1f22;
+      --surface2: #2b2d31;
+      --border:   #3a3c42;
+      --accent:   #5865f2;
+      --accent-h: #4752c4;
+      --green:    #23a55a;
+      --text:     #dbdee1;
+      --muted:    #949ba4;
+      --dim:      #6d6f78;
+      --danger:   #ed4245;
+      --r:        12px;
+      --rs:       6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--profile-bg) !important;
-      color: var(--profile-txt);
-      margin: 0 auto !important;
-      padding: 0 !important;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
       max-width: 600px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding-bottom: 90px;
     }
-    .profile-header {
-      height: 200px;
-      background-color: #1c1c1c;
+    #loading { display:flex; justify-content:center; align-items:center; height:100vh; }
+    #msgBox  { display:none; text-align:center; padding:80px 20px; font-size:16px; color:var(--muted); }
+    #profileContainer { display:none; }
+
+    /* Card */
+    .profile-card {
+      background: var(--surface);
+      border-radius: var(--r);
+      margin: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      animation: fadeUp .3s ease both;
     }
-    .banner-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
     }
-    .profile-pic {
-      position: absolute;
-      top: 10rem;
-      left: 20px;
-      width: 100px;
-      height: 100px;
-      border-radius: 8px;
-      border: 4px solid #000;
-      object-fit: cover;
-    }
-    .profile_container {
-      padding: 52px 20px 20px;
-    }
-    .name-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      position: absolute;
-      top: 12.4rem;
-      left: 8rem;
-    }
-    .name-section span {
-      font-size: 22px;
-      font-weight: bold;
-    }
-    .edit-icon {
-      cursor: pointer;
-      font-size: 18px;
-      color: #1da1f2;
-      position: absolute;
-      right: 1rem;
-    }
-      
-    
-    #displayNameInput {
-      margin-top: 12px;
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      background: #111;
-      color: #fff;
-    }
-    #saveBtn {
-      margin-top: 16px;
-      padding: 10px 20px;
-      background: #1da1f2;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #saveBtn:hover {
-      background: #1991da;
-    }
-    .sectionbtn{
-      display: flex;
-      gap: 8px;
-      padding: 0 8px;
-      margin: 1rem 0 0;
+
+    /* Banner */
+    .banner-wrap {
       position: relative;
-      bottom: 1rem;
-      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg,#1a1c23 0%,#2c2f3a 100%);
     }
-    #logoutBtn, #editBtn{
-      background: transparent;
-      color: #ededed;
-      border: 1px solid beige;
-      border-radius: 8px;
-      padding: 4px 1rem;
-      font-size: 1.2rem;
-      backdrop-filter: blur(4px);
-      width: 80%;
-      display: none;
+    .banner-wrap.owner { cursor:pointer; }
+    #bannerImg { width:100%; height:100%; object-fit:cover; display:block; }
+    .banner-overlay {
+      position:absolute; inset:0;
+      background:rgba(0,0,0,.5);
+      display:flex; align-items:center; justify-content:center;
+      gap:6px; color:#fff; font-size:13px;
+      opacity:0; transition:opacity .2s;
     }
-    #editBtn{
-      bottom: 4rem !important;
+    .banner-wrap.owner:hover .banner-overlay { opacity:1; }
+
+    /* Avatar */
+    .avatar-anchor { position:relative; height:48px; }
+    .avatar-wrap {
+      position:absolute;
+      bottom:-10px; left:20px;
+      width:84px; height:84px;
+      border-radius:50%;
+      border:5px solid var(--surface);
+      background:var(--surface2);
+      overflow:hidden;
     }
-    #loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    .avatar-wrap.owner { cursor:pointer; }
+    #photoPreview { width:100%; height:100%; object-fit:cover; display:block; }
+    .avatar-overlay {
+      position:absolute; inset:0; border-radius:50%;
+      background:rgba(0,0,0,.6);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; transition:opacity .2s;
+    }
+    .avatar-wrap.owner:hover .avatar-overlay { opacity:1; }
+    .avatar-overlay ion-icon { color:#fff; font-size:22px; }
+
+    /* Body */
+    .profile-body { padding:54px 20px 20px; }
+    .name-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .username { font-size:20px; font-weight:700; color:#fff; letter-spacing:-.3px; }
+    .badges { display:flex; gap:4px; align-items:center; }
+    .badges img { width:18px; height:18px; }
+
+    #statusEl {
+      display:flex; align-items:center; gap:5px;
+      font-size:12px; color:var(--dim); margin-top:5px;
+    }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--dim); flex-shrink:0; }
+    #statusEl.online .dot { background:var(--green); }
+    #statusEl.online       { color:var(--green); }
+
+    #displayBioInput {
+      margin-top:10px; font-size:13px; color:var(--muted);
+      line-height:1.65; white-space:pre-wrap; word-break:break-word;
+    }
+
+    /* Action buttons */
+    .action-row { display:flex; gap:8px; margin-top:14px; }
+    .btn {
+      flex:1; padding:8px 14px; border-radius:var(--rs);
+      font-family:inherit; font-size:13px; font-weight:600;
+      cursor:pointer; transition:all .15s; border:none; display:none;
+    }
+    .btn-ghost  { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+    .btn-ghost:hover  { background:#35373d; }
+    .btn-danger { background:transparent; color:var(--danger); border:1px solid #3a1e1f; }
+    .btn-danger:hover { background:#2d1a1b; }
+
+    /* Divider / labels */
+    .divider { height:1px; background:var(--border); margin:18px 0; }
+    .section-label {
+      font-size:11px; text-transform:uppercase;
+      letter-spacing:1.8px; color:var(--dim); margin-bottom:12px;
+    }
+
+    /* Stats */
+    .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .stat-chip {
+      background:var(--surface2); border:1px solid var(--border);
+      border-radius:var(--rs); padding:10px 12px;
+      display:flex; align-items:center; gap:8px;
+      font-size:13px; color:var(--muted); transition:border-color .2s;
+    }
+    .stat-chip:hover { border-color:#555; }
+    .stat-chip ion-icon { font-size:14px; color:var(--dim); flex-shrink:0; }
+    .stat-chip .val { color:var(--text); font-weight:600; margin-left:auto; }
+
+    /* Socials */
+    .social-links { display:flex; flex-wrap:wrap; gap:8px; }
+    .link_card {
+      display:flex; align-items:center; gap:6px;
+      padding:6px 10px; border:1px solid var(--border);
+      border-radius:20px; background:var(--surface2);
+      font-size:12px; color:var(--muted); text-decoration:none;
+      transition:all .15s; cursor:pointer;
+    }
+    .link_card:hover { border-color:var(--accent); color:#fff; background:#2e3052; }
+    .link_card ion-icon { font-size:14px; flex-shrink:0; }
+    .del-btn {
+      background:none; border:none; color:var(--dim);
+      cursor:pointer; font-size:12px; padding:0;
+      margin-left:2px; transition:color .15s;
+    }
+    .del-btn:hover { color:var(--danger); }
+
+    /* Edit section */
+    #edit_section {
+      display:none; margin-top:16px; padding:16px;
+      border:1px solid var(--border); border-radius:var(--r);
+      background:var(--bg); animation:fadeUp .2s ease both;
+    }
+    .edit-label {
+      font-size:11px; text-transform:uppercase;
+      letter-spacing:1.5px; color:var(--dim); margin:0 0 6px;
     }
     .edit-field {
-  width: 100%;
-  margin-top: 12px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #333;
-  background: #111;
-  color: #fff;
-}
-    .social-links{
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+      width:100%; padding:9px 12px; font-size:13px; font-family:inherit;
+      border:1px solid var(--border); border-radius:var(--rs);
+      background:var(--surface2); color:var(--text);
+      outline:none; transition:border-color .15s;
+      margin-bottom:14px; resize:vertical;
     }
-    .edit-field-link {
-      max-width: 140px;
-      height: 38px;
-  margin-top: 12px;
-  padding: 0 4px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #333;
-  background: #111;
-  color: #fff;
-}
-
-.edit-btn {
-  
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: #1da1f2;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.edit-btn:hover {
-  background: #1991da;
-}
-#displayBioInput{
-  margin: 1rem 0;
-}
-#profileContainer{
-  position: relative;
-  height: 100vh;
-  display: none;
-}
-ion-icon{
-  font-size: 18px;
-  margin-bottom: -2px;
-}
-  .imgsvg{
-    width: 18px !important;
-    height: 18px !important;
-    margin-top: 0 !important;
-    margin-left: 0;
-  }
-  .theme_toggle_container, .hidden {
-    display: none ;
-  }
-  #roleIcons{
-    display: flex;
-    gap: 4px;
-    
-  }
-  #edit_section{
-    position: fixed;
-    top: 14rem;
-    margin: 0 2rem;
-    padding: 1rem;
-    background: var(--profile-bg);
-    display: none ;
-  }
-    .link_card{
-    position: relative;
-    width: fit-content;
-    text-align: center;
-    border: 1px solid #555;
-    padding: 8px;
-    background: transparent;
-    border-radius: 4px;
-    ion-icon{
-      font-size: 1.6rem !important;
-      margin: 0 4px -7px 0;
+    .edit-field:focus { border-color:var(--accent); }
+    .edit-field::placeholder { color:var(--dim); }
+    .social-add-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+    .social-add-row select, .social-add-row input {
+      flex:1; min-width:90px; padding:8px 10px;
+      font-size:13px; font-family:inherit;
+      border:1px solid var(--border); border-radius:var(--rs);
+      background:var(--surface2); color:var(--text); outline:none;
     }
-  }
-  .link_card[draggable="true"] {
-  cursor: move;
-  opacity: 0.9;
-}
-.delete-btn {
-  font-size: 14px;
-}
-#currentName{
-  display: flex;
+    .social-add-row select:focus, .social-add-row input:focus { border-color:var(--accent); }
+    .btn-add-social {
+      padding:8px 12px; background:var(--accent); color:#fff;
+      border:none; border-radius:var(--rs); font-family:inherit;
+      font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
+      transition:background .15s;
+    }
+    .btn-add-social:hover { background:var(--accent-h); }
+    .btn-save-all {
+      width:100%; padding:10px; background:var(--accent); color:#fff;
+      border:none; border-radius:var(--rs); font-family:inherit;
+      font-size:14px; font-weight:700; cursor:pointer;
+      transition:background .15s; margin-top:4px;
+    }
+    .btn-save-all:hover { background:var(--accent-h); }
+    .btn-save-all:disabled { opacity:.55; cursor:not-allowed; }
 
-}
-#statusEl{
-  position: absolute;
-  top: 14.2rem;
-  left: 8rem;
-}
-#userStats{
-  border: 1px solid #444;
-  padding: 1rem;
-  font-size: 15px;
-  margin: 4rem 0 0;
-  h2{
-    font-size: 18px;
-    font-style: blod;
-  }
-  ion-icon{
-  font-size: 14px;
-    
-  }
-}
+    #syncPhotoBtn {
+      width:100%; padding:8px; background:transparent;
+      color:var(--muted); border:1px dashed var(--border);
+      border-radius:var(--rs); font-family:inherit; font-size:12px;
+      cursor:pointer; margin-bottom:14px; transition:all .15s;
+    }
+    #syncPhotoBtn:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* Upload progress */
+    .upload-bar-wrap {
+      display:none; height:4px; background:var(--surface2);
+      border-radius:4px; overflow:hidden; margin-bottom:10px;
+    }
+    .upload-bar { height:100%; background:var(--accent); width:0%; transition:width .3s; }
+
+    #bannerFileInput, #avatarFileInput { display:none; }
+
+    /* Navbar */
+    .navbar_section {
+      position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+      width:100%; max-width:600px; z-index:100;
+    }
   </style>
 </head>
 <body>
 
-<div id="loading">
-  <img width="40" src="../img/load.gif" />
-</div>
+<div id="loading"><img width="40" src="../img/load.gif"/></div>
+<div id="msgBox"></div>
+<input type="file" id="bannerFileInput" accept="image/*"/>
+<input type="file" id="avatarFileInput" accept="image/*"/>
 
-<div id="profileContainer" >
-  <div class="profile-header">
-    <img id="bannerImg"class="banner-img" alt="Banner" />
-    <img id="photoPreview" class="profile-pic"/>
-  </div>
-  <div class="profile_container">
-<div class="name-section">
-  <span id="currentName"></span>
-  <span id="roleIcons"></span> 
-  <button class="btn hidden"id="syncPhotoBtn">🔄 Sync photo</button>
-  
-</div>
-<div id="statusEl"></div>
-<div id="displayBioInput"></div>
-<div id="userStats" >
-  <h2>user info :</h2>
-  <p id="createdAtCount"></p>
-  <p id="commentsCount"></p>
-  <p id="ideasCount"></p> 
-  <p id="starsCount"></p>
-  <br>
-  <hr>
-  <br>
-  <h2>accounts :</h2>
-<div id="socialLinks" class="social-links"></div>
-</div>
+<div id="profileContainer">
+  <div class="profile-card">
 
-<section id="edit_section" >
-<input type="text" id="displayNameInput" class="edit-field" placeholder="new name "  style="display:none"/>
-<textarea id="bioInput" class="edit-field" placeholder="new bio " rows="3" style="display:none"></textarea>
-
-<!-- social links -->
-
-<button id="saveAllBtn" class="edit-btn">save</button>
-</section>
-<div id="addSocialForm" class="social-link-form" style="display:none">
-  <select class="edit-field-link" id="platformSelect">
-    <option value="twitter">Twitter</option>
-    <option value="instagram">Instagram</option>
-    <option value="facebook">FaceBook</option>
-    <option value="github">GitHub</option>
-    <option value="youtube">YouTube</option>
-    <option value="linkedin">LinkedIn</option>
-    <option value="email">Email</option>
-  </select>
-  <input type="text" id="socialUsernameInput"  class="edit-field-link" placeholder="@your_name" />
-  <button id="saveSocialBtn" class="edit-field-link">💾 save</button>
-  
-</div>
-  </div>
-<section class="sectionbtn">
-<button id="logoutBtn">logout  </button>
-<button id="editBtn"> Edit profile</button>
-</section>
-</div>
-  <div class="theme_toggle_container">
-      <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
-      <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
-      <a href="./info/" class="bug"><ion-icon name="document-text-outline"></ion-icon></a>
-      <a href="./archive/" class="bug"><ion-icon name="archive-outline"></ion-icon></a>
-      <div class="dropdown" id="themeDropdown">
-        <button data-theme="light">Light</button>
-        <button data-theme="dark">Dark</button>
-        <button data-theme="system">System</button>
+    <!-- Banner -->
+    <div class="banner-wrap" id="bannerWrap">
+      <img id="bannerImg" alt=""/>
+      <div class="banner-overlay">
+        <ion-icon name="camera-outline"></ion-icon> change banner
       </div>
     </div>
-    <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import {
-  getFirestore, collection, query, where, getDocs,
-  doc, getDoc, setDoc, onSnapshot
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-import {
-  getAuth, onAuthStateChanged, signOut, updateProfile
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-  authDomain: "oxdyaa.firebaseapp.com",
-  projectId: "oxdyaa",
-  storageBucket: "oxdyaa.appspot.com",
-  messagingSenderId: "604062703590",
-  appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    <!-- Avatar anchor -->
+    <div class="avatar-anchor">
+      <div class="avatar-wrap" id="avatarWrap">
+        <img id="photoPreview" src="../img/user.jpg" alt="avatar"/>
+        <div class="avatar-overlay"><ion-icon name="camera-outline"></ion-icon></div>
+      </div>
+    </div>
 
-// DOM Elements
-const currentName = document.getElementById("currentName");
-const roleIcons = document.getElementById("roleIcons");
-const editBtn = document.getElementById("editBtn");
-const syncPhotoBtn = document.getElementById("syncPhotoBtn");
-const photoPreview = document.getElementById("photoPreview");
-const loading = document.getElementById("loading");
-const profileContainer = document.getElementById("profileContainer");
-const logoutBtn = document.getElementById("logoutBtn");
-const displayNameInput = document.getElementById("displayNameInput");
-const displayBioInput = document.getElementById("displayBioInput");
-const edit_section = document.getElementById("edit_section");
-const bannerImg = document.getElementById("bannerImg");
-const bioInput = document.getElementById("bioInput");
-const deleteLinks = document.getElementById("deleteLinks");
-const statusEl = document.getElementById("statusEl");
-const saveAllBtn = document.getElementById("saveAllBtn");
+    <div class="profile-body">
 
-// استخراج اسم المستخدم من URL
- let usernameFromURL = window.location.pathname.startsWith("/@")
-  ? decodeURIComponent(window.location.pathname.slice(2))
-  : "profile";
+      <div class="name-row">
+        <span class="username" id="currentName"></span>
+        <div class="badges" id="roleIcons"></div>
+      </div>
 
-// باستخدام ?user=username
-//const urlParams = new URLSearchParams(window.location.search);
-//const usernameFromURL = urlParams.get("user") || "profile";
+      <div id="statusEl"><span class="dot"></span><span id="statusText"></span></div>
+      <div id="displayBioInput"></div>
 
-// تصفية الاسم المدخل
-displayNameInput.addEventListener("input", () => {
-  displayNameInput.value = displayNameInput.value
-    .replace(/\s+/g, "_")
-    .replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
-});
+      <div class="action-row">
+        <button class="btn btn-ghost"  id="editBtn">✏️ edit profile</button>
+        <button class="btn btn-danger" id="logoutBtn">logout</button>
+      </div>
 
-// التحقق من حالة الدخول
-onAuthStateChanged(auth, async (user) => {
-  try {
-    if (!user && usernameFromURL === "profile") {
-      showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
-      return;
-    }
-    if (user && usernameFromURL === "profile") {
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (snap.exists() && snap.data().name) {
-    //    window.location.replace(`/?user=${encodeURIComponent(snap.data().name)}`);
-        window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
-        return;
-      }
-    }
-    loadProfile(user);
-  } catch (err) {
-    console.error("Error loading profile:", err);
-    showMessage("🚨 حدث خطأ، الرجاء المحاولة لاحقاً.");
-  }
-});
+      <!-- Edit panel -->
+      <div id="edit_section">
+        <button id="syncPhotoBtn">🔄 sync avatar from Google</button>
+        <div class="upload-bar-wrap" id="uploadBarWrap">
+          <div class="upload-bar" id="uploadBar"></div>
+        </div>
 
-async function loadProfile(currentUser) {
-  if (usernameFromURL === "profile") {
-    showMessage("⚠️ يرجى تسجيل الدخول أولاً.");
-    return;
-  }
-  const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
-  onSnapshot(q, async (qs) => {
-    if (qs.empty) {
-      showMessage("🚫 المستخدم غير موجود.");
-      return;
-    }
-    const userDoc = qs.docs[0];
-    const data = userDoc.data();
-    const isOwner = currentUser && currentUser.uid === userDoc.id;
+        <p class="edit-label">username</p>
+        <input type="text" id="displayNameInput" class="edit-field" placeholder="new username"/>
 
-    currentName.textContent = data.name;
-    displayBioInput.textContent = data.bio;
-    bannerImg.src = data.banner || "";
-    const imgSrc = isOwner ? (currentUser?.photoURL || data.photo || "../img/user.jpg") : (data.photo || "../img/user.jpg");
-    const img = new Image();
-    img.onload = () => {
-      photoPreview.src = imgSrc;
-      showProfile();
-    };
-    img.src = imgSrc;
+        <p class="edit-label">bio</p>
+        <textarea id="bioInput" class="edit-field" rows="3" placeholder="write something..."></textarea>
 
-    roleIcons.innerHTML = "";
-    const role = data.role || "";
-    const isVerified = data.verified === true;
-    let iconsHTML = "";
-    if (isVerified) iconsHTML += `<img src="../badges/verf.svg" class="imgsvg">`;
-    if (role === "admin") iconsHTML += `<img src="../badges/server-owner.svg" class="imgsvg">`;
-    if (role === "dev") iconsHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" class="imgsvg">`;
-    roleIcons.innerHTML = iconsHTML;
+        <p class="edit-label">add social link</p>
+        <div class="social-add-row">
+          <select id="platformSelect">
+            <option value="twitter">Twitter / X</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+            <option value="github">GitHub</option>
+            <option value="youtube">YouTube</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="email">Email</option>
+          </select>
+          <input type="text" id="socialUsernameInput" placeholder="username"/>
+          <button class="btn-add-social" id="saveSocialBtn">add</button>
+        </div>
 
-    if (data.lastLogin?.toDate) {
-      const lastLoginDate = data.lastLogin.toDate();
-      const diffSec = Math.floor((new Date() - lastLoginDate) / 1000);
-      statusEl.style.fontSize = "14px";
-      statusEl.style.color = diffSec < 300 ? "lime" : "#aaa";
-      statusEl.style.marginTop = "4px";
-      statusEl.textContent = diffSec < 300 ? "online" : `last seen ${formatTimeAgo(diffSec)}`;
-    }
+        <button class="btn-save-all" id="saveAllBtn">save changes</button>
+      </div>
 
-    const socialLinksDiv = document.getElementById("socialLinks");
-    const addSocialForm = document.getElementById("addSocialForm");
-    const platformSelect = document.getElementById("platformSelect");
-    const socialUsernameInput = document.getElementById("socialUsernameInput");
-    const saveSocialBtn = document.getElementById("saveSocialBtn");
+      <div class="divider"></div>
 
-    let userSocials = Array.isArray(data.socials) ? data.socials : Object.entries(data.socials || {}).map(([platform, username]) => ({ platform, username }));
+      <p class="section-label">stats</p>
+      <div class="stats-grid">
+        <div class="stat-chip" id="createdAtCount"><ion-icon name="calendar-outline"></ion-icon>joined<span class="val">—</span></div>
+        <div class="stat-chip" id="starsCount"><ion-icon name="trophy-outline"></ion-icon>stars<span class="val">—</span></div>
+        <div class="stat-chip" id="ideasCount"><ion-icon name="bulb-outline"></ion-icon>ideas<span class="val">—</span></div>
+        <div class="stat-chip" id="commentsCount"><ion-icon name="chatbubble-ellipses-outline"></ion-icon>comments<span class="val">—</span></div>
+      </div>
 
-    function renderSocials() {
-      socialLinksDiv.innerHTML = "";
-      userSocials.forEach(({ platform, username }, index) => {
-        let url = "", icon = "";
-        switch (platform) {
-          case "twitter":
-          case "x": url = `https://x.com/${username}`; icon = "logo-twitter"; break;
-          case "github": url = `https://github.com/${username}`; icon = "logo-github"; break;
-          case "linkedin": url = `https://linkedin.com/in/${username}`; icon = "logo-linkedin"; break;
-          case "facebook": url = `https://facebook.com/${username}`; icon = "logo-facebook"; break;
-          case "instagram": url = `https://instagram.com/${username}`; icon = "logo-instagram"; break;
-          case "youtube": url = `https://youtube.com/@${username}`; icon = "logo-youtube"; break;
-          case "email": url = `mailto:${username}`; icon = "mail-outline"; break;
-        }
+      <div class="divider"></div>
 
-        const wrapper = document.createElement("div");
-        wrapper.className = "link_card";
-        wrapper.setAttribute("draggable", isOwner);
-        wrapper.dataset.index = index;
-        wrapper.innerHTML = `
-          <ion-icon name="${icon}" style="font-size:18px;"></ion-icon>
-          <a href="${url}" target="_blank" style="color:inherit;text-decoration:none">${username}</a>
-          ${isOwner ? `<button id="deleteLinks" class="delete-btn" style="float:right;border:none;background:none;color:red;cursor:pointer">🗑️</button>` : ""}
-        `;
+      <p class="section-label">accounts</p>
+      <div id="socialLinks" class="social-links"></div>
 
-        // حذف
-        if (isOwner) {
-          wrapper.querySelector(".delete-btn").onclick = async () => {
-            userSocials.splice(index, 1);
-            await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
-            renderSocials();
-          };
-        }
+    </div>
+  </div>
+</div>
 
-        socialLinksDiv.appendChild(wrapper);
-      });
-    }
+<!-- Navbar -->
+<div class="navbar_section">
+  <nav class="navbar">
+    <a href="../" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg><span class="nav-text">Home</span>
+    </a>
+    <a href="../projects/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+      </svg><span class="nav-text">Projects</span>
+    </a>
+    <a href="../blog/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+      </svg><span class="nav-text">Articles</span>
+    </a>
+    <a href="../contact/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg><span class="nav-text">Contact</span>
+    </a>
+  </nav>
+  <nav class="navbar">
+    <a href="../comments/" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg><span class="nav-text">Comments</span>
+    </a>
+    <div class="user_photo" id="userPhotoContainer"></div>
+  </nav>
+</div>
 
-    renderSocials();
-    loadUserStats(userDoc.id);
-    if (isOwner) {
-  editBtn.style.display = "inline-block";
-  logoutBtn.style.display = "block";
-  addSocialForm.style.display = "block";
-  syncPhotoBtn.style.display = "inline-block"; // أظهر الزر فقط للمالك
-  let isEditing = false;
-  let sortable = null;
+<script type="module">
+  import { initializeApp }  from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import {
+    getFirestore, collection, query, where, getDocs,
+    doc, getDoc, setDoc, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+  import {
+    getAuth, onAuthStateChanged, signOut, updateProfile
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import {
+    getStorage, ref as sRef, uploadBytesResumable, getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
 
-  editBtn.onclick = () => {
-    isEditing = !isEditing;
-
-    edit_section.style.display = isEditing ? "block" : "none";
-    displayNameInput.style.display = isEditing ? "block" : "none";
-    bioInput.style.display = isEditing ? "block" : "none";
-    saveAllBtn.style.display = isEditing ? "inline-block" : "none";
-    
-    displayNameInput.value = data.name || "";
-    bioInput.value = data.bio || "";
-    editBtn.textContent = isEditing ? "close" : "Edit profile";
-
-    // تفعيل السحب فقط عند التعديل
-    if (isEditing) {
-      enableSorting();
-    } else {
-      if (sortable) sortable.destroy();
-    }
-
-    renderSocials(); // إعادة رسم عند التبديل
+  const cfg = {
+    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+    authDomain: "oxdyaa.firebaseapp.com",
+    projectId: "oxdyaa",
+    storageBucket: "oxdyaa.appspot.com",
+    messagingSenderId: "604062703590",
+    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
   };
-syncPhotoBtn.onclick = async () => {
-  try {
-    await currentUser.reload();
 
-    // استخدم providerData فقط إن كانت الصورة صالحة
-    const googleData = currentUser.providerData.find((p) => p.providerId === "google.com");
-    let newPhotoURL = googleData?.photoURL;
+  const app     = initializeApp(cfg);
+  const auth    = getAuth(app);
+  const db      = getFirestore(app);
+  const storage = getStorage(app);
 
-    // تحقق إن كانت الصورة المؤقتة تؤدي إلى 429 (لا تستخدمها إن حصل ذلك سابقًا)
-    if (newPhotoURL?.includes("googleusercontent.com")) {
-      await updateProfile(currentUser, { photoURL: newPhotoURL });
-      await setDoc(doc(db, "users", currentUser.uid), { photo: newPhotoURL }, { merge: true });
-      photoPreview.src = newPhotoURL;
-      alert("✅ تم تحديث الصورة بنجاح (قد تأخذ بضع دقائق لتظهر)");
-    } else {
-      alert("❌ تعذر الحصول على صورة صالحة من Google.");
-    }
-  } catch (err) {
-    console.error("Sync photo error:", err);
-    alert("🚨 حدث خطأ أثناء المزامنة");
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  const usernameFromURL = window.location.pathname.startsWith("/@")
+    ? decodeURIComponent(window.location.pathname.slice(2))
+    : "profile";
+
+  // DOM
+  const $ = id => document.getElementById(id);
+  const loadingEl        = $("loading");
+  const profileEl        = $("profileContainer");
+  const msgBox           = $("msgBox");
+  const currentNameEl    = $("currentName");
+  const roleIconsEl      = $("roleIcons");
+  const photoPreview     = $("photoPreview");
+  const bannerImg        = $("bannerImg");
+  const bannerWrap       = $("bannerWrap");
+  const avatarWrap       = $("avatarWrap");
+  const displayBioEl     = $("displayBioInput");
+  const statusEl         = $("statusEl");
+  const statusText       = $("statusText");
+  const editBtn          = $("editBtn");
+  const logoutBtn        = $("logoutBtn");
+  const edit_section     = $("edit_section");
+  const displayNameInput = $("displayNameInput");
+  const bioInput         = $("bioInput");
+  const saveAllBtn       = $("saveAllBtn");
+  const syncPhotoBtn     = $("syncPhotoBtn");
+  const platformSelect   = $("platformSelect");
+  const socialInput      = $("socialUsernameInput");
+  const saveSocialBtn    = $("saveSocialBtn");
+  const socialLinksDiv   = $("socialLinks");
+  const bannerFile       = $("bannerFileInput");
+  const avatarFile       = $("avatarFileInput");
+  const uploadBarWrap    = $("uploadBarWrap");
+  const uploadBar        = $("uploadBar");
+
+  // ── Helpers ──────────────────────────────────────────────────────
+  const showMessage = msg => {
+    loadingEl.style.display = "none";
+    msgBox.style.display    = "block";
+    msgBox.innerHTML        = msg;
+  };
+  const showProfile = () => {
+    loadingEl.style.display = "none";
+    profileEl.style.display = "block";
+  };
+  const timeAgo = sec => {
+    if (sec < 3600)  return `${Math.floor(sec/60)}m ago`;
+    if (sec < 86400) return `${Math.floor(sec/3600)}h ago`;
+    return `${Math.floor(sec/86400)}d ago`;
+  };
+  const normSocials = raw => {
+    if (Array.isArray(raw)) return raw;
+    if (raw && typeof raw === "object")
+      return Object.entries(raw).filter(([,v])=>v).map(([p,u])=>({platform:p,username:u}));
+    return [];
+  };
+  const socialURL = (p,u) => ({
+    twitter:`https://x.com/${u}`, x:`https://x.com/${u}`,
+    github:`https://github.com/${u}`, linkedin:`https://linkedin.com/in/${u}`,
+    facebook:`https://facebook.com/${u}`, instagram:`https://instagram.com/${u}`,
+    youtube:`https://youtube.com/@${u}`, email:`mailto:${u}`
+  }[p] || "#");
+  const socialIcon = p => ({
+    twitter:"logo-twitter", x:"logo-twitter", github:"logo-github",
+    linkedin:"logo-linkedin", facebook:"logo-facebook",
+    instagram:"logo-instagram", youtube:"logo-youtube", email:"mail-outline"
+  }[p] || "link-outline");
+
+  function setStatChip(id, icon, label, val) {
+    $(id).innerHTML = `<ion-icon name="${icon}"></ion-icon>${label}<span class="val">${val}</span>`;
   }
-};
 
-  
+  // ── Nav ───────────────────────────────────────────────────────────
+  function applyNavUI(photo, name) {
+    const c = $("userPhotoContainer"); if (!c) return;
+    c.innerHTML = (name||photo)
+      ? `<a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/"><img src="${photo||'../img/user.jpg'}"></a>`
+      : `<a href="https://0xdya.vercel.app/login/" class="nav-item">
+           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+           </svg><span class="nav-text">Account</span></a>`;
+  }
+  const _c = localStorage.getItem("userData");
+  if (_c) { const d=JSON.parse(_c); applyNavUI(d.photo,d.name); }
 
-  function enableSorting() {
-    if (sortable) sortable.destroy();
-    sortable = new Sortable(socialLinksDiv, {
-      animation: 150,
-      handle: ".link_card",
-      draggable: ".link_card",
-      onEnd: async function (evt) {
-        const oldIndex = evt.oldIndex;
-        const newIndex = evt.newIndex;
-        if (oldIndex !== newIndex) {
-          const movedItem = userSocials.splice(oldIndex, 1)[0];
-          userSocials.splice(newIndex, 0, movedItem);
-          await setDoc(doc(db, "users", userDoc.id), { socials: userSocials }, { merge: true });
-          renderSocials(); // إعادة رسم بعد الترتيب الجديد
-          enableSorting(); // إعادة التهيئة
+  displayNameInput.addEventListener("input", () => {
+    displayNameInput.value = displayNameInput.value
+      .replace(/\s+/g,"_").replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g,"");
+  });
+
+  // ── Upload helper ─────────────────────────────────────────────────
+  function uploadImage(file, path) {
+    return new Promise((resolve, reject) => {
+      const task = uploadBytesResumable(sRef(storage, path), file);
+      uploadBarWrap.style.display = "block";
+      task.on("state_changed",
+        s => { uploadBar.style.width = (s.bytesTransferred/s.totalBytes*100)+"%"; },
+        e => { uploadBarWrap.style.display="none"; reject(e); },
+        async () => {
+          const url = await getDownloadURL(task.snapshot.ref);
+          uploadBarWrap.style.display="none"; uploadBar.style.width="0%";
+          resolve(url);
         }
-      }
+      );
     });
   }
 
-  // الحذف والإضافة
-  logoutBtn.onclick = async () => {
-    await signOut(auth);
-    window.location.href = "/";
-  };
-
-  saveAllBtn.onclick = async () => {
-    const newName = displayNameInput.value.trim();
-    const newBio = bioInput.value.trim().slice(0, 200);
-    if (!newName) return alert("⚠️ يجب إدخال اسم.");
-    const snapCheck = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
-    const nameTaken = !snapCheck.empty && snapCheck.docs[0].id !== currentUser.uid;
-    if (nameTaken) return alert("⚠️ الاسم مستخدم بالفعل.");
+  // ── Auth ──────────────────────────────────────────────────────────
+  onAuthStateChanged(auth, async user => {
+    applyNavUI(user?.photoURL, user?.displayName);
     try {
-      await updateProfile(currentUser, { displayName: newName });
-      await setDoc(doc(db, "users", currentUser.uid), {
-        ...data,
-        name: newName,
-        bio: newBio,
-        photo: currentUser.photoURL || data.photo,
-        socials: userSocials
-      }, { merge: true });
-      alert("✅ تم حفظ التعديلات");
-      window.location.href = "/profile/";
-    } catch (err) {
-      console.error("Save error:", err);
-      alert("❌ حدث خطأ أثناء الحفظ.");
-    }
-  };
-
-  saveSocialBtn.onclick = async () => {
-    const platform = platformSelect.value;
-    const username = socialUsernameInput.value.trim();
-    if (!username) return alert("⚠️ أدخل اسم المستخدم");
-    userSocials.push({ platform, username });
-    await setDoc(doc(db, "users", currentUser.uid), { socials: userSocials }, { merge: true });
-    renderSocials();
-    if (isEditing) enableSorting();
-    socialUsernameInput.value = "";
-  };
-}
-
+      if (!user && usernameFromURL === "profile") {
+        showMessage(`⚠️ please <a href='/login/' style='color:#5865f2'>login</a> first.`); return;
+      }
+      if (user && usernameFromURL === "profile") {
+        const snap = await getDoc(doc(db,"users",user.uid));
+        if (snap.exists() && snap.data().name) {
+          window.location.replace(`/@${encodeURIComponent(snap.data().name)}`); return;
+        }
+        showMessage(`⚠️ profile not set up. <a href='/login/' style='color:#5865f2'>go to login</a>`); return;
+      }
+      loadProfile(user);
+    } catch(e) { console.error(e); showMessage("🚨 something went wrong."); }
   });
-async function loadUserStats(uid) {
-  const createdAtSpan = document.getElementById("createdAtCount");
-  const ideasCountSpan = document.getElementById("ideasCount");
-  const commentsCountSpan = document.getElementById("commentsCount");
-  const starsCountSpan = document.getElementById("starsCount");
 
-  // 🔹 عدد الأفكار
-  const ideasQuery = query(collection(db, "ideas"), where("uid", "==", uid));
-  const ideasSnap = await getDocs(ideasQuery);
-  ideasCountSpan.innerHTML = `<ion-icon name="bulb-outline"></ion-icon> ideas :  ${ideasSnap.size}`;
+  // ── Load Profile ──────────────────────────────────────────────────
+  function loadProfile(currentUser) {
+    const q = query(collection(db,"users"), where("name","==",usernameFromURL));
+    onSnapshot(q, async qs => {
+      if (qs.empty) { showMessage("🚫 user not found."); return; }
+      const userDoc = qs.docs[0];
+      const data    = userDoc.data();
+      const uid     = userDoc.id;
+      const isOwner = !!(currentUser && currentUser.uid === uid);
 
-  // 🔹 عدد التعليقات من مجموعة comments مباشرة
-  const commentsQuery = query(collection(db, "comments"), where("uid", "==", uid));
-  const commentsSnap = await getDocs(commentsQuery);
-  commentsCountSpan.innerHTML = `<ion-icon name="chatbubble-ellipses-outline"></ion-icon> comments: ${commentsSnap.size}`;
+      currentNameEl.textContent = data.name || "";
+      displayBioEl.textContent  = data.bio  || "";
+      if (data.banner) bannerImg.src = data.banner;
+      photoPreview.src = isOwner
+        ? (currentUser.photoURL || data.photo || "../img/user.jpg")
+        : (data.photo || "../img/user.jpg");
 
-  
-const userSnap = await getDoc(doc(db, "users", uid));
-  if (userSnap.exists()) {
-    const data = userSnap.data();
-    const stars = data.stars || 0;
-    const createdAt = data.createdAt?.toDate?.();
+      showProfile();
 
-    starsCountSpan.innerHTML = `<ion-icon name="trophy-outline"></ion-icon> stars: ${stars}`;
+      // Badges
+      roleIconsEl.innerHTML = "";
+      if (data.verified)        roleIconsEl.innerHTML += `<img src="../badges/verf.svg"          style="width:18px;height:18px" title="Verified">`;
+      if (data.role==="admin")  roleIconsEl.innerHTML += `<img src="../badges/server-owner.svg"  style="width:18px;height:18px" title="Admin">`;
+      if (data.role==="dev")    roleIconsEl.innerHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" style="width:18px;height:18px" title="Dev">`;
 
-if (createdAt) {
-  const day = createdAt.getDate();
-  const monthIndex = createdAt.getMonth();
-  const year = createdAt.getFullYear();
+      // Status
+      if (data.lastLogin?.toDate) {
+        const diff = Math.floor((Date.now() - data.lastLogin.toDate()) / 1000);
+        statusEl.className     = diff < 300 ? "online" : "";
+        statusText.textContent = diff < 300 ? "online now" : `last seen ${timeAgo(diff)}`;
+      }
 
-  createdAtSpan.innerHTML = `created at: ${day} ${monthIndex} ${year}`;
-} else {
-  createdAtSpan.textContent = `cant find date ._., idk why `;
-}
+      // Socials
+      let userSocials = normSocials(data.socials);
+      let sortable    = null;
 
+      function renderSocials() {
+        socialLinksDiv.innerHTML = "";
+        userSocials.forEach(({platform,username},i) => {
+          const card = document.createElement("div");
+          card.className = "link_card";
+          card.setAttribute("draggable", String(isOwner));
+          card.innerHTML = `
+            <ion-icon name="${socialIcon(platform)}"></ion-icon>
+            <a href="${socialURL(platform,username)}" target="_blank" rel="noopener"
+               style="color:inherit;text-decoration:none">${username}</a>
+            ${isOwner ? `<button class="del-btn">✕</button>` : ""}`;
+          if (isOwner) {
+            card.querySelector(".del-btn").onclick = async e => {
+              e.stopPropagation();
+              userSocials.splice(i,1);
+              await setDoc(doc(db,"users",uid),{socials:userSocials},{merge:true});
+              renderSocials(); if(isEditing) enableSorting();
+            };
+          }
+          socialLinksDiv.appendChild(card);
+        });
+      }
+
+      function enableSorting() {
+        if (sortable) sortable.destroy();
+        sortable = new Sortable(socialLinksDiv, {
+          animation:150, draggable:".link_card",
+          onEnd: async ({oldIndex,newIndex}) => {
+            if (oldIndex===newIndex) return;
+            const [m] = userSocials.splice(oldIndex,1);
+            userSocials.splice(newIndex,0,m);
+            await setDoc(doc(db,"users",uid),{socials:userSocials},{merge:true});
+            renderSocials(); enableSorting();
+          }
+        });
+      }
+
+      renderSocials();
+      loadUserStats(uid);
+      if (!isOwner) return;
+
+      // ── Owner ──────────────────────────────────────────────────────
+      editBtn.style.display   = "flex";
+      logoutBtn.style.display = "flex";
+      syncPhotoBtn.style.display = "block";
+      bannerWrap.classList.add("owner");
+      avatarWrap.classList.add("owner");
+
+      let isEditing = false;
+
+      // Banner click → file picker (only in edit mode)
+      bannerWrap.addEventListener("click", () => { if(isEditing) bannerFile.click(); });
+      avatarWrap.addEventListener("click", () => { if(isEditing) avatarFile.click(); });
+
+      bannerFile.addEventListener("change", async () => {
+        const file = bannerFile.files[0]; if(!file) return;
+        if(file.size > 5*1024*1024) { alert("❌ max 5MB"); return; }
+        try {
+          saveAllBtn.disabled=true;
+          const url = await uploadImage(file,`banners/${uid}`);
+          await setDoc(doc(db,"users",uid),{banner:url},{merge:true});
+          bannerImg.src=url; saveAllBtn.disabled=false;
+          alert("✅ banner updated!");
+        } catch(e) { saveAllBtn.disabled=false; alert("❌ "+e.code); }
+      });
+
+      avatarFile.addEventListener("change", async () => {
+        const file = avatarFile.files[0]; if(!file) return;
+        if(file.size > 3*1024*1024) { alert("❌ max 3MB"); return; }
+        try {
+          saveAllBtn.disabled=true;
+          const url = await uploadImage(file,`avatars/${uid}`);
+          await updateProfile(currentUser,{photoURL:url});
+          await setDoc(doc(db,"users",uid),{photo:url},{merge:true});
+          photoPreview.src=url; saveAllBtn.disabled=false;
+          alert("✅ avatar updated!");
+        } catch(e) { saveAllBtn.disabled=false; alert("❌ "+e.code); }
+      });
+
+      editBtn.addEventListener("click", () => {
+        isEditing = !isEditing;
+        edit_section.style.display = isEditing ? "block" : "none";
+        editBtn.textContent        = isEditing ? "✕ close" : "✏️ edit profile";
+        displayNameInput.value     = data.name || "";
+        bioInput.value             = data.bio  || "";
+        if(isEditing) enableSorting();
+        else { if(sortable){sortable.destroy();sortable=null;} }
+        renderSocials();
+      });
+
+      syncPhotoBtn.addEventListener("click", async () => {
+        try {
+          await currentUser.reload();
+          const gp = currentUser.providerData.find(p=>p.providerId==="google.com");
+          if(!gp?.photoURL) { alert("❌ no Google photo."); return; }
+          await updateProfile(currentUser,{photoURL:gp.photoURL});
+          await setDoc(doc(db,"users",uid),{photo:gp.photoURL},{merge:true});
+          photoPreview.src=gp.photoURL; alert("✅ synced!");
+        } catch(e) { alert("❌ "+e.code); }
+      });
+
+      saveAllBtn.addEventListener("click", async () => {
+        const newName = displayNameInput.value.trim();
+        const newBio  = bioInput.value.trim().slice(0,200);
+        if(!newName) { alert("⚠️ username cannot be empty."); return; }
+        if(newName !== data.name) {
+          const chk = await getDocs(query(collection(db,"users"),where("name","==",newName)));
+          if(!chk.empty && chk.docs[0].id!==currentUser.uid) { alert("⚠️ username taken."); return; }
+        }
+        try {
+          saveAllBtn.disabled=true; saveAllBtn.textContent="saving...";
+          await updateProfile(currentUser,{displayName:newName});
+          await setDoc(doc(db,"users",uid),{
+            name:newName, bio:newBio,
+            photo:currentUser.photoURL||data.photo,
+            socials:userSocials
+          },{merge:true});
+          alert("✅ saved!"); window.location.href="/profile/";
+        } catch(e) {
+          saveAllBtn.disabled=false; saveAllBtn.textContent="save changes";
+          alert("❌ "+e.code);
+        }
+      });
+
+      saveSocialBtn.addEventListener("click", async () => {
+        const platform = platformSelect.value;
+        const username = socialInput.value.trim().replace(/^@/,"");
+        if(!username) { alert("⚠️ enter a username."); return; }
+        if(userSocials.find(s=>s.platform===platform&&s.username===username)) { alert("⚠️ already added."); return; }
+        userSocials.push({platform,username});
+        await setDoc(doc(db,"users",uid),{socials:userSocials},{merge:true});
+        socialInput.value=""; renderSocials(); if(isEditing) enableSorting();
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        try { await signOut(auth); window.location.href="/"; } catch(e){console.error(e);}
+      });
+    });
   }
-  
-}
 
-}
-
-let dragStartIndex = null;
-let touchStartY = 0;
-
-// أدوات مساعدة
-function formatTimeAgo(sec) {
-  if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
-  if (sec < 86400) return `${Math.floor(sec / 3600)} hours ago`;
-  return `${Math.floor(sec / 86400)} days ago`;
-}
-function showMessage(msg) {
-  profileContainer.innerHTML = `<div style="text-align:center;padding:100px 20px;font-size:22px">${msg}</div>`;
-}
-function showProfile() {
-  loading.style.display = "none";
-  profileContainer.style.display = "block";
-}
+  // ── Stats ─────────────────────────────────────────────────────────
+  async function loadUserStats(uid) {
+    try {
+      const [ideasSnap, commentsSnap, userSnap] = await Promise.all([
+        getDocs(query(collection(db,"ideas"),    where("uid","==",uid))),
+        getDocs(query(collection(db,"comments"), where("uid","==",uid))),
+        getDoc(doc(db,"users",uid))
+      ]);
+      setStatChip("ideasCount",    "bulb-outline",                 "ideas",    ideasSnap.size);
+      setStatChip("commentsCount", "chatbubble-ellipses-outline",  "comments", commentsSnap.size);
+      if (userSnap.exists()) {
+        const d=userSnap.data(), c=d.createdAt?.toDate?.();
+        setStatChip("starsCount",      "trophy-outline",   "stars",  d.stars||0);
+        setStatChip("createdAtCount",  "calendar-outline", "joined",
+          c ? `${c.getDate()} ${MONTHS[c.getMonth()]} ${c.getFullYear()}` : "—");
+      }
+    } catch(e) { console.error("Stats error:",e); }
+  }
 </script>
-
-<script src="../js/script.js"></script>
-<script src="../js/user.js"></script>
 </body>
 </html>
