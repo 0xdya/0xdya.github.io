@@ -489,7 +489,7 @@ function render() {
     const photo     = user.photo || "../img/user.jpg";
     return `
       <div class="user-card" style="animation-delay:${i * 30}ms"
-           onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
+           onclick="location.href='https://0xdya.vercel.app/profile/?user=${encodeURIComponent(name)}'">
         <img src="${photo}" alt="${name}" onerror="this.src='../img/user.jpg'">
         <div class="name_and_role">
           <span>${name}</span>
