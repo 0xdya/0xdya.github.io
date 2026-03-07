@@ -1,688 +1,742 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>login | 0xdya</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../css/static.css" />
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .login_terminal {
-      background-color: #000;
-      max-width: 320px;
-      margin: 0 auto;
-      border: 1px solid beige;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      line-height: 1.6;
-      font-size: var(--text-base);
-    }
-
-    .prompt { color: #888; }
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      max-width: 312px;
-      padding: 12px 24px;
-      background: #0d0d0d;
-      color: #e8e8e8;
-      border: 1px solid #2a2a2a;
-      border-radius: 8px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      margin: 10px auto 0;
-    }
-
-    button:hover {
-      background: #1a1a1a;
-      border-color: #555;
-      color: #fff;
-      transform: translateY(-1px);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 1rem;
-      border-bottom: 1px dashed #444;
-      padding-bottom: 10px;
-    }
-
-    .user-info img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    }
-
-    #message { color: #0af; font-size: 0.95rem; }
-    #error { color: red; margin-top: 10px; }
-
-    p {
-      font-size: 14px;
-      text-align: left;
-      line-height: 1.6;
-      color: #ececec;
-    }
-
-    .login_note {
-      width: 100%;
-      padding: 0 20px;
-      border: 1px solid #444;
-      background: #060606;
-      line-height: 1;
-      filter: sepia(40%);
-    }
-
-    ion-icon { margin-bottom: -2px; padding: 0; }
-
-    .none { display: none; }
-
-    .flex { display: flex; flex-direction: column; }
-
-    #loader {
-      margin: 1rem 0 0;
-      background: #000;
-      color: #0af;
-      font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 16px;
-    }
-
-    #loginComand {
-      margin-top: 1rem;
-      line-height: 1.6;
-      font-size: var(--text-sm);
-    }
-
-    #emailInput {
-      width: 100%;
-      padding: 8px 20px;
-      background: #060606;
-      color: white;
-      border: 1px solid #444;
-      position: relative;
-    }
-
-    input[type="email"] {
-      width: 100%;
-      max-width: 400px;
-      padding: 12px 16px;
-      font-size: 1rem;
-      font-family: inherit;
-      border: 1px solid #444;
-      border-radius: 4px;
-      background-color: #111;
-      color: #fff;
-      outline: none;
-      transition: 0.3s ease all;
-    }
-
-    input[type="email"]::placeholder { color: #888; font-size: 12px; }
-    input[type="email"]:hover { border-color: #666; }
-    input[type="email"]:focus { border: 1px solid white !important; }
-    input[type="email"]:invalid { border-color: #ff4d4d; }
-    input[type="email"]:required:invalid { background-color: #1a0000; }
-
-    #sendLoginLink {
-      width: 100%;
-      max-width: 312px;
-      margin: 8px auto 0;
-      padding: 10px;
-      background: #003366;
-      color: #0af;
-      border: 1px solid #0af;
-      border-radius: 8px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    #sendLoginLink:hover {
-      background: #004488;
-      color: #fff;
-    }
-
-    #emailLoginBox { position: relative; margin: 1rem 0; }
-
-    #login-buttons { display: none; }
-
-    /* Modal */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .modal-content {
-      background: #111;
-      padding: 3rem 2rem;
-      border-radius: 12px;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-      border: 1px solid #333;
-    }
-
-    .modal-content h2 { color: #0ff; margin-bottom: 1rem; }
-
-    .modal-content input[type="text"] {
-      width: 100%;
-      padding: 0.7rem 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #444;
-      border-radius: 8px;
-      background: #222;
-      color: #fff;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 1rem;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    .modal-content input[type="text"]:focus { border-color: #0ff; }
-
-    .modal-content button {
-      background: #0ff;
-      color: #000;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      max-width: 200px;
-    }
-
-    /* Email prompt modal */
-    #emailPromptModal .modal-content p {
-      color: #aaa;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-    }
-
-    #emailPromptModal .modal-content input[type="email"] {
-      max-width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 1rem;
-    }
-
-    #emailPromptModal .modal-content button {
-      background: #0af;
-      color: #000;
-    }
-
-    @media (max-width: 480px) {
-      input[type="email"] { font-size: 0.9rem; padding: 10px 14px; }
-    }
-
-    @media (min-width: 600px) {
-      .login_terminal { max-width: 420px; }
-      button { max-width: 412px; }
-      #sendLoginLink { max-width: 412px; }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- Username modal for new users -->
-  <div id="nameModal" style="display: none;" class="modal">
-    <div class="modal-content">
-      <h2>welcome 🐐</h2>
-      <input type="text" id="nameInput" placeholder="choose ur username (>= 3 chars)" />
-      <button id="saveNameBtn">save</button>
-    </div>
-  </div>
-
-  <!-- Email prompt modal (when opening link on different device) -->
-  <div id="emailPromptModal" style="display: none;" class="modal">
-    <div class="modal-content">
-      <h2>confirm ur email 📧</h2>
-      <p>you opened the link on a different device. enter ur email to continue.</p>
-      <input type="email" id="promptEmailInput" placeholder="your@email.com" />
-      <button id="confirmEmailBtn">confirm</button>
-    </div>
-  </div>
-
-  <div class="login_terminal">
-    <div class="login_note">
-      <img width="100%" src="lain.gif">
-    </div>
-
-    <div id="loader">
-      <span>Authenticating...</span>
-    </div>
-
-    <div id="loginComand" class="none" dir="ltr">
-      <span class="prompt">0xdya@auth:~$</span> sudo login
-    </div>
-
-    <div class="none" dir="ltr" id="userComand" style="text-align:left">
-      <div id="message"></div><br>
-      <span class="prompt">0xdya@auth:~$</span> account-info
-    </div>
-
-    <div class="flex">
-      <div id="userInfo" class="user-info none">
-        <img id="userPhoto" src="" alt="User Photo">
-        <div id="userName"></div>
-      </div>
-      <div id="userDetails" style="font-size: 13px; line-height: 1.4;"></div>
-    </div>
-
-    <div id="login-buttons">
-      <div id="emailLoginBox">
-        <input type="email" id="emailInput" placeholder="ur email to get login link" />
-        <div id="sendLoginLink">send login link 📨</div>
-      </div>
-    </div>
-
-    <div id="error"></div>
-
-    <div id="userSection" class="none">
-      <button onclick="location.href='https://0xdya.vercel.app/profile/'" id="profile">Go to Profile</button>
-      <button id="logoutBtn">logout</button>
-    </div>
-  </div>
-
-  <div id="continuewith">
-    <button id="googleLogin" dir="ltr">
-      <ion-icon name="logo-google"></ion-icon>
-      <span class="home_title_font"> continue with Google </span>
-    </button>
-    <button id="githubLogin" dir="ltr">
-      <ion-icon name="logo-github"></ion-icon>
-      <span class="home_title_font"> continue with GitHub </span>
-    </button>
-  </div>
-
-  <div class="navbar_section">
-    <nav class="navbar">
-      <a href="../" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-        <span class="nav-text">Home</span>
-      </a>
-      <a href="../projects/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-        <span class="nav-text">Projects</span>
-      </a>
-      <a href="../blog/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="16" y1="13" x2="8" y2="13" />
-          <line x1="16" y1="17" x2="8" y2="17" />
-        </svg>
-        <span class="nav-text">Articles</span>
-      </a>
-      <a href="../contact/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-          <polyline points="22,6 12,13 2,6" />
-        </svg>
-        <span class="nav-text">Contact</span>
-      </a>
-    </nav>
-    <nav class="navbar">
-      <a href="../comments/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-        <span class="nav-text">Comments</span>
-      </a>
-      <div class="user_photo" id="userPhotoContainer"></div>
-    </nav>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import {
-      getAuth, GoogleAuthProvider, GithubAuthProvider,
-      signInWithPopup, signOut, onAuthStateChanged,
-      sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink,
-      fetchSignInMethodsForEmail
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-    import {
-      getFirestore, doc, setDoc, getDocFromServer, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import {
-      getDatabase, ref, runTransaction
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-      authDomain: "oxdyaa.firebaseapp.com",
-      projectId: "oxdyaa",
-      storageBucket: "oxdyaa.appspot.com",
-      messagingSenderId: "604062703590",
-      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const rtdb = getDatabase(app);
-
-    const providers = {
-      google: new GoogleAuthProvider(),
-      github: new GithubAuthProvider()
-    };
-
-    // DOM refs
-    const continuewith   = document.getElementById("continuewith");
-    const loginBtns      = document.getElementById("login-buttons");
-    const userSection    = document.getElementById("userSection");
-    const userInfo       = document.getElementById("userInfo");
-    const userComand     = document.getElementById("userComand");
-    const loginComand    = document.getElementById("loginComand");
-    const userName       = document.getElementById("userName");
-    const userPhoto      = document.getElementById("userPhoto");
-    const errorEl        = document.getElementById("error");
-    const message        = document.getElementById("message");
-    const loader         = document.getElementById("loader");
-    const emailInput     = document.getElementById("emailInput");
-
-    // ─── Show logged-in UI ─────────────────────────────────────────────
-    function showLoggedIn() {
-      loginBtns.style.display    = "none";
-      continuewith.style.display = "none";
-      userSection.style.display  = "block";
-      userInfo.style.display     = "flex";
-      userComand.style.display   = "block";
-      loginComand.style.display  = "block";
-    }
-
-    // ─── Show logged-out UI ────────────────────────────────────────────
-    function showLoggedOut() {
-      loginBtns.style.display    = "block";
-      continuewith.style.display = "block";
-      userSection.style.display  = "none";
-      userInfo.style.display     = "none";
-      userComand.style.display   = "none";
-      loginComand.style.display  = "block";
-      message.textContent        = "";
-    }
-
-    // ─── Init / save user data in Firestore ───────────────────────────
-    async function initUserData(user) {
-      const userRef      = doc(db, "users", user.uid);
-      const defaultPhoto = user.photoURL || "https://0xdya.vercel.app/img/user.jpg";
-      const defaultEmail = user.email || "";
-
-      userPhoto.src = defaultPhoto;
-
-      try {
-        const snap = await getDocFromServer(userRef);
-
-        if (!snap.exists()) {
-          // New user → ask for username
-          showUsernameModal(user, userRef, defaultPhoto, defaultEmail);
-        } else {
-          const savedName = snap.data().name || "user";
-          userName.textContent = savedName;
-          // Update last login + photo if changed
-          await setDoc(userRef, {
-            email:     defaultEmail,
-            photo:     defaultPhoto,
-            lastLogin: serverTimestamp()
-          }, { merge: true });
-        }
-      } catch (err) {
-        console.error("Firestore error:", err.code, err.message);
-        errorEl.textContent = "❌ error loading profile: " + err.code;
-      }
-    }
-
-    // ─── Username modal for new users ─────────────────────────────────
-    function showUsernameModal(user, userRef, defaultPhoto, defaultEmail) {
-      const nameModal = document.getElementById("nameModal");
-      nameModal.style.display = "flex";
-
-      document.getElementById("saveNameBtn").onclick = async () => {
-        const newName = document.getElementById("nameInput").value.trim();
-        if (newName.length < 3) {
-          alert("⚠️ username must be at least 3 characters");
-          return;
-        }
-
-        try {
-          await setDoc(userRef, {
-            uid:       user.uid,
-            name:      newName,
-            email:     defaultEmail,
-            photo:     defaultPhoto,
-            createdAt: serverTimestamp(),
-            lastLogin: serverTimestamp(),
-            role:      "user",
-            hidden:    false,
-            verified:  false,
-            bio:       "",
-            banner:    "",
-            social:    { github: "", twitter: "", website: "" }
-          });
-
-          const countRef = ref(rtdb, "users_count");
-          await runTransaction(countRef, c => (c || 0) + 1);
-
-          userName.textContent        = newName;
-          nameModal.style.display     = "none";
-          alert("✅ account created successfully!");
-        } catch (err) {
-          console.error("Error creating user:", err);
-          alert("❌ failed to create account: " + err.code);
-        }
-      };
-    }
-
-    // ─── OAuth login (Google / GitHub) ────────────────────────────────
-    async function loginWithProvider(provider) {
-      errorEl.textContent = "";
-      try {
-        await signInWithPopup(auth, provider);
-        // onAuthStateChanged handles the rest
-      } catch (err) {
-        if (err.code === "auth/account-exists-with-different-credential") {
-          errorEl.textContent = "⚠️ this email is already registered with a different provider (Google/GitHub).";
-        } else if (err.code === "auth/popup-closed-by-user") {
-          // user closed popup — do nothing
-        } else {
-          errorEl.textContent = "❌ login failed: " + err.code;
-          console.error(err);
-        }
-      }
-    }
-
-    // ─── Email link settings ──────────────────────────────────────────
-    const actionCodeSettings = {
-      url: window.location.origin + window.location.pathname,
-      handleCodeInApp: true
-    };
-
-    // ─── Send email link ──────────────────────────────────────────────
-    document.getElementById("sendLoginLink").addEventListener("click", async () => {
-      const email = emailInput.value.trim();
-      if (!email || !email.includes("@")) {
-        errorEl.textContent = "❌ enter a valid email address.";
-        return;
-      }
-
-      errorEl.textContent = "";
-      document.getElementById("sendLoginLink").textContent = "sending...";
-
-      try {
-        await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-        window.localStorage.setItem("emailForSignIn", email);
-        emailInput.value = "";
-        document.getElementById("sendLoginLink").textContent = "send login link 📨";
-        alert("📨 link sent! check your inbox or spam folder.");
-      } catch (err) {
-        document.getElementById("sendLoginLink").textContent = "send login link 📨";
-        console.error("Send link error:", err.code, err.message);
-
-        if (err.code === "auth/quota-exceeded") {
-          errorEl.textContent = "❌ daily email limit reached. try Google or GitHub login instead.";
-        } else {
-          errorEl.textContent = "❌ " + err.code;
-        }
-      }
-    });
-
-    // ─── Handle email link sign-in ────────────────────────────────────
-    async function handleEmailLink(email) {
-      try {
-        const result = await signInWithEmailLink(auth, email, window.location.href);
-        window.localStorage.removeItem("emailForSignIn");
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-        await initUserData(result.user);
-        message.innerHTML = "login successfully 🐧";
-        showLoggedIn();
-      } catch (err) {
-        console.error("Email link sign-in error:", err.code, err.message);
-        if (err.code === "auth/invalid-action-code") {
-          errorEl.textContent = "❌ this link has expired or already been used. please request a new one.";
-        } else if (err.code === "auth/invalid-email") {
-          errorEl.textContent = "❌ wrong email. please try again.";
-        } else {
-          errorEl.textContent = "❌ login failed: " + err.code;
-        }
-        loader.style.display = "none";
-        showLoggedOut();
-      }
-    }
-
-    if (isSignInWithEmailLink(auth, window.location.href)) {
-      loader.style.display = "flex";
-      const storedEmail = window.localStorage.getItem("emailForSignIn");
-
-      if (storedEmail) {
-        // Same device — proceed directly
-        handleEmailLink(storedEmail);
-      } else {
-        // Different device — show email prompt modal
-        loader.style.display = "none";
-        const emailPromptModal = document.getElementById("emailPromptModal");
-        emailPromptModal.style.display = "flex";
-
-        document.getElementById("confirmEmailBtn").addEventListener("click", () => {
-          const enteredEmail = document.getElementById("promptEmailInput").value.trim();
-          if (!enteredEmail || !enteredEmail.includes("@")) {
-            alert("⚠️ please enter a valid email.");
-            return;
-          }
-          emailPromptModal.style.display = "none";
-          loader.style.display = "flex";
-          handleEmailLink(enteredEmail);
-        });
-      }
-    }
-
-    // ─── Auth state listener ──────────────────────────────────────────
-    onAuthStateChanged(auth, async user => {
-      loader.style.display = "none";
-
-      if (user) {
-        showLoggedIn();
-        await initUserData(user);
-        message.innerHTML = "login successfully 🐧";
-      } else {
-        showLoggedOut();
-      }
-    });
-
-    // ─── Logout ───────────────────────────────────────────────────────
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-      } catch (err) {
-        console.error("Logout error:", err);
-        errorEl.textContent = "❌ logout failed: " + err.code;
-      }
-    });
-
-    // ─── Buttons ──────────────────────────────────────────────────────
-    document.getElementById("googleLogin").addEventListener("click", () => loginWithProvider(providers.google));
-    document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
-  </script>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import {
-      getFirestore, collection, doc, getDoc,
-      updateDoc, serverTimestamp, query, orderBy, onSnapshot
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import {
-      getAuth, onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-      authDomain: "oxdyaa.firebaseapp.com",
-      projectId: "oxdyaa",
-      storageBucket: "oxdyaa.appspot.com",
-      messagingSenderId: "604062703590",
-      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
-    const auth = getAuth(app);
-
-    const CACHE_KEY       = "userData";
-    const UPDATE_INTERVAL = 10 * 60 * 1000;
-
-    function timeAgo(date) {
-      const seconds = Math.floor((Date.now() - date) / 1000);
-      if (seconds < 60)  return "just now";
-      const minutes = Math.floor(seconds / 60);
-      if (minutes < 60)  return `joined before ${minutes}m`;
-      const hours = Math.floor(minutes / 60);
-      if (hours < 24)    return `joined before ${hours}h`;
-      return `joined before ${Math.floor(hours / 24)}d`;
-    }
-
-    function applyUserUI(photo, name) {
-      const container = document.getElementById("userPhotoContainer");
-      if (!container) return;
-
-      if (name || photo) {
-        container.innerHTML = `
+    <head>
+        <meta charset="UTF-8">
+        <title>login | 0xdya</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../css/static.css"/>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .login_terminal {
+                background-color: #000;
+                max-width: 320px;
+                margin: 0 auto;
+                border: 1px solid beige;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                line-height: 1.6;
+                font-size: var(--text-base);
+            }
+
+            .prompt {
+                color: #888;
+            }
+
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                width: 100%;
+                max-width: 312px;
+                padding: 12px 24px;
+                background: #0d0d0d;
+                color: #e8e8e8;
+                border: 1px solid #2a2a2a;
+                border-radius: 8px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin: 10px auto 0;
+            }
+
+            button:hover {
+                background: #1a1a1a;
+                border-color: #555;
+                color: #fff;
+                transform: translateY(-1px);
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 1rem;
+                border-bottom: 1px dashed #444;
+                padding-bottom: 10px;
+            }
+
+            .user-info img {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+            }
+
+            #message {
+                color: #0af;
+                font-size: 0.95rem;
+            }
+            #error {
+                color: red;
+                margin-top: 10px;
+            }
+
+            p {
+                font-size: 14px;
+                text-align: left;
+                line-height: 1.6;
+                color: #ececec;
+            }
+
+            .login_note {
+                width: 100%;
+                padding: 0 20px;
+                border: 1px solid #444;
+                background: #060606;
+                line-height: 1;
+                filter: sepia(40%);
+            }
+
+            ion-icon {
+                margin-bottom: -2px;
+                padding: 0;
+            }
+
+            .none {
+                display: none;
+            }
+
+            .flex {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #loader {
+                margin: 1rem 0 0;
+                background: #000;
+                color: #0af;
+                font-family: monospace;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 16px;
+            }
+
+            #loginComand {
+                margin-top: 1rem;
+                line-height: 1.6;
+                font-size: var(--text-sm);
+            }
+
+            #emailInput {
+                width: 100%;
+                padding: 8px 20px;
+                background: #060606;
+                color: white;
+                border: 1px solid #444;
+                position: relative;
+            }
+
+            input[type="email"] {
+                width: 100%;
+                max-width: 400px;
+                padding: 12px 16px;
+                font-size: 1rem;
+                font-family: inherit;
+                border: 1px solid #444;
+                border-radius: 4px;
+                background-color: #111;
+                color: #fff;
+                outline: none;
+                transition: 0.3s ease all;
+            }
+
+            input[type="email"]::placeholder {
+                color: #888;
+                font-size: 12px;
+            }
+            input[type="email"]:hover {
+                border-color: #666;
+            }
+            input[type="email"]:focus {
+                border: 1px solid white !important;
+            }
+            input[type="email"]:invalid {
+                border-color: #ff4d4d;
+            }
+            input[type="email"]:required:invalid {
+                background-color: #1a0000;
+            }
+
+            #sendLoginLink {
+                width: 100%;
+                max-width: 312px;
+                margin: 8px auto 0;
+                padding: 10px;
+                background: #003366;
+                color: #0af;
+                border: 1px solid #0af;
+                border-radius: 8px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                text-align: center;
+            }
+
+            #sendLoginLink:hover {
+                background: #004488;
+                color: #fff;
+            }
+
+            #emailLoginBox {
+                position: relative;
+                margin: 1rem 0;
+            }
+
+            #login-buttons {
+                display: none;
+            }
+
+            .modal {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.85);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+            }
+
+            .modal-content {
+                background: #111;
+                padding: 3rem 2rem;
+                border-radius: 12px;
+                text-align: center;
+                max-width: 400px;
+                width: 90%;
+                border: 1px solid #333;
+            }
+
+            .modal-content h2 {
+                color: #0ff;
+                margin-bottom: 1rem;
+            }
+
+            .modal-content input[type="text"] {
+                width: 100%;
+                padding: 0.7rem 1rem;
+                margin-bottom: 1rem;
+                border: 1px solid #444;
+                border-radius: 8px;
+                background: #222;
+                color: #fff;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 1rem;
+                outline: none;
+                box-sizing: border-box;
+            }
+
+            .modal-content input[type="text"]:focus {
+                border-color: #0ff;
+            }
+
+            .modal-content button {
+                background: #0ff;
+                color: #000;
+                padding: 0.6rem 1.2rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                max-width: 200px;
+            }
+            #emailPromptModal .modal-content p {
+                color: #aaa;
+                margin-bottom: 1rem;
+                font-size: 0.9rem;
+            }
+
+            #emailPromptModal .modal-content input[type="email"] {
+                max-width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 1rem;
+            }
+
+            #emailPromptModal .modal-content button {
+                background: #0af;
+                color: #000;
+            }
+
+            @media(max-width: 480px) {
+                input[type="email"] {
+                    font-size: 0.9rem;
+                    padding: 10px 14px;
+                }
+            }
+
+            @media(min-width: 600px) {
+                .login_terminal {
+                    max-width: 420px;
+                }
+                button {
+                    max-width: 412px;
+                }
+                #sendLoginLink {
+                    max-width: 412px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div id="nameModal" style="display: none;" class="modal">
+            <div class="modal-content">
+                <h2>welcome 🐐</h2>
+                <input type="text" id="nameInput" placeholder="choose ur username (>= 3 chars)"/>
+                <button id="saveNameBtn">save</button>
+            </div>
+        </div>
+
+        <div id="emailPromptModal" style="display: none;" class="modal">
+            <div class="modal-content">
+                <h2>confirm ur email 📧</h2>
+                <p>you opened the link on a different device. enter ur email to continue.</p>
+                <input type="email" id="promptEmailInput" placeholder="your@email.com"/>
+                <button id="confirmEmailBtn">confirm</button>
+            </div>
+        </div>
+
+        <div class="login_terminal">
+            <div class="login_note">
+                <img width="100%" src="lain.gif">
+            </div>
+
+            <div id="loader">
+                <span>Authenticating...</span>
+            </div>
+
+            <div id="loginComand" class="none" dir="ltr">
+                <span class="prompt">0xdya@auth:~$</span>
+                sudo login
+            </div>
+
+            <div class="none" dir="ltr" id="userComand" style="text-align:left">
+                <div id="message"></div><br>
+                <span class="prompt">0xdya@auth:~$</span>
+                account-info
+            </div>
+
+            <div class="flex">
+                <div id="userInfo" class="user-info none">
+                    <img id="userPhoto" src="" alt="User Photo">
+                    <div id="userName"></div>
+                </div>
+                <div id="userDetails" style="font-size: 13px; line-height: 1.4;"></div>
+            </div>
+
+            <div id="login-buttons">
+                <div id="emailLoginBox">
+                    <input type="email" id="emailInput" placeholder="ur email to get login link"/>
+                    <div id="sendLoginLink">send login link 📨</div>
+                </div>
+            </div>
+
+            <div id="error"></div>
+
+            <div id="userSection" class="none">
+                <button onclick="location.href='https://0xdya.vercel.app/profile/'" id="profile">Go to Profile</button>
+                <button id="logoutBtn">logout</button>
+            </div>
+        </div>
+
+        <div id="continuewith">
+            <button id="googleLogin" dir="ltr">
+                <ion-icon name="logo-google"></ion-icon>
+                <span class="home_title_font">
+                    continue with Google
+                </span>
+            </button>
+            <button id="githubLogin" dir="ltr">
+                <ion-icon name="logo-github"></ion-icon>
+                <span class="home_title_font">
+                    continue with GitHub
+                </span>
+            </button>
+        </div>
+
+        <div class="navbar_section">
+            <nav class="navbar">
+                <a href="../" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="../projects/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span class="nav-text">Projects</span>
+                </a>
+                <a href="../blog/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <span class="nav-text">Articles</span>
+                </a>
+                <a href="../contact/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span class="nav-text">Contact</span>
+                </a>
+            </nav>
+            <nav class="navbar">
+                <a href="../comments/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="nav-text">Comments</span>
+                </a>
+                <div class="user_photo" id="userPhotoContainer"></div>
+            </nav>
+        </div>
+
+        <script type="module">
+            import {initializeApp} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+            import {
+                getAuth,
+                GoogleAuthProvider,
+                GithubAuthProvider,
+                signInWithPopup,
+                signOut,
+                onAuthStateChanged,
+                sendSignInLinkToEmail,
+                isSignInWithEmailLink,
+                signInWithEmailLink,
+                fetchSignInMethodsForEmail
+            } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+            import {
+                getFirestore,
+                doc,
+                setDoc,
+                getDocFromServer,
+                serverTimestamp
+            } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+            import {getDatabase, ref, runTransaction} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+                authDomain: "oxdyaa.firebaseapp.com",
+                projectId: "oxdyaa",
+                storageBucket: "oxdyaa.appspot.com",
+                messagingSenderId: "604062703590",
+                appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+            const rtdb = getDatabase(app);
+
+            const providers = {
+                google: new GoogleAuthProvider(),
+                github: new GithubAuthProvider()
+            };
+
+            const continuewith = document.getElementById("continuewith");
+            const loginBtns = document.getElementById("login-buttons");
+            const userSection = document.getElementById("userSection");
+            const userInfo = document.getElementById("userInfo");
+            const userComand = document.getElementById("userComand");
+            const loginComand = document.getElementById("loginComand");
+            const userName = document.getElementById("userName");
+            const userPhoto = document.getElementById("userPhoto");
+            const errorEl = document.getElementById("error");
+            const message = document.getElementById("message");
+            const loader = document.getElementById("loader");
+            const emailInput = document.getElementById("emailInput");
+
+            function showLoggedIn() {
+                loginBtns.style.display = "none";
+                continuewith.style.display = "none";
+                userSection.style.display = "block";
+                userInfo.style.display = "flex";
+                userComand.style.display = "block";
+                loginComand.style.display = "block";
+            }
+
+            function showLoggedOut() {
+                loginBtns.style.display = "block";
+                continuewith.style.display = "block";
+                userSection.style.display = "none";
+                userInfo.style.display = "none";
+                userComand.style.display = "none";
+                loginComand.style.display = "block";
+                message.textContent = "";
+            }
+
+            async function initUserData(user) {
+                const userRef = doc(db, "users", user.uid);
+                const defaultPhoto = user.photoURL || "https://0xdya.vercel.app/img/user.jpg";
+                const defaultEmail = user.email || "";
+
+                userPhoto.src = defaultPhoto;
+
+                try {
+                    const snap = await getDocFromServer(userRef);
+
+                    if (! snap.exists()) {
+                        showUsernameModal(user, userRef, defaultPhoto, defaultEmail);
+                    } else {
+                        const savedName = snap.data().name || "user";
+                        userName.textContent = savedName;
+                        await setDoc(userRef, {
+                            email: defaultEmail,
+                            photo: defaultPhoto,
+                            lastLogin: serverTimestamp()
+                        }, {merge: true});
+                    }
+                } catch (err) {
+                    console.error("Firestore error:", err.code, err.message);
+                    errorEl.textContent = "❌ error loading profile: " + err.code;
+                }
+            }
+
+            function showUsernameModal(user, userRef, defaultPhoto, defaultEmail) {
+                const nameModal = document.getElementById("nameModal");
+                nameModal.style.display = "flex";
+
+                document.getElementById("saveNameBtn").onclick = async () => {
+                    const newName = document.getElementById("nameInput").value.trim();
+                    if (newName.length < 3) {
+                        alert("⚠️ username must be at least 3 characters");
+                        return;
+                    }
+
+                    try {
+                        await setDoc(userRef, {
+                            uid: user.uid,
+                            name: newName,
+                            email: defaultEmail,
+                            photo: defaultPhoto,
+                            createdAt: serverTimestamp(),
+                            lastLogin: serverTimestamp(),
+                            role: "user",
+                            hidden: false,
+                            verified: false,
+                            bio: "",
+                            banner: "",
+                            social: {
+                                github: "",
+                                twitter: "",
+                                website: ""
+                            }
+                        });
+
+                        const countRef = ref(rtdb, "users_count");
+                        await runTransaction(countRef, c => (c || 0) + 1);
+
+                        userName.textContent = newName;
+                        nameModal.style.display = "none";
+                        alert("✅ account created successfully!");
+                    } catch (err) {
+                        console.error("Error creating user:", err);
+                        alert("❌ failed to create account: " + err.code);
+                    }
+                };
+            }
+
+            async function loginWithProvider(provider) {
+                errorEl.textContent = "";
+                try {
+                    await signInWithPopup(auth, provider);
+                } catch (err) {
+                    if (err.code === "auth/account-exists-with-different-credential") {
+                        errorEl.textContent = "⚠️ this email is already registered with a different provider (Google/GitHub).";
+                    } else if (err.code === "auth/popup-closed-by-user") {} else {
+                        errorEl.textContent = "❌ login failed: " + err.code;
+                        console.error(err);
+                    }
+                }
+            }
+            const actionCodeSettings = {
+                url: window.location.origin + window.location.pathname,
+                handleCodeInApp: true
+            };
+
+            document.getElementById("sendLoginLink").addEventListener("click", async () => {
+                const email = emailInput.value.trim();
+                if (! email || ! email.includes("@")) {
+                    errorEl.textContent = "❌ enter a valid email address.";
+                    return;
+                }
+
+                errorEl.textContent = "";
+                document.getElementById("sendLoginLink").textContent = "sending...";
+
+                try {
+                    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+                    window.localStorage.setItem("emailForSignIn", email);
+                    emailInput.value = "";
+                    document.getElementById("sendLoginLink").textContent = "send login link 📨";
+                    alert("📨 link sent! check your inbox or spam folder.");
+                } catch (err) {
+                    document.getElementById("sendLoginLink").textContent = "send login link 📨";
+                    console.error("Send link error:", err.code, err.message);
+
+                    if (err.code === "auth/quota-exceeded") {
+                        errorEl.textContent = "❌ daily email limit reached. try Google or GitHub login instead.";
+                    } else {
+                        errorEl.textContent = "❌ " + err.code;
+                    }
+                }
+            });
+            async function handleEmailLink(email) {
+                try {
+                    const result = await signInWithEmailLink(auth, email, window.location.href);
+                    window.localStorage.removeItem("emailForSignIn");
+
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    await initUserData(result.user);
+                    message.innerHTML = "login successfully 🐧";
+                    showLoggedIn();
+                } catch (err) {
+                    console.error("Email link sign-in error:", err.code, err.message);
+                    if (err.code === "auth/invalid-action-code") {
+                        errorEl.textContent = "❌ this link has expired or already been used. please request a new one.";
+                    } else if (err.code === "auth/invalid-email") {
+                        errorEl.textContent = "❌ wrong email. please try again.";
+                    } else {
+                        errorEl.textContent = "❌ login failed: " + err.code;
+                    } loader.style.display = "none";
+                    showLoggedOut();
+                }
+            }
+
+            if (isSignInWithEmailLink(auth, window.location.href)) {
+                loader.style.display = "flex";
+                const storedEmail = window.localStorage.getItem("emailForSignIn");
+
+                if (storedEmail) {
+                    handleEmailLink(storedEmail);
+                } else {
+                    loader.style.display = "none";
+                    const emailPromptModal = document.getElementById("emailPromptModal");
+                    emailPromptModal.style.display = "flex";
+
+                    document.getElementById("confirmEmailBtn").addEventListener("click", () => {
+                        const enteredEmail = document.getElementById("promptEmailInput").value.trim();
+                        if (! enteredEmail || ! enteredEmail.includes("@")) {
+                            alert("⚠️ please enter a valid email.");
+                            return;
+                        }
+                        emailPromptModal.style.display = "none";
+                        loader.style.display = "flex";
+                        handleEmailLink(enteredEmail);
+                    });
+                }
+            }
+
+            onAuthStateChanged(auth, async user => {
+                loader.style.display = "none";
+
+                if (user) {
+                    showLoggedIn();
+                    await initUserData(user);
+                    message.innerHTML = "login successfully 🐧";
+                } else {
+                    showLoggedOut();
+                }
+            });
+
+            document.getElementById("logoutBtn").addEventListener("click", async () => {
+                try {
+                    await signOut(auth);
+                } catch (err) {
+                    console.error("Logout error:", err);
+                    errorEl.textContent = "❌ logout failed: " + err.code;
+                }
+            });
+
+            document.getElementById("googleLogin").addEventListener("click", () => loginWithProvider(providers.google));
+            document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
+        </script>
+
+        <script type="module">
+            import {initializeApp} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+            import {
+                getFirestore,
+                collection,
+                doc,
+                getDoc,
+                updateDoc,
+                serverTimestamp,
+                query,
+                orderBy,
+                onSnapshot
+            } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+            import {getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+                authDomain: "oxdyaa.firebaseapp.com",
+                projectId: "oxdyaa",
+                storageBucket: "oxdyaa.appspot.com",
+                messagingSenderId: "604062703590",
+                appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+
+            const CACHE_KEY = "userData";
+            const UPDATE_INTERVAL = 10 * 60 * 1000;
+
+            function timeAgo(date) {
+                const seconds = Math.floor((Date.now() - date) / 1000);
+                if (seconds < 60) 
+                    return "just now";
+                
+                const minutes = Math.floor(seconds / 60);
+                if (minutes < 60) 
+                    return `joined before ${minutes}m`;
+                
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) 
+                    return `joined before ${hours}h`;
+                
+                return `joined before ${
+                    Math.floor(hours / 24)
+                }d`;
+            }
+
+            function applyUserUI(photo, name) {
+                const container = document.getElementById("userPhotoContainer");
+                if (! container) 
+                    return;
+                
+
+                if (name || photo) {
+                    container.innerHTML = `
           <a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/">
-            <img src="${photo || '../img/user.jpg'}">
+            <img src="${
+                        photo || '../img/user.jpg'
+                    }">
           </a>`;
-      } else {
-        container.innerHTML = `
+                } else {
+                    container.innerHTML = `
           <a href="https://0xdya.vercel.app/login/" class="nav-item">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -690,26 +744,30 @@
             </svg>
             <span class="nav-text">Account</span>
           </a>`;
-      }
-    }
+                }
+            }
 
-    function loadUsers() {
-      const usersDiv = document.getElementById("users");
-      if (!usersDiv) return;
+            function loadUsers() {
+                const usersDiv = document.getElementById("users");
+                if (! usersDiv) 
+                    return;
+                
 
-      const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
-      onSnapshot(q, (snapshot) => {
-        usersDiv.innerHTML = "";
-        snapshot.forEach(docSnap => {
-          const user       = docSnap.data();
-          const created    = user.createdAt?.toDate?.();
-          const joinedText = created ? timeAgo(created) : "—";
-          const role       = user.role || "user";
-          const name       = user.name || "no name";
-          const photo      = user.photo || "../img/user.jpg";
+                const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
+                onSnapshot(q, (snapshot) => {
+                    usersDiv.innerHTML = "";
+                    snapshot.forEach(docSnap => {
+                        const user = docSnap.data();
+                        const created = user.createdAt ?. toDate ?. ();
+                        const joinedText = created ? timeAgo(created) : "—";
+                        const role = user.role || "user";
+                        const name = user.name || "no name";
+                        const photo = user.photo || "../img/user.jpg";
 
-          usersDiv.innerHTML += `
-            <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
+                        usersDiv.innerHTML += `
+            <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${
+                            encodeURIComponent(name)
+                        }'">
               <img src="${photo}" alt="user photo">
               <div class="name_and_role">
                 <span>${name}</span>
@@ -717,57 +775,52 @@
               </div>
               <div class="joined">${joinedText}</div>
             </div>`;
-        });
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const data = JSON.parse(cached);
-        applyUserUI(data.photo, data.name);
-      } else {
-        applyUserUI(null, null);
-      }
-
-      loadUsers();
-
-      onAuthStateChanged(auth, async user => {
-        if (user) {
-          applyUserUI(user.photoURL, user.displayName);
-
-          const now        = Date.now();
-          const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
-
-          if (now - (cachedData.lastUpdate || 0) > UPDATE_INTERVAL) {
-            try {
-              const userRef  = doc(db, "users", user.uid);
-              const userSnap = await getDoc(userRef);
-
-              if (userSnap.exists()) {
-                const updates = { lastLogin: serverTimestamp() };
-                if (user.photoURL && user.photoURL !== userSnap.data().photo) {
-                  updates.photo = user.photoURL;
-                }
-                await updateDoc(userRef, updates);
-              }
-
-              localStorage.setItem(CACHE_KEY, JSON.stringify({
-                photo:      user.photoURL,
-                name:       user.displayName,
-                email:      user.email,
-                lastUpdate: now
-              }));
-            } catch (error) {
-              console.error("Firestore update error:", error);
+                    });
+                });
             }
-          }
-        } else {
-          localStorage.removeItem(CACHE_KEY);
-          applyUserUI(null, null);
-        }
-      });
-    });
-  </script>
-</body>
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    applyUserUI(data.photo, data.name);
+                } else {
+                    applyUserUI(null, null);
+                } loadUsers();
+
+                onAuthStateChanged(auth, async user => {
+                    if (user) {
+                        applyUserUI(user.photoURL, user.displayName);
+
+                        const now = Date.now();
+                        const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+
+                        if (now - (cachedData.lastUpdate || 0) > UPDATE_INTERVAL) {
+                            try {
+                                const userRef = doc(db, "users", user.uid);
+                                const userSnap = await getDoc(userRef);
+
+                                if (userSnap.exists()) {
+                                    const updates = {
+                                        lastLogin: serverTimestamp()
+                                    };
+                                    if (user.photoURL && user.photoURL !== userSnap.data().photo) {
+                                        updates.photo = user.photoURL;
+                                    }
+                                    await updateDoc(userRef, updates);
+                                }
+
+                                localStorage.setItem(CACHE_KEY, JSON.stringify({photo: user.photoURL, name: user.displayName, email: user.email, lastUpdate: now}));
+                            } catch (error) {
+                                console.error("Firestore update error:", error);
+                            }
+                        }
+                    } else {
+                        localStorage.removeItem(CACHE_KEY);
+                        applyUserUI(null, null);
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
