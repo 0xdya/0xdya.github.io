@@ -6,7 +6,6 @@
   <title>login | 0xdya</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../css/static.css" />
-  <script type="module" src="../js/user.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <style>
@@ -16,7 +15,7 @@
       flex-direction: column;
       /* gap: var(--space-1); */
     }
-
+    
     .login_terminal {
       background-color: #000;
       max-width: 320px;
@@ -28,11 +27,11 @@
       line-height: 1.6;
       font-size: var(--text-base);
     }
-
+    
     .prompt {
       color: #888;
     }
-
+    
     button {
       display: flex;
       align-items: center;
@@ -58,7 +57,7 @@
       color: #fff;
       transform: translateY(-1px);
     }
-
+    
     .user-info {
       display: flex;
       align-items: center;
@@ -67,30 +66,30 @@
       border-bottom: 1px dashed #444;
       padding-bottom: 10px;
     }
-
+    
     .user-info img {
       width: 32px;
       height: 32px;
       border-radius: 50%;
     }
-
+    
     #message {
       color: #0af;
       font-size: 0.95rem;
     }
-
+    
     #error {
       color: red;
       margin-top: 10px;
     }
-
+    
     p {
       font-size: 14px;
       text-align: left;
       line-height: 1.6;
       color: #ececec;
     }
-
+    
     .login_note {
       width: 100%;
       padding: 0 20px;
@@ -99,28 +98,28 @@
       line-height: 1;
       filter: sepia(40%);
     }
-
+    
     .login_note_p {
       color: #a0a0a0;
       line-height: 1.4;
       position: fixed;
       bottom: 4px;
     }
-
+    
     ion-icon {
       margin-bottom: -2px;
       padding: 0;
     }
-
+    
     .none {
       display: none;
     }
-
+    
     .flex {
       display: flex;
       flex-direction: column;
     }
-
+    
     #loader {
       margin: 1rem 0 0;
       inset: 0;
@@ -133,17 +132,17 @@
       z-index: 9999;
       font-size: 16px;
     }
-
+    
     #loginComand {
       margin-top: 1rem;
       line-height: 1.6;
       font-size: var(--text-sm);
     }
-
+    
     .loginComandCode {
       /* margin: 0 0 8px; */
     }
-
+    
     #emailInput {
       width: 100%;
       padding: 8px 20px;
@@ -152,7 +151,7 @@
       border: 1px solid #444;
       position: relative;
     }
-
+    
     input[type="email"] {
       width: 100%;
       max-width: 400px;
@@ -167,24 +166,24 @@
       transition: 0.3s ease all;
       box-shadow: inset 0 0 0 0 transparent;
     }
-
+    
     input[type="email"]::placeholder {
       color: #888;
       font-size: 12px;
     }
-
+    
     input[type="email"]:hover {
       border-color: #666;
     }
-
+    
     input[type="email"]:focus {
       border: 1px solid white !important;
     }
-
+    
     input[type="email"]:invalid {
       border-color: #ff4d4d;
     }
-
+    
     input[type="email"]:required:invalid {
       background-color: #1a0000;
     }
@@ -205,7 +204,8 @@
     }
 
     #sendLoginLink {
-      position: absolute;
+      background-color: red;
+      position: relative;
       font-size: 1.2rem;
       top: 6px;
       right: 8px;
@@ -304,7 +304,7 @@
     <div id="login-buttons">
       <div id="emailLoginBox">
         <input type="email" id="emailInput" placeholder="ur email to sent login link" />
-        <div id="sendLoginLink"><ion-icon name="checkmark-outline"></ion-icon></div>
+        <div id="sendLoginLink">ادغط هنننننننننناااااااااااااااااا</div>
       </div>
     </div>
     <div id="error"></div>
@@ -576,6 +576,155 @@ const actionCodeSettings = {
     document.getElementById("githubLogin").addEventListener("click", () => loginWithProvider(providers.github));
 
     
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
+  authDomain: "oxdyaa.firebaseapp.com",
+  projectId: "oxdyaa",
+  storageBucket: "oxdyaa.appspot.com",
+  messagingSenderId: "604062703590",
+  appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const CACHE_KEY = "userData";
+const UPDATE_INTERVAL = 10 * 60 * 1000;
+
+function timeAgo(date) {
+  const now = new Date();
+  const seconds = Math.floor((now - date) / 1000);
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `joined before ${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `joined before ${hours}h`;
+  const days = Math.floor(hours / 24);
+  return `joined before ${days}d`;
+}
+
+function applyUserUI(photo, name, email) {
+  const container = document.getElementById("userPhotoContainer");
+  if (!container) return;
+
+  if (name || photo) {
+    container.innerHTML = `
+      <a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/">
+        <img src="${photo || '../img/user.jpg'}" >
+      </a>
+    `;
+  } else {
+    container.innerHTML = `
+      <a href="https://0xdya.vercel.app/login/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span class="nav-text">Account</span>
+      </a>
+    `;
+  }
+}
+
+function loadUsers() {
+  const usersDiv = document.getElementById("users");
+  if (!usersDiv) return;
+  const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
+
+  onSnapshot(q, (snapshot) => {
+    usersDiv.innerHTML = "";
+    snapshot.forEach(docSnap => {
+      const user = docSnap.data();
+      const created = user.createdAt?.toDate?.();
+      const joinedText = created ? ` ${timeAgo(created)}` : "—";
+      const role = user.role || "user";
+      const roleClass = `role ${role}`;
+      const name = user.name || "بدون اسم";
+      const photo = user.photo || "../img/user.jpg";
+
+      usersDiv.innerHTML += `
+        <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
+          <img src="${photo}" alt="صورة المستخدم">
+          <div class="name_and_role">
+            <span>${name}</span>
+            <div class="rotba">role: <span class="${roleClass}">${role}</span></div>
+          </div>
+          <div class="joined">${joinedText}</div>
+        </div>
+      `;
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cached = localStorage.getItem(CACHE_KEY);
+  if (cached) {
+    const data = JSON.parse(cached);
+    applyUserUI(data.photo, data.name, data.email);
+  } else {
+    applyUserUI(null, null, null);
+  }
+
+  loadUsers();
+
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      const now = Date.now();
+      const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+
+      applyUserUI(user.photoURL, user.displayName, user.email);
+
+      if (now - (cachedData.lastUpdate || 0) > UPDATE_INTERVAL) {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+
+          if (userSnap.exists()) {
+            const updates = { lastLogin: serverTimestamp() };
+            if (user.photoURL && user.photoURL !== userSnap.data().photo) {
+              updates.photo = user.photoURL;
+            }
+            await updateDoc(userRef, updates);
+          }
+
+          localStorage.setItem(CACHE_KEY, JSON.stringify({
+            photo: user.photoURL,
+            name: user.displayName,
+            email: user.email,
+            lastUpdate: now
+          }));
+
+        } catch (error) {
+          console.error("❌ خطأ في Firestore:", error);
+        }
+      }
+
+    } else {
+      localStorage.removeItem(CACHE_KEY);
+      applyUserUI(null, null, null);
+    }
+  });
+});
   </script>
 </body>
 
