@@ -105,7 +105,7 @@ main {
 .avatar-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center; 
   padding: 0 var(--space-4);
   margin-top: -42px;
   position: relative;
@@ -172,8 +172,8 @@ main {
   font-size: var(--text-2xl); font-weight: 700;
   color: var(--accent); letter-spacing: -.3px;
 }
-#roleIcons { display: flex; gap: var(--space-2); }
-.role-badge img { width:14px; height:14px; }
+#roleIcons { display: flex; gap: var(--space-2); align-items: center}
+.role-badge { width:18px; height:18px; margin-bottom: -4px}
 
 .handle {
   display: none;
@@ -322,23 +322,27 @@ hr { margin: 1rem 0; border-color: var(--border2); }
       <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> change banner</div>
     </div>
 
-    <div class="avatar-row">
-      <div class="avatar-wrap" id="avatarWrap">
-        <img id="photoPreview" src="../img/user.jpg" alt="avatar"/>
-        <div class="avatar-overlay"><ion-icon name="camera-outline"></ion-icon></div>
-      </div>
-      <div class="avatar-actions">
-        <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
-        <button class="btn-x btn-x-danger"  id="logoutBtn">Logout</button>
-      </div>
+<div class="avatar-row">
+  <div style="display:flex; align-items:center; gap:var(--space-3);">
+    <div class="avatar-wrap" id="avatarWrap">
+      <img id="photoPreview" src="../img/user.jpg" alt="avatar"/>
+      <div class="avatar-overlay"><ion-icon name="camera-outline"></ion-icon></div>
     </div>
-
-    <div class="profile-body">
-
+    <div style="margin-top: 28px;">
       <div class="name-row">
         <span class="username" id="currentName"></span>
         <div id="roleIcons"></div>
       </div>
+    </div>
+  </div>
+  <div class="avatar-actions">
+    <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
+    <button class="btn-x btn-x-danger" id="logoutBtn">Logout</button>
+  </div>
+</div>
+    <div class="profile-body">
+
+      <div id="displayBioInput"></div>
       <div id="statusEl"><span class="dot"></span><span id="statusText">—</span></div>
       <div class="handle" id="handleEl"></div>
       <div class="stats-row">
@@ -351,7 +355,6 @@ hr { margin: 1rem 0; border-color: var(--border2); }
           <span>comments: <span class="val">—</span></span>
         </div>
       </div>
-      <div id="displayBioInput"></div>
       
       <hr>
 
@@ -489,11 +492,11 @@ hr { margin: 1rem 0; border-color: var(--border2); }
   function getRoleBadges(data) {
     let html = "";
     if (data.verified)
-      html += `<img src="https://0xdya.vercel.app/badges/verf.svg" style="width:14px;height:14px">`;
+      html += `<img src="https://0xdya.vercel.app/badges/verf.svg" class="role-badge">`;
     if (data.role === "owner")
-      html += `<img src="https://0xdya.vercel.app/badges/server-owner.svg" style="width:14px;height:14px">`;
+      html += `<img src="https://0xdya.vercel.app/badges/server-owner.svg" class="role-badge">`;
     if (data.role === "QA-tester")
-      html += `<img src="https://0xdya.vercel.app/badges/bug-hunter-lv1.svg" style="width:14px;height:14px">`;
+      html += `<img src="https://0xdya.vercel.app/badges/bug-hunter-lv1.svg" class="role-badge">`;
     return html;
   }
 
