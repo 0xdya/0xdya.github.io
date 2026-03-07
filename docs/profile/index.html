@@ -5,283 +5,351 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile | 0xdya</title>
   <link rel="stylesheet" href="../css/static.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <style>
     :root {
-      --bg:       #111214;
-      --surface:  #1e1f22;
-      --surface2: #2b2d31;
-      --border:   #3a3c42;
-      --accent:   #5865f2;
-      --accent-h: #4752c4;
-      --green:    #23a55a;
-      --text:     #dbdee1;
-      --muted:    #949ba4;
-      --dim:      #6d6f78;
-      --danger:   #ed4245;
-      --r:        12px;
-      --rs:       6px;
+      --bg:        #000;
+      --surface:   #0f0f0f;
+      --surface2:  #161616;
+      --surface3:  #1d1d1d;
+      --border:    #2f2f2f;
+      --border2:   #1f1f1f;
+      --accent:    #fff;
+      --accent-btn:#efefef;
+      --blue:      #1d9bf0;
+      --green:     #00ba7c;
+      --text:      #e7e9ea;
+      --muted:     #71767b;
+      --dim:       #404040;
+      --danger:    #f4212e;
+      --r:         16px;
+      --rs:        8px;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+
     body {
+      /* display: flex;
+      justify-content: center;
+      align-items: center; */
       background: var(--bg);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
-      max-width: 600px;
       margin: 0 auto;
-      min-height: 100vh;
-      padding-bottom: 90px;
+      min-height: 100dvh;
+      max-width: 600px;
     }
-    #loading { display:flex; justify-content:center; align-items:center; height:100vh; }
-    #msgBox  { display:none; text-align:center; padding:80px 20px; font-size:16px; color:var(--muted); }
-    #profileContainer { display:none; }
+    main{
+      min-height: 100dvh;
+  border: 1px solid var(--border2); 
+}
 
-    /* Card */
-    .profile-card {
-      background: var(--surface);
-      border-radius: var(--r);
-      margin: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      animation: fadeUp .3s ease both;
+    #loading {
+      display: flex; justify-content: center;
+      align-items: center; height: 100vh;
     }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(14px); }
-      to   { opacity:1; transform:translateY(0); }
+    #msgBox {
+      display: none; text-align: center;
+      padding: 80px 20px; font-size: 15px; color: var(--muted);
     }
+    #profileContainer { display: none; }
 
-    /* Banner */
     .banner-wrap {
       position: relative;
-      height: 120px;
-      background: linear-gradient(135deg,#1a1c23 0%,#2c2f3a 100%);
+      height: 200px;
+      background: var(--surface2);
+      overflow: hidden;
     }
-    .banner-wrap.owner { cursor:pointer; }
-    #bannerImg { width:100%; height:100%; object-fit:cover; display:block; }
+    .banner-wrap.owner { cursor: pointer; }
+    #bannerImg {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: filter .2s;
+    }
+    .banner-wrap.owner:hover #bannerImg { filter: brightness(.7); }
     .banner-overlay {
-      position:absolute; inset:0;
-      background:rgba(0,0,0,.5);
-      display:flex; align-items:center; justify-content:center;
-      gap:6px; color:#fff; font-size:13px;
-      opacity:0; transition:opacity .2s;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; color: #fff; font-size: 14px;
+      opacity: 0; transition: opacity .2s;
+      background: rgba(0,0,0,.4);
     }
-    .banner-wrap.owner:hover .banner-overlay { opacity:1; }
+    .banner-wrap.owner:hover .banner-overlay { opacity: 1; }
 
-    /* Avatar */
-    .avatar-anchor { position:relative; height:48px; }
-    .avatar-wrap {
-      position:absolute;
-      bottom:-10px; left:20px;
-      width:84px; height:84px;
-      border-radius:50%;
-      border:5px solid var(--surface);
-      background:var(--surface2);
-      overflow:hidden;
+    .avatar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 16px;
+      margin-top: -42px;
+      position: relative;
+      z-index: 2;
     }
-    .avatar-wrap.owner { cursor:pointer; }
+    .avatar-wrap {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      border: 4px solid var(--bg);
+      background: var(--surface2);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .avatar-wrap.owner { cursor: pointer; }
     #photoPreview { width:100%; height:100%; object-fit:cover; display:block; }
     .avatar-overlay {
-      position:absolute; inset:0; border-radius:50%;
-      background:rgba(0,0,0,.6);
-      display:flex; align-items:center; justify-content:center;
-      opacity:0; transition:opacity .2s;
+      position: absolute; inset: 0; border-radius: 50%;
+      background: rgba(0,0,0,.55);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .2s;
     }
-    .avatar-wrap.owner:hover .avatar-overlay { opacity:1; }
-    .avatar-overlay ion-icon { color:#fff; font-size:22px; }
+    .avatar-wrap { position: relative; }
+    .avatar-wrap.owner:hover .avatar-overlay { opacity: 1; }
+    .avatar-overlay ion-icon { color:#fff; font-size:24px; }
 
-    /* Body */
-    .profile-body { padding:54px 20px 20px; }
-    .name-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-    .username { font-size:20px; font-weight:700; color:#fff; letter-spacing:-.3px; }
-    .badges { display:flex; gap:4px; align-items:center; }
-    .badges img { width:18px; height:18px; }
-
-    #statusEl {
-      display:flex; align-items:center; gap:5px;
-      font-size:12px; color:var(--dim); margin-top:5px;
+    .avatar-actions { display: flex; gap: 8px; padding-bottom: 8px; }
+    .btn-x {
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s;
+      border: none;
+      display: none;
+      white-space: nowrap;
     }
-    .dot { width:8px; height:8px; border-radius:50%; background:var(--dim); flex-shrink:0; }
-    #statusEl.online .dot { background:var(--green); }
-    #statusEl.online       { color:var(--green); }
+    .btn-x-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-x-outline:hover { background: rgba(255,255,255,.07); }
+    .btn-x-solid {
+      background: var(--text);
+      color: #000;
+    }
+    .btn-x-solid:hover { background: #d7d7d7; }
+    .btn-x-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid #3a1419;
+    }
+    .btn-x-danger:hover { background: rgba(244,33,46,.1); }
+
+    .profile-body { padding: 12px 16px 20px; }
+
+    .name-row {
+      vertical-align: middle;
+      display: flex; align-items: center;
+      gap: 6px; flex-wrap: wrap; margin-bottom: 2px;
+    }
+    .username {
+      font-size: 20px; font-weight: 700;
+      color: var(--accent); letter-spacing: -.3px;
+    }
+
+    .role-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px; border-radius: 50%;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .role-badge img      { width:14px; height:14px; }
+
+    .handle {
+      display: none;
+      font-size: 14px; color: var(--muted);
+      margin-bottom: 10px;
+    }
 
     #displayBioInput {
-      margin-top:10px; font-size:13px; color:var(--muted);
-      line-height:1.65; white-space:pre-wrap; word-break:break-word;
+      font-size: 15px; color: var(--text);
+      line-height: 1.7; white-space: pre-wrap;
+      word-break: break-word; margin-bottom: 12px;
     }
 
-    /* Action buttons */
-    .action-row { display:flex; gap:8px; margin-top:14px; }
-    .btn {
-      flex:1; padding:8px 14px; border-radius:var(--rs);
-      font-family:inherit; font-size:13px; font-weight:600;
-      cursor:pointer; transition:all .15s; border:none; display:none;
+    .stats-row {
+      display: flex; gap: 20px;
+      margin: 12px 0;
+       flex-wrap: wrap;
     }
-    .btn-ghost  { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
-    .btn-ghost:hover  { background:#35373d; }
-    .btn-danger { background:transparent; color:var(--danger); border:1px solid #3a1e1f; }
-    .btn-danger:hover { background:#2d1a1b; }
+    .stat-item, a {
+      font-size: 14px; color: var(--muted);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .stat-item .val { color: var(--text); font-weight: 700; }
+    .stat-item ion-icon { font-size: 14px; }
 
-    /* Divider / labels */
-    .divider { height:1px; background:var(--border); margin:18px 0; }
+    #statusEl {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 13px; color: var(--muted);
+    }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--dim); }
+    #statusEl.online .dot { background: var(--green); }
+    #statusEl.online { color: var(--green); }
+
+    .divider { height:1px; background:var(--border2); margin:16px 0; }
+
     .section-label {
-      font-size:11px; text-transform:uppercase;
-      letter-spacing:1.8px; color:var(--dim); margin-bottom:12px;
+      font-size: 11px; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--muted); margin-bottom: 12px;
     }
 
-    /* Stats */
-    .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .stat-chip {
-      background:var(--surface2); border:1px solid var(--border);
-      border-radius:var(--rs); padding:10px 12px;
-      display:flex; align-items:center; gap:8px;
-      font-size:13px; color:var(--muted); transition:border-color .2s;
-    }
-    .stat-chip:hover { border-color:#555; }
-    .stat-chip ion-icon { font-size:14px; color:var(--dim); flex-shrink:0; }
-    .stat-chip .val { color:var(--text); font-weight:600; margin-left:auto; }
-
-    /* Socials */
     .social-links { display:flex; flex-wrap:wrap; gap:8px; }
     .link_card {
-      display:flex; align-items:center; gap:6px;
-      padding:6px 10px; border:1px solid var(--border);
-      border-radius:20px; background:var(--surface2);
-      font-size:12px; color:var(--muted); text-decoration:none;
-      transition:all .15s; cursor:pointer;
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border: 1px solid var(--border);
+      border-radius: 20px; background: transparent;
+      font-size: 13px; color: var(--muted);
+      text-decoration: none; transition: all .15s; cursor: pointer;
     }
-    .link_card:hover { border-color:var(--accent); color:#fff; background:#2e3052; }
-    .link_card ion-icon { font-size:14px; flex-shrink:0; }
+    .link_card:hover { border-color:var(--blue); color:var(--blue); background:rgba(29,155,240,.07); }
+    .link_card ion-icon { font-size: 14px; flex-shrink: 0; }
     .del-btn {
       background:none; border:none; color:var(--dim);
       cursor:pointer; font-size:12px; padding:0;
-      margin-left:2px; transition:color .15s;
+      margin-left:4px; line-height:1; transition:color .15s;
     }
     .del-btn:hover { color:var(--danger); }
 
-    /* Edit section */
     #edit_section {
-      display:none; margin-top:16px; padding:16px;
-      border:1px solid var(--border); border-radius:var(--r);
-      background:var(--bg); animation:fadeUp .2s ease both;
+      display:none; margin-top:16px;
+      padding:16px; border-top:1px solid var(--border2);
+      animation:fadeUp .2s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(8px); }
+      to   { opacity:1; transform:translateY(0); }
     }
     .edit-label {
       font-size:11px; text-transform:uppercase;
-      letter-spacing:1.5px; color:var(--dim); margin:0 0 6px;
+      letter-spacing:1.5px; color:var(--muted); margin:0 0 6px;
     }
     .edit-field {
-      width:100%; padding:9px 12px; font-size:13px; font-family:inherit;
+      width:100%; padding:10px 14px; font-size:14px; font-family:inherit;
       border:1px solid var(--border); border-radius:var(--rs);
       background:var(--surface2); color:var(--text);
       outline:none; transition:border-color .15s;
       margin-bottom:14px; resize:vertical;
     }
-    .edit-field:focus { border-color:var(--accent); }
+    .edit-field:focus { border-color:var(--blue); }
     .edit-field::placeholder { color:var(--dim); }
     .social-add-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
     .social-add-row select, .social-add-row input {
-      flex:1; min-width:90px; padding:8px 10px;
+      flex:1; min-width:90px; padding:9px 12px;
       font-size:13px; font-family:inherit;
       border:1px solid var(--border); border-radius:var(--rs);
       background:var(--surface2); color:var(--text); outline:none;
     }
-    .social-add-row select:focus, .social-add-row input:focus { border-color:var(--accent); }
-    .btn-add-social {
-      padding:8px 12px; background:var(--accent); color:#fff;
-      border:none; border-radius:var(--rs); font-family:inherit;
-      font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
-      transition:background .15s;
-    }
-    .btn-add-social:hover { background:var(--accent-h); }
+    .social-add-row select:focus, .social-add-row input:focus { border-color:var(--blue); }
+    .social-add-row select option { background:#111; }
+    .btn-add { padding:9px 16px; background:var(--text); color:#000; border:none; border-radius:20px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+    .btn-add:hover { background:#d7d7d7; }
     .btn-save-all {
-      width:100%; padding:10px; background:var(--accent); color:#fff;
-      border:none; border-radius:var(--rs); font-family:inherit;
+      width:100%; padding:11px; background:var(--text); color:#000;
+      border:none; border-radius:20px; font-family:inherit;
       font-size:14px; font-weight:700; cursor:pointer;
       transition:background .15s; margin-top:4px;
     }
-    .btn-save-all:hover { background:var(--accent-h); }
-    .btn-save-all:disabled { opacity:.55; cursor:not-allowed; }
+    .btn-save-all:hover { background:#d7d7d7; }
+    .btn-save-all:disabled { opacity:.5; cursor:not-allowed; }
 
     #syncPhotoBtn {
-      width:100%; padding:8px; background:transparent;
-      color:var(--muted); border:1px dashed var(--border);
-      border-radius:var(--rs); font-family:inherit; font-size:12px;
-      cursor:pointer; margin-bottom:14px; transition:all .15s;
+      width:100%; padding:9px; background:transparent; color:var(--muted);
+      border:1px dashed var(--border); border-radius:var(--rs);
+      font-family:inherit; font-size:12px; cursor:pointer;
+      margin-bottom:14px; transition:all .15s;
     }
-    #syncPhotoBtn:hover { border-color:var(--accent); color:var(--accent); }
+    #syncPhotoBtn:hover { border-color:var(--blue); color:var(--blue); }
 
-    /* Upload progress */
-    .upload-bar-wrap {
-      display:none; height:4px; background:var(--surface2);
-      border-radius:4px; overflow:hidden; margin-bottom:10px;
-    }
-    .upload-bar { height:100%; background:var(--accent); width:0%; transition:width .3s; }
+    .upload-bar-wrap { display:none; height:3px; background:var(--surface3); border-radius:3px; overflow:hidden; margin-bottom:10px; }
+    .upload-bar { height:100%; background:var(--blue); width:0%; transition:width .3s; }
 
     #bannerFileInput, #avatarFileInput { display:none; }
 
-    /* Navbar */
     .navbar_section {
       position:fixed; bottom:0; left:50%; transform:translateX(-50%);
       width:100%; max-width:600px; z-index:100;
     }
+    #roleIcons{
+      display: flex;
+      gap: 8px;
+    }
+    hr{
+      margin: 1rem 0;
+    }
   </style>
 </head>
 <body>
-
-<div id="loading"><img width="40" src="../img/load.gif"/></div>
-<div id="msgBox"></div>
-<input type="file" id="bannerFileInput" accept="image/*"/>
-<input type="file" id="avatarFileInput" accept="image/*"/>
-
-<div id="profileContainer">
-  <div class="profile-card">
-
+<main>
+  <div id="loading"><img width="40" src="../img/load.gif"/></div>
+  <div id="msgBox"></div>
+  <input type="file" id="bannerFileInput" accept="image/*"/>
+  <input type="file" id="avatarFileInput" accept="image/*"/>
+  
+  <div id="profileContainer">
+  
     <!-- Banner -->
     <div class="banner-wrap" id="bannerWrap">
       <img id="bannerImg" alt=""/>
-      <div class="banner-overlay">
-        <ion-icon name="camera-outline"></ion-icon> change banner
-      </div>
+      <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> change banner</div>
     </div>
-
-    <!-- Avatar anchor -->
-    <div class="avatar-anchor">
+  
+    <!-- Avatar row -->
+    <div class="avatar-row">
       <div class="avatar-wrap" id="avatarWrap">
         <img id="photoPreview" src="../img/user.jpg" alt="avatar"/>
         <div class="avatar-overlay"><ion-icon name="camera-outline"></ion-icon></div>
       </div>
+      <div class="avatar-actions">
+        <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
+        <button class="btn-x btn-x-danger"  id="logoutBtn">Logout</button>
+      </div>
     </div>
-
+  
+    <!-- Body -->
     <div class="profile-body">
-
+  
       <div class="name-row">
         <span class="username" id="currentName"></span>
-        <div class="badges" id="roleIcons"></div>
+        <div id="roleIcons"></div>
       </div>
-
-      <div id="statusEl"><span class="dot"></span><span id="statusText"></span></div>
+      <div id="statusEl"><span class="dot"></span><span id="statusText">—</span></div>
+      <div class="handle" id="handleEl"></div>
+  
+  
       <div id="displayBioInput"></div>
-
-      <div class="action-row">
-        <button class="btn btn-ghost"  id="editBtn">✏️ edit profile</button>
-        <button class="btn btn-danger" id="logoutBtn">logout</button>
+  
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-item" id="statJoined">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>joined <span class="val">—</span></span>
+        </div>
+        <div class="stat-item" id="statComments">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <p>comments: <span class="val">—</span></p>
+        </div>
       </div>
-
+  <hr>
+      <!-- Socials -->
+      <div id="socialLinks" class="social-links"></div>
+  
       <!-- Edit panel -->
       <div id="edit_section">
         <button id="syncPhotoBtn">🔄 sync avatar from Google</button>
         <div class="upload-bar-wrap" id="uploadBarWrap">
           <div class="upload-bar" id="uploadBar"></div>
         </div>
-
+  
         <p class="edit-label">username</p>
         <input type="text" id="displayNameInput" class="edit-field" placeholder="new username"/>
-
+  
         <p class="edit-label">bio</p>
         <textarea id="bioInput" class="edit-field" rows="3" placeholder="write something..."></textarea>
-
+  
         <p class="edit-label">add social link</p>
         <div class="social-add-row">
           <select id="platformSelect">
@@ -294,33 +362,18 @@
             <option value="email">Email</option>
           </select>
           <input type="text" id="socialUsernameInput" placeholder="username"/>
-          <button class="btn-add-social" id="saveSocialBtn">add</button>
+          <button class="btn-add" id="saveSocialBtn">add</button>
         </div>
-
-        <button class="btn-save-all" id="saveAllBtn">save changes</button>
+  
+        <button class="btn-save-all" id="saveAllBtn">Save changes</button>
       </div>
-
-      <div class="divider"></div>
-
-      <p class="section-label">stats</p>
-      <div class="stats-grid">
-        <div class="stat-chip" id="createdAtCount"><ion-icon name="calendar-outline"></ion-icon>joined<span class="val">—</span></div>
-        <div class="stat-chip" id="starsCount"><ion-icon name="trophy-outline"></ion-icon>stars<span class="val">—</span></div>
-        <div class="stat-chip" id="ideasCount"><ion-icon name="bulb-outline"></ion-icon>ideas<span class="val">—</span></div>
-        <div class="stat-chip" id="commentsCount"><ion-icon name="chatbubble-ellipses-outline"></ion-icon>comments<span class="val">—</span></div>
-      </div>
-
-      <div class="divider"></div>
-
-      <p class="section-label">accounts</p>
-      <div id="socialLinks" class="social-links"></div>
-
+  
     </div>
   </div>
-</div>
+</main>
 
 <!-- Navbar -->
-<div class="navbar_section">
+<!-- <div class="navbar_section">
   <nav class="navbar">
     <a href="../" class="nav-item">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -356,7 +409,7 @@
     </a>
     <div class="user_photo" id="userPhotoContainer"></div>
   </nav>
-</div>
+</div> -->
 
 <script type="module">
   import { initializeApp }  from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -387,17 +440,16 @@
 
   const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-  const usernameFromURL = window.location.pathname.startsWith("/@")
-    ? decodeURIComponent(window.location.pathname.slice(2))
-    : "profile";
+  const urlParams       = new URLSearchParams(window.location.search);
+  const usernameFromURL = urlParams.get("user") || "profile";
 
-  // DOM
   const $ = id => document.getElementById(id);
   const loadingEl        = $("loading");
   const profileEl        = $("profileContainer");
   const msgBox           = $("msgBox");
   const currentNameEl    = $("currentName");
   const roleIconsEl      = $("roleIcons");
+  const handleEl         = $("handleEl");
   const photoPreview     = $("photoPreview");
   const bannerImg        = $("bannerImg");
   const bannerWrap       = $("bannerWrap");
@@ -405,6 +457,8 @@
   const displayBioEl     = $("displayBioInput");
   const statusEl         = $("statusEl");
   const statusText       = $("statusText");
+  const statJoined       = $("statJoined");
+  const statComments     = $("statComments");
   const editBtn          = $("editBtn");
   const logoutBtn        = $("logoutBtn");
   const edit_section     = $("edit_section");
@@ -421,7 +475,6 @@
   const uploadBarWrap    = $("uploadBarWrap");
   const uploadBar        = $("uploadBar");
 
-  // ── Helpers ──────────────────────────────────────────────────────
   const showMessage = msg => {
     loadingEl.style.display = "none";
     msgBox.style.display    = "block";
@@ -454,16 +507,23 @@
     instagram:"logo-instagram", youtube:"logo-youtube", email:"mail-outline"
   }[p] || "link-outline");
 
-  function setStatChip(id, icon, label, val) {
-    $(id).innerHTML = `<ion-icon name="${icon}"></ion-icon>${label}<span class="val">${val}</span>`;
+  function getRoleBadges(data) {
+    let html = "";
+    if (data.verified)
+      html += `<img src="https://0xdya.vercel.app/badges/verf.svg" class="role-badge">`;
+    if (data.role === "owner")
+      html += `<img src="https://0xdya.vercel.app/badges/server-owner.svg" class="role-badge">`;
+    if (data.role === "QA-tester")
+      html += `<img src="https://0xdya.vercel.app/badges/bug-hunter-lv1.svg" class="role-badge">`;
+
+    return html;
   }
 
-  // ── Nav ───────────────────────────────────────────────────────────
   function applyNavUI(photo, name) {
     const c = $("userPhotoContainer"); if (!c) return;
     c.innerHTML = (name||photo)
-      ? `<a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/"><img src="${photo||'../img/user.jpg'}"></a>`
-      : `<a href="https://0xdya.vercel.app/login/" class="nav-item">
+      ? `<a class="user_photo_href nav-item" href="?user=${encodeURIComponent(name||'')}"><img src="${photo||'../img/user.jpg'}"></a>`
+      : `<a href="../login/" class="nav-item">
            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
            </svg><span class="nav-text">Account</span></a>`;
@@ -476,7 +536,6 @@
       .replace(/\s+/g,"_").replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g,"");
   });
 
-  // ── Upload helper ─────────────────────────────────────────────────
   function uploadImage(file, path) {
     return new Promise((resolve, reject) => {
       const task = uploadBytesResumable(sRef(storage, path), file);
@@ -493,36 +552,43 @@
     });
   }
 
-  // ── Auth ──────────────────────────────────────────────────────────
   onAuthStateChanged(auth, async user => {
     applyNavUI(user?.photoURL, user?.displayName);
     try {
       if (!user && usernameFromURL === "profile") {
-        showMessage(`⚠️ please <a href='/login/' style='color:#5865f2'>login</a> first.`); return;
+        showMessage(`⚠️ please <a href='../login/' style='color:#1d9bf0'>login</a> first.`);
+        return;
       }
       if (user && usernameFromURL === "profile") {
         const snap = await getDoc(doc(db,"users",user.uid));
         if (snap.exists() && snap.data().name) {
-          window.location.replace(`/@${encodeURIComponent(snap.data().name)}`); return;
+          window.location.replace(`?user=${encodeURIComponent(snap.data().name)}`);
+          return;
         }
-        showMessage(`⚠️ profile not set up. <a href='/login/' style='color:#5865f2'>go to login</a>`); return;
+        showMessage(`⚠️ profile not set up. <a href='../login/' style='color:#1d9bf0'>go to login</a>`);
+        return;
       }
       loadProfile(user);
-    } catch(e) { console.error(e); showMessage("🚨 something went wrong."); }
+    } catch(e) {
+      console.error(e);
+      showMessage("🚨 something went wrong.");
+    }
   });
 
-  // ── Load Profile ──────────────────────────────────────────────────
   function loadProfile(currentUser) {
     const q = query(collection(db,"users"), where("name","==",usernameFromURL));
     onSnapshot(q, async qs => {
       if (qs.empty) { showMessage("🚫 user not found."); return; }
+
       const userDoc = qs.docs[0];
       const data    = userDoc.data();
       const uid     = userDoc.id;
       const isOwner = !!(currentUser && currentUser.uid === uid);
 
       currentNameEl.textContent = data.name || "";
+      handleEl.textContent      = `@${data.name || ""}`;
       displayBioEl.textContent  = data.bio  || "";
+
       if (data.banner) bannerImg.src = data.banner;
       photoPreview.src = isOwner
         ? (currentUser.photoURL || data.photo || "../img/user.jpg")
@@ -530,22 +596,32 @@
 
       showProfile();
 
-      // Badges
-      roleIconsEl.innerHTML = "";
-      if (data.verified)        roleIconsEl.innerHTML += `<img src="../badges/verf.svg"          style="width:18px;height:18px" title="Verified">`;
-      if (data.role==="admin")  roleIconsEl.innerHTML += `<img src="../badges/server-owner.svg"  style="width:18px;height:18px" title="Admin">`;
-      if (data.role==="dev")    roleIconsEl.innerHTML += `<img src="https://0xdya.vercel.app/badges/active-developer.svg" style="width:18px;height:18px" title="Dev">`;
+      roleIconsEl.innerHTML = getRoleBadges(data);
 
-      // Status
       if (data.lastLogin?.toDate) {
         const diff = Math.floor((Date.now() - data.lastLogin.toDate()) / 1000);
         statusEl.className     = diff < 300 ? "online" : "";
         statusText.textContent = diff < 300 ? "online now" : `last seen ${timeAgo(diff)}`;
       }
 
-      // Socials
+      const created = data.createdAt?.toDate?.();
+      if (created) {
+        statJoined.innerHTML = `
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>Joined <span class="val">${MONTHS[created.getMonth()]} ${created.getFullYear()}</span></span>`;
+      }
+
+      getDocs(query(collection(db,"comments"), where("uid","==",uid)))
+        .then(snap => {
+          statComments.innerHTML = `
+            <a href="../comments/"><ion-icon name="chatbubble-outline"></ion-icon>
+            <span>comments: <span class="val">${snap.size}</span> </span> </a>`;
+        })
+        .catch(e => console.error("comments count:", e));
+
       let userSocials = normSocials(data.socials);
       let sortable    = null;
+      let isEditing   = false;
 
       function renderSocials() {
         socialLinksDiv.innerHTML = "";
@@ -557,7 +633,7 @@
             <ion-icon name="${socialIcon(platform)}"></ion-icon>
             <a href="${socialURL(platform,username)}" target="_blank" rel="noopener"
                style="color:inherit;text-decoration:none">${username}</a>
-            ${isOwner ? `<button class="del-btn">✕</button>` : ""}`;
+            ${isOwner ? `<button class="del-btn" title="remove">✕</button>` : ""}`;
           if (isOwner) {
             card.querySelector(".del-btn").onclick = async e => {
               e.stopPropagation();
@@ -585,19 +661,13 @@
       }
 
       renderSocials();
-      loadUserStats(uid);
       if (!isOwner) return;
 
-      // ── Owner ──────────────────────────────────────────────────────
       editBtn.style.display   = "flex";
       logoutBtn.style.display = "flex";
-      syncPhotoBtn.style.display = "block";
       bannerWrap.classList.add("owner");
       avatarWrap.classList.add("owner");
 
-      let isEditing = false;
-
-      // Banner click → file picker (only in edit mode)
       bannerWrap.addEventListener("click", () => { if(isEditing) bannerFile.click(); });
       avatarWrap.addEventListener("click", () => { if(isEditing) avatarFile.click(); });
 
@@ -629,7 +699,7 @@
       editBtn.addEventListener("click", () => {
         isEditing = !isEditing;
         edit_section.style.display = isEditing ? "block" : "none";
-        editBtn.textContent        = isEditing ? "✕ close" : "✏️ edit profile";
+        editBtn.textContent        = isEditing ? "✕ Close" : "Edit profile";
         displayNameInput.value     = data.name || "";
         bioInput.value             = data.bio  || "";
         if(isEditing) enableSorting();
@@ -657,16 +727,17 @@
           if(!chk.empty && chk.docs[0].id!==currentUser.uid) { alert("⚠️ username taken."); return; }
         }
         try {
-          saveAllBtn.disabled=true; saveAllBtn.textContent="saving...";
+          saveAllBtn.disabled=true; saveAllBtn.textContent="Saving...";
           await updateProfile(currentUser,{displayName:newName});
           await setDoc(doc(db,"users",uid),{
             name:newName, bio:newBio,
             photo:currentUser.photoURL||data.photo,
             socials:userSocials
           },{merge:true});
-          alert("✅ saved!"); window.location.href="/profile/";
+          alert("✅ saved!");
+          window.location.href=`?user=${encodeURIComponent(newName)}`;
         } catch(e) {
-          saveAllBtn.disabled=false; saveAllBtn.textContent="save changes";
+          saveAllBtn.disabled=false; saveAllBtn.textContent="Save changes";
           alert("❌ "+e.code);
         }
       });
@@ -682,28 +753,10 @@
       });
 
       logoutBtn.addEventListener("click", async () => {
-        try { await signOut(auth); window.location.href="/"; } catch(e){console.error(e);}
+        try { await signOut(auth); window.location.href="../"; }
+        catch(e) { console.error(e); }
       });
     });
-  }
-
-  // ── Stats ─────────────────────────────────────────────────────────
-  async function loadUserStats(uid) {
-    try {
-      const [ideasSnap, commentsSnap, userSnap] = await Promise.all([
-        getDocs(query(collection(db,"ideas"),    where("uid","==",uid))),
-        getDocs(query(collection(db,"comments"), where("uid","==",uid))),
-        getDoc(doc(db,"users",uid))
-      ]);
-      setStatChip("ideasCount",    "bulb-outline",                 "ideas",    ideasSnap.size);
-      setStatChip("commentsCount", "chatbubble-ellipses-outline",  "comments", commentsSnap.size);
-      if (userSnap.exists()) {
-        const d=userSnap.data(), c=d.createdAt?.toDate?.();
-        setStatChip("starsCount",      "trophy-outline",   "stars",  d.stars||0);
-        setStatChip("createdAtCount",  "calendar-outline", "joined",
-          c ? `${c.getDate()} ${MONTHS[c.getMonth()]} ${c.getFullYear()}` : "—");
-      }
-    } catch(e) { console.error("Stats error:",e); }
   }
 </script>
 </body>
