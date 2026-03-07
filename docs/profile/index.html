@@ -131,7 +131,9 @@ main {
 .avatar-wrap.owner:hover .avatar-overlay { opacity: 1; }
 .avatar-overlay ion-icon { color:#fff; font-size:24px; }
 
-.avatar-actions { display: flex; gap: var(--space-2); padding-bottom: var(--space-2); }
+.avatar-actions { display: flex; gap: var(--space-2); padding-bottom: var(--space-2); position: absolute; bottom:var(--space-1);
+  left: 50%; transform: translateX(-50%);
+}
 .btn-x {
   padding: 7px var(--space-4);
   border-radius: 20px;
@@ -335,10 +337,6 @@ hr { margin: 1rem 0; border-color: var(--border2); }
       </div>
     </div>
   </div>
-  <div class="avatar-actions">
-    <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
-    <button class="btn-x btn-x-danger" id="logoutBtn">Logout</button>
-  </div>
 </div>
     <div class="profile-body">
 
@@ -393,6 +391,11 @@ hr { margin: 1rem 0; border-color: var(--border2); }
 
     </div>
   </div>
+    <div class="avatar-actions">
+    <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
+    <button class="btn-x btn-x-danger" id="logoutBtn">Logout</button>
+  </div>
+  
 </main>
 
 <script type="module">
