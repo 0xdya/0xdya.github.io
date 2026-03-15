@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<title>0xdya avatar</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+#skin_container {
+    cursor: grab;
+min-width: 100vw;
+min-height: 100dvh;
+}
+#skin_container:active { cursor: grabbing; }
+</style>
+</head>
+<body>
+
+<canvas id="skin_container"></canvas>
+<script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
+<script>
+
+const viewer = new skinview3d.SkinViewer({
+    canvas: document.getElementById("skin_container"),
+    width: window.innerWidth,
+    height: window.innerHeight,
+    skin: "https://0xdya.vercel.app/skin/s2.png"
+});
+
+viewer.zoom = 0.8;
+viewer.camera.position.y = 18;
+
+viewer.animation = null;
+
+let targetX = 0;
+let targetY = 0;
+
+let isDragging = false;
+let lastX = 0;
+let lastY = 0;
+
+const canvas = document.getElementById("skin_container");
+
+canvas.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    e.preventDefault();
+});
+
+window.addEventListener("mouseup", () => { isDragging = false; });
+
+window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    targetX += (e.clientX - lastX) * 0.004;
+    targetY += (e.clientY - lastY) * 0.003;
+    targetX = Math.max(-1.2, Math.min(1.2, targetX));
+    targetY = Math.max(-0.4, Math.min(0.4, targetY));
+    lastX = e.clientX;
+    lastY = e.clientY;
+});
+
+canvas.addEventListener("touchstart", (e) => {
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+    e.preventDefault();
+    handleClick();
+}, { passive: false });
+
+window.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    targetX += (e.touches[0].clientX - lastX) * 0.004;
+    targetY += (e.touches[0].clientY - lastY) * 0.003;
+    targetX = Math.max(-1.2, Math.min(1.2, targetX));
+    targetY = Math.max(-0.4, Math.min(0.4, targetY));
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+}, { passive: false });
+
+
+
+canvas.addEventListener("mousedown", () => handleClick());
+
+function updateSwing(delta) {
+    if (!isSwinging) return;
+
+    const stiffness = 8;
+    const damping = 0.75;
+
+    swingVelocity += (-stiffness * swingAngle) * delta;
+    swingVelocity *= damping;
+    swingAngle += swingVelocity;
+
+
+
+    if (Math.abs(swingAngle) < 0.005 && Math.abs(swingVelocity) < 0.005) {
+        isSwinging = false;
+        swingAngle = 0;
+        if (rightArm) rightArm.rotation.x = 0;
+    }
+}
+
+let last = performance.now();
+
+function animate(now) {
+    const delta = Math.min((now - last) / 1000, 0.05);
+    last = now;
+
+    viewer.playerObject.rotation.y += (targetX - viewer.playerObject.rotation.y) * 0.1;
+    viewer.playerObject.rotation.x += (targetY - viewer.playerObject.rotation.x) * 0.1;
+
+    updateSwing(delta);
+    requestAnimationFrame(animate);
+}
+
+animate(performance.now());
+
+</script>
+</body>
+</html>

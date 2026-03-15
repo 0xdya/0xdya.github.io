@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>0xDya — archive</title>
+        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../css/static.css">
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <style>:root
+        {
+            --bg: #080808;
+            --text: #e8e8e8;
+            --muted: #888;
+            --dim: #555;
+            --accent: #c8b560;
+            --accent-dim: rgba(200, 181, 96, 0.12);
+            --border: rgba(255, 255, 255, 0.07);
+            --card-bg: rgba(255, 255, 255, 0.025);
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 24px;
+            --space-6: 32px;
+            --space-7: 48px;
+            --space-8: 64px;
+            --space-9: 96px;
+            --text-xs: 0.78rem;
+            --text-sm: 0.88rem;
+            --text-base: 1.02rem;
+            --text-lg: 1.2rem;
+            --text-xl: 1.55rem;
+            --radius: 8px;
+            --font-mono: 'Geist Mono', 'Courier New', monospace;
+            --font-sans: 'Geist', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 8, 8, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--space-5);
+            gap: var(--space-4);
+        }
+
+        .header-back {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--muted);
+            text-decoration: none;
+            font-size: var(--text-xs);
+            transition: color 0.15s;
+        }
+        .header-back:hover {
+            color: var(--text);
+        }
+        .header-sep {
+            color: var(--dim);
+            font-size: 18px;
+            font-weight: 300;
+        }
+        .header-title {
+            font-size: var(--text-xs);
+            font-weight: 500;
+            color: var(--text);
+            font-family: var(--font-mono);
+        }
+        .header-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s;
+            font-size: 16px;
+        }
+        .icon-btn:hover {
+            background: var(--card-bg);
+            color: var(--text);
+            border-color: var(--dim);
+        }
+
+        .main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: var(--space-7) var(--space-5) var(--space-9);
+        }
+        .page-header {
+            margin-bottom: var(--space-6);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--muted);
+            margin-bottom: var(--space-3);
+        }
+        .breadcrumb a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            color: var(--text);
+        }
+        .breadcrumb .sep {
+            color: var(--dim);
+        }
+
+        .page-title {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+        .page-subtitle {
+            font-size: var(--text-sm);
+            color: var(--muted);
+            margin-top: var(--space-2);
+        }
+
+        .table-container {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            direction: rtl;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+
+        .table-header-title {
+            font-size: var(--text-xs);
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .badge {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            background: var(--card-bg);
+        }
+
+        #commitsList {
+            list-style: none;
+        }
+        #commitsList li {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.1s;
+        }
+        #commitsList li:last-child {
+            border-bottom: none;
+        }
+        #commitsList li:hover {
+            background: var(--card-bg);
+        }
+
+        #commitsList li a {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .commit-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+        .commit-date {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--dim);
+            flex-shrink: 0;
+            width: 82px;
+        }
+        .commit-msg {
+            font-size: var(--text-sm);
+            color: var(--muted);
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.1s;
+        }
+        #commitsList li:hover .commit-msg {
+            color: var(--text);
+        }
+        .commit-arrow {
+            color: var(--dim);
+            font-size: 14px;
+            flex-shrink: 0;
+            opacity: 0;
+            transition: opacity 0.1s;
+            rotate: 180deg;
+        }
+        #commitsList li:hover .commit-arrow {
+            opacity: 1;
+        }
+
+        .sk {
+            background: var(--card-bg);
+            border-radius: 4px;
+            animation: shimmer 1.5s infinite;
+        }
+        .skeleton-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+        }
+
+        @keyframes shimmer {
+            0,
+            100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .error-row {
+            padding: var(--space-5) var(--space-4);
+            text-align: center;
+            color: var(--muted);
+            font-size: var(--text-sm);
+        }
+
+        #back_to_top {
+            position: fixed;
+            bottom: var(--space-5);
+            right: var(--space-5);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+        }
+        #back_to_top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #back_to_top:hover {
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        @media(max-width: 600px) {
+            .commit-date {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="../" class="header-back">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+            Back
+        </a>
+        <span class="header-sep">/</span>
+        <span class="header-title">archive</span>
+        <div class="header-right">
+            <a href="../login/" class="icon-btn" title="Login">
+                <ion-icon name="person-outline"></ion-icon>
+            </a>
+            <a href="../report/" class="icon-btn" title="Report bug">
+                <ion-icon name="bug-outline"></ion-icon>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="../">home</a>
+                <span class="sep">/</span>
+                <span>archive</span>
+            </div>
+            <h1 class="page-title">Commit History</h1>
+        </div>
+        <div class="table-container">
+            <div class="table-header">
+                <span class="table-header-title">اخر الكوميتات</span>
+                <span class="badge" id="countBadge">—</span>
+            </div>
+            <ul id="commitsList"></ul>
+        </div>
+    </main>
+
+    <button id="back_to_top" title="Back to top">
+        <ion-icon name="chevron-up-outline"></ion-icon>
+    </button>
+
+    <script>
+        const list = document.getElementById("commitsList");
+        for (let i = 0; i < 8; i++) {
+            const li = document.createElement("li");
+            li.innerHTML = `<div class="skeleton-row">
+      <div class="sk" style="width:6px;height:6px;border-radius:50%;flex-shrink:0"></div>
+      <div class="sk" style="width:72px;height:11px"></div>
+      <div class="sk" style="width:${
+                180 + Math.floor(Math.random() * 160)
+            }px;height:13px"></div>
+</div>`;
+            list.appendChild(li);
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        async function loadCommits() {
+            try {
+                const res = await fetch("/api/github_commits");
+                const data = await res.json();
+                if (!Array.isArray(data)) 
+                    throw new Error("Unexpected response");
+                
+                list.innerHTML = "";
+
+                data.forEach(commit => {
+                    const msg = commit.commit.message.split("\n")[0];
+
+                    if (msg.toLowerCase().startsWith("auto")) 
+                        return;
+                    
+
+                    const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
+                    const url = commit.html_url;
+
+                    const li = document.createElement("li");
+                    li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
+      <span class="commit-dot"></span>
+      <span class="commit-date">${date}</span>
+      <span class="commit-msg">${
+                        escapeHtml(msg)
+                    }</span>
+      <ion-icon name="arrow-forward-outline" class="commit-arrow"></ion-icon>
+    </a>`;
+
+                    list.appendChild(li);
+                });
+
+                document.getElementById("countBadge").textContent = data.length;
+            } catch (err) {
+                console.error(err);
+                list.innerHTML = `<li><div class="error-row">⚠️ Failed to load commits</div></li>`;
+            }
+        }
+
+        loadCommits();
+
+        const btn = document.getElementById("back_to_top");
+        window.addEventListener("scroll", () => {
+            btn.classList.toggle("visible", window.scrollY > 400);
+        });
+        btn.addEventListener("click", () => window.scrollTo({top: 0, behavior: "smooth"}));
+    </script>
+
+</body></html>
