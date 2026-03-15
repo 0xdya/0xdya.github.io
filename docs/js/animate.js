@@ -1,6 +1,5 @@
-  document.addEventListener("DOMContentLoaded", () => {
-    const elements = document.querySelectorAll('.animate_up_bouncy');
-    elements.forEach((el, index) => {
-      el.style.animationDelay = `${index * 200}ms`; // كل عنصر يتأخر بـ 100ms إضافية
-    });
-  });
+document.querySelectorAll('.card').forEach((card, i) => {
+  card.setAttribute('data-aos-delay', i * 100);
+});
+
+AOS.init({ duration: 400, once: true, easing: 'ease-out-quart' });

@@ -1,135 +1,138 @@
-var nodes = new vis.DataSet([
-  { id: 0, label: '0xdya', x: 300, y: 0 },
-  { id: 1, label: 'Blog', link: './blog/', x: 100, y: -120 },
-  { id: 2, label: 'Comments', link: './comments/', x: 100, y: -40 },
-  { id: 3, label: 'Poetry', link: './poetry/', x: 100, y: 40 },
-  { id: 4, label: 'Projects', link: './projects/', x: 100, y: 120 },
-  { id: 6, label: 'Users', link: './users/', x: -100, y: 160 },
-]);
+(function () {
+    const SKIN_PATH = "./skin/s2.png";
 
-var edges = new vis.DataSet([
-  { from: 0, to: 1 },
-  { from: 0, to: 2 },
-  { from: 0, to: 3 },
-  { from: 0, to: 4 },
-  { from: 0, to: 6 },
-  { from: 2, to: 3 },
-  { from: 2, to: 1 },
-  { from: 6, to: 3 },
-  { from: 6, to: 4 },
-  { from: 4, to: 1 },
-]);
+    const canvas = document.getElementById('mc-head');
+    const SIZE = 82;
+    canvas.width = SIZE;
+    canvas.height = SIZE;
 
-var container = document.getElementById('network');
-var data = { nodes: nodes, edges: edges };
-var options = {
-  nodes: {
-    shape: 'box',
-    font: {
-      color: "#ededed",
-      face: 'monospace',
-      size: 16,
-      align: 'center'
-    },
-    color: {
-      border: '#444444',
-      background: "#1e1e1e",
-    },
-    widthConstraint: { minimum: 90 },
-    heightConstraint: { minimum: 30 },
-    shadow: false,
-    hover: false,
-    chosen: false,
-    borderWidth: 1,
-    borderWidthSelected: 0
-  },
-  edges: {
-    color: {
-      color: '#888888',
-      highlight: '#888888'
-    },
-    width: 1.2,
-    hoverWidth: 0,
-    selectionWidth: 0,
-    smooth: true,
-    hover: false
-  },
-  interaction: {
-    dragNodes: true,
-    dragView: true,
-    zoomView: true,
-    hover: false,
-    keyboard: true,
-    tooltips: false,
-    highlightNearest: false,
-    navigationButtons: false
-  },
-  tooltip: false
-};
+    const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: true});
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(SIZE, SIZE);
 
-var network = new vis.Network(container, data, options);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(0, 0, 4.2);
 
-network.on("click", function (params) {
-  if (params.nodes.length > 0) {
-    const nodeId = params.nodes[0];
-    const node = nodes.get(nodeId);
-    const radius = 150;
-    const angles = [0, 60, 120, 180, 240, 300]; // degrees
-    const positions = angles.map(angle => {
-      const rad = angle * Math.PI / 180;
-      return { x: radius * Math.cos(rad), y: radius * Math.sin(rad) };
-    });
-    if (node && node.link) {
-      window.location.href = node.link;
+    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.5);
+    dir.position.set(3, 5, 3);
+    scene.add(dir);
+
+    function buildFace(img, sx, sy, sw, sh) {
+        const c = document.createElement('canvas');
+        c.width = sw;
+        c.height = sh;
+        const ctx = c.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+        const t = new THREE.CanvasTexture(c);
+        t.magFilter = THREE.NearestFilter;
+        t.minFilter = THREE.NearestFilter;
+        return new THREE.MeshLambertMaterial({map: t, transparent: true});
     }
-  }
-});
 
-// update card
-function makeDraggable(box) {
-  let isDragging = false, offsetX, offsetY, posX = 0, posY = 0;
-  box.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    offsetX = e.clientX - posX;
-    offsetY = e.clientY - posY;
-    box.style.cursor = "grabbing";
-  });
-  document.addEventListener("mousemove", (e) => {
-    if (isDragging) {
-      posX = e.clientX - offsetX;
-      posY = e.clientY - offsetY;
-      box.style.transform = `translate(${posX}px, ${posY}px)`;
+    function buildHead(img, scale, ox) {
+        const mats = [
+            buildFace(img, ox + 16, 8, 8, 8),
+            buildFace(img, ox + 0, 8, 8, 8),
+            buildFace(img, ox + 8, 0, 8, 8),
+            buildFace(img, ox + 16, 0, 8, 8),
+            buildFace(img, ox + 8, 8, 8, 8),
+            buildFace(img, ox + 24, 8, 8, 8),
+        ];
+        return new THREE.Mesh(new THREE.BoxGeometry(scale, scale, scale), mats);
     }
-  });
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    box.style.cursor = "grab";
-  });
+
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = function () {
+        const group = new THREE.Group();
+        group.add(buildHead(img, 1, 0));
+        if (img.height === 64) 
+            group.add(buildHead(img, 1.12, 32));
+        
+
+        group.rotation.x = 0.18;
+        scene.add(group);
+
+        (function animate(time) {
+            requestAnimationFrame(animate);
+            group.rotation.y = time * 0.00085;
+            renderer.render(scene, camera);
+        })();
+    };
+    img.src = SKIN_PATH;
+})();
+function timeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    const intervals = [
+        {
+            label: 'year',
+            seconds: 31536000
+        },
+        {
+            label: 'month',
+            seconds: 2592000
+        },
+        {
+            label: 'day',
+            seconds: 86400
+        },
+        {
+            label: 'hour',
+            seconds: 3600
+        }, {
+            label: 'minute',
+            seconds: 60
+        }, {
+            label: 'second',
+            seconds: 1
+        }
+    ];
+    for (const i of intervals) {
+        const count = Math.floor(seconds / i.seconds);
+        if (count > 0) 
+            return count + ' ' + i.label + (count > 1 ? 's' : '');
+        
+    }
+    return 'just now';
+}
+async function loadLatestCommit() {
+    try {
+        const res = await fetch('/api/github_commits');
+        if (!res.ok) throw new Error('فشل جلب الكوميتات');
+
+        const commits = await res.json();
+        const latest = commits.find(c => {
+            const msg = c.commit.message.split("\n")[0].toLowerCase();
+            return !msg.startsWith("auto");
+        });
+
+        if (!latest) throw new Error("No valid commits");
+
+        const message = latest.commit.message;
+        const date = new Date(latest.commit.author.date);
+
+        document.getElementById("commit-msg").textContent = message;
+        document.getElementById("commit-auth").textContent =
+            latest.author ? latest.author.login : latest.commit.author.name;
+
+        document.getElementById("commit-time").textContent =
+            date.toLocaleString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            });
+
+        const timeAgoElem = document.querySelector(".time_ago");
+        if (timeAgoElem) timeAgoElem.textContent = timeAgo(date);
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("commit-msg").textContent = "Failed to load commit";
+    }
 }
 
-function fetchUpdateDetails() {
-  fetch("./update_log.json")
-    .then(response => response.json())
-    .then(data => {
-      let updateHTML = ``;
-      updateHTML += ``;
-      if (data.newFeatures.length > 0) {
-        updateHTML += ` <div dir="ltr" class="update_line"> <span class="tr_txt "><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon> Features</span>:`;
-        data.newFeatures.forEach(feature => {
-          updateHTML += `<span class="tr_txt2">${feature}</span></div>`;
-        });
-      }
-      if (data.bugFixes.length > 0) {
-        updateHTML += ` <div dir="ltr" class="update_line"><span class="tr_txt "><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon> Fixes</span>: `;
-        data.bugFixes.forEach(fix => {
-          updateHTML += `<span class="tr_txt2">${fix}</span></div>`;
-        });
-      }
-      document.getElementById("update-details").innerHTML = updateHTML;
-    })
-    .catch(() => {
-      document.getElementById("update-details").textContent = "⚠️ Failed to load updates!";
-    });
-}
-
-fetchUpdateDetails();
+loadLatestCommit();

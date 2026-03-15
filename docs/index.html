@@ -1,155 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>0xdya | </title>
-  <meta name="description" content="0xdya, a web developer interested in open-source software and cybersecurity. Explore my projects and experience." />
-  <meta name="keywords" content="0xdya, dyaa, Dyaa Eddine" />
-  <meta name="author" content="0xdya" />
-  <meta property="og:title" content="0xdya | Dyaa Eddine" />
-  <meta property="og:description" content="0xdya, a web developer interested in open-source software and cybersecurity. Explore my projects and experience." />
-  <meta property="og:image" content="https://0xdya.github.io/docs/img/cover.png" />
-  <meta property="og:url" content="https://0xdya.github.io" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="0xdya | Dyaa Eddine" />
-  <meta name="twitter:description" content="0xdya, a web developer interested in open-source software and cybersecurity. Explore my projects and experience." />
-  <meta name="twitter:image" content="https://0xdya.github.io/docs/img/cover.png" />
-  <link rel="canonical" href="https://0xdya.github.io" />
-  <link rel="stylesheet" href="./css/style.css" />
-  <link rel="stylesheet" href="./css/en.css" />
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
-  <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400..700&family=Playpen+Sans+Arabic:wght@100..800&display=swap" rel="stylesheet">
-</head>
-<body dir="ltr">
-<div id="warning" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:#111; color:#fff; z-index:9999; padding: 20px; text-align:center; font-family:sans-serif;">
-  <h2>⚠️ This site can't be displayed here</h2>
-  <p>It seems you opened the site from Instagram.</p>
-  <p>Click on ⋮ or (…) at the top and choose "Open in browser" to continue browsing properly.</p>
-</div>
-<script>
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-  if (ua.includes("Instagram") || ua.includes("FBAN") || ua.includes("FBAV")) {
-    document.getElementById('warning').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-  }
-</script>
-<div class="old"></div>
-<header class="h">
-  <h1 class="logo_name">
-    <span class="prompt"><ion-icon name="paw-outline"> </ion-icon></span> 0xdya
-  </h1>
-  <div class="control">
-    <div class="user_photo">
-      <a id="loginIcon" href="./login/"><ion-icon name="person-outline"></ion-icon></a>
-      <a class="user_photo_href" href="profile"><img id="userAvatar" style="display:none" src="img/user.jpg"></a>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>0xdya | ضياء الدين ملوك</title>
+        <meta name="description" content="هاوٍ تقني مُتعدِد الشغف"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="alternate" type="application/rss+xml" title="0xdya" href="./feed.xml">
+        <link href="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
+        <meta name="keywords" content="0xdya, dyaa, ضياء الدين ملوك"/>
+        <meta name="author" content="0xdya"/>
+        <meta name="robots" content="index, follow">
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+        <meta name="theme-color" content="#0a0a0a">
+        <meta property="og:title" content="0xdya | ضياء الدين ملوك"/>
+        <meta property="og:description" content="هاوٍ تقني مُتعدِد الشغف"/>
+        <meta property="og:image" content="https://0xdya.vercel.app/img/og-cover.png"/>
+        <link rel="icon" href="https://0xdya.vercel.app/img/og-cover.png">
+        <meta property="og:url" content="https://0xdya.vercel.app"/>
+        <meta property="og:type" content="website"/>
+        <meta name="twitter:card" content="summary_large_image"/>
+        <meta name="twitter:title" content="0xdya | ضياء الدين ملوك"/>
+        <meta name="twitter:description" content="هاوٍ تقني مُتعدِد الشغف"/>
+        <meta name="twitter:image" content="https://0xdya.vercel.app/img/og-cover.png"/>
+        <meta property="og:site_name" content="0xdya">
+        <link rel="canonical" href="https://0xdya.vercel.app"/>
+        <link rel="stylesheet" href="./home.css">
+        <link rel="stylesheet" href="./css/static.css">
+        <script type="module" src="./js/user.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/fork-corner/dist/fork-corner.min.css" rel="stylesheet"/>
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    </head>
+    <div id="loader">
+        <div class="spinner"></div>
     </div>
-    <div class="theme_toggle_container">
-      <button id="themeToggle"><ion-icon name="contrast-outline"></ion-icon></button>
-      <a href="report/" class="bug"><ion-icon name="bug-outline"></ion-icon></a>
-      <div class="dropdown" id="themeDropdown">
-        <button data-theme="light">Light</button>
-        <button data-theme="dark">Dark</button>
-        <button data-theme="system">System</button>
-      </div>
-    </div>
-  </div>
-</header>
-<div class="container">
-  <main>
-    <h2 class="home_title_font">#</span> info</h2>
-    <div class="terminal_bg">
-      <div class="terminal">
-        <div class="terminal_dote"><span></span><span></span><span></span></div>
-        <div class="code-box" id="draggable-box">
-          <div class="code_box_content">
-            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> About</span><br></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Created:</span> <span class="tr_txt2">5 May 2025</span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Last update:</span> <span class="time_ago tr_txt2">2025-06-03T21:30</span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Visits:</span> <span class="tr_txt2"><span id="counter"><span class="doted">Loading </span></span></span></div>
-            <br>
-            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> Latest News</span><br></div>
-            <div class="update-info" id="update-details">
-              <p dir="ltr" class="bracket">
-                <span class="doted">Loading </span><br>
-              </p>
+
+    <body>
+        <a href="https://github.com/0xdya/0xdya.github.io" target="_blank" id="fork-corner" class="fork-corner fc-size-small fc-pos-tr fc-animate-grow fc-theme-github"></a>
+        <div class="layout">
+            <div class="container">
+                <header data-aos="fade-down">
+                    <div class="header-inner">
+                        <a href="./skin/" class="mc-head-wrap">
+                            <canvas id="mc-head"></canvas>
+                        </a>
+                        <div class="header-text">
+                            <a href="https://0xdya.vercel.app/profile?user=0xdya" class="logo">
+                                0xdya
+                            </a>
+                            <p class="subtitle " id="lastOnline">----</p>
+
+                        </div>
+                    </div>
+                </header>
+
+                <section class="hero" data-aos="fade-up">
+                    <p class="description">
+                        18yo
+                        <a href="./projects/#web" class="highlight">#dev</a>, arabic
+                        <a href="./projects/#books" class="highlight">#writer</a>
+                        &
+                        <a href="./poetry/" class="highlight">#poet</a>,
+                        <a href="./projects/#paint" class="highlight">#painter</a>.
+
+                        <span data-aos="zoom-in" data-aos-delay="3000">
+                            + (i use
+                            <a href="./rice/" dir="ltr" class="highlight">#arch</a>
+                            btw <?xml version="1.0" encoding="utf-8"?><img src="https://devgoldy.xyz/images/classic_tv.gif" width="20px" height="20px" style="vertical-align: middle;">)
+                        </span>
+                    </p>
+                    <a class="btn static" href="./certificate/" data-aos="fade-right" data-aos-delay="100">
+                        my certificate
+                        <svg xmlns="http://www.w3.org/2000/svg" it fill="none" viewbox="0 0 24 24" height="14" width="14" class="icon">
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" stroke="currentColor" d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"/>
+                        </svg>
+                    </a>
+
+                </section>
+
+                <section class="section">
+                    <div class="section-header" data-aos="fade-up-right">
+                        <h2 class="section-title">// stat</h2>
+                    </div>
+                    <div class="identity-grid" data-aos="fade-up">
+                        <a href="https://raw.githubusercontent.com/0xdya/0xdya.github.io/refs/heads/main/archive.txt" class="identity-chip" data-aos="fade-right" data-aos-delay="100">
+                            <span class="chip-label">visits</span>
+                            <span class="chip-value" id="counter">---</span>
+                        </a>
+                        <a href="./users/" class="identity-chip" data-aos="fade-up" data-aos-delay="200">
+                            <span class="chip-label">users</span>
+                            <span class="chip-value" id="users_count">---</span>
+                            <span class="btn">
+                                open
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" height="14" width="14" class="icon">
+                                    <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" stroke="currentColor" d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"/>
+                                </svg>
+                            </span>
+                        </a>
+                        <a href="./comments/" class="identity-chip" data-aos="fade-left" data-aos-delay="300">
+                            <span class="chip-label">comments
+                            </span>
+                            <span class="chip-value" id="comments_count">---</span>
+                            <span class="btn">
+                                open
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" height="14" width="14" class="icon">
+                                    <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" stroke="currentColor" d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"/>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                    <a href="archive/" class="commit-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="commit-dot"></div>
+                        <div class="commit-meta">
+                            <span class="commit-label">Last update •
+                                <span class="time_ago">2026-02-17t18:27</span>
+                            </span>
+                            <p dir="rtl" class="commit-message loading" id="commit-msg">Loading...</p>
+                        </div>
+                        <p class="commit-repo">by @<span id="commit-auth"></span>
+                        </p>
+                        <span class="commit-time" id="commit-time"></span>
+                        <span class="btn">
+                            open
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" height="14" width="14" class="icon">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" stroke="currentColor" d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"/>
+                            </svg>
+                        </span>
+                    </a>
+
+                </section>
             </div>
-            <br>
-            <div><span class="tr_txt3"><ion-icon class="amd_ion" name="folder-outline"></ion-icon> Me</span><br></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Name:</span> <span class="tr_txt2">Dyaa Eddine | 0xdya</span></div>
-            <div class="update_line"><ion-icon class="row_ion" name="return-down-back-outline"></ion-icon><span class="tr_txt"> Goal:</span> <span class="tr_txt2">Support technical content in the Arab world</span></div>
-          </div>
         </div>
-        <div class="ascii">
-<pre><code>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀... (unchanged ASCII art) ...</code></pre>
+        <div class="footer">
+            Complexity is a bug ...
         </div>
-      </div>
-    </div>
-    <button id="back_to_top"><ion-icon name="chevron-up-circle-outline"></ion-icon></button>
-    <h2 class="home_title_font"><span>#</span> map</h2>
-    <div class="note_section">
-      <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Click to open</div>
-      <div><div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Draggable</div></div>
-      <div class="note"><ion-icon name="alert-circle-outline"></ion-icon>Zoomable</div>
-    </div>
-    <div id="network"></div>
-  </main>
-</div>
-<footer>
-  <p class="home_title_font">i use Arch btw 🫩✨</p>
-  <div class="icon">
-    <a class="foooter_link" href="https://github.com/0xdya"><ion-icon name="logo-github"></ion-icon></a>
-    <a class="foooter_link" href="https://www.youtube.com/@0xdya"><ion-icon name="logo-youtube"></ion-icon></a>
-    <a class="foooter_link" href="mailto:0xdyaa@gmail.com"><ion-icon name="mail-outline"></ion-icon></a>
-    <a class="foooter_link" href="https://x.com/0xdya1"><ion-icon name="logo-twitter"></ion-icon></a>
-    <a class="foooter_link" href="https://www.instagram.com/0xdya1"><ion-icon name="logo-instagram"></ion-icon></a>
-  </div>
-</footer>
-<script type="module" src="./js/user.js"></script>
-<script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "0xdya | Dyaa Eddine",
-  "url": "https://0xdya.github.io",
-  "image": "https://0xdya.github.io/docs/img/cover.png",
-  "jobTitle": "0xdya | Dyaa Eddine",
-  "description": "0xdya, a web developer interested in open-source software and cybersecurity. Explore my projects and experience.",
-  "sameAs": [
-    "https://github.com/0xdya",
-    "https://youtube.com/@0xdya",
-    "https://facebook.com/0xdya",
-    "https://twitter.com/0xdya1",
-    "https://instagram.com/0xdy1"
-  ]
-}</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.firebasestorage.app",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
-  const app = initializeApp(firebaseConfig);
-</script>
-<script>
-  const path = window.location.pathname;
-  if (path.startsWith("/@")) {
-    const username = path.slice(2);
-    window.location.href = `/profile/index.html?user=${encodeURIComponent(username)}`;
-  }
-</script>
-<script type="module" src="./js/view.js"></script>
-<script src="./js/script.js"></script>
-<script src="./js/tg.js"></script>
-<script src="./js/time_ago.js"></script>
-<script src="./js/home.js"></script>
-</body>
+        <div class="navbar_section">
+            <nav class="navbar">
+                <a href="./" class="nav-item active">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="./projects/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    <span class="nav-text">Projects</span>
+                </a>
+                <a href="./blog/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <span class="nav-text">Articles</span>
+                </a>
+                <a href="./contact/" class="nav-item">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span class="nav-text">Contact</span>
+                </a>
+            </nav>
+            <nav class="navbar">
+                <a href="./comments/" class="nav-item  comments">
+                    <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="nav-text">Comments</span>
+                </a>
+                <div class="user_photo  profile" id="userPhotoContainer"></div>
+            </nav>
+        </div>
+        <script type="application/ld+json">
+            {
+                         "@context": "https://schema.org",
+                         "@type": "Person",
+                         "name": "ضياء الدين ملوك",
+                         "alternateName": "0xdya",
+                         "url": "https://0xdya.vercel.app",
+                         "description": "هاوٍ تقني متعدد الشغف",
+                         "sameAs": [
+                           "https://github.com/0xdya"
+                         ]
+                        }
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
+        <script type="module" src="./js/home.js"></script>
+        <script>
+            const loader = document.getElementById('loader');
+            const showLoaderTimeout = setTimeout(() => {
+                loader.style.display = 'flex';
+            }, 100);
+            window.addEventListener('load', () => {
+                loader.classList.add('hidden');
+                setTimeout(() => loader.style.display = 'none', 300);
+                AOS.init({duration: 400, once: true, easing: 'ease-out-quart'});
+                clearTimeout(showLoaderTimeout);
+            });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script type="module" src="./js/view.js" defer></script>
+        <script src="./js/time_ago.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/fork-corner/dist/fork-corner.min.js" defer></script>
+    </body>
+
 </html>

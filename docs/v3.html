@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ضياء الدين ملوك</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="alternate" type="application/rss+xml" title="ضياء الدين ملوك" href="/feed.xml">
+<!-- AOS CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.css" rel="stylesheet">
+
+<style>
+/* ======================================================
+   Design System
+====================================================== */
+:root {
+  --bg: #080808;
+  --text: #e8e8e8;
+  --muted: #888;
+  --dim: #555;
+  --accent: #c8b560;
+  --accent-dim: rgba(200,181,96,.12);
+  --border: rgba(255,255,255,.07);
+  --card-bg: rgba(255,255,255,.025);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --text-xs: .78rem;
+  --text-sm: .88rem;
+  --text-base: 1.02rem;
+  --text-lg: 1.2rem;
+  --text-xl: 1.55rem;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+ /* overflow: hidden;
+  height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 var(--space-8);
+}
+
+/* ======================================================
+   Background Grid
+====================================================== */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(
+        600px 600px at top left,
+        black 0%,
+        transparent 60%
+      );
+    }
+/* Subtle radial glow */
+
+/* ======================================================
+   Layout
+====================================================== */
+.layout {
+  position: relative;
+  z-index: 1;
+}
+
+.layout::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 50%;
+  border-right: 1px dashed rgba(255,255,255,.04);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+a{
+  text-decoration: none;
+}
+/* ======================================================
+   Header
+====================================================== */
+header {
+  padding-top: var(--space-7);
+  margin-bottom: var(--space-7);
+}
+
+.logo {
+  font-size: var(--text-xl);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.subtitle {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* ======================================================
+   Hero
+====================================================== */
+.hero {
+  margin-bottom: var(--space-9);
+}
+
+.description {
+  max-width: 600px;
+  margin-bottom: var(--space-1);
+  color: var(--text);
+  font-weight: 300;
+  font-size: var(--text-base);
+  text-align: justify;
+}
+
+.description .highlight {
+  color: var(--dim);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* ======================================================
+   Tag Chips (replaces stats)
+====================================================== */
+.section {
+  margin-bottom: var(--space-9);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.section-title {
+  font-size: var(--text-sm);
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+/* Row 1 — 3 equal chips */
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.identity-chip {
+  border: 1px solid var(--border);
+  /* background: var(--card-bg); */
+  border-radius: 8px;
+  padding: var(--space-3);
+  transition: border-color .2s, background .2s;
+}
+
+.identity-chip:hover {
+  border-color: rgba(200,181,96,.2);
+  background: var(--accent-dim);
+}
+
+.chip-label {
+  font-size: var(--text-xs);
+  color: var(--dim);
+  font-family: "JetBrains Mono", monospace;
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.chip-value {
+  font-size: 1.35rem;
+  color: var(--text);
+  font-weight: 400;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: -.02em;
+}
+
+/* Commit card — full width */
+.commit-card {
+  border: 1px solid var(--border);
+  /* background: var(--card-bg); */
+  border-radius: 10px;
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  gap: var(--space-4);
+  transition: border-color .2s, background .2s;
+  min-height: 60px;
+  overflow: hidden;
+}
+
+.commit-card:hover {
+  border-color: rgba(200,181,96,.2);
+  background: var(--accent-dim);
+}
+
+.commit-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: .7;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.commit-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.commit-label {
+  font-size: var(--text-xs);
+  color: var(--dim);
+  font-family: "JetBrains Mono", monospace;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.commit-message {
+  font-size: var(--text-sm);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.commit-message.loading {
+  color: var(--dim);
+  font-style: italic;
+}
+
+.commit-time {
+  font-size: var(--text-xs);
+  color: var(--dim);
+  font-family: "JetBrains Mono", monospace;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.commit-repo {
+  font-size: var(--text-xs);
+  color: var(--accent);
+  opacity: .7;
+  font-family: "JetBrains Mono", monospace;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .identity-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+  .chip-value { font-size: 1.1rem; }
+  .commit-time, .commit-repo { display: none; }
+}
+
+/* ======================================================
+   Footer
+====================================================== */
+footer {
+  padding-bottom: var(--space-7);
+  border-top: 1px solid var(--border);
+}
+
+.footer-text {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--dim);
+  font-family: "JetBrains Mono", monospace;
+  font-size: var(--text-xs);
+}
+
+/* ======================================================
+   CTA Button
+====================================================== */
+.btn {
+  color: var(--muted);
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-sm);
+  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color .2s, gap .2s;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width .25s ease;
+}
+
+.btn:hover {
+  color: var(--text);
+  gap: 14px;
+}
+
+.btn:hover::after {
+  width: 100%;
+}
+
+.btn .icon {
+  rotate: 180deg;
+  transition: transform .2s ease;
+  animation: nudge 1.4s ease-in-out infinite;
+}
+
+.btn:hover .icon {
+  animation: none;
+  transform: translateX(-4px);
+}
+.arch {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .95em;
+  color: var(--dim);
+  text-decoration: none;
+}
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-5px); }
+}
+
+/* ======================================================
+   Navbar
+====================================================== */
+.navbar_section {
+  display: flex;
+  position: fixed;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  gap: var(--space-2);
+  z-index: 1000;
+}
+
+.navbar {
+  background: rgba(10,10,10,.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  gap: var(--space-1);
+  box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.05) inset;
+}
+
+.nav-item {
+  padding: 9px 18px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--dim);
+  font-size: var(--text-sm);
+  transition: all .18s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,.07);
+  color: var(--text);
+}
+
+.nav-item.active {
+  background: rgba(255,255,255,.1);
+  color: var(--text);
+}
+
+.nav-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ======================================================
+   Animations
+====================================================== */
+
+
+/* ======================================================
+   Responsive
+====================================================== */
+@media (max-width: 640px) {
+  .container { padding-inline: var(--space-4); }
+  .hero, .section { margin-bottom: var(--space-6); }
+
+  .layout::after { display: none; }
+  .nav-text { display: none; }
+  .nav-item { padding: 10px 14px; }
+  .navbar { padding: 8px 10px; }
+  .identity-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 380px) {
+  .identity-grid { grid-template-columns: 1fr 1fr; }
+}
+
+footer {
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  background: rgba(8,8,8,.85);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  font-size: var(--text-xs);
+  font-family: "JetBrains Mono", monospace;
+}
+
+.footer-links a {
+  color: var(--dim);
+  transition: color .2s;
+}
+
+.footer-links a:hover { color: var(--text); }
+
+.footer-sep { color: var(--border); }
+
+
+</style>
+</head>
+
+<body>
+<div class="layout">
+<div class="container">
+
+  <header data-aos="fade-down">
+    <a class="logo">ضياء الدين ملوك</a>
+    <p class="subtitle">هاوٍ تقني مُتعدد الشغف</p>
+  </header>
+
+  <section class="hero" data-aos="fade-up">
+    <p class="description">
+      18 سنة، 
+      <a href="./projects/#dev" class="highlight">#مطور</a>
+      مهتم بالبرمجيات الحرة، <a href="./projects/#book" class="highlight">#كاتب</a>،
+      <a href="./poetry/" class="highlight">#شاعر</a>
+      و<a href="./projects/#paint" class="highlight">#رسام</a>
+      ، أسعى لرفع جودة المحتوى العربي التقني & أميل إلى كل ماهو بسيط ونظيف...
+      +  استخدم <a href="./rice/" dir="ltr" class="arch">#arch</a> بالمناسبة ._.
+    </p>
+    <a class="btn" href="./info/" data-aos="zoom-in">
+      صفحة السِجلات
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="14" width="14" class="icon">
+        <path stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5" stroke="currentColor" d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"/>
+      </svg>
+    </a>
+  </section>
+
+  <section class="section" data-aos="fade-up">
+    <div class="section-header">
+      <h2 class="section-title">// الإحصائيات</h2>
+    </div>
+
+    <div class="identity-grid">
+      <div class="identity-chip" data-aos="fade-right" data-aos-delay="100">
+        <span class="chip-label">الزيارات</span>
+        <span class="chip-value" id="counter">---</span>
+      </div>
+      <a href="./users/" class="identity-chip" data-aos="fade-up" data-aos-delay="200">
+        <span class="chip-label">المستخدمين</span>
+        <span class="chip-value" id="users_count">---</span>
+      </a>
+      <a href="./comments/" class="identity-chip" data-aos="fade-left" data-aos-delay="300">
+        <span class="chip-label">التعليقات</span>
+        <span class="chip-value" id="comments_count">---</span>
+      </a>
+    </div>
+
+    <a href="archive/" class="commit-card" data-aos="fade-up" data-aos-delay="400">
+      <div class="commit-dot"></div>
+      <div class="commit-meta">
+        <span class="commit-label">آخر تحديث • <span class="time_ago">2026-02-17t18:27</span></span>
+        <span class="commit-message loading" id="commit-msg">جارٍ التحميل...</span>
+      </div>
+      <span class="commit-repo" id="commit-repo"></span>
+      <span class="commit-time" id="commit-time"></span>
+    </a>
+  </section>
+
+</div>
+</div>
+  <div class="navbar_section">
+    <nav class="navbar">
+      <a href="/" class="nav-item active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="nav-text">الرئيسية</span>
+      </a>
+      <a href="/projects/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="nav-text">المشاريع</span>
+      </a>
+      <a href="/blog/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        <span class="nav-text">المقالات</span>
+      </a>
+      <a href="/poetry/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+          <line x1="16" y1="8" x2="2" y2="22"/>
+          <line x1="17.5" y1="15" x2="9" y2="15"/>
+        </svg>
+        <span class="nav-text">شِعر</span>
+      </a>
+    </nav>
+    <nav class="navbar">
+      <a href="/comments/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span class="nav-text">التعليقات</span>
+      </a>
+      <a href="/login/" class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-text">الحساب</span>
+      </a>
+    </nav>
+  </div>
+
+
+<footer>
+  <div class="footer-links">
+    <a href="/report/">إبلاغ</a>
+    <span class="footer-sep">·</span>
+    <a href="/contact/">تواصل</a>
+    <span class="footer-sep">·</span>
+    <a href="/feed.xml">RSS</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/0xdya/0xdya.github.io/"> السورس </a>
+  </div>
+</footer>
+
+<!-- AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
+<script type="module"src="./js/view.js"></script>
+  <script>
+async function loadLatestCommit() {
+  const repoOwner = "0xdya";
+  const repoName = "0xdya.github.io";
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits`);
+    if (!res.ok) throw new Error("فشل تحميل الكوميتات");
+    const commits = await res.json();
+
+    if (commits.length === 0) return;
+
+    const latest = commits[0];
+    const message = latest.commit.message;
+    const date = new Date(latest.commit.author.date);
+    const repoUrl = latest.html_url;
+
+    document.getElementById("commit-msg").textContent = message;
+    document.getElementById("commit-repo").textContent = repoName;
+    document.getElementById("commit-repo").setAttribute("onclick", `window.open('${repoUrl}', '_blank')`);
+    document.getElementById("commit-time").textContent = date.toLocaleString("ar-EG", {
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit"
+    });
+
+    const timeAgoElem = document.querySelector(".time_ago");
+    if (timeAgoElem) {
+      timeAgoElem.textContent = timeAgo(date);
+    }
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("commit-msg").textContent = "فشل تحميل الكوميت";
+  }
+}
+
+function timeAgo(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  const intervals = [
+    { label: "سنة", sec: 31536000 },
+    { label: "شهر", sec: 2592000 },
+    { label: "أسبوع", sec: 604800 },
+    { label: "يوم", sec: 86400 },
+    { label: "ساعة", sec: 3600 },
+    { label: "دقيقة", sec: 60 },
+  ];
+
+  for (const i of intervals) {
+    const count = Math.floor(seconds / i.sec);
+    if (count > 0) return `قبل ${count} ${i.label}${count > 1 ? "s" : ""}`;
+  }
+  return "الآن";
+}
+
+loadLatestCommit();
+</script>
+  <script src="./js/time_ago_ar.js"></script>
+</body>
+</html>

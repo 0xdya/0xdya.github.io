@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>0xDya — rice</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/static.css">
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-2: #111111;
+    --bg-3: #1a1a1a;
+    --border: #222222;
+    --border-hover: #333333;
+    --text: #ededed;
+    --text-muted: #888888;
+    --text-faint: #444444;
+    --green: #50e3c2;
+    --blue: #0070f3;
+    --radius: 8px;
+    --font-mono: 'Geist Mono', 'Courier New', monospace;
+    --font-sans: 'Geist', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+  }
+
+  .header-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .header-back:hover { color: var(--text); }
+  .header-sep { color: var(--text-faint); font-size: 18px; font-weight: 300; }
+  .header-title { font-size: 13px; font-weight: 500; color: var(--text); font-family: var(--font-mono); }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+  .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    font-size: 16px;
+  }
+  .icon-btn:hover { background: var(--bg-3); color: var(--text); border-color: var(--border-hover); }
+
+  .page-header { margin-bottom: var(--space-5); }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--text); }
+  .breadcrumb .sep { color: var(--text-faint); }
+
+  .page-title { font-size: 24px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+
+
+  .preview-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 32px;
+    background: var(--bg-2);
+  }
+
+  .preview-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-3);
+  }
+
+  .preview-dots { display: flex; gap: 6px; }
+  .preview-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+
+  .preview-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+
+  .preview-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .preview-link:hover { color: var(--text); border-color: var(--border-hover); background: var(--bg-2); }
+
+  .preview-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #050505;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .preview-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .preview-thumb:hover img { opacity: 1; }
+
+  .play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4);
+    transition: background 0.2s;
+  }
+  .preview-thumb:hover .play-btn { background: rgba(0,0,0,0.2); }
+
+  .play-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    transition: transform 0.15s;
+  }
+  .preview-thumb:hover .play-icon { transform: scale(1.08); }
+
+  /* Section title */
+  .section-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  .dotfiles-cta {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: var(--space-5) 0;
+    background: var(--bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s;
+  }
+  .dotfiles-cta:hover { border-color: var(--border-hover); background: var(--bg-3); }
+
+  .dotfiles-cta-left { display: flex; align-items: center; gap: 14px; }
+
+  .dotfiles-cta-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .dotfiles-cta-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    font-family: var(--font-mono);
+  }
+
+  .dotfiles-cta-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .dotfiles-cta-arrow {
+    font-size: 18px;
+    color: var(--text-faint);
+    flex-shrink: 0;
+  }
+
+  .cards-grid {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: fit-content;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    /* background: var(--bg-2); */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card:hover { border-color: var(--border-hover); background: var(--bg-3); }
+
+  .card-label {
+    font-size: 10px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .card-value {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="../" class="header-back">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+    Back
+  </a>
+  <span class="header-sep">/</span>
+  <span class="header-title">rice</span>
+  <div class="header-right">
+    <a href="../login/" class="icon-btn" title="Login">
+      <ion-icon name="person-outline"></ion-icon>
+    </a>
+    <a href="../report/" class="icon-btn" title="Report bug">
+      <ion-icon name="bug-outline"></ion-icon>
+    </a>
+  </div>
+</header>
+
+<main class="container">
+
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="../">home</a>
+        <span class="sep">/</span>
+        <span>rice</span>
+      </div>
+      <h1 class="page-title">My Rice</h1>
+    </div>
+  
+  
+    <p class="section-title">Preview</p>
+    <div class="preview-card" style="margin-bottom:32px">
+      <div class="preview-bar">
+        <div class="preview-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <a href="https://youtu.be/lPXU-WEX1Ko" target="_blank" rel="noopener" class="preview-link">
+          <ion-icon name="logo-youtube"></ion-icon>
+          Watch on YouTube
+        </a>
+      </div>
+      <div style="aspect-ratio:16/9;width:100%;">
+        <iframe
+          src="https://www.youtube.com/embed/lPXU-WEX1Ko"
+          title="Rice showcase v2"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="width:100%;height:100%;display:block;">
+        </iframe>
+      </div>
+    </div>
+  
+  
+  
+    <p class="section-title">i use:</p>
+    <div class="cards-grid" >
+      <div class="card"><div class="card-label">OS</div><div class="card-value">Arch</div></div>
+      <div class="card"><div class="card-label">WM</div><div class="card-value">Hyprland</div></div>
+      <div class="card"><div class="card-label">Bash</div><div class="card-value">fish</div></div>
+      <div class="card"><div class="card-label">Bar</div><div class="card-value">Waybar</div></div>
+      <div class="card"><div class="card-label">Launcher</div><div class="card-value">Rofi</div></div>
+      <div class="card"><div class="card-label">Terminal</div><div class="card-value">Alacritty</div></div>
+      <div class="card"><div class="card-label">Browser</div><div class="card-value">Firefox</div></div>
+      <div class="card"><div class="card-label">Files</div><div class="card-value">Dolphin</div></div>
+      <div class="card"><div class="card-label">Notes</div><div class="card-value">Obsidian</div></div>
+      <div class="card"><div class="card-label">Editor</div><div class="card-value">Cursor</div></div>
+      <div class="card"><div class="card-label">Color Picker</div><div class="card-value">Hyprpicker</div></div>
+      <div class="card"><div class="card-label">Clipboard</div><div class="card-value">Cliphist</div></div>
+      <div class="card"><div class="card-label">Wallpaper</div><div class="card-value">Waypaper</div></div>
+    </div>
+    <a href="https://github.com/0xdya/dotfiles" target="_blank" rel="noopener" class="dotfiles-cta">
+      <div class="dotfiles-cta-left">
+        <div class="dotfiles-cta-icon">
+          <ion-icon name="logo-github"></ion-icon>
+        </div>
+        <div>
+          <div class="dotfiles-cta-title">source</div>
+          <div class="dotfiles-cta-sub">0xdya/dotfiles</div>
+        </div>
+      </div>
+      <ion-icon name="arrow-forward-outline" class="dotfiles-cta-arrow"></ion-icon>
+    </a>
+  
+  
+  </main>
+
+</body>
+</html>

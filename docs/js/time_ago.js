@@ -34,7 +34,7 @@ function getTimeAgo(dateString) {
       } else {
         label = `${count} ${englishUnits[unit][0]}`;
       }
-      return `before ${label}`;
+      return `${label}`;
     }
   }
 
