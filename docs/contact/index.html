@@ -331,7 +331,7 @@
       const text = `📩 new message from your site\n\n👤 name: ${name || "anonymous"}\n\n💬 message:\n${message}`;
 
       try {
-    const res = await fetch('/api/send-message', {
+    const res = await fetch('/api/contact', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, message })
