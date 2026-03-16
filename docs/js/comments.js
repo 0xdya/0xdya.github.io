@@ -109,14 +109,14 @@ async function loadReplies(commentId) {
         card.className = 'reply-card';
         card.style.display = 'flex';
         card.innerHTML = `
-      <a href="https://0xdya.vercel.app/profile/?user=${userData.name}" target="_blank" style="flex-shrink:0;">
+      <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="flex-shrink:0;">
         <img src="${userData.photo}" alt="${userData.name}" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
       </a>
       <div style="flex:1;min-width:0;">
         <div class="reply-bubble">
 
          <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-<a href="https://0xdya.vercel.app/profile/?user=${userData.name}" 
+<a href="https://0xdya.vercel.app/@${userData.name}" 
  target="_blank"
  style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">
  ${userData.name}
@@ -173,7 +173,7 @@ function loadComments() {
                 wrap.innerHTML = `
           <div class="comment-card" id="comment-${commentId}">
             <div class="comment-avatar">
-              <a href="https://0xdya.vercel.app/profile/?user=${userData.name}" target="_blank">
+              <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
                 <img src="${userData.photo}" alt="${userData.name}">
               </a>
             </div>
@@ -182,7 +182,7 @@ function loadComments() {
               <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
 
                <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-<a href="https://0xdya.vercel.app/profile/?user=${userData.name}" 
+<a href="https://0xdya.vercel.app/@${userData.name}" 
  target="_blank" 
  style="color:inherit;font-weight:600;">
  ${userData.name}

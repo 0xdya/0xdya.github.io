@@ -23,8 +23,17 @@ const db = getFirestore(app);
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-const urlParams = new URLSearchParams(window.location.search);
-const usernameFromURL = urlParams.get("user") || "profile";
+const path = window.location.pathname; 
+let usernameFromURL = "profile"; 
+// if (path.includes("/@")) {
+    usernameFromURL = decodeURIComponent(path.split("/@")[1]);
+// } else {
+if (path.includes("/@")) {
+    usernameFromURL = decodeURIComponent(path.split("/@")[1]).split('/')[0];
+}else {
+    const urlParams = new URLSearchParams(window.location.search);
+    usernameFromURL = urlParams.get("user") || "profile";
+}
 
 const $ = id => document.getElementById(id);
 const loadingEl = $("loading");
@@ -146,7 +155,7 @@ async function uploadToImgBB(file, maxWidth, quality) {
 function applyNavUI(photo, name) {
     const c = $("userPhotoContainer"); if (!c) return;
     c.innerHTML = (name || photo)
-        ? `<a class="user_photo_href nav-item" href="?user=${encodeURIComponent(name || '')}"><img src="${photo || '../img/user.jpg'}"></a>`
+        ? `<a class="user_photo_href nav-item" href="/@${encodeURIComponent(name || '')}"><img src="${photo || '../img/user.jpg'}"></a>`
         : `<a href="../login/" class="nav-item">
            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -169,7 +178,8 @@ onAuthStateChanged(auth, async user => {
         if (user && usernameFromURL === "profile") {
             const snap = await getDoc(doc(db, "users", user.uid));
             if (snap.exists() && snap.data().name) {
-                window.location.replace(`?user=${encodeURIComponent(snap.data().name)}`); return;
+                window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
+                return;
             }
             showMessage(`⚠️ profile not set up. <a href='../login/' style='color:#1d9bf0'>go to login</a>`); return;
         }
@@ -300,7 +310,6 @@ function loadProfile(currentUser) {
             if (file.size > 10 * 1024 * 1024) { alert("❌ file too large (max 10MB)"); return; }
             try {
                 saveAllBtn.disabled = true;
-                // 300x300, 85% quality
                 const url = await uploadToImgBB(file, 300, 0.85);
                 await updateProfile(currentUser, { photoURL: url });
                 await setDoc(doc(db, "users", uid), { photo: url }, { merge: true });
@@ -357,7 +366,7 @@ function loadProfile(currentUser) {
                     socials: userSocials
                 }, { merge: true });
                 alert("✅ saved!");
-                window.location.href = `?user=${encodeURIComponent(newName)}`;
+                window.location.href = `/@${encodeURIComponent(newName)}`;
             } catch (e) {
                 saveAllBtn.disabled = false;
                 saveAllBtn.textContent = "Save changes";
