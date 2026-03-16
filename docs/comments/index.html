@@ -1,756 +1,482 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>0xdya | Comments</title>
-  <link rel="icon" href="../img/icon.jpg">
-  <link rel="stylesheet" href="../css/static.css">
-  <script type="module" src="../js/user.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <style>
-    :root {
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>0xdya | Comments</title>
+        <link rel="icon" href="../img/icon.jpg">
+        <link rel="stylesheet" href="../css/static.css">
+        <script type="module" src="../js/user.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <style>:root
+        {
 
-      --surface: #0e0e0e;
-      --surface-hover: #3a3b3c;
-      --input-bg: #3a3b3c;
-      --text: #e4e6eb;
-      --text-secondary: #b0b3b8;
-      --accent: #2d88ff;
-      --accent-hover: #4599ff;
-      /* --border: #3e4042; */
-      --online: #31a24c;
-      --reaction-bg: #242526;
-    }
-
- 
-
-    body { 
-     padding-bottom: var(--space-6);
-    }
-
-    a { text-decoration: none; color: inherit; }
+            --surface: #0e0e0e;
+            --surface-hover: #3a3b3c;
+            --input-bg: #3a3b3c;
+            --text: #e4e6eb;
+            --text-secondary: #b0b3b8;
+            --accent: #2d88ff;
+            --accent-hover: #4599ff;
+            /* --border: #3e4042; */
+            --online: #31a24c;
+            --reaction-bg: #242526;
+        }
 
 
+        body {
+            padding-bottom: var(--space-6);
+        }
 
-    /* Header */
-    .page-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      /* margin-bottom: 20px; */
-      /* padding-bottom: 16px;
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            /* margin-bottom: 20px; */
+            /* padding-bottom: 16px;
       border-bottom: 1px solid var(--border); */
-    }
-    .page-header h1 {
-      font-size: var(--text-xl);
-      font-weight: 400;
-      color: var(--text);
-      /* margin-bottom: var(--space-8); */
-    }
-    /* Alert */
-    #alertBox {
-      margin-bottom: 12px;
-      font-size: .85rem;
-    }
-    #alertBox div {
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: var(--surface);
-      border-left: 3px solid var(--accent);
-    }
+        }
+        .page-header h1 {
+            font-size: var(--text-xl);
+            font-weight: 400;
+            color: var(--text);
+            /* margin-bottom: var(--space-8); */
+        }
+        /* Alert */
+        #alertBox {
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+        #alertBox div {
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--surface);
+            border-left: 3px solid var(--accent);
+        }
 
-    #write_comment {
-      font-size: var(--text-xs);
-      color: var(--muted);
-      font-weight: 300;
-      margin: var(--space-6) 0 var(--space-2);
-      /* color: var(--text-secondary); */
-    }
-    #write_comment a {
-      color: var(--accent);
-      /* font-weight: 600; */
-    }
+        #write_comment {
+            font-size: var(--text-xs);
+            color: var(--muted);
+            font-weight: 300;
+            margin: var(--space-6) 0 var(--space-2);
+            /* color: var(--text-secondary); */
+        }
+        #write_comment a {
+            color: var(--accent);
+            /* font-weight: 600; */
+        }
 
-    .comment-form {
-      background: var(--surface);
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 2px rgba(0,0,0,.4);
-    }
-    .composer-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    .composer-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--surface-hover);
-      flex-shrink: 0;
-      object-fit: cover;
-    }
-    .composer-input-wrap {
-      flex: 1;
-    }
-    .comment-form textarea {
-      width: 100%;
-      background: var(--input-bg);
-      border: none;
-      border-radius: 20px;
-      padding: 10px 16px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: .95rem;
-      resize: none;
-      min-height: 40px;
-      max-height: 200px;
-      outline: none;
-      transition: border-radius .2s;
-      line-height: 1.5;
-    }
-    .comment-form textarea:focus {
-      border-radius: 12px;
-    }
-    .comment-form textarea::placeholder { color: var(--text-secondary); }
-    .composer-actions {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: 8px;
-      gap: 8px;
-    }
-    .comment-form button[type="submit"] {
-      padding: 8px 18px;
-      background: var(--accent);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-family: inherit;
-      font-size: .875rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .15s;
-    }
-    .comment-form button[type="submit"]:hover { background: var(--accent-hover); }
+        .comment-form {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .4);
+        }
+        .composer-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .composer-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--surface-hover);
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        .composer-input-wrap {
+            flex: 1;
+        }
+        .comment-form textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: none;
+            min-height: 40px;
+            max-height: 200px;
+            outline: none;
+            transition: border-radius 0.2s;
+            line-height: 1.5;
+        }
+        .comment-form textarea:focus {
+            border-radius: 12px;
+        }
+        .comment-form textarea::placeholder {
+            color: var(--text-secondary);
+        }
+        .composer-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 8px;
+            gap: 8px;
+        }
+        .comment-form button[type="submit"] {
+            padding: 8px 18px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .comment-form button[type="submit"]:hover {
+            background: var(--accent-hover);
+        }
 
-    #load { display: block; margin: 32px auto; opacity: .5; }
+        #load {
+            display: block;
+            margin: 32px auto;
+            opacity: .5;
+        }
 
-    .section-label {
-      font-size: .82rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      margin-bottom: 12px;
-    }
+        .section-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
 
-    .comment-card {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-      animation: fadeUp .25s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+        .comment-card {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            animation: fadeUp 0.25s ease;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .comment-avatar {
-      flex-shrink: 0;
-      position: relative;
-    }
-    .comment-avatar img {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--border);
-    }
+        .comment-avatar {
+            flex-shrink: 0;
+            position: relative;
+        }
+        .comment-avatar img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
 
-    .comment-body { flex: 1; min-width: 0; }
+        .comment-body {
+            flex: 1;
+            min-width: 0;
+        }
 
-    .comment-bubble {
-      background: var(--surface);
-      border-radius: 18px;
-      padding: 10px 14px;
-      display: inline-block;
-      max-width: 100%;
-      position: relative;
-      box-shadow: 0 1px 1px rgba(0,0,0,.3);
-    }
-    .comment-bubble.pinned {
-      border-left: 3px solid #c8b560;
-      border-radius: 4px 18px 18px 4px;
-    }
-    .bubble-author {
-      font-size: .875rem;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 2px;
-    }
-    .bubble-author svg, .bubble-author img { width: 14px; height: 14px; }
-    .bubble-author svg { fill: var(--accent); }
-    .badge-owner { width: 16px !important; height: 16px !important; }
+        .comment-bubble {
+            background: var(--surface);
+            border-radius: 18px;
+            padding: 10px 14px;
+            display: inline-block;
+            max-width: 100%;
+            position: relative;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+        }
+        .comment-bubble.pinned {
+            border-left: 3px solid #c8b560;
+            border-radius: 4px 18px 18px 4px;
+        }
+        .bubble-author {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 2px;
+        }
+        .bubble-author svg,
+        .bubble-author img {
+            width: 14px;
+            height: 14px;
+        }
+        .bubble-author svg {
+            fill: var(--accent);
+        }
+        .badge-owner {
+            width: 16px !important;
+            height: 16px !important;
+        }
 
-    .bubble-text {
-      font-size: .9375rem;
-      color: var(--text);
-      word-break: break-word;
-      white-space: pre-wrap;
-    }
+        .bubble-text {
+            font-size: 0.9375rem;
+            color: var(--text);
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
 
-    .pin-badge {
-      font-size: .75rem;
-      color: #c8b560;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      margin-bottom: 4px;
-    }
+        .pin-badge {
+            font-size: 0.75rem;
+            color: #c8b560;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            margin-bottom: 4px;
+        }
 
-    .comment-meta {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 4px 14px 0;
-      font-size: .8rem;
-      color: var(--text-secondary);
-    }
-    .meta-time { }
-    .meta-action {
-      font-weight: 600;
-      cursor: pointer;
-      transition: color .15s;
-      color: var(--text-secondary);
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: .8rem;
-      padding: 0;
-    }
-    .meta-action:hover { color: var(--text); text-decoration: underline; }
-    .meta-action.delete:hover { color: #e05c5c; }
+        .comment-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 4px 14px 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .meta-time {}
+        .meta-action {
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.15s;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.8rem;
+            padding: 0;
+        }
+        .meta-action:hover {
+            color: var(--text);
+            text-decoration: underline;
+        }
+        .meta-action.delete:hover {
+            color: #e05c5c;
+        }
 
-    /* Replies */
-    .replies-section {
-      margin-top: 6px;
-      margin-left: 48px;
-      display: block;
-    }
-    .reply-card {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-      animation: fadeUp .2s ease;
-    }
-    .reply-card img {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .reply-bubble {
-      /* background: var(--surface); */
-      border-radius: 14px;
-      padding: 8px 12px;
-      display: inline-block;
-      max-width: 100%;
-      box-shadow: 0 1px 1px rgba(0,0,0,.3);
-    }
-    .reply-author {
-      font-size: .825rem;
-      font-weight: 600;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-bottom: 2px;
-    }
-    .reply-author svg { width: 12px; height: 12px; fill: var(--accent); }
-    .reply-text {
-      font-size: .875rem;
-      color: var(--text);
-      word-break: break-word;
-    }
-    .reply-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 3px 4px 0;
-      font-size: .78rem;
-      color: var(--text-secondary);
-    }
-    .reply-meta button {
-      font-weight: 600;
-      cursor: pointer;
-      transition: color .15s;
-      color: var(--text-secondary);
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: .78rem;
-      padding: 0;
-    }
-    .reply-meta button:hover { color: #e05c5c; text-decoration: underline; }
+        /* Replies */
+        .replies-section {
+            margin-top: 6px;
+            margin-left: 48px;
+            display: block;
+        }
+        .reply-card {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            animation: fadeUp 0.2s ease;
+        }
+        .reply-card img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .reply-bubble {
+            /* background: var(--surface); */
+            border-radius: 14px;
+            padding: 8px 12px;
+            display: inline-block;
+            max-width: 100%;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+        }
+        .reply-author {
+            font-size: 0.825rem;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+        .reply-author svg {
+            width: 12px;
+            height: 12px;
+            fill: var(--accent);
+        }
+        .reply-text {
+            font-size: 0.875rem;
+            color: var(--text);
+            word-break: break-word;
+        }
+        .reply-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 3px 4px 0;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+        .reply-meta button {
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.15s;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.78rem;
+            padding: 0;
+        }
+        .reply-meta button:hover {
+            color: #e05c5c;
+            text-decoration: underline;
+        }
 
-    /* Reply form */
-    .reply-form-wrap {
-      display: none;
-      margin-top: 8px;
-      margin-left: 48px;
-      gap: 8px;
-      align-items: flex-start;
-    }
-    .reply-form-wrap.open { display: flex; }
-    .reply-form-wrap img {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-      margin-top: 4px;
-    }
-    .reply-input-row { flex: 1; display: flex; gap: 8px; align-items: center; }
-    .reply-input-row textarea {
-      flex: 1;
-      background: var(--input-bg);
-      border: none;
-      border-radius: 20px;
-      padding: 8px 14px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: .875rem;
-      resize: none;
-      min-height: 36px;
-      outline: none;
-    }
-    .reply-input-row textarea::placeholder { color: var(--text-secondary); }
-    .reply-input-row button {
-      padding: 7px 14px;
-      background: var(--accent);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-family: inherit;
-      font-size: .8rem;
-      font-weight: 600;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: background .15s;
-    }
-    .reply-input-row button:hover { background: var(--accent-hover); }
+        /* Reply form */
+        .reply-form-wrap {
+            display: none;
+            margin-top: 8px;
+            margin-left: 48px;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        .reply-form-wrap.open {
+            display: flex;
+        }
+        .reply-form-wrap img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+        .reply-input-row {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .reply-input-row textarea {
+            flex: 1;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 14px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.875rem;
+            resize: none;
+            min-height: 36px;
+            outline: none;
+        }
+        .reply-input-row textarea::placeholder {
+            color: var(--text-secondary);
+        }
+        .reply-input-row button {
+            padding: 7px 14px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+        .reply-input-row button:hover {
+            background: var(--accent-hover);
+        }
 
-  </style>
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="page-header">
-      <h1>// comments</h1>
-    </div>
-
-    <p style="display:none" id="write_comment">
-   (  if u wanna sub cmnt <a href="../login/">login first</a> )
-    </p>
-
-    <div id="alertBox"></div>
-
-    <form id="commentForm" class="comment-form" style="display:none">
-      <div class="composer-row">
-        <img class="composer-avatar" src="https://0xdya.vercel.app/img/user.jpg" id="currentUserAvatar" alt="">
-        <div class="composer-input-wrap">
-          <textarea id="commentInput" placeholder="Write a comment..." rows="1" required></textarea>
+    <div class="container">
+        <div class="page-header">
+            <h1>// comments</h1>
         </div>
-      </div>
-      <div class="composer-actions">
-        <button type="submit">Post</button>
-      </div>
-    </form>
-
-    <div class="section-label" id="commentsLabel" style="display:none">Most Recent</div>
-
-    <div id="commentsList">
-      <img width="36" id="load" src="../img/load.gif">
+        <p style="display:none" id="write_comment">
+            (  if u wanna sub cmnt
+            <a href="../login/">login first</a>
+            )
+        </p>
+        <div id="alertBox"></div>
+        <form id="commentForm" class="comment-form" style="display:none">
+            <div class="composer-row">
+                <img class="composer-avatar" src="https://0xdya.vercel.app/img/user.jpg" id="currentUserAvatar" alt="">
+                <div class="composer-input-wrap">
+                    <textarea id="commentInput" placeholder="Write a comment..." rows="1" required></textarea>
+                </div>
+            </div>
+            <div class="composer-actions">
+                <button type="submit">Post</button>
+            </div>
+        </form>
+        <div class="section-label" id="commentsLabel" style="display:none">Most Recent</div>
+        <div id="commentsList">
+            <img width="36" id="load" src="../img/load.gif">
+        </div>
     </div>
-  </div>
-
-  <div class="navbar_section">
-    <nav class="navbar">
-      <a href="../" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-        <span class="nav-text">Home</span>
-      </a>
-      <a href="../projects/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-        <span class="nav-text">Projects</span>
-      </a>
-      <a href="../blog/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="16" y1="13" x2="8" y2="13" />
-          <line x1="16" y1="17" x2="8" y2="17" />
-        </svg>
-        <span class="nav-text">Articles</span>
-      </a>
-      <a href="../contact/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-          <polyline points="22,6 12,13 2,6"/>
-        </svg>
-        <span class="nav-text">Contact</span>
-      </a>
-    </nav>
-    <nav class="navbar">
-      <a href="./" class="nav-item  comments active">
-          <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span class="nav-text">Comments</span>
-      </a>
-      <div class="user_photo  profile" id="userPhotoContainer"></div>
-  </nav>
-  </div>
-  <script src="../js/script.js" defer></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import {
-      getFirestore, collection, addDoc, deleteDoc, doc, query,
-      orderBy, serverTimestamp, onSnapshot, getDocs,
-      updateDoc, getDoc, setDoc
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import {
-      getAuth, onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-    import { getDatabase, ref, increment, update } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-      authDomain: "oxdyaa.firebaseapp.com",
-      projectId: "oxdyaa",
-      storageBucket: "oxdyaa.appspot.com",
-      messagingSenderId: "604062703590",
-      appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const rtdb = getDatabase(app);
-
-    const commentForm = document.getElementById('commentForm');
-    const commentInput = document.getElementById('commentInput');
-    const commentsList = document.getElementById('commentsList');
-    const write_comment = document.getElementById('write_comment');
-    const alertBox = document.getElementById('alertBox');
-    const commentsLabel = document.getElementById('commentsLabel');
-    const currentUserAvatar = document.getElementById('currentUserAvatar');
-
-    let currentUser = null;
-    let currentUserData = null;
-
-    function showAlert(message, error = false) {
-      alertBox.innerHTML = `<div style="border-left-color:${error ? '#e05c5c' : '#31a24c'}">${message}</div>`;
-      setTimeout(() => alertBox.innerHTML = "", 4000);
-    }
-
-    function formatDate(dateValue) {
-  const date = new Date(dateValue);
-  const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-
-  if (seconds < 60) return `${seconds}s`;
-
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m`;
-
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h`;
-
-  const days = Math.floor(hours / 24);
-  if (days < 30) return `${days}d`;
-
-  const months = Math.floor(days / 30);
-  if (months < 12) return `${months}mo`;
-
-  const years = Math.floor(months / 12);
-  return `${years}y`;
-}
-
-    async function getUserData(uid) {
-      try {
-        const snap = await getDoc(doc(db, "users", uid));
-        if (snap.exists()) {
-          const data = snap.data();
-          return {
-            name: data.name || "user",
-            photo: data.photo || `https://0xdya.vercel.app/img/user.jpg`,
-            role: data.role || null,
-            verified: data.verified || false
-          };
-        }
-      } catch (e) {}
-      return { name: "user", photo: `https://0xdya.vercel.app/img/user.jpg`, verified: false };
-    }
-
-    const VERIFIED_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path></svg>`;
-
-    function getRoleIcon(role) {
-      if (role === 'owner') return `<img src="../badges/server-owner.svg" class="badge-owner">`;
-      if (role === 'dev') return `<ion-icon name="code-slash-outline" style="color:violet;font-size:14px;"></ion-icon>`;
-      return '';
-    }
-
-    async function loadReplies(commentId) {
-      const repliesDiv = document.getElementById(`replies-${commentId}`);
-      if (!repliesDiv) return;
-      repliesDiv.innerHTML = "";
-
-      const q = query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"));
-      const snap = await getDocs(q);
-
-      for (const docSnap of snap.docs) {
-        const d = docSnap.data();
-        const replyId = docSnap.id;
-        const timeStr = formatDate(d.timestamp?.toDate() || new Date());
-        const userData = await getUserData(d.uid);
-
-        while (currentUser && currentUserData === null) {
-          await new Promise(r => setTimeout(r, 50));
-        }
-
-        const isOwner = currentUser?.uid === d.uid || currentUserData?.role === "owner";
-
-        const card = document.createElement('div');
-        card.className = 'reply-card';
-        card.style.display = 'flex';
-        card.innerHTML = `
-          <a href="https://0xdya.vercel.app/profile/?user=${userData.name}" target="_blank" style="flex-shrink:0;">
-            <img src="${userData.photo}" alt="${userData.name}" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
-          </a>
-          <div style="flex:1;min-width:0;">
-            <div class="reply-bubble">
-
-             <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-  <a href="https://0xdya.vercel.app/profile/?user=${userData.name}" 
-     target="_blank"
-     style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">
-     ${userData.name}
-  </a>
-  ${userData.verified ? VERIFIED_SVG : ''}
-  ${getRoleIcon(userData.role)}
-  <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
-</div>
-
-
-              <div class="reply-text">${d.text}</div>
-            </div>
-            <div class="reply-meta">
-              ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">Delete</button>` : ''}
-            </div>
-          </div>
-        `;
-        repliesDiv.appendChild(card);
-
-        if (isOwner) {
-          card.querySelector('.delete-reply-btn').addEventListener('click', async () => {
-            if (confirm("Delete this reply?")) {
-              await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
-              await update(ref(rtdb, '/'), { comments_count: increment(-1) });
-              showAlert("Reply deleted.");
-              loadReplies(commentId);
-            }
-          });
-        }
-      }
-    }
-
-    function loadComments() {
-      const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-      let pinned = [], normal = [];
-      const loadedSet = new Set();
-
-      onSnapshot(q, (snapshot) => {
-        snapshot.docChanges().forEach(async (change) => {
-          const docSnap = change.doc;
-          const data = docSnap.data();
-          const commentId = docSnap.id;
-
-          if (change.type === "added") {
-            if (document.getElementById(`comment-wrap-${commentId}`)) return;
-
-            const timeStr = formatDate(data.timestamp?.toDate() || new Date());
-            const userData = await getUserData(data.uid);
-            const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "owner";
-
-            const wrap = document.createElement('div');
-            wrap.id = `comment-wrap-${commentId}`;
-
-            wrap.innerHTML = `
-              <div class="comment-card" id="comment-${commentId}">
-                <div class="comment-avatar">
-                  <a href="https://0xdya.vercel.app/profile/?user=${userData.name}" target="_blank">
-                    <img src="${userData.photo}" alt="${userData.name}">
-                  </a>
-                </div>
-                <div class="comment-body">
-                  ${data.pinned ? `<div class="pin-badge"><ion-icon name="push-outline"></ion-icon> Pinned comment</div>` : ''}
-                  <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
-
-                   <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-  <a href="https://0xdya.vercel.app/profile/?user=${userData.name}" 
-     target="_blank" 
-     style="color:inherit;font-weight:600;">
-     ${userData.name}
-  </a>
-  ${userData.verified ? VERIFIED_SVG : ''}
-  ${getRoleIcon(userData.role)}
-  <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
-</div>
-
-
-                    <div class="bubble-text">${data.text}</div>
-                  </div>
-                  <div class="comment-meta">
-                    <button class="meta-action reply-toggle-btn" data-id="${commentId}">Reply</button>
-                    ${isOwner ? `<button class="meta-action delete" data-id="${commentId}">Delete</button>` : ''}
-                  </div>
-                </div>
-              </div>
-              <div class="reply-form-wrap" id="reply-form-${commentId}">
-                <img src="${currentUser?.photoURL || 'https://0xdya.vercel.app/img/user.jpg'}" alt="">
-                <div class="reply-input-row">
-                  <textarea placeholder="Write a reply..." class="reply-input" rows="1"></textarea>
-                  <button class="reply-submit-btn" data-id="${commentId}">Reply</button>
-                </div>
-              </div>
-              <div class="replies-section" id="replies-${commentId}"></div>
-            `;
-
-            const entry = { el: wrap, id: commentId, pinned: data.pinned, timestamp: data.timestamp };
-            if (data.pinned) pinned.push(entry);
-            else normal.push(entry);
-
-            wrap.querySelector('.reply-toggle-btn').addEventListener('click', () => {
-              if (!currentUser) { showAlert("Login to reply", true); return; }
-              const form = document.getElementById(`reply-form-${commentId}`);
-              form.classList.toggle('open');
-              if (form.classList.contains('open')) form.querySelector('textarea').focus();
-            });
-
-            wrap.querySelector('.reply-submit-btn').addEventListener('click', async () => {
-              const input = wrap.querySelector('.reply-input');
-              const text = input.value.trim();
-              if (!text || !currentUser) return;
-              await addDoc(collection(db, "comments", commentId, "replies"), {
-                uid: currentUser.uid,
-                email: currentUser.email,
-                text,
-                timestamp: serverTimestamp()
-              });
-              await update(ref(rtdb, '/'), { comments_count: increment(1) });
-              input.value = "";
-              document.getElementById(`reply-form-${commentId}`).classList.remove('open');
-              loadReplies(commentId);
-            });
-
-            if (isOwner) {
-              wrap.querySelector('.delete').addEventListener('click', async () => {
-                if (confirm("Delete this comment?")) {
-                  await deleteDoc(doc(db, "comments", commentId));
-                  await update(ref(rtdb, '/'), { comments_count: increment(-1) });
-                  showAlert("Comment deleted.");
-                }
-              });
-            }
-
-            const all = [...pinned, ...normal];
-            all.sort((a, b) => {
-              if (a.pinned !== b.pinned) return b.pinned - a.pinned;
-              return b.timestamp?.seconds - a.timestamp?.seconds;
-            });
-
-            commentsList.innerHTML = "";
-            all.forEach(({ el }) => commentsList.appendChild(el));
-
-            all.forEach(({ id }) => {
-              if (!loadedSet.has(id)) {
-                loadedSet.add(id);
-                loadReplies(id);
-              }
-            });
-
-            commentsLabel.style.display = 'block';
-          }
-
-          if (change.type === "removed") {
-            const el = document.getElementById(`comment-wrap-${commentId}`);
-            if (el) el.remove();
-          }
-        });
-
-        commentForm.style.display = currentUser ? "block" : "none";
-        write_comment.style.display = currentUser ? "none" : "block";
-
-        const load = document.getElementById('load');
-        if (load) load.remove();
-      });
-    }
-
-    commentForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const text = commentInput.value.trim();
-      if (!text || !currentUser) return;
-      try {
-        await addDoc(collection(db, "comments"), {
-          uid: currentUser.uid,
-          email: currentUser.email,
-          text,
-          pinned: false,
-          timestamp: serverTimestamp()
-        });
-        await update(ref(rtdb, '/'), { comments_count: increment(1) });
-        commentForm.reset();
-        showAlert("Comment posted!");
-      } catch (err) {
-        showAlert("Error posting comment.", true);
-      }
-    });
-
-    onAuthStateChanged(auth, async (user) => {
-      currentUser = user;
-      if (user) {
-        currentUserAvatar.src = user.photoURL || 'https://0xdya.vercel.app/img/user.jpg';
-        const userRef = doc(db, "users", user.uid);
-        await setDoc(userRef, {
-          name: user.displayName || "user",
-          avatar: user.photoURL || `https://0xdya.vercel.app/img/user.jpg`
-        }, { merge: true });
-        try {
-          const snap = await getDoc(userRef);
-          if (snap.exists()) currentUserData = { role: snap.data().role || null };
-        } catch (e) {}
-      }
-      loadComments();
-    });
-  </script>
-</body>
-</html>
+    <div class="navbar_section">
+        <nav class="navbar">
+            <a href="../" class="nav-item">
+                <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="../projects/" class="nav-item">
+                <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                <span class="nav-text">Projects</span>
+            </a>
+            <a href="../blog/" class="nav-item">
+                <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span class="nav-text">Articles</span>
+            </a>
+            <a href="../contact/" class="nav-item">
+                <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span class="nav-text">Contact</span>
+            </a>
+        </nav>
+        <nav class="navbar">
+            <a href="./" class="nav-item  comments active">
+                <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span class="nav-text">Comments</span>
+            </a>
+            <div class="user_photo  profile" id="userPhotoContainer"></div>
+        </nav>
+    </div>
+    <script src="../js/script.js" defer></script>
+    <script type="module" src="../js/comments.js"></script>
+</body></html>

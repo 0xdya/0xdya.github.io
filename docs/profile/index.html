@@ -1,789 +1,674 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Profile | 0xdya</title>
-  <link rel="stylesheet" href="../css/static.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/static.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet" />
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-<style>
-  :root {
-  --bg:        #080808;
-  --surface:   #0f0f0f;
-  --surface2:  #111111;
-  --surface3:  #161616;
-  --border:    rgba(255,255,255,.09);
-  --border2:   rgba(255,255,255,.05);
-  --accent:    #d0d0d0;
-  --accent-btn:#d0d0d0;
-  --blue:      #1d9bf0;
-  --green:     #00ba7c;
-  --text:      #e8e8e8;
-  --muted:     #888;
-  --dim:       #555;
-  --danger:    #f4212e;
-  --r:         16px;
-  --rs:        8px;
+  <script type="module" src="../js/profile.js"></script>
+  <style>
+    :root {
+      --bg: #080808;
+      --surface: #0f0f0f;
+      --surface2: #111111;
+      --surface3: #161616;
+      --border: rgba(255, 255, 255, .09);
+      --border2: rgba(255, 255, 255, .05);
+      --accent: #d0d0d0;
+      --accent-btn: #d0d0d0;
+      --blue: #1d9bf0;
+      --green: #00ba7c;
+      --text: #e8e8e8;
+      --muted: #888;
+      --dim: #555;
+      --danger: #f4212e;
+      --r: 16px;
+      --rs: 8px;
 
-  --accent-dim:   rgba(208,208,208,.08);
-  --border-hover: rgba(255,255,255,.18);
-  --link:         #8e7fc4;
-  --card-bg:      rgba(255,255,255,.025);
+      --accent-dim: rgba(208, 208, 208, .08);
+      --border-hover: rgba(255, 255, 255, .18);
+      --link: #8e7fc4;
+      --card-bg: rgba(255, 255, 255, .025);
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-9: 96px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
 
-  --text-xs:   0.78rem;
-  --text-sm:   0.875rem;
-  --text-base: 1rem;
-  --text-lg:   1.2rem;
-  --text-xl:   1.45rem;
-  --text-2xl: 1.75rem;   
---text-3xl: 2.15rem;  
---text-4xl: 2.65rem;  
---text-5xl: 3.25rem;  
-}
-
-*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'JetBrains Mono', monospace;
-  margin: 0 auto;
-  min-height: 100dvh;
-  max-width: 600px;
-}
-main {
-  min-height: 100dvh;
-  border: 1px solid var(--border2);
-}
-
-#loading {
-  display: flex; justify-content: center;
-  align-items: center; height: 100vh;
-}
-#msgBox {
-  display: none; text-align: center;
-  padding: var(--space-9) var(--space-4);
-  font-size: var(--text-sm); color: var(--muted);
-}
-#profileContainer { display: none; }
-
-.banner-wrap {
-  position: relative;
-  height: 200px;
-  background: var(--surface2);
-  overflow: hidden;
-}
-.banner-wrap.owner { cursor: pointer; }
-#bannerImg {
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
-  transition: filter .2s;
-}
-.banner-wrap.owner:hover #bannerImg { filter: brightness(.7); }
-.banner-overlay {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  gap: var(--space-2); color: #fff; font-size: var(--text-sm);
-  opacity: 0; transition: opacity .2s;
-  background: rgba(0,0,0,.4);
-}
-.banner-wrap.owner:hover .banner-overlay { opacity: 1; }
-
-.avatar-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; 
-  padding: 0 var(--space-4);
-  margin-top: -42px;
-  position: relative;
-  z-index: 2;
-}
-.avatar-wrap {
-  width: var(--space-9); height: var(--space-9);
-  border-radius: 50%;
-  border: 4px solid var(--bg);
-  background: var(--surface2);
-  overflow: hidden;
-  flex-shrink: 0;
-  position: relative;
-}
-.avatar-wrap.owner { cursor: pointer; }
-#photoPreview { width:100%; height:100%; object-fit:cover; display:block; }
-.avatar-overlay {
-  position: absolute; inset: 0; border-radius: 50%;
-  background: rgba(0,0,0,.55);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity .2s;
-}
-.avatar-wrap.owner:hover .avatar-overlay { opacity: 1; }
-.avatar-overlay ion-icon { color:#fff; font-size:24px; }
-
-.avatar-actions { display: flex; gap: var(--space-2); padding-bottom: var(--space-2); position: absolute; bottom:var(--space-1);
-  left: 50%; transform: translateX(-50%);
-}
-.btn-x {
-  padding: 7px var(--space-4);
-  border-radius: 20px;
-  font-family: inherit;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .15s;
-  border: none;
-  display: none;
-  white-space: nowrap;
-}
-.btn-x-outline {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-.btn-x-outline:hover { background: var(--accent-dim); }
-.btn-x-solid {
-  background: var(--accent);
-  color: #000;
-}
-.btn-x-solid:hover { background: #b8b8b8; }
-.btn-x-danger {
-  background: transparent;
-  color: var(--danger);
-  border: 1px solid #3a1419;
-}
-.btn-x-danger:hover { background: rgba(244,33,46,.1); }
-
-.profile-body { padding: var(--space-3) var(--space-4) var(--space-5); }
-
-.name-row {
-  display: flex; align-items: center;
-  gap: var(--space-2); flex-wrap: wrap; margin-bottom: 2px;
-}
-.username {
-  font-size: var(--text-2xl); font-weight: 700;
-  color: var(--accent); letter-spacing: -.3px;
-}
-#roleIcons { display: flex; gap: var(--space-2); align-items: center}
-.role-badge { width:18px; height:18px; margin-bottom: -4px}
-
-.handle {
-  display: none;
-  font-size: var(--text-sm); color: var(--muted);
-  margin-bottom: var(--space-3);
-}
-
-#displayBioInput {
-  font-size: var(--text-base); color: var(--text);
-  line-height: 1.7; white-space: pre-wrap;
-  word-break: break-word; margin-bottom: var(--space-3);
-}
-
-.stats-row {
-  display: flex; gap: var(--space-5);
-  margin: var(--space-3) 0; flex-wrap: wrap;
-}
-.stat-item, .stat-item a {
-  font-size: var(--text-sm); color: var(--muted);
-  display: flex; align-items: center; gap: 5px;
-  text-decoration: none;
-}
-.stat-item .val { color: var(--text); font-weight: 700; }
-.stat-item ion-icon { font-size: var(--text-sm); }
-
-#statusEl {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: var(--text-sm); color: var(--muted);
-}
-.dot { width:8px; height:8px; border-radius:50%; background:var(--dim); }
-#statusEl.online .dot { background: var(--green); }
-#statusEl.online { color: var(--green); }
-
-.divider { height:1px; background:var(--border2); margin:var(--space-4) 0; }
-
-.social-links { 
-  display:flex; flex-wrap:wrap; gap:var(--space-2); }
-.link_card {
-  display: flex; align-items: center; gap: var(--space-2);
-  padding: 6px var(--space-3); border: 1px solid var(--border);
-  border-radius: 20px; background: var(--card-bg);
-  font-size: var(--text-base); color: var(--muted);
-  text-decoration: none; transition: all .15s; cursor: pointer;
-}
-.link_card:hover { border-color: var(--link); color: var(--link); background: rgba(142,127,196,.07);margin: 0 var(--space-2); }
-.link_card ion-icon { font-size: var(--text-sm); flex-shrink: 0; }
-.del-btn {
-  background:none; border:none; color:var(--dim);
-  cursor:pointer; font-size:var(--text-xs); padding:0;
-  margin-left:var(--space-1); line-height:1; transition:color .15s;
-}
-.del-btn:hover { color:var(--danger); }
-
-#edit_section {
-  background: var(--bg);
-  position: fixed;
-  top: 16rem;
-  left: 50%;
-  display: none;
-  padding: var(--space-4);
-  border-top: 1px solid var(--border2);
-  width: min(600px, 100vw);
-  transform: translateX(-50%);
-  box-sizing: border-box;
-  animation: fadeUp .2s ease both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; margin-top: 8px; }
-  to   { opacity: 1; margin-top: 0px; }
-}
-.edit-label {
-  font-size: var(--text-xs); text-transform:uppercase;
-  letter-spacing:1.5px; color:var(--muted); margin:0 0 var(--space-2);
-}
-.edit-field {
-  width:100%; padding: var(--space-3) var(--space-4);
-  font-size: var(--text-sm); font-family:inherit;
-  border:1px solid var(--border); border-radius:var(--rs);
-  background:var(--surface2); color:var(--text);
-  outline:none; transition:border-color .15s;
-  margin-bottom:var(--space-4); resize:vertical;
-}
-.edit-field:focus { border-color: var(--link); }
-.edit-field::placeholder { color:var(--dim); }
-.social-add-row { display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-4); }
-.social-add-row select, .social-add-row input {
-  flex:1; min-width:90px; padding: var(--space-2) var(--space-3);
-  font-size: var(--text-xs); font-family:inherit;
-  border:1px solid var(--border); border-radius:var(--rs);
-  background:var(--surface2); color:var(--text); outline:none;
-}
-.social-add-row select:focus, .social-add-row input:focus { border-color: var(--link); }
-.social-add-row select option { background:#111; }
-.btn-add {
-  padding: var(--space-2) var(--space-4); background:var(--accent); color:#000;
-  border:none; border-radius:20px; font-family:inherit;
-  font-size: var(--text-xs); font-weight:700; cursor:pointer;
-}
-.btn-add:hover { background:#b8b8b8; }
-.btn-save-all {
-  width:100%; padding: var(--space-3); background:var(--accent); color:#000;
-  border:none; border-radius:20px; font-family:inherit;
-  font-size: var(--text-sm); font-weight:700; cursor:pointer;
-  transition:background .15s; margin-top:var(--space-1);
-}
-.btn-save-all:hover { background:#b8b8b8; }
-.btn-save-all:disabled { opacity:.5; cursor:not-allowed; }
-
-#syncPhotoBtn {
-  width:100%; padding: var(--space-2); background:transparent; color:var(--muted);
-  border:1px dashed var(--border); border-radius:var(--rs);
-  font-family:inherit; font-size: var(--text-xs); cursor:pointer;
-  margin-bottom:var(--space-4); transition:all .15s;
-}
-#syncPhotoBtn:hover { border-color: var(--link); color: var(--link); }
-
-.upload-bar-wrap {
-  display:none; height:3px; background:var(--surface3);
-  border-radius:3px; overflow:hidden; margin-bottom:var(--space-3);
-}
-.upload-bar { height:100%; background: var(--link); width:0%; transition:width .3s; }
-
-
-#bannerFileInput, #avatarFileInput { display:none; }
-
-hr { margin: 1rem 0; border-color: var(--border2); }
-
-.navbar_section {
-  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
-  width:100%; max-width:600px; z-index:100;
-}
-</style>
-</head>
-<body>
-<main>
-  <div id="loading"><img width="40" src="../img/load.gif"/></div>
-  <div id="msgBox"></div>
-  <input type="file" id="bannerFileInput" accept="image/*"/>
-  <input type="file" id="avatarFileInput" accept="image/*"/>
-
-  <div id="profileContainer">
-
-    <div class="banner-wrap" id="bannerWrap">
-      <img id="bannerImg" alt=""/>
-      <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> change banner</div>
-    </div>
-
-<div class="avatar-row">
-  <div style="display:flex; align-items:center; gap:var(--space-3);">
-    <div class="avatar-wrap" id="avatarWrap">
-      <img id="photoPreview" src="../img/user.jpg" alt="avatar"/>
-      <div class="avatar-overlay"><ion-icon name="camera-outline"></ion-icon></div>
-    </div>
-    <div style="margin-top: 28px;">
-      <div class="name-row">
-        <span class="username" id="currentName"></span>
-        <div id="roleIcons"></div>
-      </div>
-    </div>
-  </div>
-</div>
-    <div class="profile-body">
-
-      <div id="displayBioInput"></div>
-      <div id="statusEl"><span class="dot"></span><span id="statusText">—</span></div>
-      <div class="handle" id="handleEl"></div>
-      <div class="stats-row">
-        <div class="stat-item" id="statJoined">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <span>joined <span class="val">—</span></span>
-        </div>
-        <div class="stat-item" id="statComments">
-          <ion-icon name="chatbubble-outline"></ion-icon>
-          <span>comments: <span class="val">—</span></span>
-        </div>
-      </div>
-      
-      <hr>
-
-      <div id="socialLinks" class="social-links"></div>
-
-      <div id="edit_section">
-        <button id="syncPhotoBtn">🔄 sync avatar from Google</button>
-
-        <div class="upload-bar-wrap" id="uploadBarWrap">
-          <div class="upload-bar" id="uploadBar"></div>
-        </div>
-
-        <p class="edit-label">username</p>
-        <input type="text" id="displayNameInput" class="edit-field" placeholder="new username"/>
-
-        <p class="edit-label">bio</p>
-        <textarea id="bioInput" class="edit-field" rows="3" placeholder="write something..."></textarea>
-
-        <p class="edit-label">add social link</p>
-        <div class="social-add-row">
-          <select id="platformSelect">
-            <option value="twitter">Twitter / X</option>
-            <option value="instagram">Instagram</option>
-            <option value="facebook">Facebook</option>
-            <option value="github">GitHub</option>
-            <option value="youtube">YouTube</option>
-            <option value="linkedin">LinkedIn</option>
-            <option value="email">Email</option>
-          </select>
-          <input type="text" id="socialUsernameInput" placeholder="username"/>
-          <button class="btn-add" id="saveSocialBtn">add</button>
-        </div>
-
-        <button class="btn-save-all" id="saveAllBtn">Save changes</button>
-      </div>
-
-    </div>
-  </div>
-    <div class="avatar-actions">
-    <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
-    <button class="btn-x btn-x-danger" id="logoutBtn">Logout</button>
-  </div>
-  
-</main>
-
-<script type="module">
-  import { initializeApp }  from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import {
-    getFirestore, collection, query, where, getDocs,
-    doc, getDoc, setDoc, onSnapshot
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-  import {
-    getAuth, onAuthStateChanged, signOut, updateProfile
-  } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-  const IMGBB_KEY = "74df1d7df65c908780380624ae8a9370";
-  const cfg = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-  };
-
-  const app  = initializeApp(cfg);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
-
-  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-  const urlParams       = new URLSearchParams(window.location.search);
-  const usernameFromURL = urlParams.get("user") || "profile";
-
-  const $ = id => document.getElementById(id);
-  const loadingEl        = $("loading");
-  const profileEl        = $("profileContainer");
-  const msgBox           = $("msgBox");
-  const currentNameEl    = $("currentName");
-  const roleIconsEl      = $("roleIcons");
-  const handleEl         = $("handleEl");
-  const photoPreview     = $("photoPreview");
-  const bannerImg        = $("bannerImg");
-  const bannerWrap       = $("bannerWrap");
-  const avatarWrap       = $("avatarWrap");
-  const displayBioEl     = $("displayBioInput");
-  const statusEl         = $("statusEl");
-  const statusText       = $("statusText");
-  const statJoined       = $("statJoined");
-  const statComments     = $("statComments");
-  const editBtn          = $("editBtn");
-  const logoutBtn        = $("logoutBtn");
-  const edit_section     = $("edit_section");
-  const displayNameInput = $("displayNameInput");
-  const bioInput         = $("bioInput");
-  const saveAllBtn       = $("saveAllBtn");
-  const syncPhotoBtn     = $("syncPhotoBtn");
-  const platformSelect   = $("platformSelect");
-  const socialInput      = $("socialUsernameInput");
-  const saveSocialBtn    = $("saveSocialBtn");
-  const socialLinksDiv   = $("socialLinks");
-  const bannerFile       = $("bannerFileInput");
-  const avatarFile       = $("avatarFileInput");
-  const uploadBarWrap    = $("uploadBarWrap");
-  const uploadBar        = $("uploadBar");
-  const uploadHint       = $("uploadHint");
-
-  const showMessage = msg => {
-    loadingEl.style.display = "none";
-    msgBox.style.display    = "block";
-    msgBox.innerHTML        = msg;
-  };
-  const showProfile = () => {
-    loadingEl.style.display = "none";
-    profileEl.style.display = "block";
-  };
-  const timeAgo = sec => {
-    if (sec < 3600)  return `${Math.floor(sec/60)}m ago`;
-    if (sec < 86400) return `${Math.floor(sec/3600)}h ago`;
-    return `${Math.floor(sec/86400)}d ago`;
-  };
-  const normSocials = raw => {
-    if (Array.isArray(raw)) return raw;
-    if (raw && typeof raw === "object")
-      return Object.entries(raw).filter(([,v])=>v).map(([p,u])=>({platform:p,username:u}));
-    return [];
-  };
-  const socialURL = (p,u) => ({
-    twitter:`https://x.com/${u}`, x:`https://x.com/${u}`,
-    github:`https://github.com/${u}`, linkedin:`https://linkedin.com/in/${u}`,
-    facebook:`https://facebook.com/${u}`, instagram:`https://instagram.com/${u}`,
-    youtube:`https://youtube.com/@${u}`, email:`mailto:${u}`
-  }[p] || "#");
-  const socialIcon = p => ({
-    twitter:"logo-twitter", x:"logo-twitter", github:"logo-github",
-    linkedin:"logo-linkedin", facebook:"logo-facebook",
-    instagram:"logo-instagram", youtube:"logo-youtube", email:"mail-outline"
-  }[p] || "link-outline");
-
-  function getRoleBadges(data) {
-    let html = "";
-    if (data.verified)
-      html += `<img src="https://0xdya.vercel.app/badges/verf.svg" class="role-badge">`;
-    if (data.role === "owner")
-      html += `<img src="https://0xdya.vercel.app/badges/server-owner.svg" class="role-badge">`;
-    if (data.role === "QA-tester")
-      html += `<img src="https://0xdya.vercel.app/badges/bug-hunter-lv1.svg" class="role-badge">`;
-    return html;
-  }
-
-  // ── Image compress ────────────────────────────────────────────────
-  function compressImage(file, maxWidth, quality) {
-    return new Promise(resolve => {
-      const canvas = document.createElement("canvas");
-      const img    = new Image();
-      img.onload = () => {
-        const scale   = Math.min(1, maxWidth / img.width);
-        canvas.width  = img.width  * scale;
-        canvas.height = img.height * scale;
-        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-        URL.revokeObjectURL(img.src);
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
-      img.src = URL.createObjectURL(file);
-    });
-  }
-
-  async function uploadToImgBB(file, maxWidth, quality) {
-    const base64    = await compressImage(file, maxWidth, quality);
-    const base64Raw = base64.split(",")[1];
-
-    const form = new FormData();
-    form.append("image", base64Raw);
-    form.append("key",   IMGBB_KEY);
-
-    uploadBarWrap.style.display = "block";
-    uploadBar.style.width       = "40%";
-
-    const res  = await fetch("https://api.imgbb.com/1/upload", { method:"POST", body:form });
-    const data = await res.json();
-
-    uploadBar.style.width       = "100%";
-    setTimeout(() => {
-      uploadBarWrap.style.display = "none";
-      uploadBar.style.width       = "0%";
-    }, 400);
-
-    if (!data.success) throw new Error(data.error?.message || "ImgBB upload failed");
-    return data.data.url;
-  }
-
-  function applyNavUI(photo, name) {
-    const c = $("userPhotoContainer"); if (!c) return;
-    c.innerHTML = (name||photo)
-      ? `<a class="user_photo_href nav-item" href="?user=${encodeURIComponent(name||'')}"><img src="${photo||'../img/user.jpg'}"></a>`
-      : `<a href="../login/" class="nav-item">
-           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-           </svg><span class="nav-text">Account</span></a>`;
-  }
-  const _c = localStorage.getItem("userData");
-  if (_c) { const d=JSON.parse(_c); applyNavUI(d.photo,d.name); }
-
-  displayNameInput.addEventListener("input", () => {
-    displayNameInput.value = displayNameInput.value
-      .replace(/\s+/g,"_").replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g,"");
-  });
-
-  onAuthStateChanged(auth, async user => {
-    applyNavUI(user?.photoURL, user?.displayName);
-    try {
-      if (!user && usernameFromURL === "profile") {
-        showMessage(`⚠️ please <a href='../login/' style='color:#1d9bf0'>login</a> first.`); return;
-      }
-      if (user && usernameFromURL === "profile") {
-        const snap = await getDoc(doc(db,"users",user.uid));
-        if (snap.exists() && snap.data().name) {
-          window.location.replace(`?user=${encodeURIComponent(snap.data().name)}`); return;
-        }
-        showMessage(`⚠️ profile not set up. <a href='../login/' style='color:#1d9bf0'>go to login</a>`); return;
-      }
-      loadProfile(user);
-    } catch(e) {
-      console.error(e);
-      showMessage("🚨 something went wrong.");
+      --text-xs: 0.78rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.2rem;
+      --text-xl: 1.45rem;
+      --text-2xl: 1.75rem;
+      --text-3xl: 2.15rem;
+      --text-4xl: 2.65rem;
+      --text-5xl: 3.25rem;
     }
-  });
 
-  function loadProfile(currentUser) {
-    const q = query(collection(db,"users"), where("name","==",usernameFromURL));
-    onSnapshot(q, async qs => {
-      if (qs.empty) { showMessage("🚫 user not found."); return; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-      const userDoc = qs.docs[0];
-      const data    = userDoc.data();
-      const uid     = userDoc.id;
-      const isOwner = !!(currentUser && currentUser.uid === uid);
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      margin: 0 auto;
+      min-height: 100dvh;
+      max-width: 600px;
+    }
 
-      currentNameEl.textContent = data.name || "";
-      handleEl.textContent      = `@${data.name || ""}`;
-      displayBioEl.textContent  = data.bio  || "";
+    main {
+      min-height: 100dvh;
+      border: 1px solid var(--border2);
+    }
 
-      if (data.banner) bannerImg.src = data.banner;
-      photoPreview.src = isOwner
-        ? (currentUser.photoURL || data.photo || "../img/user.jpg")
-        : (data.photo || "../img/user.jpg");
+    #loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-      showProfile();
-      roleIconsEl.innerHTML = getRoleBadges(data);
+    #msgBox {
+      display: none;
+      text-align: center;
+      padding: var(--space-9) var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
 
-      if (data.lastLogin?.toDate) {
-        const diff = Math.floor((Date.now() - data.lastLogin.toDate()) / 1000);
-        statusEl.className     = diff < 300 ? "online" : "";
-        statusText.textContent = diff < 300 ? "online now" : `last seen ${timeAgo(diff)}`;
+    #profileContainer {
+      display: none;
+    }
+
+    .banner-wrap {
+      position: relative;
+      height: 200px;
+      background: var(--surface2);
+      overflow: hidden;
+    }
+
+    .banner-wrap.owner {
+      cursor: pointer;
+    }
+
+    #bannerImg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter .2s;
+    }
+
+    .banner-wrap.owner:hover #bannerImg {
+      filter: brightness(.7);
+    }
+
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      color: #fff;
+      font-size: var(--text-sm);
+      opacity: 0;
+      transition: opacity .2s;
+      background: rgba(0, 0, 0, .4);
+    }
+
+    .banner-wrap.owner:hover .banner-overlay {
+      opacity: 1;
+    }
+
+    .avatar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 var(--space-4);
+      margin-top: -42px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .avatar-wrap {
+      width: var(--space-9);
+      height: var(--space-9);
+      border-radius: 50%;
+      border: 4px solid var(--bg);
+      background: var(--surface2);
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .avatar-wrap.owner {
+      cursor: pointer;
+    }
+
+    #photoPreview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .avatar-wrap.owner:hover .avatar-overlay {
+      opacity: 1;
+    }
+
+    .avatar-overlay ion-icon {
+      color: #fff;
+      font-size: 24px;
+    }
+
+    .avatar-actions {
+      display: flex;
+      gap: var(--space-2);
+      padding-bottom: var(--space-2);
+      position: absolute;
+      bottom: var(--space-1);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .btn-x {
+      padding: 7px var(--space-4);
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: var(--text-xs);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s;
+      border: none;
+      display: none;
+      white-space: nowrap;
+    }
+
+    .btn-x-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-x-outline:hover {
+      background: var(--accent-dim);
+    }
+
+    .btn-x-solid {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-x-solid:hover {
+      background: #b8b8b8;
+    }
+
+    .btn-x-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid #3a1419;
+    }
+
+    .btn-x-danger:hover {
+      background: rgba(244, 33, 46, .1);
+    }
+
+    .profile-body {
+      padding: var(--space-3) var(--space-4) var(--space-5);
+    }
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+
+    .username {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -.3px;
+    }
+
+    #roleIcons {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center
+    }
+
+    .role-badge {
+      width: 18px;
+      height: 18px;
+      margin-bottom: -4px
+    }
+
+    .handle {
+      display: none;
+      font-size: var(--text-sm);
+      color: var(--muted);
+      margin-bottom: var(--space-3);
+    }
+
+    #displayBioInput {
+      font-size: var(--text-base);
+      color: var(--text);
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: var(--space-3);
+    }
+
+    .stats-row {
+      display: flex;
+      gap: var(--space-5);
+      margin: var(--space-3) 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-item,
+    .stat-item a {
+      font-size: var(--text-sm);
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
+
+    .stat-item .val {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .stat-item ion-icon {
+      font-size: var(--text-sm);
+    }
+
+    #statusEl {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--dim);
+    }
+
+    #statusEl.online .dot {
+      background: var(--green);
+    }
+
+    #statusEl.online {
+      color: var(--green);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border2);
+      margin: var(--space-4) 0;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .link_card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 6px var(--space-3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--card-bg);
+      font-size: var(--text-base);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all .15s;
+      cursor: pointer;
+    }
+
+    .link_card:hover {
+      border-color: var(--link);
+      color: var(--link);
+      background: rgba(142, 127, 196, .07);
+      margin: 0 var(--space-2);
+    }
+
+    .link_card ion-icon {
+      font-size: var(--text-sm);
+      flex-shrink: 0;
+    }
+
+    .del-btn {
+      background: none;
+      border: none;
+      color: var(--dim);
+      cursor: pointer;
+      font-size: var(--text-xs);
+      padding: 0;
+      margin-left: var(--space-1);
+      line-height: 1;
+      transition: color .15s;
+    }
+
+    .del-btn:hover {
+      color: var(--danger);
+    }
+
+    #edit_section {
+      background: var(--bg);
+      position: fixed;
+      top: 16rem;
+      left: 50%;
+      display: none;
+      padding: var(--space-4);
+      border-top: 1px solid var(--border2);
+      width: min(600px, 100vw);
+      transform: translateX(-50%);
+      box-sizing: border-box;
+      animation: fadeUp .2s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        margin-top: 8px;
       }
 
-      const created = data.createdAt?.toDate?.();
-      if (created) {
-        statJoined.innerHTML = `
-          <ion-icon name="calendar-outline"></ion-icon>
-          <span>Joined <span class="val">${MONTHS[created.getMonth()]} ${created.getFullYear()}</span></span>`;
+      to {
+        opacity: 1;
+        margin-top: 0px;
       }
+    }
 
-      getDocs(query(collection(db,"comments"), where("uid","==",uid)))
-        .then(snap => {
-          statComments.innerHTML = `
+    .edit-label {
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin: 0 0 var(--space-2);
+    }
+
+    .edit-field {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: var(--rs);
+      background: var(--surface2);
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s;
+      margin-bottom: var(--space-4);
+      resize: vertical;
+    }
+
+    .edit-field:focus {
+      border-color: var(--link);
+    }
+
+    .edit-field::placeholder {
+      color: var(--dim);
+    }
+
+    .social-add-row {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-4);
+    }
+
+    .social-add-row select,
+    .social-add-row input {
+      flex: 1;
+      min-width: 90px;
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--text-xs);
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: var(--rs);
+      background: var(--surface2);
+      color: var(--text);
+      outline: none;
+    }
+
+    .social-add-row select:focus,
+    .social-add-row input:focus {
+      border-color: var(--link);
+    }
+
+    .social-add-row select option {
+      background: #111;
+    }
+
+    .btn-add {
+      padding: var(--space-2) var(--space-4);
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: var(--text-xs);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-add:hover {
+      background: #b8b8b8;
+    }
+
+    .btn-save-all {
+      width: 100%;
+      padding: var(--space-3);
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .15s;
+      margin-top: var(--space-1);
+    }
+
+    .btn-save-all:hover {
+      background: #b8b8b8;
+    }
+
+    .btn-save-all:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    #syncPhotoBtn {
+      width: 100%;
+      padding: var(--space-2);
+      background: transparent;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: var(--rs);
+      font-family: inherit;
+      font-size: var(--text-xs);
+      cursor: pointer;
+      margin-bottom: var(--space-4);
+      transition: all .15s;
+    }
+
+    #syncPhotoBtn:hover {
+      border-color: var(--link);
+      color: var(--link);
+    }
+
+    .upload-bar-wrap {
+      display: none;
+      height: 3px;
+      background: var(--surface3);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: var(--space-3);
+    }
+
+    .upload-bar {
+      height: 100%;
+      background: var(--link);
+      width: 0%;
+      transition: width .3s;
+    }
+
+
+    #bannerFileInput,
+    #avatarFileInput {
+      display: none;
+    }
+
+    hr {
+      margin: 1rem 0;
+      border-color: var(--border2);
+    }
+
+    .navbar_section {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      z-index: 100;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div id="loading"><img width="40" src="../img/load.gif" /></div>
+    <div id="msgBox"></div>
+    <input type="file" id="bannerFileInput" accept="image/*" />
+    <input type="file" id="avatarFileInput" accept="image/*" />
+
+    <div id="profileContainer">
+
+      <div class="banner-wrap" id="bannerWrap">
+        <img id="bannerImg" alt="" />
+        <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> change banner</div>
+      </div>
+
+      <div class="avatar-row">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <div class="avatar-wrap" id="avatarWrap">
+            <img id="photoPreview" src="../img/user.jpg" alt="avatar" />
+            <div class="avatar-overlay"><ion-icon name="camera-outline"></ion-icon></div>
+          </div>
+          <div style="margin-top: 28px;">
+            <div class="name-row">
+              <span class="username" id="currentName"></span>
+              <div id="roleIcons"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-body">
+
+        <div id="displayBioInput"></div>
+        <div id="statusEl"><span class="dot"></span><span id="statusText">—</span></div>
+        <div class="handle" id="handleEl"></div>
+        <div class="stats-row">
+          <div class="stat-item" id="statJoined">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>joined <span class="val">—</span></span>
+          </div>
+          <div class="stat-item" id="statComments">
             <ion-icon name="chatbubble-outline"></ion-icon>
-            <a href="../comments/" style="color:inherit;text-decoration:none">
-              comments: <span class="val">${snap.size}</span>
-            </a>`;
-        })
-        .catch(e => console.error("comments count:", e));
+            <span>comments: <span class="val">—</span></span>
+          </div>
+        </div>
 
-      let userSocials = normSocials(data.socials);
-      let sortable    = null;
-      let isEditing   = false;
+        <hr>
 
-      function renderSocials() {
-        socialLinksDiv.innerHTML = "";
-        userSocials.forEach(({platform,username},i) => {
-          const card = document.createElement("div");
-          card.className = "link_card";
-          card.setAttribute("draggable", String(isOwner));
-          card.innerHTML = `
-            <ion-icon name="${socialIcon(platform)}"></ion-icon>
-            <a href="${socialURL(platform,username)}" target="_blank" rel="noopener"
-               style="color:inherit;text-decoration:none">${username}</a>
-            ${isOwner ? `<button class="del-btn" title="remove">✕</button>` : ""}`;
-          if (isOwner) {
-            card.querySelector(".del-btn").onclick = async e => {
-              e.stopPropagation();
-              userSocials.splice(i,1);
-              await setDoc(doc(db,"users",uid),{socials:userSocials},{merge:true});
-              renderSocials(); if(isEditing) enableSorting();
-            };
-          }
-          socialLinksDiv.appendChild(card);
-        });
-      }
+        <div id="socialLinks" class="social-links"></div>
 
-      function enableSorting() {
-        if (sortable) sortable.destroy();
-        sortable = new Sortable(socialLinksDiv, {
-          animation:150, draggable:".link_card",
-          onEnd: async ({oldIndex,newIndex}) => {
-            if (oldIndex===newIndex) return;
-            const [m] = userSocials.splice(oldIndex,1);
-            userSocials.splice(newIndex,0,m);
-            await setDoc(doc(db,"users",uid),{socials:userSocials},{merge:true});
-            renderSocials(); enableSorting();
-          }
-        });
-      }
+        <div id="edit_section">
+          <button id="syncPhotoBtn">🔄 sync avatar from Google</button>
 
-      renderSocials();
-      if (!isOwner) return;
+          <div class="upload-bar-wrap" id="uploadBarWrap">
+            <div class="upload-bar" id="uploadBar"></div>
+          </div>
 
-      editBtn.style.display   = "flex";
-      logoutBtn.style.display = "flex";
-      bannerWrap.classList.add("owner");
-      avatarWrap.classList.add("owner");
+          <p class="edit-label">username</p>
+          <input type="text" id="displayNameInput" class="edit-field" placeholder="new username" />
 
-      bannerWrap.addEventListener("click", () => { bannerFile.click(); });
-      avatarWrap.addEventListener("click", () => { avatarFile.click(); });
+          <p class="edit-label">bio</p>
+          <textarea id="bioInput" class="edit-field" rows="3" placeholder="write something..."></textarea>
 
-      bannerFile.addEventListener("change", async () => {
-        const file = bannerFile.files[0]; if(!file) return;
-        if(file.size > 10*1024*1024) { alert("❌ file too large (max 10MB)"); return; }
-        try {
-          saveAllBtn.disabled = true;
-          const url = await uploadToImgBB(file, 1200, 0.75);
-          await setDoc(doc(db,"users",uid), {banner:url}, {merge:true});
-          bannerImg.src       = url;
-          saveAllBtn.disabled = false;
-          alert("✅ banner updated!");
-        } catch(e) {
-          saveAllBtn.disabled = false;
-          alert("❌ upload failed: " + e.message);
-        } finally {
-          bannerFile.value = "";
-        }
-      });
+          <p class="edit-label">add social link</p>
+          <div class="social-add-row">
+            <select id="platformSelect">
+              <option value="twitter">Twitter / X</option>
+              <option value="instagram">Instagram</option>
+              <option value="facebook">Facebook</option>
+              <option value="github">GitHub</option>
+              <option value="youtube">YouTube</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="email">Email</option>
+            </select>
+            <input type="text" id="socialUsernameInput" placeholder="username" />
+            <button class="btn-add" id="saveSocialBtn">add</button>
+          </div>
 
-      avatarFile.addEventListener("change", async () => {
-        const file = avatarFile.files[0]; if(!file) return;
-        if(file.size > 10*1024*1024) { alert("❌ file too large (max 10MB)"); return; }
-        try {
-          saveAllBtn.disabled = true;
-          // 300x300, 85% quality
-          const url = await uploadToImgBB(file, 300, 0.85);
-          await updateProfile(currentUser, {photoURL:url});
-          await setDoc(doc(db,"users",uid), {photo:url}, {merge:true});
-          photoPreview.src    = url;
-          saveAllBtn.disabled = false;
-          alert("✅ avatar updated!");
-        } catch(e) {
-          saveAllBtn.disabled = false;
-          alert("❌ upload failed: " + e.message);
-        } finally {
-          avatarFile.value = "";
-        }
-      });
+          <button class="btn-save-all" id="saveAllBtn">Save changes</button>
+        </div>
 
-      editBtn.addEventListener("click", () => {
-        isEditing = !isEditing;
-        edit_section.style.display  = isEditing ? "block" : "none";
-        editBtn.textContent         = isEditing ? "✕ Close" : "Edit profile";
-        displayNameInput.value      = data.name || "";
-        bioInput.value              = data.bio  || "";
-        if(isEditing) enableSorting();
-        else { if(sortable){sortable.destroy();sortable=null;} }
-        renderSocials();
-      });
+      </div>
+    </div>
+    <div class="avatar-actions">
+      <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
+      <button class="btn-x btn-x-danger" id="logoutBtn">Logout</button>
+    </div>
 
-      syncPhotoBtn.addEventListener("click", async () => {
-        try {
-          await currentUser.reload();
-          const gp = currentUser.providerData.find(p=>p.providerId==="google.com");
-          if(!gp?.photoURL) { alert("❌ no Google photo found."); return; }
-          await updateProfile(currentUser, {photoURL:gp.photoURL});
-          await setDoc(doc(db,"users",uid), {photo:gp.photoURL}, {merge:true});
-          photoPreview.src = gp.photoURL;
-          alert("✅ synced!");
-        } catch(e) { alert("❌ "+e.code); }
-      });
+  </main>
 
-      saveAllBtn.addEventListener("click", async () => {
-        const newName = displayNameInput.value.trim();
-        const newBio  = bioInput.value.trim().slice(0,200);
-        if(!newName) { alert("⚠️ username cannot be empty."); return; }
-        if(newName !== data.name) {
-          const chk = await getDocs(query(collection(db,"users"),where("name","==",newName)));
-          if(!chk.empty && chk.docs[0].id!==currentUser.uid) { alert("⚠️ username taken."); return; }
-        }
-        try {
-          saveAllBtn.disabled    = true;
-          saveAllBtn.textContent = "Saving...";
-          await updateProfile(currentUser, {displayName:newName});
-          await setDoc(doc(db,"users",uid), {
-            name:    newName,
-            bio:     newBio,
-            photo:   currentUser.photoURL || data.photo,
-            socials: userSocials
-          }, {merge:true});
-          alert("✅ saved!");
-          window.location.href = `?user=${encodeURIComponent(newName)}`;
-        } catch(e) {
-          saveAllBtn.disabled    = false;
-          saveAllBtn.textContent = "Save changes";
-          alert("❌ "+e.code);
-        }
-      });
 
-      saveSocialBtn.addEventListener("click", async () => {
-        const platform = platformSelect.value;
-        const username = socialInput.value.trim().replace(/^@/,"");
-        if(!username) { alert("⚠️ enter a username."); return; }
-        if(userSocials.find(s=>s.platform===platform&&s.username===username)) {
-          alert("⚠️ already added."); return;
-        }
-        userSocials.push({platform,username});
-        await setDoc(doc(db,"users",uid), {socials:userSocials}, {merge:true});
-        socialInput.value=""; renderSocials(); if(isEditing) enableSorting();
-      });
-
-      logoutBtn.addEventListener("click", async () => {
-        try { await signOut(auth); window.location.href="../"; }
-        catch(e) { console.error(e); }
-      });
-    });
-  }
-</script>
 </body>
-  </html>
+
+</html>
