@@ -189,7 +189,7 @@ header {
     font-size: var(--text-sm);
     color: var(--dim);
     text-transform: uppercase;
-    opacity: .9 !important;
+    /* opacity: .9 !important; */
 }
 
 .identity-grid {
@@ -236,7 +236,7 @@ header {
     gap: var(--space-4);
     transition: border-color .2s, background .2s;
     min-height: 60px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .commit-card:hover {
@@ -301,7 +301,7 @@ header {
 
 
 .btn {
-    opacity: 1 !important;
+    /* opacity: 1 !important; */
     color: var(--muted );
     height: var(--space-6);
     display: inline-flex;
