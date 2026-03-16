@@ -12,8 +12,6 @@
       color: #fff;
     }
 
-
-
     a {
       text-decoration: none;
       color: inherit;
@@ -180,13 +178,12 @@
   <div class="container">
     <h1>// contact</h1>
     <div class="contact-container">
-      <!-- Form -->
       <div class="form-section">
         <div class="form-group">
-          <input type="text" id="name" placeholder="your name..." />
+          <input type="text" id="name" placeholder="ur name... (اختياري)" />
         </div>
         <div class="form-group">
-          <textarea id="message" placeholder="write your message here..."></textarea>
+          <textarea id="message" placeholder="write ur message here..."></textarea>
         </div>
         <button class="send-btn" id="sendBtn" onclick="sendMessage()">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -273,7 +270,6 @@
     </div>
   </div>
 
-  <!-- Navbar -->
   <div class="navbar_section">
     <nav class="navbar">
       <a href="../" class="nav-item">
@@ -321,11 +317,6 @@
   </div>
 
   <script>
-    // =============================================
-
-    const BOT_TOKEN = "8442831578:AAG-vKpueS8nZkTkdhEnYrvllVKI9KuyjUE";
-    const CHAT_ID = "5962064921";
-    // =============================================
 
     async function sendMessage() {
       const name = document.getElementById("name").value.trim();
@@ -340,23 +331,24 @@
       const text = `📩 new message from your site\n\n👤 name: ${name || "anonymous"}\n\n💬 message:\n${message}`;
 
       try {
-        const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: CHAT_ID, text })
-        });
-        const data = await res.json();
+    const res = await fetch('/api/send-message', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, message })
+    });
 
-        if (data.ok) {
-          showStatus("✓ message sent successfully.", "success");
-          document.getElementById("name").value = "";
-          document.getElementById("message").value = "";
-        } else {
-          showStatus("error — check your bot token and chat id.", "error");
-        }
-      } catch {
-        showStatus("connection failed.", "error");
-      }
+        // const data = await res.json();
+
+        if (res.ok) {
+      showStatus("✓ message sent successfully.", "success");
+      document.getElementById("name").value = "";
+      document.getElementById("message").value = "";
+    } else {
+      showStatus("error — something went wrong.", "error");
+    }
+  } catch {
+    showStatus("connection failed.", "error");
+  }
 
       btn.disabled = false;
       btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> send`;
