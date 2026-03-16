@@ -23,24 +23,28 @@ async function loadCommits() {
 
         list.innerHTML = "";
 
-        data.forEach(commit => {
-            const msg = commit.commit.message.split("\n")[0];
+        const filteredCommits = data.filter(commit => {
+            const msg = commit.commit.message.split("\n")[0].toLowerCase();
+            return !msg.startsWith("auto");
+        });
 
-            if (msg.toLowerCase().startsWith("auto"))
-                return;
+        filteredCommits.forEach(commit => {
+            const msg = commit.commit.message.split("\n")[0];
             const date = new Date(commit.commit.author.date).toISOString().slice(0, 10);
             const url = commit.html_url;
+            
             const li = document.createElement("li");
             li.innerHTML = `<a href="${url}" target="_blank" rel="noopener">
-<span class="commit-dot"></span>
-<span class="commit-date">${date}</span>
-<span class="commit-msg">${escapeHtml(msg)
-                }</span>
-<ion-icon name="arrow-forward-outline" class="commit-arrow"></ion-icon>
-</a>`;
+                <span class="commit-dot"></span>
+                <span class="commit-date">${date}</span>
+                <span class="commit-msg">${escapeHtml(msg)}</span>
+                <ion-icon name="arrow-forward-outline" class="commit-arrow"></ion-icon>
+            </a>`;
             list.appendChild(li);
         });
-        document.getElementById("countBadge").textContent = data.length;
+
+        document.getElementById("countBadge").textContent = filteredCommits.length;
+
     } catch (err) {
         console.error(err);
         list.innerHTML = `<li><div class="error-row">⚠️ Failed to load commits</div></li>`;
