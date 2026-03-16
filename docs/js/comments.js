@@ -1,9 +1,8 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
     getFirestore, collection, addDoc, deleteDoc, doc, query,
     orderBy, serverTimestamp, onSnapshot, getDocs,
-    updateDoc, getDoc, setDoc
+    updateDoc, getDoc, setDoc, enableIndexedDbPersistence
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import {
     getAuth, onAuthStateChanged
@@ -18,10 +17,19 @@ const firebaseConfig = {
     messagingSenderId: "604062703590",
     appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const rtdb = getDatabase(app);
+
+enableIndexedDbPersistence(db).catch((err) => {
+    if (err.code == 'failed-precondition') {
+        console.warn("Persistence failed: Multiple tabs open");
+    } else if (err.code == 'unimplemented') {
+        console.warn("Persistence is not available in this browser");
+    }
+});
 
 const commentForm = document.getElementById('commentForm');
 const commentInput = document.getElementById('commentInput');
@@ -40,23 +48,18 @@ function showAlert(message, error = false) {
 }
 
 function formatDate(dateValue) {
+    if (!dateValue) return "now";
     const date = new Date(dateValue);
     const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-
     if (seconds < 60) return `${seconds}s`;
-
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}m`;
-
     const hours = Math.floor(minutes / 60);
     if (hours < 24) return `${hours}h`;
-
     const days = Math.floor(hours / 24);
     if (days < 30) return `${days}d`;
-
     const months = Math.floor(days / 30);
     if (months < 12) return `${months}mo`;
-
     const years = Math.floor(months / 12);
     return `${years}y`;
 }
@@ -96,12 +99,8 @@ async function loadReplies(commentId) {
     for (const docSnap of snap.docs) {
         const d = docSnap.data();
         const replyId = docSnap.id;
-        const timeStr = formatDate(d.timestamp?.toDate() || new Date());
+        const timeStr = formatDate(d.timestamp?.toDate());
         const userData = await getUserData(d.uid);
-
-        while (currentUser && currentUserData === null) {
-            await new Promise(r => setTimeout(r, 50));
-        }
 
         const isOwner = currentUser?.uid === d.uid || currentUserData?.role === "owner";
 
@@ -114,19 +113,12 @@ async function loadReplies(commentId) {
       </a>
       <div style="flex:1;min-width:0;">
         <div class="reply-bubble">
-
-         <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-<a href="https://0xdya.vercel.app/@${userData.name}" 
- target="_blank"
- style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">
- ${userData.name}
-</a>
-${userData.verified ? VERIFIED_SVG : ''}
-${getRoleIcon(userData.role)}
-<span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
-</div>
-
-
+          <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
+            ${userData.verified ? VERIFIED_SVG : ''}
+            ${getRoleIcon(userData.role)}
+            <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
+          </div>
           <div class="reply-text">${d.text}</div>
         </div>
         <div class="reply-meta">
@@ -163,13 +155,12 @@ function loadComments() {
             if (change.type === "added") {
                 if (document.getElementById(`comment-wrap-${commentId}`)) return;
 
-                const timeStr = formatDate(data.timestamp?.toDate() || new Date());
+                const timeStr = formatDate(data.timestamp?.toDate());
                 const userData = await getUserData(data.uid);
                 const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "owner";
 
                 const wrap = document.createElement('div');
                 wrap.id = `comment-wrap-${commentId}`;
-
                 wrap.innerHTML = `
           <div class="comment-card" id="comment-${commentId}">
             <div class="comment-avatar">
@@ -180,19 +171,12 @@ function loadComments() {
             <div class="comment-body">
               ${data.pinned ? `<div class="pin-badge"><ion-icon name="push-outline"></ion-icon> Pinned comment</div>` : ''}
               <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
-
-               <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-<a href="https://0xdya.vercel.app/@${userData.name}" 
- target="_blank" 
- style="color:inherit;font-weight:600;">
- ${userData.name}
-</a>
-${userData.verified ? VERIFIED_SVG : ''}
-${getRoleIcon(userData.role)}
-<span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
-</div>
-
-
+                <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;font-weight:600;">${userData.name}</a>
+                  ${userData.verified ? VERIFIED_SVG : ''}
+                  ${getRoleIcon(userData.role)}
+                  <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
+                </div>
                 <div class="bubble-text">${data.text}</div>
               </div>
               <div class="comment-meta">
@@ -248,22 +232,16 @@ ${getRoleIcon(userData.role)}
                     });
                 }
 
-                const all = [...pinned, ...normal];
-                all.sort((a, b) => {
+                const all = [...pinned, ...normal].sort((a, b) => {
                     if (a.pinned !== b.pinned) return b.pinned - a.pinned;
-                    return b.timestamp?.seconds - a.timestamp?.seconds;
+                    return (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0);
                 });
 
                 commentsList.innerHTML = "";
                 all.forEach(({ el }) => commentsList.appendChild(el));
-
                 all.forEach(({ id }) => {
-                    if (!loadedSet.has(id)) {
-                        loadedSet.add(id);
-                        loadReplies(id);
-                    }
+                    if (!loadedSet.has(id)) { loadedSet.add(id); loadReplies(id); }
                 });
-
                 commentsLabel.style.display = 'block';
             }
 
@@ -275,9 +253,6 @@ ${getRoleIcon(userData.role)}
 
         commentForm.style.display = currentUser ? "block" : "none";
         write_comment.style.display = currentUser ? "none" : "block";
-
-        const load = document.getElementById('load');
-        if (load) load.remove();
     });
 }
 

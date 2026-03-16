@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
     getFirestore, collection, doc, getDoc, updateDoc,
-    serverTimestamp, query, orderBy, onSnapshot
+    serverTimestamp, query, orderBy, onSnapshot, enableIndexedDbPersistence
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import {
     getAuth, onAuthStateChanged
@@ -20,6 +20,14 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+enableIndexedDbPersistence(db).catch((err) => {
+    if (err.code == 'failed-precondition') {
+        console.warn("Persistence failed: Multiple tabs open");
+    } else if (err.code == 'unimplemented') {
+        console.warn("Persistence not supported");
+    }
+});
+
 const CACHE_KEY = "userData";
 const UPDATE_INTERVAL = 10 * 60 * 1000;
 
@@ -28,7 +36,8 @@ let activeRole = "all";
 let searchQuery = "";
 
 function timeAgo(date) {
-    const s = Math.floor((Date.now() - date) / 1000);
+    if (!date) return "—";
+    const s = Math.floor((Date.now() - date.getTime()) / 1000);
     if (s < 60) return "just now";
     const m = Math.floor(s / 60);
     if (m < 60) return `${m}m `;
@@ -50,7 +59,7 @@ function render() {
     if (activeRole !== "all") filtered = filtered.filter(u => (u.role || "user") === activeRole);
     if (searchQuery) filtered = filtered.filter(u => (u.name || "").toLowerCase().includes(searchQuery));
 
-    badge.textContent = filtered.length;
+    if (badge) badge.textContent = filtered.length;
 
     if (!filtered.length) {
         usersDiv.innerHTML = `<div class="empty-state">
@@ -61,13 +70,13 @@ function render() {
     }
 
     usersDiv.innerHTML = filtered.map((user, i) => {
-        const created = user.createdAt?.toDate?.();
-        const joinedText = created ? timeAgo(created) : "—";
+        const created = user.createdAt?.toDate?.() || null;
+        const joinedText = timeAgo(created);
         const role = user.role || "user";
         const name = user.name || "No name";
         const photo = user.photo || "../img/user.jpg";
         return `
-      <div class="user-card" style="animation-delay:${i * 30}ms"
+      <div class="user-card" style="animation-delay:${i * 10}ms"
            onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
         <img src="${photo}" alt="${name}" onerror="this.src='../img/user.jpg'">
         <div class="name_and_role">
@@ -81,14 +90,16 @@ function render() {
 
 function showSkeleton() {
     const usersDiv = document.getElementById("users");
-    usersDiv.innerHTML = Array.from({ length: 8 }, () => `
-    <div class="skeleton-card">
-      <div class="sk" style="width:42px;height:42px;border-radius:8px;flex-shrink:0"></div>
-      <div style="flex:1;display:flex;flex-direction:column;gap:6px">
-        <div class="sk" style="height:13px;width:${100 + Math.random() * 80 | 0}px"></div>
-        <div class="sk" style="height:11px;width:70px"></div>
-      </div>
-    </div>`).join("");
+    if (!usersDiv.innerHTML.trim()) { 
+        usersDiv.innerHTML = Array.from({ length: 8 }, () => `
+        <div class="skeleton-card">
+          <div class="sk" style="width:42px;height:42px;border-radius:8px;flex-shrink:0"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+            <div class="sk" style="height:13px;width:${100 + Math.random() * 80 | 0}px"></div>
+            <div class="sk" style="height:11px;width:70px"></div>
+          </div>
+        </div>`).join("");
+    }
 }
 
 function loadUsers() {
@@ -125,10 +136,13 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
     });
 });
 
-document.getElementById("searchInput").addEventListener("input", e => {
-    searchQuery = e.target.value.trim().toLowerCase();
-    render();
-});
+const searchInput = document.getElementById("searchInput");
+if (searchInput) {
+    searchInput.addEventListener("input", e => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        render();
+    });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const cached = localStorage.getItem(CACHE_KEY);
@@ -166,6 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-const btn = document.getElementById("back_to_top");
-window.addEventListener("scroll", () => btn.classList.toggle("visible", scrollY > 400));
-btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+const topBtn = document.getElementById("back_to_top");
+if (topBtn) {
+    window.addEventListener("scroll", () => topBtn.classList.toggle("visible", scrollY > 400));
+    topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
