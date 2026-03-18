@@ -50,7 +50,6 @@ async function fetchCounts() {
 
 initVisits();
 fetchCounts();
-  AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
    
 async function fetchLastLogin(userId) {
   const userSnap = await getDoc(doc(firestore, "users", userId));

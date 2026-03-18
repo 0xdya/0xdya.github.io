@@ -54,13 +54,13 @@ details
   }
 
   ::selection {
-    background: var(--accent-dim);
-    color: #fff;
+    background: #fff;
+    color: #000;
 }
 
 ::-moz-selection {
-    background: rgba(88, 166, 255, 0.25);
-    color: #fff;
+    background: #fff;
+    color: #000;
 }
 
 
