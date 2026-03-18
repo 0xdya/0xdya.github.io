@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script type="module" src="../js/user.js"></script>
   <link href="../css/static.css" rel="stylesheet">
+  <script src="../js/loader.js"></script>
   <style>
     body {
       padding: 0 0 var(--space-7);
@@ -369,7 +370,6 @@
   user-select: none;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -383,6 +383,9 @@
   </style>
 </head>
 
+<div class="bg" id="loader-wrapper">
+  <div class="loader"></div>
+</div>
 <body>
   <div class="container">
 

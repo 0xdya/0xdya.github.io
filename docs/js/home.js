@@ -1,3 +1,13 @@
+const loader = document.getElementById('loader-wrapper');
+const showLoaderTimeout = setTimeout(() => {
+    loader.style.display = 'flex';
+}, 100);
+window.addEventListener('load', () => {
+    loader.classList.add('loader-hidden');
+    setTimeout(() => loader.style.display = 'none', 300);
+    AOS.init({duration: 600, once: true, easing: 'ease-out-quart'});
+    clearTimeout(showLoaderTimeout);
+});
 (function () {
     const SKIN_PATH = "./skin/s2.png";
 

@@ -34,11 +34,11 @@
         <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
         <script type="module" src="./js/user.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
+        <script type="module" src="./js/home.js"></script>
     </head>
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
-
+    <div class="bg" id="loader-wrapper">
+        <div class="loader"></div>
+      </div>
     <body>
         <a href="https://github.com/0xdya/0xdya.github.io" target="_blank" id="fork-corner" class="fork-corner fc-size-small fc-pos-tr fc-animate-grow fc-theme-github"></a>
         <div class="layout">
@@ -58,7 +58,7 @@
                     </div>
                 </header>
 
-                <section class="hero" data-aos="fade-up">
+                <section class="hero" data-aos="fade-up-right">
                     <p class="description">
                         18yo
                         <a href="./projects/#web" class="highlight">#dev</a>, arabic
@@ -92,7 +92,7 @@
                             <span class="chip-label">visits</span>
                             <span class="chip-value" id="counter">---</span>
                         </a>
-                        <a href="./users/" class="identity-chip" data-aos="fade-up" data-aos-delay="200">
+                        <a href="./users/" class="identity-chip" data-aos="fade-right" data-aos-delay="200">
                             <span class="chip-label">users</span>
                             <span class="chip-value" id="users_count">---</span>
                             <span class="btn">
@@ -102,7 +102,7 @@
                                 </svg>
                             </span>
                         </a>
-                        <a href="./comments/" class="identity-chip" data-aos="fade-left" data-aos-delay="300">
+                        <a href="./comments/" class="identity-chip" data-aos="fade-right" data-aos-delay="300">
                             <span class="chip-label">comments
                             </span>
                             <span class="chip-value" id="comments_count">---</span>
@@ -114,7 +114,7 @@
                             </span>
                         </a>
                     </div>
-                    <a href="archive/" class="commit-card" data-aos="fade-up" data-aos-delay="400">
+                    <a href="archive/" class="commit-card" data-aos="fade-up-right" data-aos-delay="100">
                         <div class="commit-dot"></div>
                         <div class="commit-meta">
                             <span class="commit-label">Last update •
@@ -199,19 +199,7 @@
         </script>
 
         
-        <script type="module" src="./js/home.js"></script>
-        <script>
-            const loader = document.getElementById('loader');
-            const showLoaderTimeout = setTimeout(() => {
-                loader.style.display = 'flex';
-            }, 100);
-            window.addEventListener('load', () => {
-                loader.classList.add('hidden');
-                setTimeout(() => loader.style.display = 'none', 300);
-                AOS.init({duration: 600, once: true, easing: 'ease-out-quart'});
-                clearTimeout(showLoaderTimeout);
-            });
-        </script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script type="module" src="./js/view.js" defer></script>
         <script src="./js/time_ago.js" defer></script>

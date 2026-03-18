@@ -11,32 +11,32 @@
       background: var(--accent-dim);
       color: #fff;
     }
-
+    
     a {
       text-decoration: none;
       color: inherit;
     }
-
+    
     body {
       display: flex;
       justify-content: center;
       flex-direction: column;
       gap: var(--space-1);
     }
-
-
+    
+    
     h1 {
       font-size: var(--text-xl);
       font-weight: 400;
       color: var(--text);
       margin-bottom: var(--space-3);
     }
-
-
+    
+    
     .contact-container {
       display: fle;
     }
-
+    
     .section-label {
       font-size: var(--text-xs);
       color: var(--dim);
@@ -44,17 +44,16 @@
       letter-spacing: .08em;
       margin-bottom: var(--space-3);
     }
-
-    /* ── Form ── */
+    
     .form-section {
       margin-bottom: var(--space-7);
     }
-
+    
     .form-group {
       margin-bottom: var(--space-3);
     }
-
-
+    
+    
     input,
     textarea {
       width: 100%;
@@ -69,22 +68,22 @@
       transition: border-color .2s, background .2s;
       resize: none;
     }
-
+    
     input:focus,
     textarea:focus {
       border-color:  var( --border-hover);
       background: var(--accent-dim);
     }
-
+    
     input::placeholder,
     textarea::placeholder {
       color: var(--dim);
     }
-
+    
     textarea {
       min-height: 130px;
     }
-
+    
     .send-btn {
       display: inline-flex;
       align-items: center;
@@ -99,23 +98,23 @@
       cursor: pointer;
       transition: background .2s, border-color .2s, transform .15s;
     }
-
+    
     .send-btn:hover {
       background: rgba(200, 181, 96, .2);
       border-color: var(--border-hover);
       transform: translateY(-1px);
     }
-
+    
     .send-btn:active {
       transform: translateY(0);
     }
-
+    
     .send-btn:disabled {
       opacity: .5;
       cursor: not-allowed;
       transform: none;
     }
-
+    
     .status {
       margin-top: var(--space-3);
       font-size: var(--text-xs);
@@ -123,27 +122,27 @@
       border-radius: 8px;
       display: none;
     }
-
+    
     .status.success {
       display: block;
       background: rgba(80, 200, 120, .08);
       border: 1px solid rgba(80, 200, 120, .2);
       color: #5ec87a;
     }
-
+    
     .status.error {
       display: block;
       background: rgba(220, 80, 80, .08);
       border: 1px solid rgba(220, 80, 80, .2);
       color: #e06060;
     }
-
+    
     .socials {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-2);
     }
-
+    
     .social-link {
       display: inline-flex;
       align-items: center;
@@ -155,26 +154,29 @@
       font-size: var(--text-sm);
       transition: all .2s;
     }
-
+    
     .social-link:hover {
       border-color: var( --border-hover);
       background: var(--accent-dim);
       color: var(--accent);
       margin: 0 var(--space-2);
     }
-
+    
     .social-icon {
       width: 14px;
       height: 14px;
       flex-shrink: 0;
     }
-
-  </style>
+    
+    </style>
   <link rel="stylesheet" href="../css/static.css">
+  <script src="../js/loader.js"></script>
 </head>
-
+<div class="bg" id="loader-wrapper">
+  <div class="loader"></div>
+</div>
 <body>
-
+  
   <div class="container">
     <h1>// contact</h1>
     <div class="contact-container">
