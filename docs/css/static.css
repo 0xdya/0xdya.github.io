@@ -262,3 +262,19 @@ body {
       .dot.off {
         background: var(--dim);
       }
+      .pill {
+        color: #9b87f5;
+        padding: 0 var(--space-2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        font-size: var(--text-xm);
+        vertical-align: middle;
+        backdrop-filter: blur(6px);
+        transition: border-color .2s, background .2s;
+    }
+    
+    .pill:hover {
+        border-color: rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.07);
+    }
