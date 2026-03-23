@@ -46,7 +46,14 @@
     }
     
     .form-section {
+      position: relative;
       margin-bottom: var(--space-7);
+      img{
+        position: absolute;
+        right: 0;
+        top: -6.25rem;
+        width: 140px;
+      }
     }
     
     .form-group {
@@ -181,6 +188,7 @@
     <h1>// contact</h1>
     <div class="contact-container">
       <div class="form-section">
+        <img src="../img/avatarBody5.png" alt="">
         <div class="form-group">
           <input type="text" id="name" placeholder="ur name... (اختياري)" />
         </div>
