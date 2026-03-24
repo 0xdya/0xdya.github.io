@@ -47,6 +47,16 @@ function showAlert(message, error = false) {
     setTimeout(() => alertBox.innerHTML = "", 4000);
 }
 
+function syncReplyControls() {
+    const show = !!currentUser;
+    document.querySelectorAll('.reply-toggle-btn').forEach((btn) => {
+        btn.style.display = show ? '' : 'none';
+    });
+    if (!show) {
+        document.querySelectorAll('.reply-form-wrap.open').forEach((f) => f.classList.remove('open'));
+    }
+}
+
 function formatDate(dateValue) {
     if (!dateValue) return "now";
     const date = new Date(dateValue);
@@ -180,7 +190,7 @@ function loadComments() {
                 <div class="bubble-text">${data.text}</div>
               </div>
               <div class="comment-meta">
-                <button class="meta-action reply-toggle-btn" data-id="${commentId}">Reply</button>
+                <button class="meta-action reply-toggle-btn" data-id="${commentId}"${currentUser ? '' : ' style="display:none"'}>Reply</button>
                 ${isOwner ? `<button class="meta-action delete" data-id="${commentId}">Delete</button>` : ''}
               </div>
             </div>
@@ -253,6 +263,7 @@ function loadComments() {
 
         commentForm.style.display = currentUser ? "block" : "none";
         write_comment.style.display = currentUser ? "none" : "block";
+        syncReplyControls();
     });
 }
 
@@ -291,4 +302,5 @@ onAuthStateChanged(auth, async (user) => {
         } catch (e) { }
     }
     loadComments();
+    syncReplyControls();
 });

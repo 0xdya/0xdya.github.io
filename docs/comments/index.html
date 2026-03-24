@@ -162,7 +162,7 @@
         .comment-card {
             display: flex;
             gap: 10px;
-            margin-bottom: 16px;
+            /* margin-bottom: 16px; */
             animation: fadeUp 0.25s ease;
         }
         @keyframes fadeUp {
@@ -195,11 +195,17 @@
 
         .comment-bubble {
             background: var(--surface);
-            border-radius: 18px;
+            /* background: transparent; */
+            /* border-radius: 18px; */
             padding: 10px 14px;
             display: inline-block;
             max-width: 100%;
             position: relative;
+            border: 1px #222 solid;
+            border-bottom-right-radius: 21px;
+            border-bottom-left-radius: 21px;
+            border-top-right-radius: 21px;
+            padding: 8px 12px;
             box-shadow: 0 1px 1px rgba(0, 0, 0, .3);
         }
         .comment-bubble.pinned {
@@ -233,6 +239,7 @@
             color: var(--text);
             word-break: break-word;
             white-space: pre-wrap;
+            
         }
 
         .pin-badge {
@@ -252,7 +259,6 @@
             font-size: 0.8rem;
             color: var(--text-secondary);
         }
-        .meta-time {}
         .meta-action {
             font-weight: 600;
             cursor: pointer;
@@ -274,14 +280,14 @@
 
         /* Replies */
         .replies-section {
-            margin-top: 6px;
+            margin-bottom: 16px;
             margin-left: 48px;
             display: block;
         }
         .reply-card {
             display: flex;
             gap: 8px;
-            margin-bottom: 8px;
+            /* margin-bottom: 8px; */
             animation: fadeUp 0.2s ease;
         }
         .reply-card img {
