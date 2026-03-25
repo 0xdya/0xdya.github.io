@@ -123,11 +123,18 @@
     }
     
     .status {
+      position: absolute;
+      top: -100px;
+      z-index: 99998;
+      right: var(--space-9);
       margin-top: var(--space-3);
       font-size: var(--text-xs);
       padding: var(--space-2) var(--space-4);
-      border-radius: 8px;
-      display: none;
+      border-top-right-radius: 16px;
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+      display: block;
+      /* background-color: red; */
     }
     
     .status.success {
@@ -188,6 +195,7 @@
     <h1>// contact</h1>
     <div class="contact-container">
       <div class="form-section">
+        <div class="status" id="status"></div>
         <img src="../img/avatarBody5.png" alt="">
         <div class="form-group">
           <input type="text" id="name" placeholder="ur name... (اختياري)" />
@@ -202,10 +210,8 @@
           </svg>
           send
         </button>
-        <div class="status" id="status"></div>
       </div>
 
-      <!-- Socials -->
       <p class="section-label">// find me on</p>
       <div class="socials">
 
