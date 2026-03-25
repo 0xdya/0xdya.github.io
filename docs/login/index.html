@@ -9,7 +9,7 @@
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         <script src="../js/loader.js"></script>
-       <style>
+        <style>
             body {
                 display: flex;
                 justify-content: center;
@@ -173,22 +173,30 @@
                 width: 100%;
                 max-width: 312px;
                 margin: 8px auto 0;
-                padding: 10px;
-                background: #003366;
-                color: #0af;
-                border: 1px solid #0af;
-                border-radius: 8px;
+                padding: 8px 0;
+                background: #2c1f14;
+                color: #e6d3a3;
+                border: 1px solid #3a2a1c;
+                border-radius: 6px;
                 font-family: "JetBrains Mono", monospace;
                 font-size: 0.9rem;
                 cursor: pointer;
-                transition: all 0.2s ease;
                 text-align: center;
+                transition: background 0.15s ease, border 0.15s ease;
             }
 
             #sendLoginLink:hover {
-                background: #004488;
-                color: #fff;
+                background: #332417;
+                border-color: #4a3422;
             }
+            #sendLoginLink:active {
+                background: #24190f;
+            }
+            #sendLoginLink:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
 
             #emailLoginBox {
                 position: relative;
@@ -291,7 +299,7 @@
     </head>
     <div class="bg" id="loader-wrapper">
         <div class="loader"></div>
-      </div>
+    </div>
     <body>
 
         <div id="nameModal" style="display: none;" class="modal">

@@ -274,6 +274,7 @@
                 await sendSignInLinkToEmail(auth, email, { url: window.location.origin + window.location.pathname, handleCodeInApp: true });
                 window.localStorage.setItem("emailForSignIn", email);
                 alert("📨 link sent!");
+                elements.emailInput.value = "";
             } catch (err) {
                 if (elements.errorEl) elements.errorEl.textContent = "❌ " + err.code;
             }
