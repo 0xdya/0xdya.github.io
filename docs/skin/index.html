@@ -5,109 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
 <title>0xdya — skin</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&family=Inter:wght@300;600&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #ededed;
-    --border: #1a1a1a;
-    --accent: #2c1f14;
-    --text-dim: #333;
+    --bg: #0f0f0f;
+    --accent: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.5);
     --mono: 'JetBrains Mono', monospace;
   }
 
- body {
+  body {
     height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--bg);
+    background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
     overflow: hidden;
     font-family: var(--mono);
+    color: var(--accent);
   }
 
   #skin_container {
-    /* position: fixed; */
     inset: 0;
     cursor: grab;
     display: block;
-    z-index: 999;
-    margin: 0 auto
+    z-index: 5;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
   }
   #skin_container:active { cursor: grabbing; }
 
-  .ui-corner {
+  .ui-element {
     position: fixed;
+    z-index: 10;
+    pointer-events: auto;
+    animation: fadeIn 1.2s ease-out;
+  }
+
+  .ui-tl { top: 40px; left: 40px; }
+  .ui-br { bottom: 40px; right: 40px; text-align: right; }
+
+  .accent-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+  .accent-link:hover { opacity: 1; }
+
+  .label {
+    display: block;
     font-size: 10px;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    z-index: 10;
-    line-height: 1.7;
-    pointer-events: none;
-  }
-  .ui-tl { top: 24px; left: 24px; }
-  .ui-br { bottom: 24px; right: 24px; text-align: right; }
-  .accent { color: var(--accent); 
-font-weight: 800;
-font-size: 1.2rem;
-text-decoration: none;
-}
-
-  .vline {
-    position: fixed; top: 0; bottom: 0; left: 50%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--border) 30%, var(--border) 70%, transparent);
-    pointer-events: none; opacity: 0.35; z-index: 1;
-  }
-  .hline {
-    position: fixed; left: 0; right: 0; top: 50%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border) 30%, var(--border) 70%, transparent);
-    pointer-events: none; opacity: 0.35; z-index: 1;
-  }
-
-  .hint {
-    position: fixed;
-    bottom: 24px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    color: var(--text-dim);
-    z-index: 10;
     text-transform: uppercase;
-    pointer-events: none;
-    transition: opacity 1.2s;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
   }
-  .hint.gone { opacity: 0; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .frame-corner {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    pointer-events: none;
   }
-  .ui-corner, .hint { animation: fadeUp 0.9s ease both; }
-  .ui-br { animation-delay: 0.1s; }
-  .hint  { animation-delay: 0.25s; }
+  .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+  .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { display: none; }
 </style>
 </head>
 <body>
 
-<div class="vline"></div>
-<div class="hline"></div>
+<div class="frame-corner top-left"></div>
+<div class="frame-corner bottom-right"></div>
 
-<canvas id="skin_container"></canvas>
-
-<div class="ui-corner ui-tl">
-  <a href="../" class="accent">0xdya</a>
-  <!-- <span>minecraft skin</span> -->
+<div class="ui-element ui-tl">
+  <span class="label">my owen skin...</span>
+  <a href="../" class="accent-link">0xdya_</a>
 </div>
 
-<!-- <div class="ui-corner ui-br">
-  <span id="lbl-rx">rx  0.00</span>
-  <span id="lbl-ry">ry  0.00</span>
-</div> -->
+<div class="ui-element ui-br">
+  <span class="label">Visualizer</span>
+  <div style="font-size: 11px; color: var(--text-dim)">v2.0 // STABLE</div>
+</div>
 
-<!-- <div class="hint" id="hint">drag to rotate · click to swing</div> -->
+<canvas id="skin_container"></canvas>
 
 <script src="https://unpkg.com/skinview3d/bundles/skinview3d.bundle.js"></script>
 <script>
@@ -120,170 +112,71 @@ const viewer = new skinview3d.SkinViewer({
   skin: "https://0xdya.vercel.app/skin/s2.png",
 });
 
-viewer.zoom = 0.72;
-viewer.animation = null;
-viewer.autoRotate = false;
+viewer.zoom = 0.8;
+viewer.autoRotate = true;
+viewer.autoRotateSpeed = 0.5;
 
 viewer.renderer.shadowMap.enabled = true;
 viewer.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-viewer.scene.children.slice().forEach(c => {
-  if (c.isLight) viewer.scene.remove(c);
-});
+viewer.scene.children.slice().forEach(c => { if (c.isLight) viewer.scene.remove(c); });
 
-const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+const ambient = new THREE.AmbientLight(0xffffff, 0.4);
 viewer.scene.add(ambient);
 
-const sun = new THREE.DirectionalLight(0xffffff, 1.2);
-sun.position.set(5, 14, 8);
-sun.castShadow = true;
-sun.shadow.mapSize.width  = 1024;
-sun.shadow.mapSize.height = 1024;
-sun.shadow.camera.near = 0.5;
-sun.shadow.camera.far  = 60;
-sun.shadow.camera.left   = -8;
-sun.shadow.camera.right  =  8;
-sun.shadow.camera.top    =  8;
-sun.shadow.camera.bottom = -8;
-sun.shadow.bias = -0.001;
-viewer.scene.add(sun);
+const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
+mainLight.position.set(5, 10, 7);
+mainLight.castShadow = true;
+viewer.scene.add(mainLight);
 
-const fill = new THREE.DirectionalLight(0x6688cc, 0.3);
-fill.position.set(-4, 4, -4);
-viewer.scene.add(fill);
+const blueFill = new THREE.DirectionalLight(0x4466ff, 0.5); 
+blueFill.position.set(-5, 5, -5);
+viewer.scene.add(blueFill);
 
-const rim = new THREE.DirectionalLight(0xe8ff5a, 0.08);
-rim.position.set(0, 8, -8);
-viewer.scene.add(rim);
-
-const floorGeo = new THREE.PlaneGeometry(30, 30);
-const floorMat = new THREE.ShadowMaterial({ opacity: 0.5 });
+const floorGeo = new THREE.PlaneGeometry(100, 100);
+const floorMat = new THREE.ShadowMaterial({ opacity: 0.3 });
 const floor = new THREE.Mesh(floorGeo, floorMat);
 floor.rotation.x = -Math.PI / 2;
-floor.position.y = -22.5;
+floor.position.y = -30;
 floor.receiveShadow = true;
 viewer.scene.add(floor);
 
 viewer.playerObject.traverse(obj => {
   if (obj.isMesh) {
     obj.castShadow = true;
-    obj.receiveShadow = false;
+    obj.receiveShadow = true;
   }
 });
 
 let targetX = 0, targetY = 0;
 let currentX = 0, currentY = 0;
 let isDragging = false;
-let lastX = 0, lastY = 0;
-let moved = false;
 
-let isSwinging = false;
-let swingAngle = 0;
-let swingVelocity = 0;
-let rightArm = null;
-
-viewer.playerObject.traverse(obj => {
-  if (/right.?arm/i.test(obj.name)) rightArm = obj;
-});
-
-function triggerSwing() {
-  if (isSwinging) return;
-  isSwinging = true;
-  swingAngle = -1.1;
-  swingVelocity = 0;
-}
-
-const canvas = document.getElementById("skin_container");
-
-canvas.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  moved = false;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  e.preventDefault();
-});
-window.addEventListener("mouseup", (e) => {
-  if (!moved) triggerSwing();
-  isDragging = false;
-});
 window.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
-  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) moved = true;
-  targetX += dx * 0.004;
-  targetY += dy * 0.003;
-  targetX = Math.max(-1.5, Math.min(1.5, targetX));
-  targetY = Math.max(-0.5, Math.min(0.5, targetY));
-  lastX = e.clientX;
-  lastY = e.clientY;
+  if (!isDragging) {
+    targetX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+  }
 });
 
-let touchMoved = false;
-canvas.addEventListener("touchstart", (e) => {
-  touchMoved = false;
-  lastX = e.touches[0].clientX;
-  lastY = e.touches[0].clientY;
-  e.preventDefault();
-}, { passive: false });
-window.addEventListener("touchend", () => {
-  if (!touchMoved) triggerSwing();
-}, { passive: true });
-window.addEventListener("touchmove", (e) => {
-  e.preventDefault();
-  touchMoved = true;
-  targetX += (e.touches[0].clientX - lastX) * 0.004;
-  targetY += (e.touches[0].clientY - lastY) * 0.003;
-  targetX = Math.max(-1.5, Math.min(1.5, targetX));
-  targetY = Math.max(-0.5, Math.min(0.5, targetY));
-  lastX = e.touches[0].clientX;
-  lastY = e.touches[0].clientY;
-}, { passive: false });
+function loop() {
+  currentX += (targetX - currentX) * 0.05;
+  currentY += (targetY - currentY) * 0.05;
+  
+  if (!isDragging) {
+    viewer.playerObject.rotation.y += 0.005; 
+  }
+  
+  viewer.playerObject.rotation.y += currentX * 0.1;
+  viewer.playerObject.rotation.x = currentY;
+
+  requestAnimationFrame(loop);
+}
+loop();
 
 window.addEventListener("resize", () => {
   viewer.setSize(window.innerWidth, window.innerHeight);
 });
-
-const lblRx = document.getElementById("lbl-rx");
-const lblRy = document.getElementById("lbl-ry");
-const hint  = document.getElementById("hint");
-let interacted = false;
-let lastTime = performance.now();
-
-function loop(now) {
-  const dt = Math.min((now - lastTime) / 1000, 0.05);
-  lastTime = now;
-
-  currentX += (targetX - currentX) * 0.09;
-  currentY += (targetY - currentY) * 0.09;
-  viewer.playerObject.rotation.y = currentX;
-  viewer.playerObject.rotation.x = currentY;
-
-  if (isSwinging) {
-    swingVelocity += (-9 * swingAngle) * dt;
-    swingVelocity *= 0.72;
-    swingAngle += swingVelocity;
-    if (rightArm) rightArm.rotation.x = swingAngle;
-    if (Math.abs(swingAngle) < 0.004 && Math.abs(swingVelocity) < 0.004) {
-      isSwinging = false;
-      swingAngle = 0;
-      if (rightArm) rightArm.rotation.x = 0;
-    }
-  }
-
-  lblRx.textContent = "rx  " + currentY.toFixed(2);
-  lblRy.textContent = "ry  " + currentX.toFixed(2);
-
-  if (!interacted && (Math.abs(targetX) > 0.03 || Math.abs(targetY) > 0.03)) {
-    interacted = true;
-    hint.classList.add("gone");
-  }
-
-  viewer.renderer.render(viewer.scene, viewer.camera);
-  requestAnimationFrame(loop);
-}
-
-requestAnimationFrame(loop);
 </script>
 </body>
 </html>
