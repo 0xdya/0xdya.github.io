@@ -26,18 +26,18 @@ jobs:
         with:
           ref: ${{ env.TARGET_BRANCH }}
 
-      - name: Make commit
+      - name: Process Visits
         env:
           PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           git config user.name "${{ env.GIT_NAME }}"
           git config user.email "${{ env.GIT_EMAIL }}"
 
-          VISITS=$(curl -s "${{ env.FIREBASE_URL }}" | tr -d '"')
+          VISITS=$(curl -s --max-time 10 "${{ env.FIREBASE_URL }}" | tr -d '"')
 
           if ! [[ "$VISITS" =~ ^[0-9]+$ ]]; then
-            echo "Invalid visits value"
-            exit 0
+            echo "::error::Failed to fetch valid data from Firebase. Value: $VISITS"
+            exit 1
           fi
 
           if [ -f archive.txt ]; then
@@ -55,29 +55,27 @@ jobs:
           TODAY=$(TZ=Africa/Algiers date +"%b %d, %Y")
           CURRENT_HOUR=$(date -u +"%H")
 
-          if [ "$CURRENT_HOUR" = "05" ]; then
-            TIME="06:00"
-          elif [ "$CURRENT_HOUR" = "11" ]; then
-            TIME="12:00"
-          elif [ "$CURRENT_HOUR" = "22" ]; then
-            TIME="23:00"
-          else
-            TIME=$(TZ=Africa/Algiers date +"%H:%M")
-          fi
+          case "$CURRENT_HOUR" in
+            "05") TIME="06:00" ;;
+            "11") TIME="12:00" ;;
+            "22") TIME="23:00" ;;
+            *) TIME=$(TZ=Africa/Algiers date +"%H:%M") ;;
+          esac
 
-          if [ ! -f archive.txt ]; then
-            echo "$TODAY" >> archive.txt
-          fi
-
-          LAST_DATE=$(grep -E "^[A-Z][a-z]{2} [0-9]{2}, [0-9]{4}$" archive.txt | tail -n 1)
+          [ ! -f archive.txt ] && touch archive.txt
+          LAST_DATE=$(grep -E "^[A-Z][a-z]{2} [0-9]{2}, [0-9]{4}$" archive.txt | tail -n 1 || echo "")
 
           if [ "$TODAY" != "$LAST_DATE" ]; then
-            echo "" >> archive.txt
-            echo "$TODAY" >> archive.txt
+            echo -e "\n$TODAY" >> archive.txt
           fi
 
           echo "$TIME => $FORMATTED_VISITS visits (+$FORMATTED_DIFF)" >> archive.txt
 
           git add archive.txt
-          git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits)" || exit 0
+          git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits)" || echo "No changes to commit"
           git push https://x-access-token:${PERSONAL_TOKEN}@github.com/${{ github.repository }}.git ${{ env.TARGET_BRANCH }}
+
+      - name: Failure Notification
+        if: failure()
+        run: |
+          echo "The workflow failed to update the archive. Please check Firebase connectivity."
