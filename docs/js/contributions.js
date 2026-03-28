@@ -7,8 +7,7 @@ function initContribGraph(containerId) {
   
     container.innerHTML = `
       <div class="contrib-section">
-        <div class="contrib-header">
-          <span class="contrib-header-label">contributions</span>
+        <div class="contrib-header">                              
           <span class="contrib-header-count" id="contrib-total">—</span>
           <span class="contrib-header-sublabel">in 2026</span>
         </div>
@@ -142,11 +141,11 @@ function initContribGraph(containerId) {
       <div class="contrib-legend">
         Less
         <div class="contrib-legend-cells">
-          <div class="contrib-legend-cell" style="background:var(--border)"></div>
-          <div class="contrib-legend-cell" style="background:#1f3010"></div>
-          <div class="contrib-legend-cell" style="background:#2d4d14"></div>
-          <div class="contrib-legend-cell" style="background:#4a7a1e"></div>
-          <div class="contrib-legend-cell" style="background:var(--accent)"></div>
+          <div class="contrib-legend-cell" style="background:var(--contrib-0)"></div>
+          <div class="contrib-legend-cell" style="background:var(--contrib-1)"></div>
+          <div class="contrib-legend-cell" style="background:var(--contrib-2)"></div>
+          <div class="contrib-legend-cell" style="background:var(--contrib-3)"></div>
+          <div class="contrib-legend-cell" style="background:var(--contrib-4)"></div>
         </div>
         More
       </div>

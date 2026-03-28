@@ -494,6 +494,11 @@ span {
   }
   
   .contrib-graph {
+    --contrib-0: rgba(255, 255, 255, 0.09);
+    --contrib-1: #e6f4ea;
+    --contrib-2: #a3daa4;
+    --contrib-3: #4ebe5e;
+    --contrib-4: #1a7f37;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -573,7 +578,7 @@ span {
   
   .contrib-cell {
     border-radius: 2px;
-    background: var(--border);
+    background: var(--contrib-0);
     cursor: pointer;
     width: 100%;
     opacity: 0;
@@ -583,14 +588,14 @@ span {
   }
   
   .contrib-cell:hover {
-    filter: brightness(1.5);
+    filter: brightness(1.12) saturate(1.08);
     z-index: 10;
   }
   
-  .contrib-cell[data-level="1"] { background: #1f3010; }
-  .contrib-cell[data-level="2"] { background: #2d4d14; }
-  .contrib-cell[data-level="3"] { background: #4a7a1e; }
-  .contrib-cell[data-level="4"] { background: var(--accent); }
+  .contrib-cell[data-level="1"] { background: var(--contrib-1); }
+  .contrib-cell[data-level="2"] { background: var(--contrib-2); }
+  .contrib-cell[data-level="3"] { background: var(--contrib-3); }
+  .contrib-cell[data-level="4"] { background: var(--contrib-4); }
   
   @keyframes contrib-fade {
     to { opacity: 1; }
