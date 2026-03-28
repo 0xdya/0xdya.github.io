@@ -63,7 +63,7 @@ const isOnline = diffSec < 300;
 
 const statusHTML = isOnline 
   ? `<div class="dot on"></div> Online` 
-  : `<div class="dot off"></div> last seen ${formatTimeAgo(diffSec)}`;
+  : `<div class="dot off"></div> lastOnline: ${formatTimeAgo(diffSec)}`;
 
 const statusContainer = document.getElementById("lastOnline");
 statusContainer.innerHTML = statusHTML;
