@@ -10,7 +10,7 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 0 0 var(--space-8);
-    height: 100dvh
+    min-height: 100dvh
 }
 
 body::before {
@@ -438,6 +438,7 @@ span {
 }
 
 .footer {
+    display: none;
     position: absolute;
     bottom: var(--space-9);
     font-size: var(--text-sm);
@@ -463,8 +464,7 @@ span {
   }
   
   .contrib-header {
-    display: none;
-    /* display: flex; */
+    display: flex;
     align-items: baseline;
     flex-wrap: wrap;
     gap: var(--space-3);
@@ -499,8 +499,11 @@ span {
     border-radius: 6px;
     padding: var(--space-5) var(--space-5) var(--space-4);
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
     transition: border-color 0.2s;
   }
   
@@ -508,9 +511,18 @@ span {
     border-color: var(--border-hover);
   }
   
+  .contrib-chart-wrap {
+    width: max-content;
+    min-width: 100%;
+    box-sizing: border-box;
+  }
+
   .contrib-month-labels {
     display: flex;
     margin-bottom: var(--space-2);
+    width: max-content;
+    min-width: 100%;
+    box-sizing: border-box;
   }
   
   .contrib-month-label {
@@ -525,8 +537,10 @@ span {
   .contrib-inner {
     display: flex;
     gap: 4px;
-    width: 100%;
     align-items: flex-start;
+    width: max-content;
+    min-width: 100%;
+    box-sizing: border-box;
   }
   
   .contrib-days-col {
@@ -676,11 +690,4 @@ span {
     .contrib-graph { padding: var(--space-3); }
     .contrib-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
     .contrib-week.mobile-hidden { display: none; }
-    .contrib-section {
-        /* display: none */
-        /* width: 100%; */
-        /* max-width: 620px; */
-        /* margin: 0 auto; */
-      }
-      
   }
