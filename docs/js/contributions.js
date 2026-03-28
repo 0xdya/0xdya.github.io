@@ -9,7 +9,7 @@ function initContribGraph(containerId) {
       <div class="contrib-section">
         <div class="contrib-header">                              
           <span class="chip-value" id="contrib-total">—</span>
-          <span class="contrib-header-sublabel">in 2026</span>
+          <span class="contrib-header-sublabel">commits in the last year</span>
         </div>
         <div class="contrib-graph" id="contrib-graph">
           <div class="contrib-loading">loading</div>

@@ -181,7 +181,7 @@ body::before {
 
 .description {
     max-width: 600px;
-    margin-bottom: var(--space-1);
+    /* margin-bottom: var(--space-1); */
     color: var(--text);
     line-height: 1.6;
     font-size: var(--text-base);
@@ -215,7 +215,7 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-1)
+    /* margin-bottom: var(--space-1) */
 }
 
 .section-title {
@@ -411,7 +411,7 @@ span {
 
     .hero,
     .section {
-        margin-bottom: var(--space-6)
+        /* margin-bottom: var(--space-6) */
     }
 
     .layout::after {
