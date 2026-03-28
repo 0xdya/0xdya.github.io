@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
   
-    const from = new Date('2026-01-01T00:00:00Z');
-    const to = new Date('2026-12-31T23:59:59Z');
+    const from = new Date('2025-08-02T00:00:00Z');
+    const to = new Date('2026-07-02T23:59:59Z');
   
     const query = `
       query($username: String!, $from: DateTime!, $to: DateTime!) {

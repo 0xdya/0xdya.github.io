@@ -8,7 +8,7 @@ function initContribGraph(containerId) {
     container.innerHTML = `
       <div class="contrib-section">
         <div class="contrib-header">                              
-          <span class="contrib-header-count" id="contrib-total">—</span>
+          <span class="chip-value" id="contrib-total">—</span>
           <span class="contrib-header-sublabel">in 2026</span>
         </div>
         <div class="contrib-graph" id="contrib-graph">
