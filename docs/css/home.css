@@ -135,7 +135,7 @@ body::before {
 }
 
 .hero {
-    margin: var(--space-5) 0 var(--space-7) !important
+    margin: var(--space-6) 0 0  !important;
 }
 
 .header-inner {
@@ -219,6 +219,7 @@ body::before {
 }
 
 .section-title {
+    margin: var(--space-5) 0 var(--space-1);
     font-size: var(--text-sm);
     color: var(--dim);
     text-transform: uppercase
@@ -454,13 +455,18 @@ span {
         transform: translateY(0)
     }
 }
+
 .contrib-section {
     width: 100%;
+    /* max-width: 620px; */
+    /* margin: 0 auto; */
   }
   
   .contrib-header {
-    display: flex;
+    display: none;
+    /* display: flex; */
     align-items: baseline;
+    flex-wrap: wrap;
     gap: var(--space-3);
     margin-bottom: var(--space-5);
   }
@@ -492,7 +498,9 @@ span {
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: var(--space-5) var(--space-5) var(--space-4);
-    overflow-x: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     transition: border-color 0.2s;
   }
   
@@ -503,7 +511,6 @@ span {
   .contrib-month-labels {
     display: flex;
     margin-bottom: var(--space-2);
-    padding-left: 22px;
   }
   
   .contrib-month-label {
@@ -511,61 +518,59 @@ span {
     font-family: 'JetBrains Mono', monospace;
     color: var(--dim);
     letter-spacing: 0.04em;
-    width: calc(4 * 11px + 4 * 3px);
     flex-shrink: 0;
+    overflow: hidden;
   }
   
   .contrib-inner {
     display: flex;
-    gap: var(--space-2);
-    min-width: fit-content;
+    gap: 4px;
+    width: 100%;
+    align-items: flex-start;
   }
   
   .contrib-days-col {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    flex-shrink: 0;
   }
   
   .contrib-day-label {
     font-size: 0.58rem;
     font-family: 'JetBrains Mono', monospace;
     color: var(--dim);
-    height: 11px;
-    line-height: 11px;
-    width: 18px;
     text-align: right;
     padding-right: 3px;
     flex-shrink: 0;
+    line-height: 1;
   }
   
   .contrib-cols {
     display: flex;
-    gap: 3px;
+    flex: 1;
+    min-width: 0;
   }
   
   .contrib-week {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    flex: 1;
   }
   
   .contrib-cell {
-    width: 11px;
-    height: 11px;
     border-radius: 2px;
     background: var(--border);
     cursor: pointer;
-    flex-shrink: 0;
+    width: 100%;
     opacity: 0;
     animation: contrib-fade 0.3s ease forwards;
-    transition: transform 0.12s ease, filter 0.12s ease;
+    transition: filter 0.12s ease;
+    aspect-ratio: 1;
   }
   
   .contrib-cell:hover {
-    transform: scale(1.5);
+    filter: brightness(1.5);
     z-index: 10;
-    filter: brightness(1.4);
   }
   
   .contrib-cell[data-level="1"] { background: #1f3010; }
@@ -597,13 +602,14 @@ span {
   
   .contrib-legend-cells {
     display: flex;
-    gap: 3px;
+    gap: 2px;
   }
   
   .contrib-legend-cell {
-    width: 11px;
-    height: 11px;
+    width: 10px;
+    height: 10px;
     border-radius: 2px;
+    flex-shrink: 0;
   }
   
   .contrib-gh-link {
@@ -613,6 +619,7 @@ span {
     text-decoration: none;
     letter-spacing: 0.04em;
     transition: color 0.2s;
+    white-space: nowrap;
   }
   
   .contrib-gh-link:hover {
@@ -630,7 +637,7 @@ span {
     font-family: 'JetBrains Mono', monospace;
     color: var(--text);
     pointer-events: none;
-    z-index: 999;
+    z-index: 9999;
     white-space: nowrap;
     box-shadow: 0 4px 20px rgba(0,0,0,0.6);
     line-height: 1.6;
@@ -665,19 +672,15 @@ span {
     100% { content: '...'; }
   }
   
-  @media (max-width: 600px) {
-    .contrib-section {
-        display: none;
-      }
-    .contrib-graph { padding: var(--space-4) var(--space-3) var(--space-3); }
-  
-    .contrib-cell { width: 9px; height: 9px; }
-    .contrib-cell:hover { transform: scale(1.3); }
-  
-    .contrib-day-label { height: 9px; line-height: 9px; }
-    .contrib-legend-cell { width: 9px; height: 9px; }
-  
+  @media (max-width: 500px) {
+    .contrib-graph { padding: var(--space-3); }
     .contrib-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
-  
     .contrib-week.mobile-hidden { display: none; }
+    .contrib-section {
+        /* display: none */
+        /* width: 100%; */
+        /* max-width: 620px; */
+        /* margin: 0 auto; */
+      }
+      
   }
