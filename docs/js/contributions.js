@@ -7,13 +7,14 @@ function initContribGraph(containerId) {
   
     container.innerHTML = `
       <div class="contrib-section">
-        <div class="contrib-header">                              
-          <span class="chip-value" id="contrib-total">—</span>
-          <span class="contrib-header-sublabel">commits in the last year</span>
-        </div>
-        <div class="contrib-graph" id="contrib-graph">
-          <div class="contrib-loading">loading</div>
-        </div>
+      
+      <div class="contrib-graph" id="contrib-graph">
+      <div class="contrib-loading">loading</div>
+      </div>
+      <div class="contrib-header">                              
+        <span class="chip-value" id="contrib-total">—</span>
+        <span class="contrib-header-sublabel">commits in the last year</span>
+      </div>
       </div>
       <div class="contrib-tooltip" id="contrib-tooltip">
         <span class="contrib-tooltip-count" id="contrib-t-count">0</span>

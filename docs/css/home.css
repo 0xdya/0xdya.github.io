@@ -229,7 +229,6 @@ body::before {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-3);
-    margin-bottom: var(--space-3)
 }
 
 .identity-chip {
@@ -265,6 +264,7 @@ body::before {
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: var(--space-3) var(--space-5);
+    margin: var(--space-3) 0;
     display: flex;
     gap: var(--space-4);
     transition: border-color .2s, background .2s;
@@ -499,7 +499,8 @@ span {
     --contrib-2: #a3daa4;
     --contrib-3: #4ebe5e;
     --contrib-4: #1a7f37;
-    background: var(--card-bg);
+    /* background: var(--card-bg); */
+    background: transparent;
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: var(--space-5) var(--space-5) var(--space-4);
