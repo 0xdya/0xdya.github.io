@@ -495,10 +495,10 @@ span {
   
   .contrib-graph {
     --contrib-0: rgba(255, 255, 255, 0.09);
---contrib-1: #2e1065;
---contrib-2: #4c1d95;
---contrib-3: #7c3aed;
---contrib-4: #a78bfa;
+    --contrib-1: #2e1065;
+    --contrib-2: #4c1d95;
+    --contrib-3: #7c3aed;
+    --contrib-4: #a78bfa;
     /* background: var(--card-bg); */
     background: transparent;
     border: 1px solid var(--border);
