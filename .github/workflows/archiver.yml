@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 2
 
       - name: Process Visits
         env:
@@ -72,7 +73,7 @@ jobs:
           echo "$TIME => $FORMATTED_VISITS visits (+$FORMATTED_DIFF)" >> archive.txt
 
           git add archive.txt
-          git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits)" || echo "No changes to commit"
+          git commit -m "Auto update - $TODAY $TIME (+$FORMATTED_DIFF visits) [skip ci] [vercel skip ci]" || echo "No changes to commit"
           git push https://x-access-token:${PERSONAL_TOKEN}@github.com/${{ github.repository }}.git ${{ env.TARGET_BRANCH }}
 
       - name: Failure Notification
