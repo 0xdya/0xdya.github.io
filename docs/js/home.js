@@ -12,31 +12,35 @@ window.addEventListener('load', () => {
     const SKIN_PATH = "./skin/s2.png";
     const canvas = document.getElementById('mc-head');
     const SIZE = 82;
-    canvas.width = SIZE;
-    canvas.height = SIZE;
-    const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: true});
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(0x000000, 0);
     renderer.setSize(SIZE, SIZE);
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
     camera.position.set(0, 0, 4.2);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-    const dir = new THREE.DirectionalLight(0xffffff, 0.5);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.4);
     dir.position.set(3, 5, 3);
     scene.add(dir);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
     function buildFace(img, sx, sy, sw, sh) {
         const c = document.createElement('canvas');
-        c.width = sw;
-        c.height = sh;
+        c.width = sw; c.height = sh;
         const ctx = c.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
         const t = new THREE.CanvasTexture(c);
         t.magFilter = THREE.NearestFilter;
         t.minFilter = THREE.NearestFilter;
-        return new THREE.MeshLambertMaterial({map: t, transparent: true});
+        return new THREE.MeshLambertMaterial({ map: t, transparent: true });
     }
+
     function buildHead(img, scale, ox) {
         const mats = [
             buildFace(img, ox + 16, 8, 8, 8),
@@ -48,24 +52,40 @@ window.addEventListener('load', () => {
         ];
         return new THREE.Mesh(new THREE.BoxGeometry(scale, scale, scale), mats);
     }
+
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = function () {
-        const group = new THREE.Group();
         group.add(buildHead(img, 1, 0));
-        if (img.height === 64) 
-            group.add(buildHead(img, 1.12, 32));
-        
-        group.rotation.x = 0.18;
-        scene.add(group);
-        (function animate(time) {
-            requestAnimationFrame(animate);
-            group.rotation.y = time * 0.00085;
-            renderer.render(scene, camera);
-        })();
+        if (img.height === 64) group.add(buildHead(img, 1.12, 32));
+        renderScene(0.5, 0.6); 
     };
     img.src = SKIN_PATH;
+
+    function renderScene(rotX, rotY) {
+        group.rotation.x = rotX;
+        group.rotation.y = rotY;
+        renderer.render(scene, camera);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+
+        let targetRotY = Math.atan2(deltaX, 400); 
+        let targetRotX = Math.atan2(deltaY, 400) + 0.18; 
+        targetRotY = Math.max(-1.2, Math.min(1.2, targetRotY));
+        targetRotX = Math.max(-1.0, Math.min(1.0, targetRotX));
+
+        renderScene(targetRotX, targetRotY);
+    });
 })();
+
 function timeAgo(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
     const intervals = [
