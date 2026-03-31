@@ -239,6 +239,12 @@ body::before {
     position: relative;
     line-height: 1.4
 }
+.identity-chip:nth-child(1) {
+    border-top-left-radius: 38px;
+}
+.identity-chip:nth-child(3) {
+    border-top-right-radius: 108px;
+}
 
 .identity-chip:hover {
     border-color: var(--border-hover);
@@ -262,7 +268,8 @@ body::before {
 .commit-card {
     position: relative;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 8px;
+    border-bottom-left-radius: 108px;
     padding: var(--space-3) var(--space-5);
     margin: var(--space-3) 0;
     display: flex;
@@ -502,7 +509,9 @@ span {
     /* background: var(--card-bg); */
     background: transparent;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 108px;
+    border-top-left-radius: 108px;
     padding: var(--space-5) var(--space-5) var(--space-4);
     width: 100%;
     max-width: 100%;
