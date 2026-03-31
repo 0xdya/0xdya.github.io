@@ -7,6 +7,5 @@
       "source": "/@:username",
       "destination": "/profile/index.html"
     }
-  ],
-  "ignoreBuildStep": "git diff --quiet HEAD^ HEAD . && exit 0 || git diff --name-only HEAD^ HEAD | grep -qv 'archive.txt'"
+  ]
 }
