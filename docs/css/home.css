@@ -239,16 +239,16 @@ body::before {
     position: relative;
     line-height: 1.4
 }
-.identity-chip:nth-child(1) {
-    border-top-left-radius: 38px;
+/* .identity-chip:nth-child(1) {
+    border-top-left-radius: 24px;
 }
 .identity-chip:nth-child(3) {
-    border-top-right-radius: 108px;
-}
+    border-top-right-radius: 24px;
+} */
 
 .identity-chip:hover {
     border-color: var(--border-hover);
-    background: var(--accent-dim)
+    /* background: var(--accent-dim)     */
 }
 
 .chip-label {
@@ -269,7 +269,6 @@ body::before {
     position: relative;
     border: 1px solid var(--border);
     border-radius: 8px;
-    border-bottom-left-radius: 108px;
     padding: var(--space-3) var(--space-5);
     margin: var(--space-3) 0;
     display: flex;
@@ -280,7 +279,7 @@ body::before {
 
 .commit-card:hover {
     border-color: var(--border-hover);
-    background: var(--accent-dim)
+    /* background: var(--accent-dim) */
 }
 
 .commit-dot {
@@ -476,6 +475,7 @@ span {
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-bottom: var(--space-5);
+    margin-left: -2px;
   }
   
   .contrib-header-label {
@@ -509,9 +509,9 @@ span {
     /* background: var(--card-bg); */
     background: transparent;
     border: 1px solid var(--border);
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 108px;
-    border-top-left-radius: 108px;
+    border-top-right-radius: 18px;
+    border-top-left-radius: 18px;
+    border-bottom-right-radius: 18px;
     padding: var(--space-5) var(--space-5) var(--space-4);
     width: 100%;
     max-width: 100%;

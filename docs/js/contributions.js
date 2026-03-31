@@ -11,10 +11,9 @@ function initContribGraph(containerId) {
       <div class="contrib-graph" id="contrib-graph">
       <div class="contrib-loading">loading</div>
       </div>
-      <div class="contrib-header">
-      ╰┈➤
+      <div class="contrib-header">╰┈➤
       <span class="chip-value" id="contrib-total">3,372</span>
-        <span class="contrib-header-sublabel">commits in the last year</span><img width="16px" src="https://varlock-pixel-art.dmno.workers.dev/effects/fire.gif">   
+        <span class="contrib-header-sublabel">commits in the last year</span><img height="16px" width="16px" src="https://varlock-pixel-art.dmno.workers.dev/effects/fire.gif">   
       </div>
       </div>
       <div class="contrib-tooltip" id="contrib-tooltip">
