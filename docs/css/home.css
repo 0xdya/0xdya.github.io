@@ -519,8 +519,7 @@ span {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     -webkit-overflow-scrolling: touch;
     transition: border-color 0.2s;
   }
@@ -537,6 +536,7 @@ span {
 
   .contrib-month-labels {
     display: flex;
+    justify-content: space-between;
     margin-bottom: var(--space-2);
     width: max-content;
     min-width: 100%;
