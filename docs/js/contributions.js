@@ -13,7 +13,7 @@ function initContribGraph(containerId) {
       </div>
       <div class="contrib-header">╰┈➤
       <span class="chip-value" id="contrib-total">3,372</span>
-        <span class="contrib-header-sublabel">commits in the last year</span><img height="16px" width="16px" src="https://varlock-pixel-art.dmno.workers.dev/effects/fire.gif">   
+        <span class="contrib-header-sublabel">commits in last year</span><img height="16px" width="16px" src="https://varlock-pixel-art.dmno.workers.dev/effects/fire.gif">   
       </div>
       </div>
       <div class="contrib-tooltip" id="contrib-tooltip">
@@ -72,7 +72,7 @@ function initContribGraph(containerId) {
   
     const monthLabels = document.createElement('div');
     monthLabels.className = 'contrib-month-labels';
-    monthLabels.style.cssText = `padding-left:${DAY_COL_W + GAP + 2}px; margin-bottom:6px; display:flex; gap:0; min-width:0;`;
+    monthLabels.style.cssText = `padding-left:${DAY_COL_W + GAP + 2}px; margin-bottom:6px; display:flex; gap:0; min-width:0; overflow-x:auto; overflow-y:hidden; white-space:nowrap;`;
   
     let lastMonth = null;
     visibleWeeks.forEach(week => {
@@ -81,7 +81,7 @@ function initContribGraph(containerId) {
       const month = new Date(first.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short' });
       const span = document.createElement('span');
       span.className = 'contrib-month-label';
-      span.style.cssText = `width:${cellSize + GAP}px; flex-shrink:0; overflow:hidden;`;
+      span.style.cssText = `width:${cellSize + GAP + 4}px; flex-shrink:0; text-align:center; font-size:${Math.min(12, cellSize * 0.8)}px; white-space:nowrap;`;
       span.textContent = month !== lastMonth ? month : '';
       lastMonth = month;
       monthLabels.appendChild(span);
