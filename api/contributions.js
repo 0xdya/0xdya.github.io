@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
   
-    const from = new Date('2025-07-10T00:00:00Z');
+    const from = new Date('2025-08-01T00:00:00Z');
     const to = new Date();
   
     const query = `
