@@ -135,7 +135,7 @@ body::before {
 }
 
 .hero {
-    margin: var(--space-6) 0 0  !important;
+    margin: var(--space-5) 0 0  !important;
 }
 
 .header-inner {
@@ -181,7 +181,7 @@ body::before {
 
 .description {
     max-width: 600px;
-    /* margin-bottom: var(--space-1); */
+    margin-bottom: var(--space-6);
     color: var(--text);
     line-height: 1.6;
     font-size: var(--text-base);
@@ -212,7 +212,8 @@ body::before {
 }
 
 .section-header {
-    display: flex;
+    display: none;
+    /* display: flex; */
     justify-content: space-between;
     align-items: center;
     /* margin-bottom: var(--space-1) */
@@ -478,7 +479,7 @@ span {
     flex-wrap: wrap;
     gap: var(--space-3);
     margin-bottom: var(--space-5);
-    margin-left: -2px;
+    margin-left: -3px;
   }
   
   .contrib-header-label {
