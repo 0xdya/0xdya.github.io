@@ -196,7 +196,7 @@ function buildContribGraph(calendar, graphWidth) {
 function getContribLevel(count) {
   if (count === 0) return 0;
   if (count <= 12) return 1;
-  if (count <= 36) return 2; 
+  if (count <= 35) return 2; 
   if (count <= 50) return 3;
   return 4;
 }
