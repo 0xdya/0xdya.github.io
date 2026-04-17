@@ -4,6 +4,10 @@ async function sendMessage() {
     const btn = document.getElementById("sendBtn");
     const email = document.getElementById("email").value.trim();
 
+    if (! name) {
+        showStatus("add a name.", "error");
+        return;
+    }
     if (! message) {
         showStatus("write a message first.", "error");
         return;
