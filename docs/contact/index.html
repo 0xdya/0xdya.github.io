@@ -216,6 +216,23 @@
             height: 14px;
             flex-shrink: 0;
         }
+
+.form-group {
+  display: flex; 
+  gap: 10px;     
+  width: 100%;
+  margin-bottom: var(--space-3);
+}
+
+#name {
+  width: 8rem;  
+  flex-shrink: 0;
+  /* text-align: center; */
+}
+
+#email {
+  flex-grow: 1;    
+}
     </style>
     <link rel="stylesheet" href="../css/static.css">
     <script src="../js/loader.js"></script>
@@ -237,8 +254,9 @@
                 <a href="https://0xdya.vercel.app/skin/">
                     <img src="../img/avatarBody5.png" alt="">
                 </a>
-                <div class="form-group">
-                    <input type="text" id="name" placeholder="ur name... (اختياري)"/>
+                <div class=form-group>
+                    <input id=name placeholder="ur name">
+                    <input type="email" id="email" placeholder="Your Email (اختياري)">
                 </div>
                 <div class="form-group">
                     <textarea id="message" placeholder="write ur message here..."></textarea>

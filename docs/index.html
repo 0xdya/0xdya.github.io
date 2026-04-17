@@ -108,9 +108,12 @@
                 <div class=form-section>
                     <div class=status id=status></div><a href=https://0xdya.vercel.app/skin/><img data-aos=fade-up-left
                             src=./img/avatarBody5.png alt=""></a>
-                    <div data-aos=fade-up class=form-group><input id=name placeholder="ur name... (اختياري)"></div>
+                    <div data-aos=fade-up class=form-group>
+                        <input id=name placeholder="ur name">
+                        <input type="email" id="email" placeholder="Your Email (اختياري)">
+                    </div>
                     <div data-aos=fade-up class=form-group><textarea id=message placeholder="write ur message here..."></textarea></div>
-                    <button data-aos=fade-right class=send-btn id=sendBtn onclick=sendMessage()><svg fill=none viewbox="0 0 24 24" height=14
+                    <button data-aos=fade-up-right class=send-btn id=sendBtn onclick=sendMessage()><svg fill=none viewbox="0 0 24 24" height=14
                             width=14 stroke=currentColor stroke-width=2>
                             <line x1=22 x2=11 y1=2 y2=13 />
                             <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -171,6 +174,7 @@
             </div>
         </div>
     </div>
+    
     <div class=footer>Complexity is a bug ...</div>
     <div class=navbar_section>
         <nav class=navbar><a href=./ class="nav-item active"><svg fill=none viewbox="0 0 24 24" class=nav-icon
@@ -201,7 +205,7 @@
             <div class="profile user_photo" id=userPhotoContainer></div>
         </nav>
     </div>
-    <script>async function sendMessage() { var e = document.getElementById("name").value.trim(), t = document.getElementById("message").value.trim(); const s = document.getElementById("sendBtn"); if (t) { s.disabled = !0, s.textContent = "sending..."; try { (await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: e, message: t }) })).ok ? (showStatus("✓ msg sent successfully.", "success"), document.getElementById("name").value = "", document.getElementById("message").value = "") : showStatus("error — something went wrong.", "error") } catch { showStatus("connection failed.", "error") } s.disabled = !1, s.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> send' } else showStatus("write a message first.", "error") } let statusTimeout; function showStatus(e, t) { const s = document.getElementById("status"); clearTimeout(statusTimeout), s.textContent = e, s.className = "status", s.classList.add("show", t), statusTimeout = setTimeout(() => { s.classList.remove("show") }, 3e3) }</script>
+    <script src="./js/tg-contact.js"></script>
     <script src=./js/contributions.js type=module></script>
     <script type=application/ld+json>{
         "@context": "https://schema.org",

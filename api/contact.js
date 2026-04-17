@@ -4,11 +4,11 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: 'Method not allowed' });
     }
   
-    const { name, message } = req.body;
+    const { name, message, email } = req.body;
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const CHAT_ID = "5962064921";
   
-    const text = `📩 new message from \n\n👤 name: ${name || "anonymous"}\n\n💬 message:\n${message}`;
+    const text = `📩 new message from\n\n👤 name: ${name || "anonymous"}\n📧 email: ${email || "—"}\n\n💬 message:\n${message}`;
   
     try {
       const telegramRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {

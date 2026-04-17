@@ -749,7 +749,6 @@ span {
   }
 
   /* contact */
-
   .contact-container {
     display: none;
     /* margin-top: var(--space-7); */
@@ -775,9 +774,21 @@ span {
 }
 
 .form-group {
-    margin-bottom: var(--space-3);
+  display: flex; 
+  gap: 10px;     
+  width: 100%;
+  margin-bottom: var(--space-3);
 }
 
+#name {
+  width: 8rem;  
+  flex-shrink: 0;
+  /* text-align: center; */
+}
+
+#email {
+  flex-grow: 1;    
+}
 
 input,
 textarea {
@@ -810,6 +821,9 @@ textarea {
 }
 
 .send-btn {
+  position: absolute;
+  right: 8px;
+  top: 156px;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
@@ -819,7 +833,7 @@ textarea {
     padding: var(--space-3) var(--space-5);
     color: var(--accent);
     font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-sm);
+    font-size: var(--text-md);
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
@@ -841,43 +855,44 @@ textarea {
 }
 
 .status {
-    position: absolute;
-    top: -100px;
-    z-index: 99998; 
-    right: var(--space-9);
-    margin-top: var(--space-3);
-    font-size: var(--text-xs);
-    padding: var(--space-2) var(--space-4);
-    border-top-right-radius: 16px;
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
-    opacity: 0;
-    transform: translateX(10px);
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    /* display: none; */
-    /* background-color: red; */
+  position: absolute;
+  top: -100px;
+  z-index: 99998; 
+  right: var(--space-9);
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  padding: var(--space-2) var(--space-4);
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* display: none; */
+  /* background-color: red; */
 }
 
 .status.success {
-    display: block;
-    background: rgba(80, 200, 120, 0.08);
-    border: 1px solid rgba(80, 200, 120, 0.2);
-    color: #5ec87a;
+  display: block;
+  background: rgba(80, 200, 120, 0.08);
+  border: 1px solid rgba(80, 200, 120, 0.2);
+  color: #5ec87a;
 }
 
 .status.error {
-    display: block;
-    background: rgba(220, 80, 80, 0.08);
-    border: 1px solid rgba(220, 80, 80, 0.2);
-    color: #e06060;
+  display: block;
+  background: rgba(220, 80, 80, 0.08);
+  border: 1px solid rgba(220, 80, 80, 0.2);
+  color: #e06060;
 }
 
 .status.show {
-    opacity: 1;
-    transform: translateX(0);
-    pointer-events: auto;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
 }
+
 
 .socials {
     display: flex;
