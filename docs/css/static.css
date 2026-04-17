@@ -205,6 +205,7 @@ a {
 
 @media (max-width:640px) {
     .nav-text {
+        font-size: 12px;
         display: block
     }
 
@@ -226,8 +227,9 @@ a {
     .navbar:nth-child(2) {
         padding: 8px 10px;
         /* background-color: red; */
-        min-width: 188px
+        min-width: 170px
     }
     .blog-container, .contact-container{
         display: block;
+        /* margin: 5rem 0 0; */
 }
