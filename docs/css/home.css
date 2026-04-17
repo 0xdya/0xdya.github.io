@@ -767,7 +767,7 @@ span {
     /* margin-bottom: var(--space-7); */
     img {
         position: absolute;
-        right: 0;
+        right: -16px;
         top: -6.25rem;
         width: 140px;
     }
@@ -781,7 +781,7 @@ span {
 }
 
 #name {
-  width: 8rem;  
+  width: 6.7rem;  
   flex-shrink: 0;
   /* text-align: center; */
 }
