@@ -155,7 +155,7 @@ function buildContribGraph(calendar, graphWidth) {
         cell.style.visibility = 'hidden';
       }
 
-      cell.style.animationDelay = `${(wi * 7 + di) * 3}ms`;
+      cell.style.animationDelay = isMobile ? '0ms' : `${(wi * 7 + di) * 3}ms`;
       col.appendChild(cell);
     }
     colsWrap.appendChild(col);

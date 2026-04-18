@@ -100,7 +100,7 @@ body {
     justify-content: center;
     min-width: 253px;
     background: rgb(10 10 10 / .85);
-    backdrop-filter: blur(14px) saturate(180%);
+    backdrop-filter: blur(4px);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: var(--space-2) var(--space-3);
@@ -229,7 +229,7 @@ a {
         /* background-color: red; */
         min-width: 170px
     }
-    .blog-container, .contact-container{
+    .blog-container, .contact-container, .hr {
         display: block;
         /* margin: 5rem 0 0; */
 }
