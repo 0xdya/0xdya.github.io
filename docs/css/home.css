@@ -316,7 +316,7 @@ body {
 }
 
 .commit-message {
-    padding-right: var(--space-6);
+    /* padding-right: var(--space-6); */
     direction: rtl !important;
     text-align: left;
     font-size: var(--text-sm);
@@ -330,7 +330,7 @@ body {
 }
 
 .commit-time {
-  display: none;
+  /* display: none; */
     font-size: var(--text-xs);
     color: var(--dim);
     flex-shrink: 0;
