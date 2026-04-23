@@ -363,13 +363,31 @@ body {
     position: absolute;
     right: var(--space-1);
     bottom: var(--space-1)
+  }
+  
+  .blog-btn {
+  color: var(--muted);
+  height: var(--space-6);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border: none;
+  background: #fff0;
+  cursor: pointer;
+  transition: color .2s, gap .2s;
+  padding: 0;
+  position: absolute;
+  left: var(--space-1);
+  bottom: var(--space-1)
 }
 
 .static {
     position: relative
 }
 
-.btn::after {
+.btn::after, .blog-btn::after {
     content: '';
     position: absolute;
     bottom: 4px;
@@ -380,12 +398,12 @@ body {
     transition: width .25s ease
 }
 
-.btn:hover {
+.btn:hover, .blog-btn:hover {
     color: var(--text);
     gap: 14px
 }
 
-.btn:hover::after {
+.btn:hover::after, .blog-btn:hover::after {
     width: 100%
 }
 
