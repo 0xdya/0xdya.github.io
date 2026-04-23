@@ -93,10 +93,9 @@
     }
 
     .article:hover .article-arrow {
-      transform: translateX(3px);
-      color: var(--accent);
-    }
-
+    transform: translateX(-3px);
+    color: var(--accent);
+  }
     @keyframes fadeUp {
       0% {
         opacity: 0;
@@ -135,21 +134,38 @@
 
   <div class="container">
     <h1>// blogs</h1>
-
-    <a class="article animate" href="./0x_mean/">
+    <div dir="rtl">
+    
+    <a href="https://d1blog.vercel.app/article?a=save_your_self" class="animate article">
       <div>
-        <div class="article-title" dir="rtl">علاه كي نحط 0x قبل اسمي ؟</div>
-        <div class="article-meta">
-          <span class="article-tag">#general</span>
-          <span>2025-06-28</span>
-        </div>
+          <div class="article-title" dir="rtl">كيفاش ترد اختراق حساباتك مستحيلاً؟</div>
+          <div class="article-meta">
+              <span>2026-04-23</span>
+              <span class="article-tag">#امن سبراني</span>
+          </div>
       </div>
-      <svg class="article-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-          d="M8.91 19.92l6.52-6.52c.77-.77.77-2.03 0-2.8L8.91 4.08" />
+      <svg fill="none" viewBox="0 0 24 24" class="article-arrow" height="12" width="14" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.0898 19.9201L8.56984 13.4001C7.79984 12.6301 7.79984 11.3701 8.56984 10.6001L15.0898 4.08008"
+              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="1.5" stroke-miterlimit="10" />
       </svg>
-    </a>
+  </a>
+  <a href="./blog/0x_mean/" class="animate article">
+      <div>
+          <div class="article-title" dir="rtl">علاه كي نحط 0x قبل اسمي ؟</div>
+          <div class="article-meta">
+              <span>2025-06-28</span>
+              <span class="article-tag">#عام</span>
+          </div>
+      </div>
+      <svg fill="none" viewBox="0 0 24 24" class="article-arrow" height="12" width="14" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.0898 19.9201L8.56984 13.4001C7.79984 12.6301 7.79984 11.3701 8.56984 10.6001L15.0898 4.08008"
+              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="1.5" stroke-miterlimit="10" />
+      </svg>
+  </a>
 
+  </div>
   </div>
 
   <div class="navbar_section">

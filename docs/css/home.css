@@ -468,7 +468,7 @@ span {
   }
 
   .article:hover .article-arrow {
-    transform: translateX(3px);
+    transform: translateX(-3px);
     color: var(--accent);
   }
 
