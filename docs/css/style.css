@@ -1759,7 +1759,7 @@
   
   @media (max-width: 640px) {
       .container {
-          padding-inline: var(--space-4);
+          padding-inline: var(--space-1);
       }
   
       .hero,
