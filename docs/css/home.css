@@ -21,7 +21,7 @@ body {
   pointer-events: none;
   background-image: linear-gradient(to right, rgb(255 255 255 / .3) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / .3) 1px, transparent 1px);
   background-size: 58px 58px;
-  mask-image: radial-gradient(min(80vw, 800px) 50vh at top center, black 0%, transparent 70%);
+  mask-image: radial-gradient(min(100vw, 800px) 70vh at top center, black 0%, transparent 50%);
   animation: move-grid 160s linear infinite;
 }
 
@@ -192,9 +192,19 @@ body {
     color: var(--text);
     line-height: 1.6;
     font-size: var(--text-base);
-    vertical-align: center
-}
+    vertical-align: center;
 
+  }
+  .description_title{
+    position: relative;
+  }
+  .description_title a{
+    left: 8.4rem;
+    font-size: var(--text-base);
+    bottom: -3px;
+    width: fit-content;
+  }
+  
 .pill {
     color: #9b87f5;
     padding: 0 var(--space-2);
@@ -365,6 +375,9 @@ body {
     bottom: var(--space-1)
   }
   
+  .static {
+  max-height: 1px;
+}
   .blog-btn {
   color: var(--muted);
   height: var(--space-6);
@@ -383,9 +396,7 @@ body {
   bottom: var(--space-1)
 }
 
-.static {
-    position: relative
-}
+
 
 .btn::after, .blog-btn::after {
     content: '';
@@ -950,6 +961,11 @@ span {
 } 
 
 @media (max-width: 500px) {
+  body::before {
+    background-size: 58px 58px;
+    mask-image: radial-gradient(min(100vw, 800px) 42vh at top center, black 0%, transparent 52%);
+    animation: move-grid 160s linear infinite;
+  }
   .contrib-cell {
     animation: none !important;
     opacity: 1 !important;

@@ -26,7 +26,7 @@
     --text-lg: 1.2rem;
     --text-xl: 1.45rem
 }
-
+    
 * {
     backface-visibility: hidden;
     -webkit-tap-highlight-color: #fff0;
