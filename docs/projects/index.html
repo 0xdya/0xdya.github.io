@@ -366,7 +366,7 @@
   position: fixed;
   inset: 0;
   /* background: red; */
-  backdrop-filter: blur(6px);
+  /* backdrop-filter: blur(6px); */
   display: none;
   align-items: center;
   justify-content: center;
@@ -376,6 +376,7 @@
 .image-modal.active {
   display: flex;
 }
+
 .modal-content {
   max-width: 90%;
   max-height: 85vh;
@@ -405,7 +406,7 @@
   .assistant-popup img {
     position: absolute;
     right: -2rem; 
-    top: 0;
+    top: 16rem;
     width: 160px;
     image-rendering: pixelated;
     animation: slideIn .6s ease;
@@ -414,13 +415,15 @@
   
   .bubble {
     position: absolute;
-    right: 108px;
-    top: -4.8rem;
+    right: 98px;
+    top: 10.8rem;
     width: 280px;
   
     background: #111;
     border: 1px solid #222;
-    border-radius: 16px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
   
     padding: 1rem;
     pointer-events: auto;
@@ -428,7 +431,7 @@
     animation: slideIn 1.6s ease;
   }
   
-  .close {
+  /* .close {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -437,7 +440,7 @@
     border: none;
     color: #999;
     cursor: pointer;
-  }
+  } */
   
   .skin_btn {
     display: inline-block;
@@ -479,6 +482,10 @@
       transform: translateY(10px);
     }
   }
+  body.popup-open .container {
+  filter: blur(12px);
+  transition: .3s;
+}
   </style>
   <script>
     window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -489,7 +496,20 @@
 <div class="bg" id="loader-wrapper">
   <div class="loader"></div>
 </div>
-<body>
+<body id="body">  
+     <div class="assistant-popup">
+      <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
+    
+      <div class="bubble">
+        
+        <p>
+          u cen see my certificates if u want 
+        </p>
+        
+        <a href="../certificate/" class="skin_btn">open page</a>
+        <div class="skin_btn_close">ignore</div>
+      </div>
+    </div>
   <div class="container">
     
     <h1>// projects</h1>
@@ -506,19 +526,8 @@
     </div>
     
     
-    <div class="assistant-popup">
-      <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
+
     
-      <div class="bubble">
-        
-        <p>
-          u cen see my certificates if u want 
-        </p>
-        
-        <a href="/certificates" class="skin_btn">open page</a>
-        <div class="skin_btn_close">ignore</div>
-      </div>
-    </div>
     <div class="list" id="cards">
       
       <div class="card" data-cat="tools">
@@ -1078,10 +1087,13 @@
 
 
 <script>
+  document.body.classList.add("popup-open");
   document.querySelector(".skin_btn_close").addEventListener("click", () => {
+  document.body.classList.remove("popup-open");
   document.querySelector(".assistant-popup").remove();
 });
 
+  const body = document.getElementById("body");
   const modal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImage");
   const closeModal = document.getElementById("closeModal");
@@ -1100,6 +1112,7 @@
   modal.addEventListener("click", (e) => {
     if (e.target !== modalImg) {
       modal.classList.remove("active");
+      body.classList.remove("popup-open");
     }
   });
   </script>
