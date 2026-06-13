@@ -79,7 +79,7 @@ body {
     width: 100vw;
     max-width: 680px;
     margin: 0 auto;
-    padding: 48px 24px;
+    padding: 48px 1rem;
     overflow: hidden
 }
 
