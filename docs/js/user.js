@@ -1,14 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
 import {
   getFirestore,
-  collection,
   doc,
   getDoc,
   updateDoc,
-  serverTimestamp,
-  query,
-  orderBy,
-  onSnapshot
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import {
   getAuth,
@@ -29,90 +25,60 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const CACHE_KEY = "userData";
-const UPDATE_INTERVAL = 10 * 60 * 1000;
+const UPDATE_INTERVAL = 10 * 60 * 1000; 
 
-function timeAgo(date) {
-  const now = new Date();
-  const seconds = Math.floor((now - date) / 1000);
-  if (seconds < 60) return "just now";
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `joined before ${minutes}m`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `joined before ${hours}h`;
-  const days = Math.floor(hours / 24);
-  return `joined before ${days}d`;
-}
-
-function applyUserUI(photo, name, email) {
+function applyUserUI(photoURL) {
   const container = document.getElementById("userPhotoContainer");
   if (!container) return;
 
-  if (name || photo) {
-    container.innerHTML = `
-      <a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/">
-        <img src="${photo || '../img/user.jpg'}" >  <span class="nav-text">Profile</span>
-      </a>
-    `;
+  container.innerHTML = "";
+
+  const link = document.createElement("a");
+  link.className = "nav-item";
+
+  if (photoURL) {
+    link.classList.add("user_photo_href");
+    link.href = "https://0xdya.vercel.app/profile/";
+
+    const img = document.createElement("img");
+    img.src = typeof photoURL === "string" ? photoURL : "../img/user.jpg";
+    img.alt = "Profile";
+
+    const span = document.createElement("span");
+    span.className = "nav-text";
+    span.textContent = "Profile";
+
+    link.appendChild(img);
+    link.appendChild(span);
   } else {
-    container.innerHTML = `
-      <a href="https://0xdya.vercel.app/login/" class="nav-item">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-        <span class="nav-text">Sign-In</span>
-      </a>
+    link.href = "https://0xdya.vercel.app/login/";
+    link.innerHTML = `
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <span class="nav-text">Sign-In</span>
     `;
   }
-}
 
-function loadUsers() {
-  const usersDiv = document.getElementById("users");
-  if (!usersDiv) return;
-  const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
-
-  onSnapshot(q, (snapshot) => {
-    usersDiv.innerHTML = "";
-    snapshot.forEach(docSnap => {
-      const user = docSnap.data();
-      const created = user.createdAt?.toDate?.();
-      const joinedText = created ? ` ${timeAgo(created)}` : "—";
-      const role = user.role || "user";
-      const roleClass = `role ${role}`;
-      const name = user.name || "بدون اسم";
-      const photo = user.photo || "../img/user.jpg";
-
-      usersDiv.innerHTML += `
-        <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
-          <img src="${photo}" alt="صورة المستخدم">
-          <div class="name_and_role">
-            <span>${name}</span>
-            <div class="rotba">role: <span class="${roleClass}">${role}</span></div>
-          </div>
-          <div class="joined">${joinedText}</div>
-        </div>
-      `;
-    });
-  });
+  container.appendChild(link);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const cached = localStorage.getItem(CACHE_KEY);
   if (cached) {
     const data = JSON.parse(cached);
-    applyUserUI(data.photo, data.name, data.email);
+    applyUserUI(data.photo);
   } else {
-    applyUserUI(null, null, null);
+    applyUserUI(null);
   }
 
-  loadUsers();
-
-  onAuthStateChanged(auth, async user => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
       const now = Date.now();
       const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
 
-      applyUserUI(user.photoURL, user.displayName, user.email);
+      applyUserUI(user.photoURL);
 
       if (now - (cachedData.lastUpdate || 0) > UPDATE_INTERVAL) {
         try {
@@ -121,27 +87,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (userSnap.exists()) {
             const updates = { lastLogin: serverTimestamp() };
+            
             if (user.photoURL && user.photoURL !== userSnap.data().photo) {
               updates.photo = user.photoURL;
             }
+            
             await updateDoc(userRef, updates);
           }
 
           localStorage.setItem(CACHE_KEY, JSON.stringify({
             photo: user.photoURL,
-            name: user.displayName,
-            email: user.email,
             lastUpdate: now
           }));
 
         } catch (error) {
-          console.error("❌ خطأ في Firestore:", error);
+          console.error("❌ Error updating user status:", error);
         }
       }
-
     } else {
       localStorage.removeItem(CACHE_KEY);
-      applyUserUI(null, null, null);
+      applyUserUI(null);
     }
   });
 });
