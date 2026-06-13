@@ -361,11 +361,11 @@
         columns: 3;
       }
     }
-
+/* skin */
 .image-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  /* background: red; */
   backdrop-filter: blur(6px);
   display: none;
   align-items: center;
@@ -373,11 +373,9 @@
   z-index: 9999;
   animation: fadeIn .2s ease;
 }
-
 .image-modal.active {
   display: flex;
 }
-
 .modal-content {
   max-width: 90%;
   max-height: 85vh;
@@ -385,17 +383,6 @@
   box-shadow: 0 20px 60px rgba(0,0,0,.6);
   animation: zoomIn .2s ease;
 }
-
-.close-modal {
-  position: absolute;
-  top: 30px;
-  right: 40px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  user-select: none;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -405,7 +392,93 @@
   from { transform: scale(.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
-
+.assistant-popup {
+    position: fixed;
+    /* top: 8rem; */
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(680px, calc(100vw - 0px));
+    pointer-events: none;
+    z-index: 9999;
+  }
+  
+  .assistant-popup img {
+    position: absolute;
+    right: -2rem; 
+    top: 0;
+    width: 160px;
+    image-rendering: pixelated;
+    animation: slideIn .6s ease;
+    z-index: 999;
+  }
+  
+  .bubble {
+    position: absolute;
+    right: 108px;
+    top: -4.8rem;
+    width: 280px;
+  
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 16px;
+  
+    padding: 1rem;
+    pointer-events: auto;
+  
+    animation: slideIn 1.6s ease;
+  }
+  
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+  }
+  
+  .skin_btn {
+    display: inline-block;
+    margin-top: .75rem;
+  
+    padding: .25rem 1rem;
+  
+    background: white;
+    color: black;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  .skin_btn_close {
+    display: inline-block;
+    margin-top: .75rem;
+  
+    padding: .25rem 1rem;
+  
+    background: transparent;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(150px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
   </style>
   <script>
     window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -418,25 +491,37 @@
 </div>
 <body>
   <div class="container">
-
+    
     <h1>// projects</h1>
     <p class="subtitle">things i've built, written & drawn</p>
-
+    
     
     <div class="filters">
       <button class="tab active" data-f="all">all</button>
       <button class="tab" data-f="web">webs</button>
-      <button class="tab" data-f="tools">tools</button>
-      <button class="tab" data-f="apps">apps</button>
+      <button class="tab" data-f="tools">tools & apps</button>
       <button class="tab" data-f="books">books</button>
       <button class="tab" data-f="paint">paints</button>
-      <a class="tab" href="../poetry/">poet</a>
+      <a class="tab" href="../poetry/">go to poet page</a>
     </div>
-
     
+    
+    <div class="assistant-popup">
+      <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
+    
+      <div class="bubble">
+        
+        <p>
+          u cen see my certificates if u want 
+        </p>
+        
+        <a href="/certificates" class="skin_btn">open page</a>
+        <div class="skin_btn_close">ignore</div>
+      </div>
+    </div>
     <div class="list" id="cards">
-
-          <div class="card" data-cat="tools">
+      
+      <div class="card" data-cat="tools">
         <div class="card-top">
           <div class="card-name">
             <div class="dot on"></div>TimeAr<span class="badge"> #tool</span>
@@ -446,7 +531,7 @@
           <br>مثلا تضع 
           <span dir="ltr">2026-04-16</span>
           فيعرض
-           <span class="time-ar">2026-04-16T12:00</span>
+          <span class="time-ar">2026-04-16T12:00</span>
         </p>
         <div class="btns">
           <a class="btn primary" href="https://d1wiki.vercel.app/time-ar/" target="_blank">
@@ -547,7 +632,7 @@
  
 
       
-      <div class="card" data-cat="apps">
+      <div class="card" data-cat="tools">
         <div class="card-top">
           <div class="card-name">
             <div class="dot on"></div>last3night <span class="badge"> #app</span>
@@ -991,11 +1076,12 @@
   </nav>
   </div>
 
-<div class="image-modal" id="imageModal">
-  <span class="close-modal" id="closeModal">&times;</span>
-  <img class="modal-content" id="modalImage">
-</div>
+
 <script>
+  document.querySelector(".skin_btn_close").addEventListener("click", () => {
+  document.querySelector(".assistant-popup").remove();
+});
+
   const modal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImage");
   const closeModal = document.getElementById("closeModal");
@@ -1025,7 +1111,7 @@
     const secPaint = document.getElementById('sec-paint');
     const empty = document.getElementById('empty');
 
-    const validFilters = ['all', 'web', 'tools', 'apps', 'books', 'paint'];
+    const validFilters = ['all', 'web', 'tools', 'books', 'paint'];
 
 
     function animateIn(elements, delay = 0) {
