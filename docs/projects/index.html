@@ -482,9 +482,18 @@
       transform: translateY(10px);
     }
   }
-  body.popup-open .container {
-  filter: blur(12px);
+   .blur {
+    display: none;
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 99;
+  backdrop-filter: blur(12px);
   transition: .3s;
+}
+  body.popup-open .blur {
+    display: block;
 }
   </style>
   <script>
@@ -496,7 +505,8 @@
 <div class="bg" id="loader-wrapper">
   <div class="loader"></div>
 </div>
-<body id="body">  
+<body id="body">
+  <div class="blur"></div>  
      <div class="assistant-popup">
       <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
     
