@@ -176,7 +176,8 @@ body {
 .header-text {
     display: flex;
     flex-direction: column;
-    gap: 2px
+    line-height: 1.7;
+    /* gap: 0 */
 }
 
 .logo {
@@ -187,23 +188,61 @@ body {
 }
 
 .description {
+  position: relative;
     max-width: 600px;
     margin-bottom: var(--space-6);
     color: var(--text);
     line-height: 1.6;
     font-size: var(--text-base);
     vertical-align: center;
+  }
 
+  .highlight{
+  transition: .2s all;
+  position: relative;
+}
+ .highlight::after {
+  content: '';
+  border-bottom: 2px dashed var(--text);
+  width: 0;
+  height: 100%;
+  position: absolute;
+  margin-top: -5px;
+  top: 6px;
+  left: 2px;
+  visibility: hidden;
+  opacity: 1;
+  transition: .2s linear;
+}
+
+ .highlight:hover::after {
+  visibility: visible;
+  opacity: 0.7;
+  width: 90%;
+}
+
+
+
+.highlight .icon {
+  transform: translate(0, 1px);
+  transition: .2s all;
+  animation: attention 2s linear infinite;
+  color: var(--text);
+}
+
+.highlight:hover > .icon {
+  transition: .2s all;
+  animation: none;
+}
+@keyframes attention {
+  0% {
+    transform: translate(0, 1px);
   }
-  .description_title{
-    position: relative;
+
+  50% {
+    transform: translate(-6px, 1px);
   }
-  .description_title a{
-    left: 8.4rem;
-    font-size: var(--text-base);
-    bottom: -3px;
-    width: fit-content;
-  }
+}
 
 .pill {
     color: #9b87f5;
@@ -977,15 +1016,8 @@ span {
 }
 /* 
 @media (min-width: 720px) {
-  .description, .description_title a, .subtitle{
-    font-size: var(--text-lg);
-  }
   .logo{
     font-size: var(--text-xl);
-  }
-  .description_title a{
-    left: 9.8rem;
-    bottom: 0;
   }
 
 } */
