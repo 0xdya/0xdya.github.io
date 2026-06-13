@@ -122,8 +122,6 @@ function timeAgo(date) {
     return 'just now';
 }
 
-
-
 async function loadLatestCommit() {
     try {
         const res = await fetch('/api/github_commits');
@@ -165,3 +163,18 @@ async function loadLatestCommit() {
 }
 
 loadLatestCommit();
+
+let lastY = window.scrollY;
+window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const navbar = document.querySelector('.navbar_section');
+    
+    if (currentY > lastY) {
+        navbar.classList.add('hidden');
+    } else {
+        navbar.classList.remove('hidden');
+    }
+    
+    lastY = currentY;
+});
+ 
