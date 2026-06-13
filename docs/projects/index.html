@@ -353,29 +353,28 @@
     }
 
     .assistant-popup {
-      position: fixed;
+      position: absolute;
       left: 50%;
       transform: translateX(-50%);
       width: min(680px, calc(100vw - 0px));
       pointer-events: none;
       z-index: 9999;
     }
-
+    
     .assistant-popup img {
       position: absolute;
-      right: -2rem;
+      right: -6.2rem;
       top: 16rem;
-      width: 160px;
+      width: 250px;
       image-rendering: pixelated;
-      animation: slideIn .6s ease;
+      animation: slideIn 1s ease;
       z-index: 999;
     }
 
     .bubble {
       position: absolute;
-      right: 98px;
-      top: 10.8rem;
-      width: 280px;
+      right: 90px;
+      top: 11.4rem;
       background: #111;
       border: 1px solid #222;
       border-top-left-radius: 16px;
@@ -383,7 +382,8 @@
       border-bottom-left-radius: 16px;
       padding: 1rem;
       pointer-events: auto;
-      animation: slideIn 1.6s ease;
+      animation: slideIn 1.4s ease;
+      width: 280px
     }
 
     .skin_btn,
@@ -413,14 +413,23 @@
     }
 
     @keyframes slideIn {
-      from {
-        transform: translateX(150px);
+      0% {
+        transform: translateX(160px);
         opacity: 0;
       }
-      to {
+      70% {
+        /* transform: translateX(80px); */
+        opacity: 1;
+      }
+      100% {
         transform: translateX(0);
         opacity: 1;
       }
+    }
+    body{
+      max-width: 680px;
+      margin: 0 auto;
+      overflow-x: hidden;
     }
 
     .blur {
@@ -429,9 +438,12 @@
       top: 0;
       height: 100vh;
       width: 100vw;
+      max-width: 680px;
+      margin: 0 auto;
       z-index: 99;
       backdrop-filter: blur(12px);
       transition: .3s;
+      overflow: hidden;
     }
 
     body.popup-open .blur {
@@ -448,13 +460,15 @@
   <div class="loader"></div>
 </div>
 <body id="body">
-  <div class="blur"></div>
-  <div class="assistant-popup">
-    <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
-    <div class="bubble">
-      <p>u cen see my certificates if u want</p>
-      <a href="../certificate/" class="skin_btn">open page</a>
-      <div class="skin_btn_close">ignore</div>
+  <div class="blur">
+
+    <div class="assistant-popup">
+      <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
+      <div class="bubble">
+        <p>u cen see my certificates if u want</p>
+        <a href="../certificate/" class="skin_btn">open page</a>
+        <div class="skin_btn_close">ignore</div>
+      </div>
     </div>
   </div>
 
