@@ -30,7 +30,7 @@
   <link rel="icon" href="https://0xdya.vercel.app/img/sikn-head.png">
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script type="module" src="../js/user.js"></script>
@@ -58,7 +58,6 @@
       font-weight: 300;
       margin: var(--space-6) 0 var(--space-2);
     }
-
 
     .filters {
       display: flex;
@@ -90,8 +89,6 @@
       color: #111;
     }
 
-
-
     .list {
       display: flex;
       flex-direction: column;
@@ -104,16 +101,8 @@
       border-radius: 12px;
       padding: 16px 18px;
       transition: border-color .2s, background .2s, opacity .35s ease, transform .35s ease;
-
-
       opacity: 0;
       transform: translateY(18px);
-    }
-
-
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .card:hover {
@@ -123,13 +112,6 @@
 
     .card.hidden {
       display: none;
-    }
-
-
-    .card.fade-out {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .18s ease, transform .18s ease;
     }
 
     .card-top {
@@ -161,7 +143,6 @@
       opacity: .8;
     }
 
-
     .card-desc {
       font-size: .84rem;
       color: var(--muted);
@@ -169,7 +150,6 @@
       margin-bottom: 12px;
       line-height: 1.5;
     }
-
 
     .btns {
       display: flex;
@@ -206,27 +186,17 @@
       background: var(--accent-dim);
     }
 
-
     .section-wrap {
       display: flex;
       flex-direction: column;
       gap: 12px;
-    }
-
-    .section-wrap.hidden {
-      display: none;
-    }
-
-
-    .section-wrap {
       opacity: 0;
       transform: translateY(18px);
       transition: opacity .4s ease, transform .4s ease;
     }
 
-    .section-wrap.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .section-wrap.hidden {
+      display: none;
     }
 
     .paint-grid {
@@ -257,29 +227,9 @@
       transition: transform .35s;
     }
 
-    /* .paint-item:hover img {
-      transform: scale(1.04);
-    } */
-
     .paint-item .caption {
       display: none;
-      /* position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 10px 12px;
-      background: linear-gradient(to top, rgba(8, 8, 8, .9) 0%, transparent 100%);
-      font-size: .72rem;
-      color: var(--muted);
-      font-family: "JetBrains Mono", monospace;
-      opacity: 0;
-      transition: opacity .2s; */
     }
-
-    /* .paint-item:hover .caption {
-      opacity: 1;
-    } */
-
 
     .books-row {
       display: flex;
@@ -330,7 +280,6 @@
       line-height: 1.4;
     }
 
-
     .sec-title {
       font-size: .75rem;
       color: var(--dim);
@@ -341,7 +290,6 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 16px;
     }
-
 
     .empty {
       text-align: center;
@@ -361,140 +309,134 @@
         columns: 3;
       }
     }
-/* skin */
-.image-modal {
-  position: fixed;
-  inset: 0;
-  /* background: red; */
-  /* backdrop-filter: blur(6px); */
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeIn .2s ease;
-}
-.image-modal.active {
-  display: flex;
-}
 
-.modal-content {
-  max-width: 90%;
-  max-height: 85vh;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.6);
-  animation: zoomIn .2s ease;
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeIn .2s ease;
+    }
 
-@keyframes zoomIn {
-  from { transform: scale(.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.assistant-popup {
-    position: fixed;
-    /* top: 8rem; */
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(680px, calc(100vw - 0px));
-    pointer-events: none;
-    z-index: 9999;
-  }
-  
-  .assistant-popup img {
-    position: absolute;
-    right: -2rem; 
-    top: 16rem;
-    width: 160px;
-    image-rendering: pixelated;
-    animation: slideIn .6s ease;
-    z-index: 999;
-  }
-  
-  .bubble {
-    position: absolute;
-    right: 98px;
-    top: 10.8rem;
-    width: 280px;
-  
-    background: #111;
-    border: 1px solid #222;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    border-bottom-left-radius: 16px;
-  
-    padding: 1rem;
-    pointer-events: auto;
-  
-    animation: slideIn 1.6s ease;
-  }
-  
-  /* .close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-  
-    background: none;
-    border: none;
-    color: #999;
-    cursor: pointer;
-  } */
-  
-  .skin_btn {
-    display: inline-block;
-    margin-top: .75rem;
-  
-    padding: .25rem 1rem;
-  
-    background: white;
-    color: black;
-    text-decoration: none;
-    border-radius: 8px;
-  }
-  .skin_btn_close {
-    display: inline-block;
-    margin-top: .75rem;
-  
-    padding: .25rem 1rem;
-  
-    background: transparent;
-    color: var(--text);
-    text-decoration: none;
-    border-radius: 8px;
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateX(150px);
-      opacity: 0;
+    .image-modal.active {
+      display: flex;
     }
-    to {
-      transform: translateX(0);
-      opacity: 1;
+
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
     }
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+      animation: zoomIn .2s ease;
     }
-  }
-   .blur {
-    display: none;
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-    z-index: 99;
-  backdrop-filter: blur(12px);
-  transition: .3s;
-}
-  body.popup-open .blur {
-    display: block;
-}
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .assistant-popup {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(680px, calc(100vw - 0px));
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .assistant-popup img {
+      position: absolute;
+      right: -2rem;
+      top: 16rem;
+      width: 160px;
+      image-rendering: pixelated;
+      animation: slideIn .6s ease;
+      z-index: 999;
+    }
+
+    .bubble {
+      position: absolute;
+      right: 98px;
+      top: 10.8rem;
+      width: 280px;
+      background: #111;
+      border: 1px solid #222;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      border-bottom-left-radius: 16px;
+      padding: 1rem;
+      pointer-events: auto;
+      animation: slideIn 1.6s ease;
+    }
+
+    .skin_btn,
+    .skin_btn_close {
+      display: inline-block;
+      margin-top: .75rem;
+      padding: .25rem 1rem;
+      text-decoration: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .skin_btn:hover,
+    .skin_btn_close:hover {
+      padding: .25rem 1.2rem;
+    }
+
+    .skin_btn {
+      background: white;
+      color: black;
+    }
+
+    .skin_btn_close {
+      border: 1px solid #222;
+      background: transparent;
+      color: var(--text);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(150px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .blur {
+      display: none;
+      position: fixed;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      z-index: 99;
+      backdrop-filter: blur(12px);
+      transition: .3s;
+    }
+
+    body.popup-open .blur {
+      display: block;
+    }
   </style>
   <script>
     window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -506,26 +448,20 @@
   <div class="loader"></div>
 </div>
 <body id="body">
-  <div class="blur"></div>  
-     <div class="assistant-popup">
-      <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
-    
-      <div class="bubble">
-        
-        <p>
-          u cen see my certificates if u want 
-        </p>
-        
-        <a href="../certificate/" class="skin_btn">open page</a>
-        <div class="skin_btn_close">ignore</div>
-      </div>
+  <div class="blur"></div>
+  <div class="assistant-popup">
+    <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
+    <div class="bubble">
+      <p>u cen see my certificates if u want</p>
+      <a href="../certificate/" class="skin_btn">open page</a>
+      <div class="skin_btn_close">ignore</div>
     </div>
+  </div>
+
   <div class="container">
-    
     <h1>// projects</h1>
     <p class="subtitle">things i've built, written & drawn</p>
-    
-    
+
     <div class="filters">
       <button class="tab active" data-f="all">all</button>
       <button class="tab" data-f="web">webs</button>
@@ -534,519 +470,20 @@
       <button class="tab" data-f="paint">paints</button>
       <a class="tab" href="../poetry/">go to poet page</a>
     </div>
-    
-    
 
-    
-    <div class="list" id="cards">
-      
-      <div class="card" data-cat="tools">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>TimeAr<span class="badge"> #tool</span>
-          </div>
-        </div>
-        <p class="card-desc" dir="rtl">اول مكتبة عربية لعرض كم مضى من الزمن عبر ادخال التاريخ والوقت 
-          <br>مثلا تضع 
-          <span dir="ltr">2026-04-16</span>
-          فيعرض
-          <span class="time-ar">2026-04-16T12:00</span>
-        </p>
-        <div class="btns">
-          <a class="btn primary" href="https://d1wiki.vercel.app/time-ar/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            wiki
-          </a>
-          <a class="btn primary" href="https://www.npmjs.com/package/time-ar" target="_blank">
-            <svg width="12" height="12" fill="currentColor" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <polygon fill="#C12127" points="0 256 0 0 256 0 256 256"> </polygon> <polygon fill="#FFFFFF" points="48 48 208 48 208 208 176 208 176 80 128 80 128 208 48 208"> </polygon> </g> </g></svg>
-            npm
-          </a>
-          <a class="btn primary" href="https://www.jsdelivr.com/package/npm/time-ar" target="_blank">
-            <img src="https://www.jsdelivr.com/icon_256x256.png" width="12" height="12" >
-            jsDelivr
-          </a>
-          <a class="btn" href="https://github.com/0xdya/timeAr" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="https://d1wiki.vercel.app/time-ar/community" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            community
-          </a>
-        </div>
-      </div> 
-          <div class="card" data-cat="tools">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>HNT.sh <span class="badge"> #tool</span>
-          </div>
-        </div>
-        <p class="card-desc" dir="rtl">اداة مفيدة لمستخدمين هايبرلاند يتيح لهم اضافة الاضاءة اليلية والتحكم فيها
-          <br>HNT هو اختصار ل: Hyprland Nightlight Toggle.
-        </p>
-        <div class="btns">
-          <a class="btn primary" href="https://d1wiki.vercel.app/HNT/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            wiki
-          </a>
-          <a class="btn" href="https://github.com/0xdya/HNT" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="project.html?slug=HNT" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div> 
-      <div class="card" data-cat="tools">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>fastpush <span class="badge"> #tool</span>
-          </div>
-        </div>
-        <p class="card-desc" dir="rtl">اداة تختصر عليك رفع مشروعك من VS Code الى GitHub بسطر واحد</p>
-        <div class="btns">
-          <a class="btn primary" href="https://d1wiki.vercel.app/fastpush/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            wiki
-          </a>
-          <a class="btn" href="https://github.com/0xdya/fastpush/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="project.html?slug=fastpush" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
- 
+    <div class="list" id="cards"></div>
 
-      
-      <div class="card" data-cat="tools">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>last3night <span class="badge"> #app</span>
-          </div>
-        </div>
-        <p class="card-desc" dir="rtl">تطبيق حساب الثلث الأخير</p>
-        <div class="btns">
-          <a class="btn primary" href="https://github.com/0xdya/last3night/releases/tag/apk" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            APK
-          </a>
-          <a class="btn" href="https://github.com/0xdya/last3night/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="project.html?slug=last3night" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-      
-
-
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>D1 Shop <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc"> personal store for selling social media showcase pages & website management services.</p>
-        <div class="btns">
-          <a class="btn primary" href="https://d1shop.web.app" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="project.html?slug=d1shop" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div> 
-
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>Dya Quran <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">14 famous reciters, all surahs, no-ads. download individual surahs or all 114 in one zip.
-        </p>
-        <div class="btns">
-          <a class="btn primary" href="https://dya-quran.web.app" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="project.html?slug=dya-quran" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="web">
-              <div class="card-top">
-                <div class="card-name">
-                  <div class="dot off"></div>kitsuba <span class="badge"> #web</span>
-                </div>
-              </div>
-              <p class="card-desc">this is my old portfolio — the one I’m not exactly proud of.
-                <br>
-                I’m only showing it here as proof that, yes, I’ve evolved ._. 👍️</p>
-              <div class="btns">
-                <a class="btn primary" href="https://d76.vercel.app/" target="_blank">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                    <polyline points="15 3 21 3 21 9" />
-                    <line x1="10" y1="14" x2="21" y2="3" />
-                  </svg>
-                  open
-                </a>
-                <a class="btn" href="https://github.com/0xdya/kitsuba/" target="_blank">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                      d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
-                  source
-                </a>
-                <a class="btn" href="project.html?slug=kitsuba" target="_blank">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  </svg>
-                  comments
-                </a>
-              </div>
-            </div>
-
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>d1 wiki <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">my own place where i share wikis for my tools.</p>
-        <div class="btns">
-          <a class="btn primary" href="https://0xdya.github.io/d1wiki/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="https://github.com/0xdya/d1wiki/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="project.html?slug=d1wiki" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-      
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>D1 BAC <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">open-source — lessons, summaries and everything BAC for all subjects and streams.</p>
-        <div class="btns">
-          <a class="btn primary" href="https://d1bac.vercel.app" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="https://github.com/0xdya/d1bac" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="project.html?slug=d1bac" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>Level Up <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">site for a game store owner to showcase games he sells (PC, PS2, PS3, PS4, PSP…)</p>
-        <div class="btns">
-          <a class="btn primary" href="https://lvup.vercel.app" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="https://github.com/0xdya/lu" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source
-          </a>
-          <a class="btn" href="project.html?slug=lu" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-      
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot off"></div>D1 Master "alpha version"<span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">open-source project aimed at front-end and UI developers in general. 
-        <br>
-          (still in beta test)
-        </p>
-        <div class="btns">
-          <a class="btn primary" href="https://d1master.web.app/" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="https://github.com/0xdya/d1master_beta"  target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            source (private repo)
-          </a>
-          <a class="btn" href="project.html?slug=d1master_beta" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-      
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot on"></div>D1 Security <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">scan your device for web vulnerabilities and learn how to protect yourself.</p>
-        <div class="btns">
-          <a class="btn primary" href="https://0xdya.github.io/d1scan_beta" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="https://github.com/0xdya/d1scan_beta" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-              </svg>
-              source
-            </a>
-            <a class="btn" href="project.html?slug=d1scan_beta" target="_blank">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-      
-      
-      
-      
-      <div class="card" data-cat="web">
-        <div class="card-top">
-          <div class="card-name">
-            <div class="dot off"></div>Abi Hamid Al-Ghazali HS <span class="badge"> #web</span>
-          </div>
-        </div>
-        <p class="card-desc">old website i built for the high school i studied at.</p>
-        <div class="btns">
-          <a class="btn primary" href="https://el-ghazali.web.app" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-              <polyline points="15 3 21 3 21 9" />
-              <line x1="10" y1="14" x2="21" y2="3" />
-            </svg>
-            open
-          </a>
-          <a class="btn" href="project.html?slug=abihamed" target="_blank">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            comments
-          </a>
-        </div>
-      </div>
-      
-            
-    </div>
-    
-    
-    
     <div class="section-wrap" id="sec-books">
       <div class="sec-title">// books</div>
-      <div class="books-row">
-        <a href="https://noor-book.com/vzl9bwy" class="book">
-          <div class="book-cover">
-            <img src="../img/المنهاج.png" alt="المنهاج" onerror="this.parentElement.innerHTML='📗'">
-          </div>
-          <span class="book-label">المنهاج المبين في مسالك المتقين</span>
-        </a>
-        <a href="https://noor-book.com/idfxt3r" class="book">
-          <div class="book-cover">
-            <img src="../img/الرسالة.png" alt="الرسالة" onerror="this.parentElement.innerHTML='📘'">
-          </div>
-          <span class="book-label">الرسالة المجبرة</span>
-        </a>
-      </div>
+      <div class="books-row" id="books-row"></div>
     </div>
 
-    
     <div class="section-wrap" id="sec-paint">
       <div class="sec-title">// drawings</div>
-      <div class="paint-grid">
-        <div class="paint-item"><img src="./draw/1.webp" loading="lazy">
-          <div class="caption">#1</div>
-        </div>
-        <div class="paint-item"><img src="./draw/2.webp" loading="lazy">
-          <div class="caption">#2</div>
-        </div>
-        <div class="paint-item"><img src="./draw/3.webp" loading="lazy">
-          <div class="caption">#3</div>
-        </div>
-        <div class="paint-item"><img src="./draw/4.webp" loading="lazy">
-          <div class="caption">#4</div>
-        </div>
-        <div class="paint-item"><img src="./draw/5.webp" loading="lazy">
-          <div class="caption">#5</div>
-        </div>
-        <div class="paint-item"><img src="./draw/6.webp" loading="lazy">
-          <div class="caption">#6</div>
-        </div>
-        <div class="paint-item"><img src="./draw/7.webp" loading="lazy">
-          <div class="caption">#7</div>
-        </div>
-        <div class="paint-item"><img src="./draw/8.webp" loading="lazy">
-          <div class="caption">#8</div>
-        </div>
-        <div class="paint-item"><img src="./draw/9.webp" loading="lazy">
-          <div class="caption">#9</div>
-        </div>
-        <div class="paint-item"><img src="./draw/10.webp" loading="lazy">
-          <div class="caption">#10</div>
-        </div>
-        <div class="paint-item"><img src="./draw/11.webp" loading="lazy">
-          <div class="caption">#11</div>
-        </div>
-        <div class="paint-item"><img src="./draw/12.webp" loading="lazy">
-          <div class="caption">#12</div>
-        </div>
-        <div class="paint-item"><img src="./draw/13.webp" loading="lazy">
-          <div class="caption">#13</div>
-        </div>
-        <div class="paint-item"><img src="./draw/14.webp" loading="lazy">
-          <div class="caption">#14</div>
-        </div>
-        <div class="paint-item"><img src="./draw/15.webp" loading="lazy">
-          <div class="caption">#15</div>
-        </div>
-        <div class="paint-item"><img src="./draw/16.webp" loading="lazy">
-          <div class="caption">#16</div>
-        </div>
-        <div class="paint-item"><img src="./draw/17.webp" loading="lazy">
-          <div class="caption">#17</div>
-        </div>
-        <div class="paint-item"><img src="./draw/18.webp" loading="lazy">
-          <div class="caption">#18</div>
-        </div>
-      </div>
+      <div class="paint-grid" id="paint-grid"></div>
     </div>
 
     <div class="empty" id="empty">// nothing here yet</div>
-
   </div>
 
   <div class="navbar_section">
@@ -1085,124 +522,24 @@
       </a>
     </nav>
     <nav class="navbar">
-      <a href="../comments/" class="nav-item  comments">
-          <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span class="nav-text">Comments</span>
+      <a href="../comments/" class="nav-item comments">
+        <svg class="nav-icon" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span class="nav-text">Comments</span>
       </a>
-      <div class="user_photo  profile" id="userPhotoContainer"></div>
-  </nav>
+      <div class="user_photo profile" id="userPhotoContainer"></div>
+    </nav>
   </div>
 
+  <div class="image-modal" id="imageModal">
+    <span class="close-modal" id="closeModal">&times;</span>
+    <img class="modal-content" id="modalImage" alt="">
+  </div>
 
-<script>
-  document.body.classList.add("popup-open");
-  document.querySelector(".skin_btn_close").addEventListener("click", () => {
-  document.body.classList.remove("popup-open");
-  document.querySelector(".assistant-popup").remove();
-});
-
-  const body = document.getElementById("body");
-  const modal = document.getElementById("imageModal");
-  const modalImg = document.getElementById("modalImage");
-  const closeModal = document.getElementById("closeModal");
-  
-  document.querySelectorAll(".paint-item img").forEach(img => {
-    img.addEventListener("click", () => {
-      modal.classList.add("active");
-      modalImg.src = img.src;
-    });
-  });
-  
-  closeModal.addEventListener("click", () => {
-    modal.classList.remove("active");
-  });
-  
-  modal.addEventListener("click", (e) => {
-    if (e.target !== modalImg) {
-      modal.classList.remove("active");
-      body.classList.remove("popup-open");
-    }
-  });
-  </script>
+<script src="../js/projects.js"></script>
   <script src="../js/script.js" defer></script>
-  <script>
-    const tabs = document.querySelectorAll('.tab');
-    const cards = document.querySelectorAll('#cards .card');
-    const secBooks = document.getElementById('sec-books');
-    const secPaint = document.getElementById('sec-paint');
-    const empty = document.getElementById('empty');
-
-    const validFilters = ['all', 'web', 'tools', 'books', 'paint'];
-
-
-    function animateIn(elements, delay = 0) {
-      elements.forEach((el, i) => {
-        el.style.transition = 'opacity .35s ease, transform .35s ease';
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(16px)';
-
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-          }, delay + i * 55);
-        });
-      });
-    }
-
-    function applyFilter(f) {
-      if (!validFilters.includes(f)) f = 'tools';
-
-      let visibleCards = [];
-
-      cards.forEach(c => {
-        c.classList.add('hidden');
-        c.style.opacity = '0';
-        c.style.transform = 'translateY(16px)';
-      });
-      secBooks.classList.add('hidden');
-      secPaint.classList.add('hidden');
-
-      setTimeout(() => {
-        cards.forEach(c => {
-          if (f === 'all' || c.dataset.cat === f) {
-            c.classList.remove('hidden');
-            visibleCards.push(c);
-          }
-        });
-
-        const showBooks = f === 'all' || f === 'books';
-        const showPaint = f === 'all' || f === 'paint';
-
-        if (showBooks) secBooks.classList.remove('hidden');
-        if (showPaint) secPaint.classList.remove('hidden');
-
-        const visible = visibleCards.length + (showBooks ? 1 : 0) + (showPaint ? 1 : 0);
-        empty.classList.toggle('show', visible === 0);
-
-        animateIn(visibleCards, 0);
-
-
-        if (showBooks) animateIn([secBooks], visibleCards.length * 55 + 20);
-        if (showPaint) animateIn([secPaint], (visibleCards.length + (showBooks ? 1 : 0)) * 55 + 20);
-
-      }, 30);
-
-      tabs.forEach(t => t.classList.toggle('active', t.dataset.f === f));
-
-      history.replaceState(null, '', f === 'all' ? location.pathname : '#' + f);
-    }
-
-    tabs.forEach(t => t.addEventListener('click', () => applyFilter(t.dataset.f)));
-
-    const hash = location.hash.slice(1);
-    applyFilter(hash || 'tools');
-  </script>
   <script src="https://cdn.jsdelivr.net/gh/0xdya/timeAr@cdn/dist/script.js"></script>
-  <!-- <script type="module" src="../js/time_ago_ar.js"></script> -->
-  <!-- <script src="https://cdn.jsdelivr.net/gh/0xdya/ArTime@latest/dist/artime.js" ></script> -->
 </body>
 
-  </html>
+</html>
