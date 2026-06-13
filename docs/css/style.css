@@ -354,7 +354,6 @@
     align-items: center;
     flex-direction: column;
   }
-  
   a {
     color: var(--link);
     text-decoration: none;
@@ -1084,7 +1083,7 @@
   .filters {
     direction: ltr;
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     gap: 10px;
     margin-bottom: 20px;
     width: 100%;
