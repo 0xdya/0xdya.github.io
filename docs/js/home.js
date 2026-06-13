@@ -58,7 +58,7 @@ window.addEventListener('load', () => {
     img.onload = function () {
         group.add(buildHead(img, 1, 0));
         if (img.height === 64) group.add(buildHead(img, 1.12, 32));
-        renderScene(0.5, 0.6); 
+        renderScene(0.6, 0.4); 
     };
     img.src = SKIN_PATH;
 
@@ -134,7 +134,7 @@ async function loadLatestCommit() {
         const commits = await res.json();
         const latest = commits.find(c => {
             const msg = c.commit.message.split("\n")[0].toLowerCase();
-            return ! msg.startsWith("auto");
+            return ! msg.startsWith("auto") && !msg.startsWith("hidden");
         });
 
         if (! latest) 
