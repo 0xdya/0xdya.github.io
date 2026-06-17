@@ -1002,7 +1002,7 @@ span {
 @media (max-width: 500px) {
   body::before {
     background-size: 58px 58px;
-    mask-image: radial-gradient(min(100vw, 800px) 42vh at top center, black 0%, transparent 52%);
+    mask-image: radial-gradient(min(100vw, 800px) 46vh at top center, black 0%, transparent 54%);
     animation: move-grid 160s linear infinite;
   }
   .contrib-cell {
