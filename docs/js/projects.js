@@ -14,9 +14,9 @@
   const PROJECTS = [
     {
       cat: 'tools',
-      name: 'TimeAr<span class="badge"> #tool</span>',
+      name: 'TimeAr<span class="badge"> "tool"</span>',
       active: true,
-      desc: 'اول مكتبة عربية لعرض كم مضى من الزمن عبر ادخال التاريخ والوقت <br>مثلا تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar">2026-04-16T12:00</span>',
+      desc: 'اول مكتبة عربية لعرض كم مضى من الزمن عبر ادخال التاريخ والوقت، مثلا تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar">2026-04-16T12:00</span>',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/time-ar/', label: 'wiki', primary: true },
@@ -28,9 +28,9 @@
     },
     {
       cat: 'tools',
-      name: 'HNT.sh <span class="badge"> #tool</span>',
+      name: 'HNT.sh <span class="badge"> "tool"</span>',
       active: true,
-      desc: 'اداة مفيدة لمستخدمين هايبرلاند يتيح لهم اضافة الاضاءة اليلية والتحكم فيها<br>HNT هو اختصار ل: Hyprland Nightlight Toggle.',
+      desc: 'اداة مفيدة لمستخدمين هايبرلاند يتيح لهم اضافة الاضاءة اليلية والتحكم فيها<br>+ HNT هو اختصار ل: <br> Hyprland Nightlight Toggle',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/HNT/', label: 'wiki', primary: true },
@@ -40,9 +40,9 @@
     },
     {
       cat: 'tools',
-      name: 'fastpush <span class="badge"> #tool</span>',
+      name: 'fastpush <span class="badge"> "tool"</span>',
       active: true,
-      desc: 'اداة تختصر عليك رفع مشروعك من VS Code الى GitHub بسطر واحد',
+      desc: 'اداة تختصر عليك رفع مشروعك من vscode او cursor او حتى zed الى قيتهاب بسطر واحد',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/fastpush/', label: 'wiki', primary: true },
@@ -52,7 +52,7 @@
     },
     {
       cat: 'tools',
-      name: 'last3night <span class="badge"> #app</span>',
+      name: 'last3night <span class="badge"> "app"</span>',
       active: true,
       desc: 'تطبيق حساب الثلث الأخير',
       descDir: 'rtl',
@@ -64,7 +64,7 @@
     },
     {
       cat: 'web',
-      name: 'D1 Shop <span class="badge"> #web</span>',
+      name: 'D1 Shop <span class="badge"> "web"</span>',
       active: true,
       desc: ' personal store for selling social media showcase pages & website management services.',
       buttons: [
@@ -74,7 +74,7 @@
     },
     {
       cat: 'web',
-      name: 'Dya Quran <span class="badge"> #web</span>',
+      name: 'Dya Quran <span class="badge"> "web"</span>',
       active: true,
       desc: '14 famous reciters, all surahs, no-ads. download individual surahs or all 114 in one zip.',
       buttons: [
@@ -84,7 +84,7 @@
     },
     {
       cat: 'web',
-      name: 'kitsuba <span class="badge"> #web</span>',
+      name: 'kitsuba <span class="badge"> "web"</span>',
       active: false,
       desc: 'this is my old portfolio — the one I’m not exactly proud of.<br>I’m only showing it here as proof that, yes, I’ve evolved ._. 👍️',
       buttons: [
@@ -95,7 +95,7 @@
     },
     {
       cat: 'web',
-      name: 'd1 wiki <span class="badge"> #web</span>',
+      name: 'd1 wiki <span class="badge"> "web"</span>',
       active: true,
       desc: 'my own place where i share wikis for my tools.',
       buttons: [
@@ -106,7 +106,7 @@
     },
     {
       cat: 'web',
-      name: 'D1 BAC <span class="badge"> #web</span>',
+      name: 'D1 BAC <span class="badge"> "web"</span>',
       active: true,
       desc: 'open-source — lessons, summaries and everything BAC for all subjects and streams.',
       buttons: [
@@ -117,7 +117,7 @@
     },
     {
       cat: 'web',
-      name: 'Level Up <span class="badge"> #web</span>',
+      name: 'Level Up <span class="badge"> "web"</span>',
       active: true,
       desc: 'site for a game store owner to showcase games he sells (PC, PS2, PS3, PS4, PSP…)',
       buttons: [
@@ -128,7 +128,7 @@
     },
     {
       cat: 'web',
-      name: 'D1 Master "alpha version"<span class="badge"> #web</span>',
+      name: 'D1 Master "alpha version"<span class="badge"> "web"</span>',
       active: false,
       desc: 'open-source project aimed at front-end and UI developers in general. <br>(still in beta test)',
       buttons: [
@@ -139,7 +139,7 @@
     },
     {
       cat: 'web',
-      name: 'D1 Security <span class="badge"> #web</span>',
+      name: 'D1 Security <span class="badge"> "web"</span>',
       active: true,
       desc: 'scan your device for web vulnerabilities and learn how to protect yourself.',
       buttons: [
@@ -150,7 +150,7 @@
     },
     {
       cat: 'web',
-      name: 'Abi Hamid Al-Ghazali HS <span class="badge"> #web</span>',
+      name: 'Abi Hamid Al-Ghazali HS <span class="badge"> "web"</span>',
       active: false,
       desc: 'old website i built for the high school i studied at.',
       buttons: [
@@ -222,20 +222,25 @@ const skinBtn = document.querySelector('.skin_btn');
 let openCount = parseInt(localStorage.getItem('popup_open_count')) || 0;
 let isHidden = localStorage.getItem('popup_hidden') === 'true';
 
-if (isHidden) {
-  openCount++;
-  localStorage.setItem('popup_open_count', openCount);
+setTimeout(() => {
+  let openCount = parseInt(localStorage.getItem('popup_open_count')) || 0;
+  let isHidden = localStorage.getItem('popup_hidden') === 'true';
 
-  if (openCount >= 5) {
-    localStorage.removeItem('popup_hidden');
-    localStorage.setItem('popup_open_count', '0');
-    body.classList.add('popup-open');
+  if (isHidden) {
+    openCount++; 
+    
+    if (openCount >= 3) {
+      localStorage.setItem('popup_hidden', 'false');
+      localStorage.setItem('popup_open_count', '0');
+      body.classList.add('popup-open');
+    } else {
+      localStorage.setItem('popup_open_count', openCount);
+      if (assistantPopup) assistantPopup.remove();
+    }
   } else {
-    assistantPopup.remove();
+    body.classList.add('popup-open');
   }
-} else {
-  body.classList.add('popup-open');
-}
+}, 2000);
 
 function hidePopupAndStartCount() {
   body.classList.remove('popup-open');
@@ -249,6 +254,14 @@ skinBtnClose.addEventListener('click', hidePopupAndStartCount);
 if (skinBtn) {
   skinBtn.addEventListener('click', hidePopupAndStartCount);
 }
+
+// window.addEventListener('click', function (e) {
+//   if (!e.target.closest('.assistant-popup') && !e.target.closest('img')) {
+//      if (body.classList.contains('popup-open')) {
+//       hidePopupAndStartCount();
+//     }
+//   }
+// });
 
   function animateIn(elements, delay = 0) {
     elements.forEach((el, i) => {

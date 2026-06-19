@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Naskh+Arabic:wght@400..700&family=Vazirmatn:wght@100..900&display=swap');
 
 :root {
     --bg: #080808;
@@ -63,7 +63,7 @@ body {
     position: relative;
     background: var(--bg);
     color: var(--text);
-    font-family: "JetBrains Mono", monospace;
+    font-family: "JetBrains Mono", "Vazirmatn", monospace;
     font-size: var(--text-base);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;

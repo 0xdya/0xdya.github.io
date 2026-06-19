@@ -52,18 +52,18 @@
       margin-bottom: 6px;
     }
 
-    .subtitle {
-      font-size: var(--text-xs);
+    /* .subtitle {
+      font-size: var(--text-sm);
       color: var(--muted);
       font-weight: 300;
       margin: var(--space-6) 0 var(--space-2);
-    }
+    } */
 
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-2);
-      margin-bottom: var(--space-5);
+      margin: var(--space-5) 0;
     }
 
     .tab {
@@ -72,10 +72,10 @@
       border: 1px solid var(--border);
       background: transparent;
       color: var(--dim);
-      font-size: var(--text-xs);
+      font-size: var(--text-sm);
       font-family: "JetBrains Mono", monospace;
       cursor: pointer;
-      transition: all .18s;
+      transition: all .2s ease;
     }
 
     .tab:hover {
@@ -87,6 +87,8 @@
       background: #e0e0e0;
       margin: 0 var(--space-2);
       color: #111;
+      /* border: 1px dotted var(--link); */
+      /* color: var(--link); */
     }
 
     .list {
@@ -97,7 +99,7 @@
 
     .card {
       position: relative;
-      border: 1px solid var(--border);
+      border: 1px solid #111;
       border-radius: 12px;
       padding: 16px 18px;
       transition: border-color .2s, background .2s, opacity .35s ease, transform .35s ease;
@@ -106,8 +108,8 @@
     }
 
     .card:hover {
-      border-color: #111;
-      background: var(--accent-dim);
+      border-color: var(--border);
+      /* background: var(--accent-dim); */
     }
 
     .card.hidden {
@@ -124,36 +126,42 @@
 
     .card-name {
       font-family: "JetBrains Mono", monospace;
-      font-size: .92rem;
-      color: var(--text);
+      font-size: var(--text-base);
+      color: var(--accent);
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      opacity: .8;
     }
 
     .badge {
-      position: absolute;
-      right: var(--space-3);
-      font-size: .68rem;
-      color: var(--accent);
+      /* position: absolute; */
+      /* right: var(--space-3); */
+      font-size: var(--text-sm);
+      color: var(--muted);
       border: none;
-      padding: 1px 7px;
+      /* padding: 1px 7px; */
       border-radius: 4px;
       opacity: .8;
     }
 
     .card-desc {
-      font-size: .84rem;
-      color: var(--muted);
+      font-size: var(--text-md);
+      color: var(--accent);
       font-weight: 300;
       margin-bottom: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
+      padding: 0 0 2rem;
+      border-bottom: 1px solid var(--border);
+      /* text-align: justify; */
+      text-indent: 1rem;
     }
 
     .btns {
       display: flex;
       flex-wrap: wrap;
+      /* direction: rtl; */
       gap: 8px;
     }
 
@@ -179,7 +187,7 @@
 
     .btn.primary {
       border: 1px solid var(--border);
-      color: var(--accent);
+      color: var(--muted);
     }
 
     .btn.primary:hover {
@@ -281,7 +289,7 @@
     }
 
     .sec-title {
-      font-size: .75rem;
+      font-size: var(--text-md);
       color: var(--dim);
       font-family: "JetBrains Mono", monospace;
       text-transform: uppercase;
@@ -357,24 +365,24 @@
       left: 50%;
       transform: translateX(-50%);
       width: min(680px, calc(100vw - 0px));
-      pointer-events: none;
+      /* pointer-events: none; */
       z-index: 9999;
     }
     
     .assistant-popup img {
       position: absolute;
       right: -6.2rem;
-      top: 16rem;
+      top: 18rem;
       width: 250px;
-      image-rendering: pixelated;
+      /* image-rendering: pixelated; */
       animation: slideIn 1s ease;
       z-index: 999;
     }
 
     .bubble {
       position: absolute;
-      right: 90px;
-      top: 11.4rem;
+      right: 96px;
+      top: 14rem;
       background: #111;
       border: 1px solid #222;
       border-top-left-radius: 16px;
@@ -383,8 +391,15 @@
       padding: 1rem;
       pointer-events: auto;
       animation: slideIn 1.4s ease;
-      width: 70%;
-      max-width: 280px
+      width: fit-content;
+      max-width: 70%;
+      font-size: var(--text-base);
+    }
+
+    @media (min-width: 680px) {
+      .bubble{
+        font-size: var(--text-lg);
+      }
     }
 
     .skin_btn,
@@ -434,21 +449,31 @@
     }
 
     .blur {
-      display: none;
       position: fixed;
+      z-index: 99;
+      overflow: hidden;
+      backdrop-filter: blur(0);
+      opacity: 0;
+      visibility: hidden;
       top: 0;
       height: 100vh;
       width: 100vw;
       max-width: 680px;
+      /* display: none; */
       margin: 0 auto;
-      z-index: 99;
-      backdrop-filter: blur(12px);
-      transition: .3s;
-      overflow: hidden;
+  transition: 
+    backdrop-filter 0.4s ease,
+    background 0.4s ease,
+    opacity 0.4s ease,
+    visibility 0.4s;
     }
 
     body.popup-open .blur {
-      display: block;
+      background: transparent;
+        backdrop-filter: blur(12px);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
     }
   </style>
   <script>
@@ -464,9 +489,11 @@
   <div class="blur">
 
     <div class="assistant-popup">
-      <img src="../img/cmnt-skin.png" alt="Minecraft Skin">
+     <a href="../skin/"> 
+       <img src="../img/cmnt-skin.png" alt="my Skin">
+     </a> 
       <div class="bubble">
-        <p>u cen see my certificates if u want</p>
+        <p>btw, u can see my cert if u want</p>
         <a href="../certificate/" class="skin_btn">open page</a>
         <div class="skin_btn_close">ignore</div>
       </div>
@@ -475,7 +502,7 @@
 
   <div class="container">
     <h1>// projects</h1>
-    <p class="subtitle">things i've built, written & drawn</p>
+    <!-- <p class="subtitle">things i've built, written & drawn</p> -->
 
     <div class="filters">
       <button class="tab active" data-f="all">all</button>
@@ -489,12 +516,12 @@
     <div class="list" id="cards"></div>
 
     <div class="section-wrap" id="sec-books">
-      <div class="sec-title">// books</div>
+      <!-- <div class="sec-title">// books</div> -->
       <div class="books-row" id="books-row"></div>
     </div>
 
     <div class="section-wrap" id="sec-paint">
-      <div class="sec-title">// drawings</div>
+      <!-- <div class="sec-title">// drawings</div> -->
       <div class="paint-grid" id="paint-grid"></div>
     </div>
 
@@ -547,10 +574,10 @@
     </nav>
   </div>
 
-  <div class="image-modal" id="imageModal">
+  <!-- <div class="image-modal" id="imageModal">
     <span class="close-modal" id="closeModal">&times;</span>
-    <img class="modal-content" id="modalImage" alt="">
-  </div>
+    <img class="modal-content" id="modalImage" alt="" src="../img/cmnt-skin.png">
+  </div> -->
 
 <script src="../js/projects.js"></script>
   <script src="../js/script.js" defer></script>
