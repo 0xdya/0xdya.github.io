@@ -229,7 +229,7 @@ setTimeout(() => {
   if (isHidden) {
     openCount++; 
     
-    if (openCount >= 3) {
+    if (openCount >= 5) {
       localStorage.setItem('popup_hidden', 'false');
       localStorage.setItem('popup_open_count', '0');
       body.classList.add('popup-open');
