@@ -63,16 +63,16 @@ const isOnline = diffSec < 300;
 
 const statusHTML = isOnline 
   ? `<div class="dot on"></div> Online` 
-  : `<div class="dot off"></div> lastOnline: ${formatTimeAgo(diffSec)}`;
+  : `<div class="dot off"></div> نشط منذ: ${formatTimeAgo(diffSec)}`;
 
 const statusContainer = document.getElementById("lastOnline");
 statusContainer.innerHTML = statusHTML;
 }
 
 function formatTimeAgo(sec) {
-  if (sec < 3600) return `${Math.floor(sec / 60)}m`;
-  if (sec < 86400) return `${Math.floor(sec / 3600)}h`;
-  return `${Math.floor(sec / 86400)}d`;
+  if (sec < 3600) return `${Math.floor(sec / 60)}د`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)}س`;
+  return `${Math.floor(sec / 86400)}ي`;
 }
 
 fetchLastLogin("X18SfoEU7JhtQC3Xsn0o9punnI23");

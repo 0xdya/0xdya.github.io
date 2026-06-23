@@ -1,3 +1,112 @@
+const nodes = new vis.DataSet([
+  { id: 0, label: '<|>', x: 0, y: 0 }, // المركز ثابت
+  { id: 1, label: 'مبرمج', link: './projects/#tools', x: -140, y: -100 }, // أعلى اليسار
+  { id: 2, label: 'كاتب', link: './projects/#book', x: 140, y: -100 },  // أعلى اليمين
+  { id: 3, label: 'شاعر', link: './poetry/', x: 160, y: 100 },        // أسفل اليمين
+  { id: 4, label: 'رسام', link: './projects/#paint', x: -160, y: 100 }  // أسفل اليسار
+]);
+
+const edges = new vis.DataSet([
+  { from: 0, to: 1 },
+  { from: 0, to: 2 },
+  { from: 0, to: 3 },
+  { from: 0, to: 4 },
+  
+  // الروابط الخارجية الإضافية الموزعة هندسياً:
+  { from: 1, to: 2 }, // أفقي أعلى
+  { from: 4, to: 3 }, // أفقي أسفل
+  { from: 1, to: 3 }, // قطري مائل
+  { from: 4, to: 2 }  // قطري مائل متقاطع
+]);
+
+const container = document.getElementById('network');
+const data = { nodes, edges };
+
+const options = {
+  nodes: {
+    shape: 'box',
+    borderWidth: 1,
+    borderWidthSelected: 1,
+    shadow: false,
+    chosen: false,
+    widthConstraint: { minimum: 90 },
+    heightConstraint: { minimum: 30 },
+    font: {
+      color: '#ededed',
+      size: 24,
+      align: 'center'
+    },
+    color: {
+      border: '#444444',
+      background: '#1e1e1e',
+      highlight: {
+        border: '#444444',
+        background: '#1e1e1e'
+      }
+    }
+  },
+  edges: {
+    width: 1.2,
+    hoverWidth: 0,
+    selectionWidth: 0,
+    smooth: true,
+    color: {
+      color: '#888888',
+      highlight: '#888888'
+    }
+  },
+  interaction: {
+    dragNodes: true,
+    dragView: true,
+    zoomView: true,
+    hover: false,
+    keyboard: false,
+    navigationButtons: false
+  },
+  physics: {
+    enabled: true
+  }
+};
+
+const network = new vis.Network(container, data, options);
+
+const animationFrames = [
+  '<|>', 
+  '</>',
+  '<->',  
+  '<\\>'  
+];
+let currentFrame = 0;
+
+setInterval(() => {
+  currentFrame = (currentFrame + 1) % animationFrames.length;
+  nodes.update({ id: 0, label: animationFrames[currentFrame] });
+}, 600); 
+// -------------------------------------------
+
+network.on('click', function (params) {
+  if (params.nodes.length > 0) {
+    const nodeId = params.nodes[0];
+    const node = nodes.get(nodeId);
+    
+    if (node && node.link) {
+      window.location.href = node.link;
+    }
+  }
+});
+
+
+network.on('click', function (params) {
+  if (params.nodes.length > 0) {
+    const nodeId = params.nodes[0];
+    const node = nodes.get(nodeId);
+    
+    if (node && node.link) {
+      window.location.href = node.link;
+    }
+  }
+});
+
 const loader = document.getElementById('loader-wrapper');
 const showLoaderTimeout = setTimeout(() => {
     loader.style.display = 'flex';
@@ -58,7 +167,7 @@ window.addEventListener('load', () => {
     img.onload = function () {
         group.add(buildHead(img, 1, 0));
         if (img.height === 64) group.add(buildHead(img, 1.12, 32));
-        renderScene(0.6, 0.4); 
+        renderScene(0.6, -0.4); 
     };
     img.src = SKIN_PATH;
 
@@ -119,7 +228,7 @@ function timeAgo(date) {
         
 
     }
-    return 'just now';
+    return 'منذ قليل';
 }
 
 async function loadLatestCommit() {
@@ -158,7 +267,7 @@ async function loadLatestCommit() {
 
     } catch (err) {
         console.error(err);
-        document.getElementById("commit-msg").textContent = "Failed to load commit";
+        document.getElementById("commit-msg").textContent = "فشل جلب آخر كوميت";
     }
 }
 

@@ -10,9 +10,9 @@ function initContribGraph(containerId) {
       <div class="contrib-graph" id="contrib-graph">
         <div class="contrib-loading">loading</div>
       </div>
-      <div class="contrib-header">╰┈➤
-        <span class="chip-value" id="contrib-total">3,372</span>
-        <span class="contrib-header-sublabel">commits in last year</span>
+      <div class="contrib-header">⤶
+        <span class="chip-value" id="contrib-total">3,650</span>
+        <span class="contrib-header-sublabel">كوميت في آخر سنة</span>
         <img height="16px" width="16px" src="https://varlock-pixel-art.dmno.workers.dev/effects/fire.gif">
       </div>
     </div>
@@ -43,7 +43,7 @@ function initContribGraph(containerId) {
       contribCalendarData = null;
       const graph = document.getElementById('contrib-graph');
       if (graph) graph.innerHTML =
-        '<div class="contrib-loading" style="color:#ff6b6b">failed to load contributions</div>';
+        '<div class="contrib-loading" style="color:#ff6b6b">فشل احضار جدول المساهمات</div>';
     });
 }
 
@@ -165,7 +165,7 @@ function buildContribGraph(calendar, graphWidth) {
   footer.className = 'contrib-footer';
   footer.innerHTML = `
     <div class="contrib-legend">
-      Less
+      أقل
       <div class="contrib-legend-cells">
         <div class="contrib-legend-cell" style="background:var(--contrib-0)"></div>
         <div class="contrib-legend-cell" style="background:var(--contrib-1)"></div>
@@ -173,7 +173,7 @@ function buildContribGraph(calendar, graphWidth) {
         <div class="contrib-legend-cell" style="background:var(--contrib-3)"></div>
         <div class="contrib-legend-cell" style="background:var(--contrib-4)"></div>
       </div>
-      More
+      أكثر
     </div>
     <a class="contrib-gh-link" href="https://github.com/0xdya" target="_blank">github.com/0xdya</a>
   `;

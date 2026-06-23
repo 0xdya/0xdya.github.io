@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html dir="rtl" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -32,6 +32,11 @@
     <link href="./css/static.css" rel="stylesheet">
     <meta content="#0a0a0a" name="theme-color">
 
+
+  <script src="https://unpkg.com/vis-network@9.1.5/standalone/umd/vis-network.min.js"></script>
+  <link href="https://unpkg.com/vis-network/styles/vis-network.min.css" rel="stylesheet" type="text/css" />
+
+
     <script src="/_vercel/insights/script.js" defer></script>
     <script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments) }</script>
     <script src="/_vercel/speed-insights/script.js" defer></script>
@@ -45,11 +50,13 @@
     </div>
 
     <a href="https://github.com/0xdya/0xdya.github.io"
-        class="fc-animate-grow fc-pos-tr fc-size-small fc-theme-github fork-corner" target="_blank"
+        class="fc-animate-grow fc-pos-tl fc-size-small fc-theme-github fork-corner" target="_blank"
         id="fork-corner"></a>
 
     <div class="layout">
         <div class="container">
+            
+            
 
             <header>
                 <div class="header-inner">
@@ -63,22 +70,28 @@
 
             <section class="hero" data-aos="fade-up">
                 <div class="description">
-                    19yo from 🇩🇿,
-                        
-                    <a href="./projects/" class="highlight">dev</a>,
-                    arabic <a href="./projects/#books" class="highlight">writer</a>
-                    &amp; <a href="./poetry/" class="highlight">poet</a>,
-                    <a href="./projects/#paint" class="highlight">painter</a>.
-                    <span data-aos="zoom-in" data-aos-delay="1500">
-                      <br>  +i use <a href="./rice/" class="highlight" dir="ltr">arch</a> btw
-                        <?xml version="1.0" encoding="utf-8"?>
-                        <img src="./img/classic_tv.gif" height="20px" style="vertical-align:middle" width="20px">
-                    </span><br>
+                    <p class="description_title">ضِياء الدين ملوك</p>
+                    <p class="description_txt">
+                        19 سنة، هاوٍ تقني مُتعدِد الشغف، مهتم بالبرمجيات مفتوحة المصدر، والحرية الرقمية ورفع جودة المحتوى العربي التقني;
+                        <span data-aos="zoom-in" data-aos-delay="1500">
+                          <br>+ استخدم <a href="./rice/" class="highlight">#آرش</a> بالمناسبة
+                            <?xml version="1.0" encoding="utf-8"?>
+                            <img src="./img/classic_tv.gif" height="20px" style="vertical-align:middle" width="20px">
+                        </span>
+                    </p>
 
+<!--                     
+                    <a href="./projects/" class="highlight">#مطور</a>،
+                    <a href="./projects/#books" class="highlight">#كاتب</a>،
+                    <a href="./poetry/" class="highlight">#شاعر</a>،
+                    <a href="./projects/#paint" class="highlight">#رسام</a>. -->
                     
+
+
 
                 </div>
 
+                <div id="network"></div>
 
             </section>
 
@@ -88,32 +101,32 @@
                 <div class="identity-grid">
                     <a href="https://raw.githubusercontent.com/0xdya/0xdya.github.io/refs/heads/main/archive.txt"
                         class="identity-chip" data-aos="fade-up" data-aos-delay="100">
-                        <span class="chip-label">visits</span>
+                        <span class="chip-label">الزيارات</span>
                         <span class="chip-value" id="counter">---</span>
                     </a>
                     <a href="./users/" class="identity-chip" data-aos="fade-up" data-aos-delay="150">
-                        <span class="chip-label">users</span>
+                        <span class="chip-label">المُنضمين</span>
                         <span class="chip-value" id="users_count">---</span>
-                        <span class="btn">open
+                        <span class="btn">فتح
                             <svg fill="none" viewBox="0 0 24 24" class="icon" height="14" width="14"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" stroke-miterlimit="10" />
+                            d="M15.0898 19.9201L8.56984 13.4001C7.79984 12.6301 7.79984 11.3701 8.56984 10.6001L15.0898 4.08008"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            stroke-miterlimit="10" />
                             </svg>
                         </span>
                     </a>
                     <a href="./comments/" class="identity-chip" data-aos="fade-up" data-aos-delay="200">
-                        <span class="chip-label">comments</span>
+                        <span class="chip-label">التعليقات</span>
                         <span class="chip-value" id="comments_count">---</span>
-                        <span class="btn">open
+                        <span class="btn">فتح
                             <svg fill="none" viewBox="0 0 24 24" class="icon" height="14" width="14"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
-                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="1.5" stroke-miterlimit="10" />
+                            d="M15.0898 19.9201L8.56984 13.4001C7.79984 12.6301 7.79984 11.3701 8.56984 10.6001L15.0898 4.08008"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            stroke-miterlimit="10" />
                             </svg>
                         </span>
                     </a>
@@ -122,19 +135,21 @@
                 <a href="archive/" class="commit-card" data-aos="fade-up" data-aos-delay="350">
                     <div class="commit-dot"></div>
                     <div class="commit-meta">
-                        <span class="commit-label">Last update</span>
-                        <p class="commit-message loading" id="commit-msg" dir="rtl">Loading...</p>
+                        <p class="commit-label">آخر تحديث
+                        
+                            <span class="commit-time time_ago">2026-04-26</span>
+                        </p>
+                        <p class="commit-message loading" id="commit-msg" >انتظر قليلاً...</p>
                     </div>
-                    <p class="commit-repo">by @<span id="commit-auth"></span></p>
-                    <span class="commit-time time_ago">---</span>
+                    <p class="commit-repo">من طرف @<span id="commit-auth"></span></p>
                     <span id="commit-time"></span>
-                    <span class="btn">open
+                    <span class="btn">فتح
                         <svg fill="none" viewBox="0 0 24 24" class="icon" height="14" width="14"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
-                                d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                stroke-miterlimit="10" />
+                            d="M15.0898 19.9201L8.56984 13.4001C7.79984 12.6301 7.79984 11.3701 8.56984 10.6001L15.0898 4.08008"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            stroke-miterlimit="10" />
                         </svg>
                     </span>
                 </a>
@@ -145,32 +160,31 @@
             <img src="./img/hr3.webp" class="hr" alt="">
 
             <div class="contact-container">
-                <div class="section-header" data-aos="fade-up-right">
-                    <h2 class="section-title">// contact</h2>
+                <div class="section-header" data-aos="fade-up-left">
+                    <!-- <h2 class="section-title">// التواصل</h2> -->
                 </div>
                 <div class="form-section">
                     <div class="status" id="status"></div>
                     <a href="https://0xdya.vercel.app/skin/">
-                        <img data-aos="fade-up-left" src="./img/avatarBody5.png" alt="">
+                        <img data-aos="flip-left" src="./img/custom-ava (3).png" alt="" data-aos-delay="1200">
                     </a>
                     <div data-aos="fade-up" class="form-group">
-                        <input id="name" placeholder="ur name">
-                        <input type="email" id="email" placeholder="ur email (اختياري)">
+                        <input id="name" placeholder="الاسم">
+                        <input type="email" id="email" placeholder="الايمايل (اختياري)">
                     </div>
                     <div data-aos="fade-up" class="form-group">
-                        <textarea id="message" placeholder="write ur message here..."></textarea>
+                        <textarea id="message" placeholder="اكتب رسالتك هنا..."></textarea>
                     </div>
                     <button data-aos="fade-up" class="send-btn" id="sendBtn" onclick="sendMessage()">
-                        <svg fill="none" viewBox="0 0 24 24" height="14" width="14" stroke="currentColor"
-                            stroke-width="2">
-                            <line x1="22" x2="11" y1="2" y2="13" />
-                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                        </svg>
-                        send
+                        ارسـال
+<svg fill="none" viewBox="0 0 24 24" height="14" width="14" stroke="currentColor" stroke-width="2" style="transform: scaleX(-1);">
+    <line x1="22" x2="11" y1="2" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+</svg>
                     </button>
-                    <div data-aos="fade-up" data-aos-delay="100">
-                        <h2 class="section-title">// find me on</h2>
-                    </div>
+                    <!-- <div data-aos="fade-up" data-aos-delay="100">
+                        <h2 class="section-title">// حساباتي</h2>
+                    </div> -->
                     <div data-aos="fade-up" data-aos-delay="200" class="socials">
                         <a href="https://twitter.com/0xdyaa" class="social-link" target="_blank">
                             <svg fill="currentColor" viewBox="0 0 24 24" class="social-icon">
@@ -225,9 +239,9 @@
                 </div>
             </div>
 
-            <img src="./img/hr3.webp" class="hr" alt="">
-
-            <div class="blog-container" data-aos="fade-up" dir="rtl">
+            
+            <div class="blog-container"  dir="rtl">
+                                    <img src="./img/hr3.webp" class="hr" alt="">
                 <div class="section-header">
                     <h2 class="section-title">// اخر المقالات</h2>
                 </div>
@@ -287,7 +301,7 @@
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                     <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
-                <span class="nav-text">Home</span>
+                <span class="nav-text">الرئيسية</span>
             </a>
             <a href="./projects/" class="nav-item">
                 <svg fill="none" viewBox="0 0 24 24" class="nav-icon" stroke="currentColor" stroke-width="2">
@@ -296,7 +310,7 @@
                     <rect height="7" width="7" x="14" y="14" />
                     <rect height="7" width="7" x="3" y="14" />
                 </svg>
-                <span class="nav-text">Projects</span>
+                <span class="nav-text">المشاريع</span>
             </a>
             <a href="./blog/" class="nav-item">
                 <svg fill="none" viewBox="0 0 24 24" class="nav-icon" stroke="currentColor" stroke-width="2">
@@ -305,14 +319,14 @@
                     <line x1="16" x2="8" y1="13" y2="13" />
                     <line x1="16" x2="8" y1="17" y2="17" />
                 </svg>
-                <span class="nav-text">Articles</span>
+                <span class="nav-text">المقالات</span>
             </a>
             <a href="./contact/" class="nav-item">
                 <svg fill="none" viewBox="0 0 24 24" class="nav-icon" stroke="currentColor" stroke-width="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                     <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <span class="nav-text">Contact</span>
+                <span class="nav-text">التواصل</span>
             </a>
         </nav>
         <nav class="navbar">
@@ -320,7 +334,7 @@
                 <svg fill="none" viewBox="0 0 24 24" class="nav-icon" stroke="currentColor" stroke-width="2">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
-                <span class="nav-text">Comments</span>
+                <span class="nav-text">التعليقات</span>
             </a>
             <div class="profile user_photo" id="userPhotoContainer"></div>
         </nav>
