@@ -244,7 +244,7 @@ async function loadLatestCommit() {
         const commits = await res.json();
         const latest = commits.find(c => {
             const msg = c.commit.message.split("\n")[0].toLowerCase();
-            return !msg.startsWith("auto") && !msg.startsWith("hidden");
+            return !msg.startsWith("auto") && !msg.startsWith("tst");
         });
 
         if (!latest) throw new Error("No valid commits");

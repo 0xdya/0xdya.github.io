@@ -25,7 +25,7 @@ async function loadCommits() {
 
         const filteredCommits = data.filter(commit => {
             const msg = commit.commit.message.split("\n")[0].toLowerCase();
-            return !msg.startsWith("auto") && !msg.startsWith("Tst");
+            return !msg.startsWith("auto") && !msg.startsWith("tst");
         });
 
         filteredCommits.forEach(commit => {

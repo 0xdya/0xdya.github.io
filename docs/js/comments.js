@@ -41,10 +41,24 @@ const currentUserAvatar = document.getElementById('currentUserAvatar');
 
 let currentUser = null;
 let currentUserData = null;
+let commentsUnsubscribe = null;
+let alertTimeout = null;
+
+const userCache = new Map();
+
 
 function showAlert(message, error = false) {
-    alertBox.innerHTML = `<div style="border-left-color:${error ? '#e05c5c' : '#31a24c'}">${message}</div>`;
-    setTimeout(() => alertBox.innerHTML = "", 4000);
+    clearTimeout(alertTimeout);
+
+    alertBox.innerHTML = `
+        <div class="${error ? "alert-error" : "alert-success"}">
+            ${message}
+        </div>
+    `;
+
+    alertTimeout = setTimeout(() => {
+        alertBox.innerHTML = "";
+    }, 4000);
 }
 
 function syncReplyControls() {
@@ -58,36 +72,94 @@ function syncReplyControls() {
 }
 
 function formatDate(dateValue) {
-    if (!dateValue) return "now";
+    if (!dateValue) return "الآن";
+
+    const now = new Date();
     const date = new Date(dateValue);
-    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (seconds < 60) return `${seconds}s`;
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `${minutes}m`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours}h`;
-    const days = Math.floor(hours / 24);
-    if (days < 30) return `${days}d`;
-    const months = Math.floor(days / 30);
-    if (months < 12) return `${months}mo`;
-    const years = Math.floor(months / 12);
-    return `${years}y`;
+
+    const diffSeconds = Math.floor(Math.abs(now - date) / 1000);
+
+    if (diffSeconds < 60) return "الآن";
+
+    const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+        second: 1
+    };
+
+    const arabicUnits = {
+        year: ["سنة", "سنتين", "سنوات", "سنة"],
+        month: ["شهر", "شهرين", "أشهر", "شهراً"],
+        week: ["أسبوع", "أسبوعين", "أسابيع", "أسبوعاً"],
+        day: ["يوم", "يومين", "أيام", "يوماً"],
+        hour: ["ساعة", "ساعتين", "ساعات", "ساعة"],
+        minute: ["دقيقة", "دقيقتين", "دقائق", "دقيقة"],
+        second: ["ثانية", "ثانيتين", "ثوانٍ", "ثانية"]
+    };
+
+    for (const [unit, value] of Object.entries(intervals)) {
+        const count = Math.floor(diffSeconds / value);
+
+        if (count >= 1) {
+            if (count === 1) return `منذ ${arabicUnits[unit][0]}`;
+            if (count === 2) return `منذ ${arabicUnits[unit][1]}`;
+            if (count <= 10) return `منذ ${count} ${arabicUnits[unit][2]}`;
+            return `منذ ${count} ${arabicUnits[unit][3]}`;
+        }
+    }
+
+    return "الآن";
 }
 
 async function getUserData(uid) {
+    if (!uid) {
+        return {
+            name: "user",
+            photo: "https://0xdya.vercel.app/img/user.jpg",
+            role: null,
+            verified: false
+        };
+    }
+
+    if (userCache.has(uid)) {
+        return userCache.get(uid);
+    }
+
     try {
         const snap = await getDoc(doc(db, "users", uid));
-        if (snap.exists()) {
-            const data = snap.data();
-            return {
-                name: data.name || "user",
-                photo: data.photo || `https://0xdya.vercel.app/img/user.jpg`,
-                role: data.role || null,
-                verified: data.verified || false
+
+        const data = snap.exists()
+            ? {
+                name: snap.data().name || "user",
+                photo:
+                    snap.data().photo ||
+                    snap.data().avatar ||
+                    "https://0xdya.vercel.app/img/user.jpg",
+                role: snap.data().role || null,
+                verified: snap.data().verified || false
+            }
+            : {
+                name: "user",
+                photo: "https://0xdya.vercel.app/img/user.jpg",
+                role: null,
+                verified: false
             };
-        }
-    } catch (e) { }
-    return { name: "user", photo: `https://0xdya.vercel.app/img/user.jpg`, verified: false };
+
+        userCache.set(uid, data);
+
+        return data;
+    } catch {
+        return {
+            name: "user",
+            photo: "https://0xdya.vercel.app/img/user.jpg",
+            role: null,
+            verified: false
+        };
+    }
 }
 
 const VERIFIED_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.007 2.10377C8.60544 1.65006 7.08181 2.28116 6.41156 3.59306L5.60578 5.17023C5.51004 5.35763 5.35763 5.51004 5.17023 5.60578L3.59306 6.41156C2.28116 7.08181 1.65006 8.60544 2.10377 10.007L2.64923 11.692C2.71404 11.8922 2.71404 12.1078 2.64923 12.308L2.10377 13.993C1.65006 15.3946 2.28116 16.9182 3.59306 17.5885L5.17023 18.3942C5.35763 18.49 5.51004 18.6424 5.60578 18.8298L6.41156 20.407C7.08181 21.7189 8.60544 22.35 10.007 21.8963L11.692 21.3508C11.8922 21.286 12.1078 21.286 12.308 21.3508L13.993 21.8963C15.3946 22.35 16.9182 21.7189 17.5885 20.407L18.3942 18.8298C18.49 18.6424 18.6424 18.49 18.8298 18.3942L20.407 17.5885C21.7189 16.9182 22.35 15.3946 21.8963 13.993L21.3508 12.308C21.286 12.1078 21.286 11.8922 21.3508 11.692L21.8963 10.007C22.35 8.60544 21.7189 7.08181 20.407 6.41156L18.8298 5.60578C18.6424 5.51004 18.49 5.35763 18.3942 5.17023L17.5885 3.59306C16.9182 2.28116 15.3946 1.65006 13.993 2.10377L12.308 2.64923C12.1078 2.71403 11.8922 2.71404 11.692 2.64923L10.007 2.10377ZM6.75977 11.7573L8.17399 10.343L11.0024 13.1715L16.6593 7.51465L18.0735 8.92886L11.0024 15.9999L6.75977 11.7573Z"></path></svg>`;
@@ -96,6 +168,12 @@ function getRoleIcon(role) {
     if (role === 'owner') return `<img src="../badges/server-owner.svg" class="badge-owner">`;
     if (role === 'dev') return `<ion-icon name="code-slash-outline" style="color:violet;font-size:14px;"></ion-icon>`;
     return '';
+}
+
+function escapeHtml(text = "") {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 async function loadReplies(commentId) {
@@ -129,10 +207,10 @@ async function loadReplies(commentId) {
             ${getRoleIcon(userData.role)}
             <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
           </div>
-          <div class="reply-text">${d.text}</div>
+          <div class="reply-text">${escapeHtml(d.text)}</div>
         </div>
         <div class="reply-meta">
-          ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">Delete</button>` : ''}
+          ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">حذف</button>` : ''}
         </div>
       </div>
     `;
@@ -143,7 +221,7 @@ async function loadReplies(commentId) {
                 if (confirm("Delete this reply?")) {
                     await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
                     await update(ref(rtdb, '/'), { comments_count: increment(-1) });
-                    showAlert("Reply deleted.");
+                    showAlert("تم حذف الرد.");
                     loadReplies(commentId);
                 }
             });
@@ -156,7 +234,11 @@ function loadComments() {
     let pinned = [], normal = [];
     const loadedSet = new Set();
 
-    onSnapshot(q, (snapshot) => {
+    if (commentsUnsubscribe) {
+        commentsUnsubscribe();
+    }
+
+    commentsUnsubscribe = onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach(async (change) => {
             const docSnap = change.doc;
             const data = docSnap.data();
@@ -179,27 +261,29 @@ function loadComments() {
               </a>
             </div>
             <div class="comment-body">
-              ${data.pinned ? `<div class="pin-badge"><ion-icon name="push-outline"></ion-icon> Pinned comment</div>` : ''}
+             
               <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
                 <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
                   <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;font-weight:600;">${userData.name}</a>
                   ${userData.verified ? VERIFIED_SVG : ''}
                   ${getRoleIcon(userData.role)}
                   <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
+                   ${data.pinned ? `<div class="pin-badge">(مثبت)</div>` : ''}
                 </div>
-                <div class="bubble-text">${data.text}</div>
-              </div>
-              <div class="comment-meta">
-                <button class="meta-action reply-toggle-btn" data-id="${commentId}"${currentUser ? '' : ' style="display:none"'}>Reply</button>
-                ${isOwner ? `<button class="meta-action delete" data-id="${commentId}">Delete</button>` : ''}
+                <div class="bubble-text">${escapeHtml(data.text)} <br>
+                <div class="comment-meta">
+                <button class="meta-action reply-toggle-btn" data-id="${commentId}"${currentUser ? '' : ' style="display:none"'}>رد</button>
+                  ${isOwner ? `<button class="meta-action delete " data-id="${commentId}">حذف</button>` : ''}
+                </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="reply-form-wrap" id="reply-form-${commentId}">
             <img src="${currentUser?.photoURL || 'https://0xdya.vercel.app/img/user.jpg'}" alt="">
             <div class="reply-input-row">
-              <textarea placeholder="Write a reply..." class="reply-input" rows="1"></textarea>
-              <button class="reply-submit-btn" data-id="${commentId}">Reply</button>
+              <textarea placeholder="اكتب الرد ..." class="reply-input" rows="1"></textarea>
+              <button class="reply-submit-btn" data-id="${commentId}">ارسال</button>
             </div>
           </div>
           <div class="replies-section" id="replies-${commentId}"></div>
@@ -210,7 +294,7 @@ function loadComments() {
                 else normal.push(entry);
 
                 wrap.querySelector('.reply-toggle-btn').addEventListener('click', () => {
-                    if (!currentUser) { showAlert("Login to reply", true); return; }
+                    if (!currentUser) { showAlert("سجل الدخول أولاً", true); return; }
                     const form = document.getElementById(`reply-form-${commentId}`);
                     form.classList.toggle('open');
                     if (form.classList.contains('open')) form.querySelector('textarea').focus();
@@ -237,7 +321,7 @@ function loadComments() {
                         if (confirm("Delete this comment?")) {
                             await deleteDoc(doc(db, "comments", commentId));
                             await update(ref(rtdb, '/'), { comments_count: increment(-1) });
-                            showAlert("Comment deleted.");
+                            showAlert("تم حذف التعليق.");
                         }
                     });
                 }
@@ -247,8 +331,13 @@ function loadComments() {
                     return (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0);
                 });
 
-                commentsList.innerHTML = "";
-                all.forEach(({ el }) => commentsList.appendChild(el));
+                const fragment = document.createDocumentFragment();
+
+                all.forEach(({ el }) => {
+                    fragment.appendChild(el);
+                });
+
+                commentsList.replaceChildren(fragment);
                 all.forEach(({ id }) => {
                     if (!loadedSet.has(id)) { loadedSet.add(id); loadReplies(id); }
                 });
@@ -269,8 +358,15 @@ function loadComments() {
 
 commentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const text = commentInput.value.trim();
+
     if (!text || !currentUser) return;
+
+    const submitBtn = commentForm.querySelector('button[type="submit"]');
+
+    submitBtn.disabled = true;
+
     try {
         await addDoc(collection(db, "comments"), {
             uid: currentUser.uid,
@@ -279,11 +375,18 @@ commentForm.addEventListener('submit', async (e) => {
             pinned: false,
             timestamp: serverTimestamp()
         });
-        await update(ref(rtdb, '/'), { comments_count: increment(1) });
+
+        await update(ref(rtdb, '/'), {
+            comments_count: increment(1)
+        });
+
         commentForm.reset();
-        showAlert("Comment posted!");
+
+        showAlert("تم نشر التعليق بنجاح");
     } catch (err) {
-        showAlert("Error posting comment.", true);
+        showAlert("فشل نشر التعليق.", true);
+    } finally {
+        submitBtn.disabled = false;
     }
 });
 
@@ -294,7 +397,7 @@ onAuthStateChanged(auth, async (user) => {
         const userRef = doc(db, "users", user.uid);
         await setDoc(userRef, {
             name: user.displayName || "user",
-            avatar: user.photoURL || `https://0xdya.vercel.app/img/user.jpg`
+            photo: user.photoURL || "https://0xdya.vercel.app/img/user.jpg"
         }, { merge: true });
         try {
             const snap = await getDoc(userRef);

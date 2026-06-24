@@ -30,7 +30,10 @@
     --text-lg: 1.2rem;
     --text-xl: 1.45rem
 }
-    
+html{
+    scroll-behavior: smooth;
+      scrollbar-gutter: stable;
+    }    
 * {
     backface-visibility: hidden;
     -webkit-tap-highlight-color: #fff0;
@@ -102,12 +105,12 @@ body {
     position: relative;
     display: flex;
     justify-content: center;
-    min-width: 216px;
+    min-width: 230px;
  
     
-  background: rgba(255, 255, 255, 0.006);
+  background: #0808083a;
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(8px);
 
   border: 1px solid rgba(255, 255, 255, 0.12);
 
@@ -255,7 +258,7 @@ a {
     .navbar:nth-child(2) {
         padding: 8px 10px;
         /* background-color: red; */
-        min-width: 170px
+        min-width: 154px
     }
     .blog-container, .contact-container, .hr {
         display: block;

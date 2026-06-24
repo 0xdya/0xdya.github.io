@@ -1,7 +1,6 @@
-
 (function () {
   const GITHUB_PATH = 'M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z';
-
+  
   const ICONS = {
     external: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
     github: `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="${GITHUB_PATH}"/></svg>`,
@@ -10,152 +9,162 @@
     npm: '<svg width="12" height="12" fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><polygon fill="#C12127" points="0 256 0 0 256 0 256 256"/><polygon fill="#FFFFFF" points="48 48 208 48 208 208 176 208 176 80 128 80 128 208 48 208"/></svg>',
     jsdelivr: '<img src="https://www.jsdelivr.com/icon_256x256.png" width="12" height="12">'
   };
-
+  
   const PROJECTS = [
     {
-      cat: 'tools',
-      name: 'TimeAr<span class="badge"> "tool"</span>',
+      cat: 'web',
+      name: 'Level-Up <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'اول مكتبة عربية لعرض كم مضى من الزمن عبر ادخال التاريخ والوقت، مثلا تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar">2026-04-16T12:00</span>',
+      desc: 'موقع لصاحب متجر ألعاب يستعرض فيه الألعاب التي يبيعها (PC, PS2, PS3, PS4, PSP…).',
       descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d1wiki.vercel.app/time-ar/', label: 'wiki', primary: true },
+        { icon: 'external', href: 'https://lvup.vercel.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/lu', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=lu', label: 'التعليقات' }
+      ]
+    },
+    {
+      cat: 'tools',
+      name: 'TimeAr<span class="badge"> "أداة"</span>',
+      active: true,
+      desc: 'أول مكتبة عربية لعرض كم مضى من الزمن عبر إدخال التاريخ والوقت، مثلاً تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar">2026-04-16T12:00</span>',
+      descDir: 'rtl',
+      buttons: [
+        { icon: 'external', href: 'https://d1wiki.vercel.app/time-ar/', label: 'الويكي', primary: true },
         { icon: 'npm', href: 'https://www.npmjs.com/package/time-ar', label: 'npm', primary: true },
         { icon: 'jsdelivr', href: 'https://www.jsdelivr.com/package/npm/time-ar', label: 'jsDelivr', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/timeAr', label: 'source' },
-        { icon: 'comments', href: 'https://d1wiki.vercel.app/time-ar/community', label: 'community' }
+        { icon: 'github', href: 'https://github.com/0xdya/timeAr', label: 'المصدر' },
+        { icon: 'comments', href: 'https://d1wiki.vercel.app/time-ar/community', label: 'المجتمع' }
       ]
     },
     {
       cat: 'tools',
-      name: 'HNT.sh <span class="badge"> "tool"</span>',
+      name: 'HNT.sh <span class="badge"> "أداة"</span>',
       active: true,
-      desc: 'اداة مفيدة لمستخدمين هايبرلاند يتيح لهم اضافة الاضاءة اليلية والتحكم فيها<br>+ HNT هو اختصار ل: <br> Hyprland Nightlight Toggle',
+      desc: 'أداة مفيدة لمستخدمي هايبرلاند تتيح لهم إضافة الإضاءة الليلية والتحكم فيها<br>+ HNT هو اختصار لـ: <br> Hyprland Nightlight Toggle',
       descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d1wiki.vercel.app/HNT/', label: 'wiki', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/HNT', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=HNT', label: 'comments' }
+        { icon: 'external', href: 'https://d1wiki.vercel.app/HNT/', label: 'الويكي', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/HNT', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=HNT', label: 'التعليقات' }
       ]
     },
     {
       cat: 'tools',
-      name: 'fastpush <span class="badge"> "tool"</span>',
+      name: 'fastpush <span class="badge"> "أداة"</span>',
       active: true,
-      desc: 'اداة تختصر عليك رفع مشروعك من vscode او cursor او حتى zed الى قيتهاب بسطر واحد',
+      desc: 'أداة تختصر عليك رفع مشروعك من VS Code أو Cursor أو حتى Zed إلى جيت هاب بسطر واحد فقط.',
       descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d1wiki.vercel.app/fastpush/', label: 'wiki', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/fastpush/', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=fastpush', label: 'comments' }
+        { icon: 'external', href: 'https://d1wiki.vercel.app/fastpush/', label: 'الويكي', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/fastpush/', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=fastpush', label: 'التعليقات' }
       ]
     },
     {
       cat: 'tools',
-      name: 'last3night <span class="badge"> "app"</span>',
+      name: 'last3night <span class="badge"> "تطبيق"</span>',
       active: true,
-      desc: 'تطبيق حساب الثلث الأخير',
+      desc: 'تطبيق مخصص لحساب وقت الثلث الأخير من الليل.',
       descDir: 'rtl',
       buttons: [
-        { icon: 'download', href: 'https://github.com/0xdya/last3night/releases/tag/apk', label: 'APK', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/last3night/', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=last3night', label: 'comments' }
+        { icon: 'download', href: 'https://github.com/0xdya/last3night/releases/tag/apk', label: 'ملف APK', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/last3night/', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=last3night', label: 'التعليقات' }
       ]
     },
     {
       cat: 'web',
-      name: 'D1 Shop <span class="badge"> "web"</span>',
+      name: ' dya-quran <span class="badge"> "موقع"</span>',
       active: true,
-      desc: ' personal store for selling social media showcase pages & website management services.',
+      desc: 'يضم 14 قارئاً مشهوراً، وجميع السور بدون إعلانات. يمكنك تحميل سور فردية أو كل الـ 114 سورة في ملف مضغوط واحد.',
+      descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d1shop.web.app', label: 'open', primary: true },
-        { icon: 'comments', href: 'project.html?slug=d1shop', label: 'comments' }
+        { icon: 'external', href: 'https://dya-quran.web.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'comments', href: 'project.html?slug=dya-quran', label: 'التعليقات' }
       ]
     },
     {
       cat: 'web',
-      name: 'Dya Quran <span class="badge"> "web"</span>',
+      name: ' D1 Shop <span class="badge"> "موقع"</span>',
       active: true,
-      desc: '14 famous reciters, all surahs, no-ads. download individual surahs or all 114 in one zip.',
+      desc: 'متجر شخصي لبيع صفحات عرض منصات التواصل الاجتماعي وخدمات إدارة مواقع.',
+      descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://dya-quran.web.app', label: 'open', primary: true },
-        { icon: 'comments', href: 'project.html?slug=dya-quran', label: 'comments' }
+        { icon: 'external', href: 'https://d1shop.web.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'comments', href: 'project.html?slug=d1shop', label: 'التعليقات' }
+      ]
+    },
+  //  {
+    //  cat: 'web',
+//      name: 'kitsuba <span class="badge"> "موقع"</span>',
+//      active: false,
+//      desc: 'هذا هو معرض أعمالي القديم — الذي لست فخوراً به تماماً.<br>أعرضه هنا فقط كدليل على أنني تطورت بالفعل ._. 👍️',
+//      descDir: 'rtl',
+//      buttons: [
+//        { icon: 'external', href: 'https://d76.vercel.app/', label: 'زيارة الموقع', primary: true },
+//        { icon: 'github', href: 'https://github.com/0xdya/kitsuba/', label: 'المصدر' },
+//        { icon: 'comments', href: 'project.html?slug=kitsuba', label: 'التعليقات' }
+//      ]
+//    },
+    {
+      cat: 'web',
+      name: 'D1 Wiki <span class="badge"> "موقع"</span>',
+      active: true,
+      desc: 'مساحتي الخاصة حيث أشارك التوثيقات والشروحات لأدواتي.',
+      descDir: 'rtl',
+      buttons: [
+        { icon: 'external', href: 'https://0xdya.github.io/d1wiki/', label: 'زيارة الموقع', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/d1wiki/', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=d1wiki', label: 'التعليقات' }
       ]
     },
     {
       cat: 'web',
-      name: 'kitsuba <span class="badge"> "web"</span>',
+      name: 'D1 BAC <span class="badge"> "موقع"</span>',
+      active: true,
+      desc: 'مشروع مفتوح المصدر — يحتوي على دروس، ملخصات، وكل ما يخص شهادة البكالوريا لجميع المواد والشُعب.',
+      descDir: 'rtl',
+      buttons: [
+        { icon: 'external', href: 'https://d1bac.vercel.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/d1bac', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=d1bac', label: 'التعليقات' }
+      ]
+    },
+    // {
+    //   cat: 'web',
+    //   name: 'D1 Master<span class="badge"> "موقع"</span>',
+    //   active: false,
+    //   desc: 'مشروع مفتوح المصدر يستهدف مطوري الواجهات الأمامية (Front-End) ومصممي واجهات المستخدم عموماً. <br>(لا يزال في المرحلة التجريبية)',
+    //   descDir: 'rtl',
+    //   buttons: [
+    //     { icon: 'external', href: 'https://d1master.web.app/', label: 'زيارة الموقع', primary: true },
+    //     { icon: 'github', href: 'https://github.com/0xdya/d1master_beta', label: 'المصدر (مستودع خاص)' },
+    //     { icon: 'comments', href: 'project.html?slug=d1master_beta', label: 'التعليقات' }
+    //   ]
+    // },    
+
+    {
+      cat: 'web',
+      name: 'D1 Security <span class="badge"> "موقع"</span>',
+      active: true,
+      desc: 'افحص جهازك بحثاً عن الثغرات الأمنية على الويب وتعلّم كيفية حماية نفسك. <br> "نسخة تجريبية"',
+      descDir: 'rtl',
+      buttons: [
+        { icon: 'external', href: 'https://0xdya.github.io/d1scan_beta', label: 'زيارة الموقع', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/d1scan_beta', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=d1scan_beta', label: 'التعليقات' }
+      ]
+    },
+    {
+      cat: 'web',
+      name: 'موقع ثانوية أبي حامد الغزالي <span class="badge"> "موقع"</span>',
       active: false,
-      desc: 'this is my old portfolio — the one I’m not exactly proud of.<br>I’m only showing it here as proof that, yes, I’ve evolved ._. 👍️',
+      desc: 'موقع إلكتروني قديم قمت ببنائه للثانوية التي درست فيها.',
+      descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d76.vercel.app/', label: 'open', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/kitsuba/', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=kitsuba', label: 'comments' }
-      ]
-    },
-    {
-      cat: 'web',
-      name: 'd1 wiki <span class="badge"> "web"</span>',
-      active: true,
-      desc: 'my own place where i share wikis for my tools.',
-      buttons: [
-        { icon: 'external', href: 'https://0xdya.github.io/d1wiki/', label: 'open', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/d1wiki/', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=d1wiki', label: 'comments' }
-      ]
-    },
-    {
-      cat: 'web',
-      name: 'D1 BAC <span class="badge"> "web"</span>',
-      active: true,
-      desc: 'open-source — lessons, summaries and everything BAC for all subjects and streams.',
-      buttons: [
-        { icon: 'external', href: 'https://d1bac.vercel.app', label: 'open', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/d1bac', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=d1bac', label: 'comments' }
-      ]
-    },
-    {
-      cat: 'web',
-      name: 'Level Up <span class="badge"> "web"</span>',
-      active: true,
-      desc: 'site for a game store owner to showcase games he sells (PC, PS2, PS3, PS4, PSP…)',
-      buttons: [
-        { icon: 'external', href: 'https://lvup.vercel.app', label: 'open', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/lu', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=lu', label: 'comments' }
-      ]
-    },
-    {
-      cat: 'web',
-      name: 'D1 Master "alpha version"<span class="badge"> "web"</span>',
-      active: false,
-      desc: 'open-source project aimed at front-end and UI developers in general. <br>(still in beta test)',
-      buttons: [
-        { icon: 'external', href: 'https://d1master.web.app/', label: 'open', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/d1master_beta', label: 'source (private repo)' },
-        { icon: 'comments', href: 'project.html?slug=d1master_beta', label: 'comments' }
-      ]
-    },
-    {
-      cat: 'web',
-      name: 'D1 Security <span class="badge"> "web"</span>',
-      active: true,
-      desc: 'scan your device for web vulnerabilities and learn how to protect yourself.',
-      buttons: [
-        { icon: 'external', href: 'https://0xdya.github.io/d1scan_beta', label: 'open', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/d1scan_beta', label: 'source' },
-        { icon: 'comments', href: 'project.html?slug=d1scan_beta', label: 'comments' }
-      ]
-    },
-    {
-      cat: 'web',
-      name: 'Abi Hamid Al-Ghazali HS <span class="badge"> "web"</span>',
-      active: false,
-      desc: 'old website i built for the high school i studied at.',
-      buttons: [
-        { icon: 'external', href: 'https://el-ghazali.web.app', label: 'open', primary: true },
-        { icon: 'comments', href: 'project.html?slug=abihamed', label: 'comments' }
+        { icon: 'external', href: 'https://el-ghazali.web.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'comments', href: 'project.html?slug=abihamed', label: 'التعليقات' }
       ]
     }
   ];
@@ -249,19 +258,13 @@ function hidePopupAndStartCount() {
   localStorage.setItem('popup_open_count', '0'); 
 }
 
-skinBtnClose.addEventListener('click', hidePopupAndStartCount);
+if (skinBtnClose) {
+  skinBtnClose.addEventListener('click', hidePopupAndStartCount);
+}
 
 if (skinBtn) {
   skinBtn.addEventListener('click', hidePopupAndStartCount);
 }
-
-// window.addEventListener('click', function (e) {
-//   if (!e.target.closest('.assistant-popup') && !e.target.closest('img')) {
-//      if (body.classList.contains('popup-open')) {
-//       hidePopupAndStartCount();
-//     }
-//   }
-// });
 
   function animateIn(elements, delay = 0) {
     elements.forEach((el, i) => {

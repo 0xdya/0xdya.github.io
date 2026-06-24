@@ -176,8 +176,8 @@ function buildContribGraph(calendar, graphWidth) {
       </div>
       أكثر
     </div>
-    <a class="contrib-gh-link" href="https://github.com/0xdya" target="_blank">github.com/0xdya</a>
-  `;
+  <!--  <a class="contrib-gh-link" href="https://github.com/0xdya" target="_blank">github.com/0xdya</a>  -->
+    `;
 
   graph.innerHTML = '';
   graph.style.padding = `${PADDING}px ${PADDING}px ${Math.round(PADDING * 0.75)}px`;
