@@ -195,72 +195,71 @@ window.addEventListener('load', () => {
     });
 })();
 
-function timeAgo(date) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    const intervals = [
-        {
-            label: 'year',
-            seconds: 31536000
-        },
-        {
-            label: 'month',
-            seconds: 2592000
-        },
-        {
-            label: 'day',
-            seconds: 86400
-        },
-        {
-            label: 'hour',
-            seconds: 3600
-        }, {
-            label: 'minute',
-            seconds: 60
-        }, {
-            label: 'second',
-            seconds: 1
-        }
-    ];
-    for (const i of intervals) {
-        const count = Math.floor(seconds / i.seconds);
-        if (count > 0) 
-            return count + ' ' + i.label + (count > 1 ? 's' : '');
-        
+const intervalsAr = {
+    year: 31536000,
+    month: 2592000,
+    week: 604800,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+    second: 1
+};
 
+const arabicUnits = {
+    year: ["سنة", "سنتين", "سنوات", "سنة"],
+    month: ["شهر", "شهرين", "أشهر", "شهراً"],
+    week: ["أسبوع", "أسبوعين", "أسابيع", "أسبوعاً"],
+    day: ["يوم", "يومين", "أيام", "يوماً"],
+    hour: ["ساعة", "ساعتين", "ساعات", "ساعة"],
+    minute: ["دقيقة", "دقيقتين", "دقائق", "دقيقة"],
+    second: ["ثانية", "ثانيتين", "ثوانٍ", "ثانية"]
+};
+
+function arFormat(customDate) {
+    const now = new Date();
+    const diffSeconds = Math.floor(Math.abs(now - customDate) / 1000);
+    
+    if (diffSeconds < 5) return "الآن";
+
+    const prefix = customDate > now ? "بعد" : "منذ";
+
+    for (const [unit, value] of Object.entries(intervalsAr)) {
+        const count = Math.floor(diffSeconds / value);
+
+        if (count >= 1) {
+            if (count === 1) return `${prefix} ${arabicUnits[unit][0]}`;
+            if (count === 2) return `${prefix} ${arabicUnits[unit][1]}`;
+            if (count >= 3 && count <= 10) return `${prefix} ${count} ${arabicUnits[unit][2]}`;
+            return `${prefix} ${count} ${arabicUnits[unit][3]}`;
+        }
     }
-    return 'منذ قليل';
+    return "منذ مدة";
 }
 
 async function loadLatestCommit() {
     try {
         const res = await fetch('/api/github_commits');
-        if (! res.ok) 
-            throw new Error('فشل جلب الكوميتات');
-        
+        if (!res.ok) throw new Error('فشل جلب الكوميتات');
 
         const commits = await res.json();
         const latest = commits.find(c => {
             const msg = c.commit.message.split("\n")[0].toLowerCase();
-            return ! msg.startsWith("auto") && !msg.startsWith("hidden");
+            return !msg.startsWith("auto") && !msg.startsWith("hidden");
         });
 
-        if (! latest) 
-            throw new Error("No valid commits");
-        
+        if (!latest) throw new Error("No valid commits");
 
         const message = latest.commit.message;
         const date = new Date(latest.commit.author.date);
 
         document.getElementById("commit-msg").textContent = message;
-        document.getElementById("commit-auth").textContent = latest.author ? latest.author.login : latest.commit.author.name;
+        // document.getElementById("commit-auth").textContent = latest.author ? latest.author.login : latest.commit.author.name;
 
-        document.getElementById("commit-time").textContent =
-    date.toISOString().slice(0, 19);
+   const commitTimeElem = document.getElementById("commit-time") ;
 
-        const timeAgoElem = document.querySelector(".time_ago");
-        if (timeAgoElem) 
-            timeAgoElem.textContent = timeAgo(date);
-        
+if (commitTimeElem) {
+    commitTimeElem.textContent = arFormat(date);
+}
 
     } catch (err) {
         console.error(err);

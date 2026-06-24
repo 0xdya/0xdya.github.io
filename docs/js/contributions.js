@@ -1,5 +1,6 @@
 let contribCalendarData = null;
 let contribResizeTimer = null;
+let contribResizeObserver = null;
 
 function initContribGraph(containerId) {
   const container = document.getElementById(containerId);
@@ -28,6 +29,7 @@ function initContribGraph(containerId) {
     .then(data => {
       contribCalendarData = data;
       const graph = document.getElementById('contrib-graph');
+
       const schedule = () => {
         if (contribResizeTimer) clearTimeout(contribResizeTimer);
         contribResizeTimer = setTimeout(() => {
@@ -35,12 +37,13 @@ function initContribGraph(containerId) {
           if (w >= 10) buildContribGraph(contribCalendarData, w);
         }, 120);
       };
-      const ro = new ResizeObserver(() => schedule());
-      ro.observe(graph);
+
+      if (contribResizeObserver) contribResizeObserver.disconnect();
+      contribResizeObserver = new ResizeObserver(schedule);
+      contribResizeObserver.observe(graph);
       schedule();
     })
     .catch(() => {
-      contribCalendarData = null;
       const graph = document.getElementById('contrib-graph');
       if (graph) graph.innerHTML =
         '<div class="contrib-loading" style="color:#ff6b6b">فشل احضار جدول المساهمات</div>';
@@ -55,14 +58,12 @@ function buildContribGraph(calendar, graphWidth) {
   const totalEl = document.getElementById('contrib-total');
   if (totalEl) totalEl.textContent = totalContributions.toLocaleString();
 
-  const isMobile = typeof window.matchMedia === 'function'
-    ? window.matchMedia('(max-width: 500px)').matches
-    : window.innerWidth <= 500;
+  const isMobile = window.matchMedia('(max-width: 500px)').matches;
 
-  const DAY_NAMES = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
   const GAP = 2;
   const DAY_COL_W = isMobile ? 14 : 22;
   const PADDING = isMobile ? 12 : 32;
+  const MONTH_ROW_H = 16;
   const innerW = Math.max(40, graphWidth - PADDING * 2 - DAY_COL_W - GAP);
 
   const minCell = isMobile ? 7 : 11;
@@ -72,106 +73,106 @@ function buildContribGraph(calendar, graphWidth) {
   const nWeeks = Math.max(1, visibleWeeks.length);
   const rawCell = (innerW - GAP * (nWeeks - 1)) / nWeeks;
   const cellSize = Math.max(2, Math.min(14, Math.floor(rawCell)));
+  const step = cellSize + GAP;
 
-  const monthLabels = document.createElement('div');
-  monthLabels.className = 'contrib-month-labels';
-  monthLabels.style.cssText = `
-    padding-left: ${DAY_COL_W + GAP + 2}px;
-    margin-bottom: 6px;
-    display: flex;
-    gap: 0;
-    min-width: 0;
-    position: relative;
-    height: 14px;
-  `;
+  const svgW = DAY_COL_W + GAP + nWeeks * step - GAP;
+  const svgH = MONTH_ROW_H + 7 * step - GAP;
 
+  const style = getComputedStyle(document.documentElement);
+  const COLORS = [
+    style.getPropertyValue('--contrib-0').trim() || 'rgba(255,255,255,0.09)',
+    style.getPropertyValue('--contrib-1').trim() || '#2e1065',
+    style.getPropertyValue('--contrib-2').trim() || '#4c1d95',
+    style.getPropertyValue('--contrib-3').trim() || '#7c3aed',
+    style.getPropertyValue('--contrib-4').trim() || '#a78bfa',
+  ];
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('width', svgW);
+  svg.setAttribute('height', svgH);
+  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
+  svg.style.cssText = 'display:block; overflow:visible;';
+
+  const DAY_NAMES = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
   let lastMonth = null;
-  visibleWeeks.forEach(week => {
-    const hasFirstOfMonth = week.contributionDays.some(d =>
-      new Date(d.date + 'T00:00:00').getDate() === 1
-    );
-    const referenceDay = week.contributionDays.find(d =>
-      new Date(d.date + 'T00:00:00').getDate() === 1
-    ) || week.contributionDays[0];
-
-    if (!referenceDay) return;
-
-    const month = new Date(referenceDay.date + 'T00:00:00')
-      .toLocaleDateString('en-US', { month: 'short' });
-
-    const span = document.createElement('span');
-    span.className = 'contrib-month-label';
-    span.style.cssText = `
-      width: ${cellSize + GAP}px;
-      flex-shrink: 0;
-      overflow: visible;
-      white-space: nowrap;
-      position: relative;
-      z-index: 1;
-    `;
-    span.textContent = hasFirstOfMonth && month !== lastMonth ? month : '';
-    if (hasFirstOfMonth && month !== lastMonth) lastMonth = month;
-    monthLabels.appendChild(span);
-  });
-
-  const inner = document.createElement('div');
-  inner.className = 'contrib-inner';
-  inner.style.cssText = `display:flex; gap:${GAP}px; align-items:flex-start;`;
-
-  const daysCol = document.createElement('div');
-  daysCol.className = 'contrib-days-col';
-  daysCol.style.cssText = `display:flex; flex-direction:column; gap:${GAP}px; width:${DAY_COL_W}px; flex-shrink:0;`;
-  DAY_NAMES.forEach(name => {
-    const d = document.createElement('div');
-    d.className = 'contrib-day-label';
-    const labelPx = Math.max(5, Math.min(10, cellSize * 0.65));
-    d.style.cssText = `height:${cellSize}px; line-height:${cellSize}px; font-size:${labelPx}px;`;
-    d.textContent = name;
-    daysCol.appendChild(d);
-  });
-
-  const colsWrap = document.createElement('div');
-  colsWrap.className = 'contrib-cols';
-  colsWrap.style.cssText = `display:flex; gap:${GAP}px; flex-shrink:0;`;
 
   visibleWeeks.forEach((week, wi) => {
-    const col = document.createElement('div');
-    col.className = 'contrib-week';
-    col.style.cssText = `display:flex; flex-direction:column; gap:${GAP}px; width:${cellSize}px; flex-shrink:0;`;
+    const firstDay = week.contributionDays.find(d =>
+      new Date(d.date + 'T00:00:00').getDate() === 1
+    );
+    if (!firstDay) return;
+    const month = new Date(firstDay.date + 'T00:00:00')
+      .toLocaleDateString('en-US', { month: 'short' });
+    if (month === lastMonth) return;
+    lastMonth = month;
 
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', DAY_COL_W + GAP + wi * step);
+    t.setAttribute('y', MONTH_ROW_H - 3);
+    t.setAttribute('font-size', '8');
+    t.setAttribute('font-family', 'JetBrains Mono, monospace');
+    t.setAttribute('fill', style.getPropertyValue('--dim').trim() || '#555');
+    t.textContent = month;
+    svg.appendChild(t);
+  });
+
+  DAY_NAMES.forEach((name, di) => {
+    if (!name) return;
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', DAY_COL_W - 3);
+    t.setAttribute('y', MONTH_ROW_H + di * step + cellSize * 0.75);
+    t.setAttribute('font-size', Math.max(5, Math.min(10, cellSize * 0.65)));
+    t.setAttribute('font-family', 'JetBrains Mono, monospace');
+    t.setAttribute('fill', style.getPropertyValue('--dim').trim() || '#555');
+    t.setAttribute('text-anchor', 'end');
+    t.textContent = name;
+    svg.appendChild(t);
+  });
+
+  const cellData = [];
+
+  visibleWeeks.forEach((week, wi) => {
     for (let di = 0; di < 7; di++) {
-      const cell = document.createElement('div');
-      cell.className = 'contrib-cell';
-      cell.style.cssText = `width:${cellSize}px; height:${cellSize}px; border-radius:${Math.max(1, Math.floor(cellSize / 5))}px;`;
-
       const day = week.contributionDays.find(
         d => new Date(d.date + 'T00:00:00').getDay() === di
       );
+
+      const x = DAY_COL_W + GAP + wi * step;
+      const y = MONTH_ROW_H + di * step;
+      const r = Math.max(1, Math.floor(cellSize / 5));
+
+      const rect = document.createElementNS(NS, 'rect');
+      rect.setAttribute('x', x);
+      rect.setAttribute('y', y);
+      rect.setAttribute('width', cellSize);
+      rect.setAttribute('height', cellSize);
+      rect.setAttribute('rx', r);
+      rect.setAttribute('ry', r);
+
       if (day) {
-        cell.setAttribute('data-level', getContribLevel(day.contributionCount));
-        cell.setAttribute('data-count', day.contributionCount);
-        cell.setAttribute('data-date', day.date);
+        const level = getContribLevel(day.contributionCount);
+        rect.setAttribute('fill', COLORS[level]);
+        rect.setAttribute('data-count', day.contributionCount);
+        rect.setAttribute('data-date', day.date);
+        rect.style.cursor = 'pointer';
+        cellData.push({ el: rect, count: day.contributionCount, date: day.date, x, y });
       } else {
-        cell.style.visibility = 'hidden';
+        rect.setAttribute('fill', 'transparent');
       }
 
-      cell.style.animationDelay = isMobile ? '0ms' : `${(wi * 7 + di) * 3}ms`;
-      col.appendChild(cell);
+      svg.appendChild(rect);
     }
-    colsWrap.appendChild(col);
   });
 
+  // Footer
   const footer = document.createElement('div');
   footer.className = 'contrib-footer';
   footer.innerHTML = `
     <div class="contrib-legend">
       أقل
       <div class="contrib-legend-cells">
-        <div class="contrib-legend-cell" style="background:var(--contrib-0)"></div>
-        <div class="contrib-legend-cell" style="background:var(--contrib-1)"></div>
-        <div class="contrib-legend-cell" style="background:var(--contrib-2)"></div>
-        <div class="contrib-legend-cell" style="background:var(--contrib-3)"></div>
-        <div class="contrib-legend-cell" style="background:var(--contrib-4)"></div>
+        ${COLORS.map(c => `<div class="contrib-legend-cell" style="background:${c}"></div>`).join('')}
       </div>
       أكثر
     </div>
@@ -180,61 +181,64 @@ function buildContribGraph(calendar, graphWidth) {
 
   graph.innerHTML = '';
   graph.style.padding = `${PADDING}px ${PADDING}px ${Math.round(PADDING * 0.75)}px`;
-  inner.appendChild(daysCol);
-  inner.appendChild(colsWrap);
-
-  const chartWrap = document.createElement('div');
-  chartWrap.className = 'contrib-chart-wrap';
-  chartWrap.appendChild(monthLabels);
-  chartWrap.appendChild(inner);
-  graph.appendChild(chartWrap);
+  graph.appendChild(svg);
   graph.appendChild(footer);
 
-  setupContribTooltip(isMobile);
+  setupContribTooltip(svg, cellData, isMobile);
 }
 
 function getContribLevel(count) {
   if (count === 0) return 0;
   if (count <= 12) return 1;
-  if (count <= 35) return 2; 
+  if (count <= 35) return 2;
   if (count <= 50) return 3;
   return 4;
 }
 
-function setupContribTooltip(isMobile) {
+function setupContribTooltip(svg, cellData, isMobile) {
   const tooltip = document.getElementById('contrib-tooltip');
   const tCount = document.getElementById('contrib-t-count');
   const tText = document.getElementById('contrib-t-text');
   const tDate = document.getElementById('contrib-t-date');
 
-  document.querySelectorAll('.contrib-cell[data-date]').forEach(cell => {
-    const showTooltip = (count, date, x, y) => {
-      tCount.textContent = count;
-      tText.textContent = count === 1 ? ' contribution' : ' contributions';
-      tDate.textContent = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
-        weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
-      });
-      tooltip.style.display = 'block';
-      tooltip.style.left = Math.min(x + 12, window.innerWidth - 175) + 'px';
-      tooltip.style.top = (y - 52) + 'px';
-    };
+  const showTooltip = (count, date, x, y) => {
+    tCount.textContent = count;
+    tText.textContent = count === 1 ? ' contribution' : ' contributions';
+    tDate.textContent = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+    });
+    tooltip.style.display = 'block';
+    tooltip.style.left = Math.min(x + 12, window.innerWidth - 175) + 'px';
+    tooltip.style.top = (y - 52) + 'px';
+  };
 
-    if (isMobile) {
-      cell.addEventListener('click', e => {
-        showTooltip(parseInt(cell.getAttribute('data-count')), cell.getAttribute('data-date'), e.clientX, e.clientY);
-        setTimeout(() => { tooltip.style.display = 'none'; }, 2200);
-      });
-    } else {
-      cell.addEventListener('mouseenter', e => {
-        showTooltip(parseInt(cell.getAttribute('data-count')), cell.getAttribute('data-date'), e.clientX, e.clientY);
-      });
-      cell.addEventListener('mousemove', e => {
-        tooltip.style.left = Math.min(e.clientX + 12, window.innerWidth - 175) + 'px';
-        tooltip.style.top = (e.clientY - 52) + 'px';
-      });
-      cell.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
-    }
-  });
+  if (isMobile) {
+    svg.addEventListener('click', e => {
+      const rect = e.target.closest('rect[data-date]');
+      if (!rect) return;
+      showTooltip(
+        parseInt(rect.getAttribute('data-count')),
+        rect.getAttribute('data-date'),
+        e.clientX, e.clientY
+      );
+      setTimeout(() => { tooltip.style.display = 'none'; }, 2200);
+    });
+  } else {
+    svg.addEventListener('mousemove', e => {
+      const rect = e.target.closest('rect[data-date]');
+      if (!rect) { tooltip.style.display = 'none'; return; }
+      showTooltip(
+        parseInt(rect.getAttribute('data-count')),
+        rect.getAttribute('data-date'),
+        e.clientX, e.clientY
+      );
+      tooltip.style.left = Math.min(e.clientX + 12, window.innerWidth - 175) + 'px';
+      tooltip.style.top = (e.clientY - 52) + 'px';
+    });
+    svg.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
+    });
+  }
 }
 
 initContribGraph('my-contributions');

@@ -57,7 +57,8 @@
         <div class="container">
             
             
-
+            
+        <div class="homepage">
             <header>
                 <div class="header-inner">
                     <a href="./skin/" class="mc-head-wrap"><canvas id="mc-head"></canvas></a>
@@ -100,13 +101,13 @@
                     <div class="commit-dot"></div>
                     <div class="commit-meta">
                         <p class="commit-label">آخر تحديث
-                        
-                            <span class="commit-time time-ar">---</span>
+                            <span id="commit-time">---</span>
+                            <!-- <span class="commit-time time-ar">---</span> -->
+                            
                         </p>
-                        <p class="commit-message loading" id="commit-msg" >انتظر قليلاً...</p>
+                        <div class="commit-message loading" ><p id="commit-msg"></p></div>
                     </div>
-                    <p class="commit-repo">من طرف @<span id="commit-auth"></span></p>
-                    <span id="commit-time"></span>
+                    <!-- <p class="commit-repo">من طرف @<span id="commit-auth"></span></p> -->
                     <span class="btn">فتح
                         <svg fill="none" viewBox="0 0 24 24" class="icon" height="14" width="14"
                             xmlns="http://www.w3.org/2000/svg">
@@ -155,12 +156,15 @@
             </section>
 
             <div data-aos="fade-up" data-aos-delay="400" id="my-contributions"></div>
+            
+        </div>
+            
 
             <img src="./img/hr3.webp" class="hr" alt="">
 
             <div class="contact-container">
                 <div class="section-header" data-aos="fade-up-left">
-                    <!-- <h2 class="section-title">// التواصل</h2> -->
+                    <h2 class="section-title">// التواصل</h2>
                 </div>
                 <div class="form-section">
                     <div class="status" id="status"></div>

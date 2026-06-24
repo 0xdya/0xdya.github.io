@@ -27,6 +27,10 @@ body {
   animation: move-grid 160s linear infinite;
 }
 
+.homepage{
+  /* background-color: red; */
+  min-height: 78svh
+}
 
 @keyframes move-grid {
     0% {
@@ -207,7 +211,7 @@ body {
     flex-shrink: 0;
     width: 82px;
     height: 82px;
-    border-radius: 8px;
+    border-radius: 50%;
     overflow: hidden;
     border: 1px solid var(--border);
     background: rgb(255 255 255 / .03);
@@ -349,10 +353,6 @@ body {
     border-right: 1px solid var(--border);
     line-height: 1.4
   }
-  .identity-chip:nth-child(1) {
-    /* border: 1px solid red; */
-    border-bottom-right-radius: 0;
-  }
   
   .identity-chip:nth-child(3) {
     border-top: 1px solid var(--border);
@@ -388,7 +388,7 @@ body {
     border-bottom-left-radius: 0;
     border-top-right-radius: 0; */
     /* border-top-left-radius: 112px; */
-    padding: var(--space-3) var(--space-3);
+    padding: 14px 12px 12px;
     /* margin: var(--space-3) 0; */
     display: flex;
     gap: var(--space-4);
@@ -421,22 +421,26 @@ body {
 .commit-label {
     font-size: var(--text-sm);
     color: var(--dim);
-    display: block;
+    display: flex;
+    gap: 8px;
     margin-bottom: 2px
 }
 
 .commit-message {
-    /* padding-right: var(--space-6); */
-    direction: rtl !important;
-    text-align: right;
-    font-size: var(--text-sm);
-    color: var(--muted) !important;
-    overflow: hidden;
-    text-overflow: ellipsis
+  text-align: right;
+  font-size: var(--text-sm);
+  color: var(--muted) !important;
 }
 
 .commit-message.loading {
-    color: var(--dim)
+  color: var(--dim)
+}
+
+#commit-msg{
+  max-width: 250px !important;
+  white-space: nowrap;    
+    overflow: hidden;       
+    text-overflow: ellipsis;
 }
 
 .commit-time {
@@ -450,12 +454,12 @@ body {
   white-space: nowrap
 }
 
-.commit-repo {
+/* .commit-repo {
     font-size: var(--text-xs);
     color: var(--accent);
     opacity: .7;
     flex-shrink: 0
-}
+} */
 
 .btn {
     color: var(--muted);
@@ -544,9 +548,9 @@ body {
     transform: translateX(-4px) rotate(45deg)
 }
 
-span {
+/* span {
     position: relative
-}
+} */
 
 .commit-repo {
     display: none
@@ -773,7 +777,7 @@ span {
     flex: 1;
   }
   
-  .contrib-cell {
+  /* .contrib-cell {
     will-change: opacity;
     border-radius: 2px;
     background: var(--contrib-0);
@@ -793,7 +797,7 @@ span {
   .contrib-cell[data-level="1"] { background: var(--contrib-1); }
   .contrib-cell[data-level="2"] { background: var(--contrib-2); }
   .contrib-cell[data-level="3"] { background: var(--contrib-3); }
-  .contrib-cell[data-level="4"] { background: var(--contrib-4); }
+  .contrib-cell[data-level="4"] { background: var(--contrib-4); } */
   
   @keyframes contrib-fade {
     to { opacity: 1; }
@@ -1076,20 +1080,22 @@ span {
 } 
 
 @media (max-width: 500px) {
+
   body::before {
     background-size: 58px 58px;
     mask-image: radial-gradient(min(100vw, 800px) 46vh at top center, black 0%, transparent 54%);
     animation: move-grid 160s linear infinite;
   }
-  .contrib-cell {
+  /* #my-contributions {
+    display: none;
+  } */
+  /* .contrib-cell {
     animation: none !important;
     opacity: 1 !important;
     filter: none !important;
   }
-  .contrib-graph { padding: var(--space-3); }
-  /* .contrib-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); } */
-  .contrib-week.mobile-hidden { display: none; }
-
+  .contrib-graph { padding: var(--space-3);  border-radius: 0;}
+  .contrib-week.mobile-hidden { display: none; } */
   .hero{
     border-radius: 0 0 0 80px;
   }
@@ -1108,6 +1114,9 @@ span {
     width: auto;
     border-radius: 112px 0 32px 0;
   }
+  .commit-card .btn{
+    bottom: 6px;
+  }
   .description {
     /* background-color: red; */
     padding: 0 0 0 166px;
@@ -1117,9 +1126,6 @@ span {
   }
   .description_title{
     display: none;
-  }
-  .contrib-graph {
-    border-radius: 0;
   }
   .identity-grid {
   min-width: auto;

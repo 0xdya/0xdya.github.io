@@ -47,7 +47,7 @@ async function loadCommits() {
 
     } catch (err) {
         console.error(err);
-        list.innerHTML = `<li><div class="error-row">⚠️ Failed to load commits</div></li>`;
+        list.innerHTML = `<li><div class="error-row">⚠️ حدث خطأ اثناء جلب الكوميت</div></li>`;
     }
 }
 
