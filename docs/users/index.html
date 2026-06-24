@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,8 +8,7 @@
 
   <title>0xdya | المستخدمين</title>
 
-  <meta name="description" content="صفحة المستخدمين المسجليين فالموقع
-  " />
+  <meta name="description" content="صفحة المستخدمين المسجليين فالموقع" />
   <meta name="keywords" content="0xdya, dyaa, ضياء الدين ملوك" />
   <meta name="author" content="0xdya" />
   <meta name="robots" content="index, follow">
@@ -29,429 +29,582 @@
   <link rel="icon" href="https://0xdya.vercel.app/img/sikn-head.png">
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/static.css">
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script src="../js/loader.js"></script>
-<style>
-  :root {
-    --bg: #080808;
-    --text: #e8e8e8;
-    --muted: #888888;
-    --dim: #5c5c5c;
-    --accent: #c8b560;
-    --accent-dim: rgba(200, 181, 96, .12);
-    --border: rgba(255, 255, 255, .07);
-    --card-bg: rgba(255, 255, 255, .025);
-    --role-admin: #c8b560;
-    --role-user: #888888;
-    --role-mod: #7eb8f7;
-    --role-banned: #e05c5c;
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 24px;
-    --space-6: 32px;
-    --space-7: 48px;
-    --space-8: 64px;
-    --space-9: 96px;
-    --text-xs: .78rem;
-    --text-sm: .88rem;
-    --text-base: 1rem;
-    --text-lg: 1.125rem;
-    --text-xl: 1.5rem;
-    --radius: 8px;
-    --font-mono: 'Geist Mono', 'Courier New', monospace;
-    --font-sans: 'Geist', system-ui, sans-serif;
-    --lh-tight: 1.25;
-    --lh-normal: 1.5;
-    --lh-relaxed: 1.6;
-    --tracking-tight: -0.025em;
-    --weight-normal: 400;
-    --weight-medium: 500;
-    --weight-semibold: 600;
-  }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/static.css">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script src="../js/loader.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap');
 
-  body {
-    font-family: var(--font-sans);
-    font-size: var(--text-base);
-    font-weight: var(--weight-normal);
-    line-height: var(--lh-normal);
-    letter-spacing: 0.01em;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(8,8,8,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    height: 56px;
-    display: flex;
-    align-items: center;
-    padding: 0 var(--space-5);
-    gap: var(--space-4);
-  }
-  .header-back {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--muted);
-    text-decoration: none;
-    font-size: var(--text-xs);
-    transition: color 0.15s;
-  }
-  .header-back:hover { color: var(--text); }
-  .header-sep { color: var(--dim); font-size: var(--text-lg); font-weight: 300; }
-  .header-title { font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--text); font-family: var(--font-mono); letter-spacing: var(--tracking-tight); }
-  .header-right { margin-left: auto; display: flex; align-items: center; gap: var(--space-2); }
-  .header #userPhotoContainer {
-    margin: 0;
-    min-width: auto;
-    min-height: auto;
-  }
-
-  .header #userPhotoContainer a,
-  .icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.15s;
-    font-size: 16px;
-  }
-  .header #userPhotoContainer a:hover,
-  .icon-btn:hover { background: var(--card-bg); color: var(--text); border-color: var(--dim); }
-  .header #userPhotoContainer a:focus-visible,
-  .icon-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .header #userPhotoContainer img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
-
-  .nav-icon { width: 16px; height: 16px; }
-  .nav-text { font-size: var(--text-xs); margin-left: var(--space-1); }
-
-
-  .page-header { margin-bottom: var(--space-4); }
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-normal);
-    letter-spacing: 0.02em;
-    color: var(--muted);
-    margin-bottom: var(--space-3);
-  }
-  .breadcrumb a { color: var(--muted); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--text); }
-  .breadcrumb .sep { color: var(--dim); }
-  .page-title {
-    font-size: var(--text-xl);
-    font-weight: var(--weight-semibold);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--tracking-tight);
-    color: var(--text);
-  }
-  .page-subtitle {
-    font-size: var(--text-sm);
-    font-weight: var(--weight-normal);
-    line-height: var(--lh-normal);
-    color: var(--muted);
-  }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
-    flex-wrap: wrap;
-  }
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    min-width: 200px;
-  }
-  .search-wrap ion-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--dim);
-    font-size: 1rem;
-    pointer-events: none;
-  }
-  .search-input {
-    width: 100%;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--space-2) var(--space-3) var(--space-2) 32px;
-    color: var(--text);
-    font-family: var(--font-sans);
-    font-size: var(--text-sm);
-    font-weight: var(--weight-normal);
-    line-height: var(--lh-normal);
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .search-input::placeholder { color: var(--dim); }
-  .search-input:focus { border-color: var(--accent); }
-  .search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  .filter-container {
-    display: flex;
-    gap: var(--space-2);
-    margin-bottom: var(--space-4);
-  }
-
-  .filter-btn {
-    display: flex;
-    align-items: center;
-    padding: var(--space-2) var(--space-3);
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--muted);
-    font-size: var(--text-xs);
-    font-family: var(--font-mono);
-    font-weight: var(--weight-normal);
-    letter-spacing: 0.02em;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .filter-btn:hover { border-color: var(--accent); }
-  .filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .filter-btn.active {
-    background: var(--card-bg);
-    color: var(--text);
-    font-weight: var(--weight-medium);
-    box-shadow: 0 1px 2px rgba(0,0,0,.05);
-  }
-
-  .badge-count {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-medium);
-    letter-spacing: 0.02em;
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    background: var(--card-bg);
-    margin-left: auto;
-  }
-
-  #users {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: var(--space-3);
-  }
-
-  .user-card {
-    position: relative;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--space-4);
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s, transform 0.15s;
-    animation: fadeIn 0.3s ease both;
-  }
-  .user-card:hover {
-    border-color: rgba(200, 181, 96, 0.3);
-    background: rgba(200, 181, 96, 0.04);
-    transform: translateY(-1px);
-  }
-  .user-card img {
-    width: 42px;
-    height: 42px;
-    border-radius: var(--radius);
-    object-fit: cover;
-    border: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .name_and_role {
-    flex: 1;
-    min-width: 0;
-  }
-  .name_and_role > span {
-    display: block;
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    line-height: var(--lh-tight);
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .rotba {
-    font-size: var(--text-xs);
-    font-weight: var(--weight-normal);
-    letter-spacing: 0.02em;
-    color: var(--dim);
-    margin-top: 2px;
-    font-family: var(--font-mono);
-  }
-  .role { font-family: var(--font-mono); font-size: var(--text-xs); }
-  .role.admin  { color: var(--role-admin); }
-  .role.user   { color: var(--role-user); }
-  .role.mod    { color: var(--role-mod); }
-  .role.banned { color: var(--role-banned); }
-
-  .joined {
-    position: absolute;
-    right: var(--space-3);
-    bottom: var(--space-4);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-normal);
-    letter-spacing: 0.02em;
-    color: var(--dim);
-    flex-shrink: 0;
-    text-align: right;
-  }
-
-  .sk { background: var(--card-bg); border-radius: 4px; animation: shimmer 1.5s infinite; }
-  .skeleton-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--space-4);
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  @keyframes shimmer { 0%,100%{opacity:.4} 50%{opacity:.8} }
-  @keyframes fadeIn  { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
-
-  .empty-state {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: var(--space-9) var(--space-5);
-    color: var(--muted);
-    font-size: var(--text-sm);
-    font-weight: var(--weight-normal);
-    line-height: var(--lh-relaxed);
-  }
-  .empty-state ion-icon { font-size: 32px; display: block; margin: 0 auto var(--space-3); opacity: 0.3; }
-
-  #back_to_top {
-    position: fixed;
-    bottom: var(--space-5);
-    right: var(--space-5);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.2s;
-  }
-  #back_to_top.visible { opacity: 1; pointer-events: auto; }
-  #back_to_top:hover { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
-  #back_to_top:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  @media (max-width: 500px) {
-    #users { grid-template-columns: 1fr; }
-    .filter-container {
-      overflow-x: auto;
-      flex-wrap: nowrap;
-      padding-bottom: var(--space-2);
-      -webkit-overflow-scrolling: touch;
+    :root {
+      --text: #e8e8e8;
+      --muted: #888888;
+      --dim: #5c5c5c;
+      --accent: #333333;
+      --accent-dim: rgba(200, 181, 96, .12);
+      --border: rgba(255, 255, 255, .07);
+      --card-bg: rgba(255, 255, 255, .025);
+      --role-admin: #c8b560;
+      --role-user: #888888;
+      --role-mod: #7eb8f7;
+      --role-banned: #e05c5c;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+      --text-xs: .78rem;
+      --text-sm: .88rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.5rem;
+      --radius: 8px;
+      --font-mono: 'Geist Mono', 'Courier New', monospace;
+      --font-sans: 'Geist', system-ui, sans-serif;
+      --lh-tight: 1.25;
+      --lh-normal: 1.5;
+      --lh-relaxed: 1.6;
+      --tracking-tight: -0.025em;
+      --weight-normal: 400;
+      --weight-medium: 500;
+      --weight-semibold: 600;
     }
-  }
-</style>
-<script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      /* font-family: var(--font-sans); */
+      font-size: var(--text-base);
+      font-weight: var(--weight-normal);
+      line-height: var(--lh-normal);
+      /* letter-spacing: 0.01em; */
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .header {
+      position: fixed;
+      top: 8px;
+      z-index: 100;
+      background: rgba(8, 8, 8, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      border-radius: 18px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-5);
+      gap: var(--space-4);
+      left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 620px;
+      /* right: 50%;
+      transform: translateX(50%); */
+    }
+
+    .header-back {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: var(--text-xs);
+      transition: color 0.15s;
+    }
+
+    .header-back:hover {
+      color: var(--text);
+    }
+
+    .header-sep {
+      color: var(--dim);
+      font-size: var(--text-lg);
+      font-weight: 300;
+    }
+
+    .header-title {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      color: var(--text);
+    }
+
+    .header-right {
+      margin-right: auto;
+      margin-left: 0;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .header #userPhotoContainer {
+      margin: 0;
+      min-width: auto;
+      min-height: auto;
+    }
+
+    .header #userPhotoContainer a,
+    .icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+      font-size: 16px;
+    }
+
+    .header #userPhotoContainer a:hover,
+    .icon-btn:hover {
+      background: var(--card-bg);
+      color: var(--text);
+      border-color: var(--dim);
+    }
+
+    .header #userPhotoContainer a:focus-visible,
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .header #userPhotoContainer img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .nav-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-text {
+      font-size: var(--text-xs);
+      margin-right: var(--space-1);
+      margin-left: 0;
+    }
+
+
+    .page-header {
+      margin-bottom: var(--space-4);
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--text);
+    }
+
+    .breadcrumb .sep {
+      color: var(--dim);
+    }
+
+    .page-title {
+      font-family: "Reem kufi";
+      margin: 4rem 0 0;
+      font-size: 4rem;
+      font-weight: var(--weight-semibold);
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      font-size: var(--text-sm);
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-wrap ion-icon {
+      position: absolute;
+      right: 10px;
+      left: auto;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dim);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-2) 32px var(--space-2) var(--space-3);
+      color: var(--text);
+      font-size: var(--text-sm);
+      line-height: var(--lh-normal);
+      outline: none;
+      transition: all 0.15s;
+    }
+
+    
+    .search-input:focus {
+      font-size: var(--text-lg);
+    }
+    
+    .search-input:focus-visible {
+      /* font-size: 4rem; */
+      font-size: var(--text-lg);
+      outline-offset: 2px;
+    }
+
+    .filter-container {
+      display: flex;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      padding: var(--space-1) var(--space-3);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: var(--text-xs);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent);
+      padding: var(--space-1) var(--space-5);
+      /* margin: 0 8px; */
+    }
+    
+    .filter-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    
+    .filter-btn.active {
+      background: var(--card-bg);
+      margin: 0 6px;
+      color: var(--text);
+      font-weight: var(--weight-medium);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    }
+
+    .badge-count {
+      font-size: var(--text-xs);;
+      padding: 4px 8px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--card-bg);
+      margin-right: auto;
+      margin-left: 0;
+    }
+
+    #users {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .user-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+      animation: fadeIn 0.3s ease both;
+    }
+
+    .user-card:hover {
+      border-color: var(--accent);
+      background: rgba(200, 181, 96, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .user-card img {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+      object-fit: cover;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .name_and_role {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .name_and_role>span {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      line-height: var(--lh-tight);
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rotba {
+      font-size: var(--text-xs);
+      color: var(--dim);
+      margin-top: 2px;
+      font-family: var(--font-mono);
+    }
+
+    .role {
+      font-size: var(--text-xs);
+    }
+
+    .role.owner {
+      color: var(--role-admin);
+    }
+
+    .role.user {
+      color: var(--role-user);
+    }
+
+    .role.QA-tester {
+      color: var(--role-mod);
+    }
+
+    .role.banned {
+      color: var(--role-banned);
+    }
+
+    .joined {
+      position: absolute;
+      left: var(--space-3);
+      right: auto;
+      top: var(--space-4);
+      font-size: var(--text-xs);
+      color: var(--dim);
+      flex-shrink: 0;
+      text-align: left;
+    }
+
+    .sk {
+      background: var(--card-bg);
+      border-radius: 4px;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    @keyframes shimmer {
+
+      0%,
+      100% {
+        opacity: .4
+      }
+
+      50% {
+        opacity: .8
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: var(--space-9) var(--space-5);
+      color: var(--muted);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-normal);
+      line-height: var(--lh-relaxed);
+    }
+
+    .empty-state ion-icon {
+      font-size: 32px;
+      display: block;
+      margin: 0 auto var(--space-3);
+      opacity: 0.3;
+    } */
+
+    #back_to_top {
+      position: fixed !important;
+      bottom: var(--space-5);
+      left: var(--space-5);
+      /* right: auto; */
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s;
+      z-index: 9999;
+    }
+
+    #back_to_top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #back_to_top:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    #back_to_top:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 500px) {
+      #users {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-container {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: var(--space-2);
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+  </style>
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <div class="bg" id="loader-wrapper">
   <div class="loader"></div>
 </div>
+
 <body>
-<header class="header">
-  <a href="../" class="header-back">
-    <ion-icon name="chevron-back-outline"></ion-icon>
-    Back
-  </a>
-  <span class="header-sep">/</span>
-  <span class="header-title">users</span>
-  <div class="header-right">
-    <div id="userPhotoContainer">
-      <a href="https://0xdya.vercel.app/login/" class="icon-btn" title="Account">
-        <ion-icon name="person-outline"></ion-icon>
+  
+  <main class="container">
+    <header class="header" >
+      <a href="../" class="header-back">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+        الرئيسية
       </a>
+      <span class="header-sep">/</span>
+      <span class="header-title">المستخدمين</span>
+      <div class="header-right">
+        <div id="userPhotoContainer">
+          <a href="https://0xdya.vercel.app/login/" class="icon-btn" title="الحساب">
+            <ion-icon name="person-outline"></ion-icon>
+          </a>
+        </div>
+        <a href="../contact/" class="icon-btn" title="الإبلاغ عن مشكلة">
+          <ion-icon name="bug-outline"></ion-icon>
+        </a>
+      </div>
+    </header>
+    <div class="page-header">
+      <!-- <div class="breadcrumb">
+        <a href="../">الرئيسية</a>
+        <span class="sep">/</span>
+        <span>المستخدمين</span>
+      </div> -->
+      <h1 class="page-title">المُنضَمين</h1>
+      <p class="page-subtitle">سيتم إضافة حسابك تلقائياً بعد تسجيل الدخول.</p>
     </div>
-    <a href="../report/" class="icon-btn" title="Report bug">
-      <ion-icon name="bug-outline"></ion-icon>
-    </a>
-  </div>
-</header>
 
-<main class="container">
-  <div class="page-header">
-    <div class="breadcrumb">
-      <a href="../">home</a>
-      <span class="sep">/</span>
-      <span>users</span>
+    <div class="toolbar">
+      <span class="badge-count" id="countBadge">—</span>
+      <div class="search-wrap">
+        <ion-icon name="search-outline"></ion-icon>
+        <input class="search-input" type="text" id="searchInput" placeholder="بحث بالاسم…" />
+      </div>
     </div>
-    <h1 class="page-title">Users</h1>
-    <p class="page-subtitle">ur account will added automatically after sign-in.</p>
-  </div>
-
-  <div class="toolbar">
-    <span class="badge-count" id="countBadge">—</span>
-    <div class="search-wrap">
-      <ion-icon name="search-outline"></ion-icon>
-      <input class="search-input" type="text" id="searchInput" placeholder="Search by name…" />
+    <div class="filter-container">
+      <button class="filter-btn active" data-role="all">الكل</button>
+      <button class="filter-btn" data-role="owner">الأدمن</button>
+      <button class="filter-btn" data-role="user">المستخدمين</button>
+      <button class="filter-btn" data-role="QA-tester">المجربين (فاحص جودة)</button>
     </div>
-  </div>
-  <div class="filter-container">
-    <button class="filter-btn active" data-role="all">All</button>
-    <button class="filter-btn" data-role="owner">Admin</button>
-    <button class="filter-btn" data-role="user">User</button>
-    <button class="filter-btn" data-role="QA-tester">QA tester</button>
-  </div>
 
-  <div id="users"></div>
-</main>
+    <div id="users"></div>
+    <button id="back_to_top" title="العودة للأعلى"><ion-icon name="chevron-up-outline"></ion-icon></button>
+  </main>
 
-<button id="back_to_top" title="Back to top">
-  <ion-icon name="chevron-up-outline"></ion-icon>
-</button>
+    
 
-<script type="module" src="../js/users-list.js"></script>
+  <script type="module" src="../js/users-list.js"></script>
 
 </body>
+
 </html>

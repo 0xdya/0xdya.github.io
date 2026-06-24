@@ -64,7 +64,7 @@ function render() {
     if (!filtered.length) {
         usersDiv.innerHTML = `<div class="empty-state">
       <ion-icon name="people-outline"></ion-icon>
-      No users found
+      لا يوجد مستخدمين
     </div>`;
         return;
     }
@@ -72,8 +72,8 @@ function render() {
     usersDiv.innerHTML = filtered.map((user, i) => {
         const created = user.createdAt?.toDate?.() || null;
         const joinedText = timeAgo(created);
-        const role = user.role || "user";
-        const name = user.name || "No name";
+        const role = user.role || "مستخدم";
+        const name = user.name || "يدون اسم";
         const photo = user.photo || "../img/user.jpg";
         return `
       <div class="user-card" style="animation-delay:${i * 10}ms"
@@ -81,7 +81,7 @@ function render() {
         <img src="${photo}" alt="${name}" onerror="this.src='../img/user.jpg'">
         <div class="name_and_role">
           <span>${name}</span>
-          <div class="rotba">role: <span class="role ${role}">${role}</span></div>
+          <div class="rotba">الرتبة: <span class="role ${role}">${role}</span></div>
         </div>
         <div class="joined">${joinedText}</div>
       </div>`;
