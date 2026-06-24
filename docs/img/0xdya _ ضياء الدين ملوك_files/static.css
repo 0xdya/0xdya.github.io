@@ -1,18 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Naskh+Arabic:wght@400..700&family=Vazirmatn:wght@100..900&display=swap');
 
 :root {
-    --bg: #000;
+    --bg: #080808;
     --text: #e8e8e8;
     --muted: #888;
     --dim: #555;
     --accent: #d0d0d0;
-    /* --accent-dim: rgba(208, 208, 208, .08); */
-    /* --accent-dim: #191919; */
-    --accent-dim: #0a0a0a;
-    /* --accent-dim: rgba(255, 255, 255, 0.05); */
-    /* --border: rgba(255, 255, 255, .09); */
-    --border: #1a1a1a;
-    --border-hover: #333333;
+    --accent-dim: rgba(208, 208, 208, .08);
+    --border: rgba(255, 255, 255, .09);
+    --border-hover: rgba(255, 255, 255, .18);
     --link: #7eb8ff;
     --card-bg: rgba(255, 255, 255, .025);
     --space-1: 4px;
@@ -102,29 +98,14 @@ body {
     position: relative;
     display: flex;
     justify-content: center;
-    min-width: 216px;
- 
-    
-  background: rgba(255, 255, 255, 0.006);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(4px);
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  border-radius: 20px;
-
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-
-
-    /* background: rgb(10 10 10 / .85); */
-    /* backdrop-filter: blur(4px); */
+    min-width: 253px;
+    background: rgb(10 10 10 / .85);
+    backdrop-filter: blur(4px);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: var(--space-2) var(--space-3);
     gap: var(--space-1);
-    /* box-shadow: 0 8px 40px rgb(0 0 0 / .5), 0 1px 0 rgb(255 255 255 / .05) inset; */
+    box-shadow: 0 8px 40px rgb(0 0 0 / .5), 0 1px 0 rgb(255 255 255 / .05) inset;
 
     .comments {
         position: absolute;
@@ -180,15 +161,6 @@ a {
 }
 
 #lastOnline {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-base);
-    color: var(--muted);
-    font-weight: 500
-}
-.subtitle {
     display: inline-flex;
     align-items: center;
     gap: 6px;

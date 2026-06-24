@@ -156,24 +156,19 @@ body {
   border: 1px solid var(--border);
   padding: 8px 16px;
   border-radius: 0 112px;
-  /* background-color: rgba(255, 228, 196, 0.621); */
 }
 #network{
   position: absolute;
-  top: -1px;
-  bottom: -1px;
+  top: -37.3px;
   /* transform: translateY(-6.5rem); */
   width: 344.5px;
   left: -1px;
-  /* height: 100% !important; */
-  /* height: 220px; */
+  height: 220px;
   /* border: 1px dashed #222; */
   border: 1px solid var(--border);
-  z-index: 9;
-  /* margin: 0 0 4px 0; */
-  /* background-color: #080808; */
+  z-index: 999999;
+  background-color: #080808;
   border-radius: 0 112px;
-  overflow: hidden;
 }
 
 .description {
@@ -186,7 +181,6 @@ body {
   font-size: var(--text-base);
   vertical-align: center;
   text-indent: 1.5rem;
-  /* color: #000; */
   /* text-align: justify; */
 }
 .description_title{
@@ -332,7 +326,7 @@ body {
 }
 
 .identity-grid {
-  min-width: 344px;
+  min-width: 344.8px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     /* gap: var(--space-3); */
@@ -343,64 +337,57 @@ body {
     /* border-radius: 8px; */
     padding: var(--space-3);
     transition: border-color .2s, background .2s;
-    /* margin-top: -2px; */
+    margin-top: -1px;
     position: relative;
-    z-index: 99;
-    border-right: 1px solid var(--border);
     line-height: 1.4
   }
   .identity-chip:nth-child(1) {
-    /* border: 1px solid red; */
-    border-bottom-right-radius: 0;
-  }
-  
-  .identity-chip:nth-child(3) {
-    border-top: 1px solid var(--border);
-    border-left: 1px solid var(--border);
-    border-top-left-radius: 112px;
-  }
-  
-  .identity-chip:hover {
-    /* border-right-color: var(--border-hover); */
-    background: var(--accent-dim)    
-  }
-  
-  .chip-label {
+  /* border: 1px solid red; */
+   border-bottom-right-radius: 0;
+   }
+
+.identity-chip:nth-child(3) {
+    /* border-top-left-radius: 16px; */
+}
+
+.identity-chip:hover {
+    border-color: var(--border-hover);
+    /* background: var(--accent-dim)     */
+}
+
+.chip-label {
     font-size: var(--text-sm);
     color: var(--dim);
     display: block;
     margin-bottom: var(--space-1)
-  }
-  
-  .chip-value {
+}
+
+.chip-value {
     font-size: var(--text-lg);
     color: var(--accent);
     font-weight: 400;
     letter-spacing: -.02em
-  }
-  
-  .commit-card {
+}
+
+.commit-card {
     position: relative;
     border: 1px solid var(--border);
-    /* border: 1; */
-    /* margin-top: -1px; */
     /* border-radius: 16px;
     border-bottom-left-radius: 0;
     border-top-right-radius: 0; */
-    /* border-top-left-radius: 112px; */
+    border-top-left-radius: 112px;
     padding: var(--space-3) var(--space-3);
     /* margin: var(--space-3) 0; */
     display: flex;
     gap: var(--space-4);
     transition: border-color .2s, background .2s;
     width: 100vw;
-    z-index: 99;
     min-height: 60px
 }
 
 .commit-card:hover {
-    /* border-color: var(--border-hover); */
-    background: var(--accent-dim)
+    border-color: var(--border-hover);
+    /* background: var(--accent-dim) */
 }
 
 .commit-dot {
@@ -440,14 +427,14 @@ body {
 }
 
 .commit-time {
-  display: none;
+  /* display: none; */
+    font-size: var(--text-sm);
+    color: var(--dim);
+    flex-shrink: 0;
+    white-space: nowrap
 }
 #commit-time {
-  display: block;
-  font-size: var(--text-sm);
-  color: var(--dim);
-  flex-shrink: 0;
-  white-space: nowrap
+    display: none;
 }
 
 .commit-repo {
@@ -555,7 +542,7 @@ span {
 
 /* blog */
 .blog-container{
-    display: none;
+    /* display: none; */
     position: relative;
     position: fixed;
     top: 35vh;
@@ -709,7 +696,7 @@ span {
   }
   
   .contrib-graph:hover {
-    /* border-color: var(--border-hover); */
+    border-color: var(--border-hover);
   }
   
   .contrib-chart-wrap {
@@ -892,7 +879,6 @@ span {
   
   /* contact */
   .contact-container{
-    display: none;
     width: 100vw;
     max-width: 620px;
     margin: 0 auto;
@@ -1089,64 +1075,6 @@ span {
   .contrib-graph { padding: var(--space-3); }
   /* .contrib-footer { flex-direction: column; align-items: flex-start; gap: var(--space-2); } */
   .contrib-week.mobile-hidden { display: none; }
-
-  .hero{
-    border-radius: 0 0 0 80px;
-  }
-  #network{
-    position: absolute;
-    max-width: 50.3%;
-    top: 0;
-    height: 100%;
-    border-radius: 0 80px;
-  }
-  .section{
-    display: flex;
-    flex-direction: column;
-  }
-  .commit-card{
-    width: auto;
-    border-radius: 112px 0 32px 0;
-  }
-  .description {
-    /* background-color: red; */
-    padding: 0 0 0 166px;
-    max-width: auto;
-    text-indent: 0;
-    font-size: var(--text-sm);
-  }
-  .description_title{
-    display: none;
-  }
-  .contrib-graph {
-    border-radius: 0;
-  }
-  .identity-grid {
-  min-width: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    /* gap: var(--space-3); */
-}
-    .identity-chip:nth-child(1) {
-  /* border: 1px solid red; */
-   border-top-right-radius: 32px;
-   }
-   .identity-chip:nth-child(3) {
-    border-top-left-radius: 0;
-}
-   .contact-container{
-    width: auto;
-   }
-   .send-btn{
-    font-family: "Vazirmatn";
-    top: 155px;
-    line-height: 1;
-    font-size: var(--text-lg) !important;
-    height: 38px;
-   }
-   .socials{
-    padding: 8px 0 0 0;
-   }
 }
 /* 
 @media (min-width: 720px) {

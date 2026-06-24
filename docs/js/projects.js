@@ -240,7 +240,7 @@ setTimeout(() => {
   } else {
     body.classList.add('popup-open');
   }
-}, 2000);
+}, 10000);
 
 function hidePopupAndStartCount() {
   body.classList.remove('popup-open');

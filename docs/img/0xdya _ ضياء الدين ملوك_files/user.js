@@ -42,11 +42,11 @@ function applyUserUI(photoURL) {
 
     const img = document.createElement("img");
     img.src = typeof photoURL === "string" ? photoURL : "../img/user.jpg";
-    img.alt = "البروفايل";
+    img.alt = "Profile";
 
     const span = document.createElement("span");
     span.className = "nav-text";
-    span.textContent = "البروفايل";
+    span.textContent = "Profile";
 
     link.appendChild(img);
     link.appendChild(span);
@@ -57,7 +57,7 @@ function applyUserUI(photoURL) {
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
         <circle cx="12" cy="7" r="4" />
       </svg>
-      <span class="nav-text">انضمام</span>
+      <span class="nav-text">Sign-In</span>
     `;
   }
 

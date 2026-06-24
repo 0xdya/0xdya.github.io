@@ -58,36 +58,21 @@ async function fetchLastLogin(userId) {
   const lastLogin = userSnap.data().lastLogin;
   if (!lastLogin?.toDate) return;
 
-  const loginDate = lastLogin.toDate(); 
-  const diffSec = Math.floor((new Date() - loginDate) / 1000);
-  const isOnline = diffSec < 300; 
+  const diffSec = Math.floor((new Date() - lastLogin.toDate()) / 1000);
+const isOnline = diffSec < 300;
 
- const statusContainer = document.getElementById("lastOnlineContainer");
+const statusHTML = isOnline 
+  ? `<div class="dot on"></div> Online` 
+  : `<div class="dot off"></div> نشط منذ: ${formatTimeAgo(diffSec)}`;
 
-if (statusContainer) {
-  if (isOnline) {
-    statusContainer.innerHTML = `
-<div class="dot on"> </div> <p id="lastOnline" style="color:#2ecc71"> نشط الآن</p>
-    `;
-  } else {
-    statusContainer.innerHTML = `
-      نشط منذ: <span class="time-ar" id="lastOnline"></span>
-    `;
-
-    const timeElement = document.getElementById("lastOnline");
-
-    const tzOffset = loginDate.getTimezoneOffset() * 60000;
-    const localISOTime = (new Date(loginDate - tzOffset))
-      .toISOString()
-      .slice(0, 19);
-
-    timeElement.setAttribute("data-date", localISOTime);
-
-    if (typeof timeAr !== "undefined" && timeAr.init) {
-      timeAr.init();
-    }
-  }
+const statusContainer = document.getElementById("lastOnline");
+statusContainer.innerHTML = statusHTML;
 }
+
+function formatTimeAgo(sec) {
+  if (sec < 3600) return `${Math.floor(sec / 60)}د`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)}س`;
+  return `${Math.floor(sec / 86400)}ي`;
 }
 
 fetchLastLogin("X18SfoEU7JhtQC3Xsn0o9punnI23");

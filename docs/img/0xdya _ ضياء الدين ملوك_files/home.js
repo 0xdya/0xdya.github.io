@@ -254,8 +254,11 @@ async function loadLatestCommit() {
         document.getElementById("commit-msg").textContent = message;
         document.getElementById("commit-auth").textContent = latest.author ? latest.author.login : latest.commit.author.name;
 
-        document.getElementById("commit-time").textContent =
-    date.toISOString().slice(0, 19);
+        document.getElementById("commit-time").textContent = date.toLocaleString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        });
 
         const timeAgoElem = document.querySelector(".time_ago");
         if (timeAgoElem) 
@@ -270,17 +273,17 @@ async function loadLatestCommit() {
 
 loadLatestCommit();
 
-// let lastY = window.scrollY;
-// window.addEventListener('scroll', () => {
-//     const currentY = window.scrollY;
-//     const navbar = document.querySelector('.navbar_section');
+let lastY = window.scrollY;
+window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const navbar = document.querySelector('.navbar_section');
     
-//     if (currentY > lastY) {
-//         navbar.classList.add('hidden');
-//     } else {
-//         navbar.classList.remove('hidden');
-//     }
+    if (currentY > lastY) {
+        navbar.classList.add('hidden');
+    } else {
+        navbar.classList.remove('hidden');
+    }
     
-//     lastY = currentY;
-// });
+    lastY = currentY;
+});
  
