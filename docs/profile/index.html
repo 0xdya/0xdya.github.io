@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8" />
@@ -611,7 +611,7 @@
 </head>
 
 <body>
-  <main>
+<main>
     <div id="loading"><img width="40" src="../img/load.gif" /></div>
     <div id="msgBox"></div>
     <input type="file" id="bannerFileInput" accept="image/*" />
@@ -621,7 +621,7 @@
 
       <div class="banner-wrap" id="bannerWrap">
         <img id="bannerImg" alt="" />
-        <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> change banner</div>
+        <div class="banner-overlay"><ion-icon name="camera-outline"></ion-icon> تغيير الغلاف</div>
       </div>
 
       <div class="avatar-row">
@@ -646,11 +646,11 @@
         <div class="stats-row">
           <div class="stat-item" id="statJoined">
             <ion-icon name="calendar-outline"></ion-icon>
-            <span>joined <span class="val">—</span></span>
+            <span>انضم في <span class="val">—</span></span>
           </div>
           <div class="stat-item" id="statComments">
             <ion-icon name="chatbubble-outline"></ion-icon>
-            <span>comments: <span class="val">—</span></span>
+            <span>التعليقات: <span class="val">—</span></span>
           </div>
         </div>
 
@@ -659,41 +659,41 @@
         <div id="socialLinks" class="social-links"></div>
 
         <div id="edit_section">
-          <button id="syncPhotoBtn">🔄 sync avatar from Google</button>
+          <button id="syncPhotoBtn">🔄 مزامنة الصورة من Google</button>
 
           <div class="upload-bar-wrap" id="uploadBarWrap">
             <div class="upload-bar" id="uploadBar"></div>
           </div>
 
-          <p class="edit-label">username</p>
-          <input type="text" id="displayNameInput" class="edit-field" placeholder="new username" />
+          <p class="edit-label">اسم المستخدم</p>
+          <input type="text" id="displayNameInput" class="edit-field" placeholder="اسم مستخدم جديد" />
 
-          <p class="edit-label">bio</p>
-          <textarea id="bioInput" class="edit-field" rows="3" placeholder="write something..."></textarea>
+          <p class="edit-label">النبذة التعريفية</p>
+          <textarea id="bioInput" class="edit-field" rows="3" placeholder="اكتب شيئاً..."></textarea>
 
-          <p class="edit-label">add social link</p>
+          <p class="edit-label">إضافة رابط تواصل اجتماعي</p>
           <div class="social-add-row">
             <select id="platformSelect">
-              <option value="twitter">Twitter / X</option>
-              <option value="instagram">Instagram</option>
-              <option value="facebook">Facebook</option>
-              <option value="github">GitHub</option>
-              <option value="youtube">YouTube</option>
-              <option value="linkedin">LinkedIn</option>
-              <option value="email">Email</option>
+              <option value="twitter">تويتر / X</option>
+              <option value="instagram">إنستغرام</option>
+              <option value="facebook">فيسبوك</option>
+              <option value="github">جيت هاب</option>
+              <option value="youtube">يوتيوب</option>
+              <option value="linkedin">لينكد إن</option>
+              <option value="email">البريد الإلكتروني</option>
             </select>
-            <input type="text" id="socialUsernameInput" placeholder="username" />
-            <button class="btn-add" id="saveSocialBtn">add</button>
+            <input type="text" id="socialUsernameInput" placeholder="اسم المستخدم" />
+            <button class="btn-add" id="saveSocialBtn">إضافة</button>
           </div>
 
-          <button class="btn-save-all" id="saveAllBtn">Save changes</button>
+          <button class="btn-save-all" id="saveAllBtn">حفظ التغييرات</button>
         </div>
 
       </div>
     </div>
     <div class="avatar-actions">
-      <button class="btn-x btn-x-outline" id="editBtn">Edit profile</button>
-      <button class="btn-x btn-x-danger" id="logoutBtn">Logout</button>
+      <button class="btn-x btn-x-outline" id="editBtn">تعديل الملف الشخصي</button>
+      <button class="btn-x btn-x-danger" id="logoutBtn">تسجيل الخروج</button>
     </div>
 
   </main>

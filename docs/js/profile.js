@@ -21,16 +21,13 @@ const app = initializeApp(cfg);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "ماي", "جوان", "", "أوت", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
 
 const path = window.location.pathname; 
 let usernameFromURL = "profile"; 
-// if (path.includes("/@")) {
-    usernameFromURL = decodeURIComponent(path.split("/@")[1]);
-// } else {
 if (path.includes("/@")) {
     usernameFromURL = decodeURIComponent(path.split("/@")[1]).split('/')[0];
-}else {
+} else {
     const urlParams = new URLSearchParams(window.location.search);
     usernameFromURL = urlParams.get("user") || "profile";
 }
@@ -78,9 +75,10 @@ const showProfile = () => {
     profileEl.style.display = "block";
 };
 const timeAgo = sec => {
-    if (sec < 3600) return `${Math.floor(sec / 60)}m ago`;
-    if (sec < 86400) return `${Math.floor(sec / 3600)}h ago`;
-    return `${Math.floor(sec / 86400)}d ago`;
+    if (sec < 60) return "الآن";
+    if (sec < 3600) return `منذ ${Math.floor(sec / 60)} دقيقة`;
+    if (sec < 86400) return `منذ ${Math.floor(sec / 3600)} ساعة`;
+    return `منذ ${Math.floor(sec / 86400)} يوم`;
 };
 const normSocials = raw => {
     if (Array.isArray(raw)) return raw;
@@ -111,7 +109,6 @@ function getRoleBadges(data) {
     return html;
 }
 
-// ── Image compress ────────────────────────────────────────────────
 function compressImage(file, maxWidth, quality) {
     return new Promise(resolve => {
         const canvas = document.createElement("canvas");
@@ -148,7 +145,7 @@ async function uploadToImgBB(file, maxWidth, quality) {
         uploadBar.style.width = "0%";
     }, 400);
 
-    if (!data.success) throw new Error(data.error?.message || "ImgBB upload failed");
+    if (!data.success) throw new Error(data.error?.message || "فشل رفع الصورة إلى ImgBB");
     return data.data.url;
 }
 
@@ -159,7 +156,7 @@ function applyNavUI(photo, name) {
         : `<a href="../login/" class="nav-item">
            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-           </svg><span class="nav-text">Account</span></a>`;
+           </svg><span class="nav-text">الحساب</span></a>`;
 }
 const _c = localStorage.getItem("userData");
 if (_c) { const d = JSON.parse(_c); applyNavUI(d.photo, d.name); }
@@ -173,7 +170,7 @@ onAuthStateChanged(auth, async user => {
     applyNavUI(user?.photoURL, user?.displayName);
     try {
         if (!user && usernameFromURL === "profile") {
-            showMessage(`⚠️ please <a href='../login/' style='color:#1d9bf0'>login</a> first.`); return;
+            showMessage(` يجب <a href='../login/' style='color:#1d9bf0'>تسجيل الدخول</a> أولًا.`); return;
         }
         if (user && usernameFromURL === "profile") {
             const snap = await getDoc(doc(db, "users", user.uid));
@@ -181,19 +178,19 @@ onAuthStateChanged(auth, async user => {
                 window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
                 return;
             }
-            showMessage(`⚠️ profile not set up. <a href='../login/' style='color:#1d9bf0'>go to login</a>`); return;
+            showMessage(` لم يتم إعداد الملف الشخصي بعد. <a href='../login/' style='color:#1d9bf0'>الانتقال لصفحة تسجيل الدخول</a>`); return;
         }
         loadProfile(user);
     } catch (e) {
         console.error(e);
-        showMessage("🚨 something went wrong.");
+        showMessage(" حدث خطأ ما.");
     }
 });
 
 function loadProfile(currentUser) {
     const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
     onSnapshot(q, async qs => {
-        if (qs.empty) { showMessage("🚫 user not found."); return; }
+        if (qs.empty) { showMessage("🚫 لا يوجد مستخدم بهدا الاسم."); return; }
 
         const userDoc = qs.docs[0];
         const data = userDoc.data();
@@ -215,14 +212,14 @@ function loadProfile(currentUser) {
         if (data.lastLogin?.toDate) {
             const diff = Math.floor((Date.now() - data.lastLogin.toDate()) / 1000);
             statusEl.className = diff < 300 ? "online" : "";
-            statusText.textContent = diff < 300 ? "online now" : `last seen ${timeAgo(diff)}`;
+            statusText.textContent = diff < 300 ? "نشط الآن" : `آخر ظهور ${timeAgo(diff)}`;
         }
 
         const created = data.createdAt?.toDate?.();
         if (created) {
             statJoined.innerHTML = `
           <ion-icon name="calendar-outline"></ion-icon>
-          <span>Joined <span class="val">${MONTHS[created.getMonth()]} ${created.getFullYear()}</span></span>`;
+          <span>انضم في <span class="val">${MONTHS[created.getMonth()]} ${created.getFullYear()}</span></span>`;
         }
 
         getDocs(query(collection(db, "comments"), where("uid", "==", uid)))
@@ -230,7 +227,7 @@ function loadProfile(currentUser) {
                 statComments.innerHTML = `
             <ion-icon name="chatbubble-outline"></ion-icon>
             <a href="../comments/" style="color:inherit;text-decoration:none">
-              comments: <span class="val">${snap.size}</span>
+              التعليقات: <span class="val">${snap.size}</span>
             </a>`;
             })
             .catch(e => console.error("comments count:", e));
@@ -249,7 +246,7 @@ function loadProfile(currentUser) {
             <ion-icon name="${socialIcon(platform)}"></ion-icon>
             <a href="${socialURL(platform, username)}" target="_blank" rel="noopener"
                style="color:inherit;text-decoration:none">${username}</a>
-            ${isOwner ? `<button class="del-btn" title="remove">✕</button>` : ""}`;
+            ${isOwner ? `<button class="del-btn" title="حذف">✕</button>` : ""}`;
                 if (isOwner) {
                     card.querySelector(".del-btn").onclick = async e => {
                         e.stopPropagation();
@@ -289,17 +286,17 @@ function loadProfile(currentUser) {
 
         bannerFile.addEventListener("change", async () => {
             const file = bannerFile.files[0]; if (!file) return;
-            if (file.size > 10 * 1024 * 1024) { alert("❌ file too large (max 10MB)"); return; }
+            if (file.size > 10 * 1024 * 1024) { alert("❌ الملف كبير جدًا (الحد الأقصى 10 ميجابايت)"); return; }
             try {
                 saveAllBtn.disabled = true;
                 const url = await uploadToImgBB(file, 1200, 0.75);
                 await setDoc(doc(db, "users", uid), { banner: url }, { merge: true });
                 bannerImg.src = url;
                 saveAllBtn.disabled = false;
-                alert("✅ banner updated!");
+                alert("✅ تم تحديث الغلاف بنجاح!");
             } catch (e) {
                 saveAllBtn.disabled = false;
-                alert("❌ upload failed: " + e.message);
+                alert("❌ فشل الرفع: " + e.message);
             } finally {
                 bannerFile.value = "";
             }
@@ -307,7 +304,7 @@ function loadProfile(currentUser) {
 
         avatarFile.addEventListener("change", async () => {
             const file = avatarFile.files[0]; if (!file) return;
-            if (file.size > 10 * 1024 * 1024) { alert("❌ file too large (max 10MB)"); return; }
+            if (file.size > 10 * 1024 * 1024) { alert("❌ الملف كبير جدًا (الحد الأقصى 10 ميجابايت)"); return; }
             try {
                 saveAllBtn.disabled = true;
                 const url = await uploadToImgBB(file, 300, 0.85);
@@ -315,10 +312,10 @@ function loadProfile(currentUser) {
                 await setDoc(doc(db, "users", uid), { photo: url }, { merge: true });
                 photoPreview.src = url;
                 saveAllBtn.disabled = false;
-                alert("✅ avatar updated!");
+                alert("✅ تم تحديث الصورة الشخصية!");
             } catch (e) {
                 saveAllBtn.disabled = false;
-                alert("❌ upload failed: " + e.message);
+                alert("❌ فشل الرفع: " + e.message);
             } finally {
                 avatarFile.value = "";
             }
@@ -327,7 +324,7 @@ function loadProfile(currentUser) {
         editBtn.addEventListener("click", () => {
             isEditing = !isEditing;
             edit_section.style.display = isEditing ? "block" : "none";
-            editBtn.textContent = isEditing ? "✕ Close" : "Edit profile";
+            editBtn.textContent = isEditing ? "✕ إغلاق" : "تعديل الملف الشخصي";
             displayNameInput.value = data.name || "";
             bioInput.value = data.bio || "";
             if (isEditing) enableSorting();
@@ -339,25 +336,25 @@ function loadProfile(currentUser) {
             try {
                 await currentUser.reload();
                 const gp = currentUser.providerData.find(p => p.providerId === "google.com");
-                if (!gp?.photoURL) { alert("❌ no Google photo found."); return; }
+                if (!gp?.photoURL) { alert("❌ لم يتم العثور على صورة في حساب Google."); return; }
                 await updateProfile(currentUser, { photoURL: gp.photoURL });
                 await setDoc(doc(db, "users", uid), { photo: gp.photoURL }, { merge: true });
                 photoPreview.src = gp.photoURL;
-                alert("✅ synced!");
+                alert("✅ تم المزامنة بنجاح!");
             } catch (e) { alert("❌ " + e.code); }
         });
 
         saveAllBtn.addEventListener("click", async () => {
             const newName = displayNameInput.value.trim();
             const newBio = bioInput.value.trim().slice(0, 200);
-            if (!newName) { alert("⚠️ username cannot be empty."); return; }
+            if (!newName) { alert(" لا يمكن أن يكون اسم المستخدم فارغًا."); return; }
             if (newName !== data.name) {
                 const chk = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
-                if (!chk.empty && chk.docs[0].id !== currentUser.uid) { alert("⚠️ username taken."); return; }
+                if (!chk.empty && chk.docs[0].id !== currentUser.uid) { alert(" اسم المستخدم هذا مأخوذ بالفعل."); return; }
             }
             try {
                 saveAllBtn.disabled = true;
-                saveAllBtn.textContent = "Saving...";
+                saveAllBtn.textContent = "جاري الحفظ...";
                 await updateProfile(currentUser, { displayName: newName });
                 await setDoc(doc(db, "users", uid), {
                     name: newName,
@@ -365,11 +362,11 @@ function loadProfile(currentUser) {
                     photo: currentUser.photoURL || data.photo,
                     socials: userSocials
                 }, { merge: true });
-                alert("✅ saved!");
+                alert("✅ تم حفظ التغييرات!");
                 window.location.href = `/@${encodeURIComponent(newName)}`;
             } catch (e) {
                 saveAllBtn.disabled = false;
-                saveAllBtn.textContent = "Save changes";
+                saveAllBtn.textContent = "حفظ التغييرات";
                 alert("❌ " + e.code);
             }
         });
@@ -377,9 +374,9 @@ function loadProfile(currentUser) {
         saveSocialBtn.addEventListener("click", async () => {
             const platform = platformSelect.value;
             const username = socialInput.value.trim().replace(/^@/, "");
-            if (!username) { alert("⚠️ enter a username."); return; }
+            if (!username) { alert(" يرجى إدخال اسم المستخدم."); return; }
             if (userSocials.find(s => s.platform === platform && s.username === username)) {
-                alert("⚠️ already added."); return;
+                alert(" تم إضافة هذا الاسم مسبقا."); return;
             }
             userSocials.push({ platform, username });
             await setDoc(doc(db, "users", uid), { socials: userSocials }, { merge: true });
