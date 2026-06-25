@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Naskh+Arabic:wght@400..700&family=Vazirmatn:wght@100..900&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap');
+
 :root {
     --bg: #000;
     --text: #e8e8e8;
@@ -30,10 +31,12 @@
     --text-lg: 1.2rem;
     --text-xl: 1.45rem
 }
-html{
+
+html {
     scroll-behavior: smooth;
-      scrollbar-gutter: stable;
-    }    
+    scrollbar-gutter: stable;
+}
+
 * {
     backface-visibility: hidden;
     -webkit-tap-highlight-color: #fff0;
@@ -97,6 +100,7 @@ body {
     bottom: var(--space-5);
     left: 50%;
     transform: translateX(-50%);
+    will-change: transform;
     gap: var(--space-2);
     z-index: 1000
 }
@@ -106,19 +110,14 @@ body {
     display: flex;
     justify-content: center;
     min-width: 230px;
- 
-    
-  background: #0808083a;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(8px);
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  border-radius: 20px;
-
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.75);    
+    backdrop-filter: blur(8px);
+    /* -webkit-backdrop-filter: blur(8px); */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 
 
     /* background: rgb(10 10 10 / .85); */
@@ -147,7 +146,7 @@ body {
     text-decoration: none;
     color: var(--dim);
     font-size: var(--text-sm);
-    transition: all .18s;
+    transition: background 0.18s ease, color 0.18s ease;
     display: flex;
     align-items: center;
     gap: 7px
@@ -191,6 +190,7 @@ a {
     color: var(--muted);
     font-weight: 500
 }
+
 .subtitle {
     display: inline-flex;
     align-items: center;
@@ -247,7 +247,8 @@ a {
         padding: 8px 8px 4px 8px
     }
 
-    .nav-item:nth-child(3), .nav-item:nth-child(4) {
+    .nav-item:nth-child(3),
+    .nav-item:nth-child(4) {
         display: none;
     }
 
@@ -255,16 +256,21 @@ a {
         padding: 8px 10px;
         min-width: 40px !important;
     }
+
     .navbar:nth-child(2) {
         padding: 8px 10px;
         /* background-color: red; */
         min-width: 154px
     }
-    .blog-container, .contact-container, .hr {
+
+    .blog-container,
+    .contact-container,
+    .hr {
         display: block;
         /* margin: 5rem 0 0; */
-}
-    .contact-container{
+    }
+
+    .contact-container {
         margin-top: var(--space-5);
     }
 }
