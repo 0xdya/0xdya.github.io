@@ -87,7 +87,7 @@
         if (name || photo) {
             elements.userPhotoContainer.innerHTML = `
                 <a class="user_photo_href nav-item" href="https://0xdya.vercel.app/profile/">
-                    <img src="${photo || '../img/user.jpg'}"> <span class="nav-text">Profile</span>
+                    <img src="${photo || '../img/user.jpg'}"> <span class="nav-text">البروفايل</span>
                 </a>`;
         } else {
             elements.userPhotoContainer.innerHTML = `
@@ -96,7 +96,7 @@
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4" />
                     </svg>
-                    <span class="nav-text">Sign-In</span>
+                    <span class="nav-text">انضمام</span>
                 </a>`;
         }
     }
@@ -129,7 +129,7 @@
                         <img src="${photo}" alt="user photo">
                         <div class="name_and_role">
                             <span>${name}</span>
-                            <div class="rotba">role: <span class="role ${role}">${role}</span></div>
+                            <div class="rotba">الرتبة: <span class="role ${role}">${role}</span></div>
                         </div>
                         <div class="joined">${joinedText}</div>
                     </div>`;
@@ -166,7 +166,7 @@
         document.getElementById("saveNameBtn").onclick = async () => {
             const newName = document.getElementById("nameInput").value.trim();
             if (newName.length < 3) {
-                alert("⚠️ username must be at least 3 characters");
+                alert("⚠️ لازم الاسم اكثر من 3 حروف");
                 return;
             }
             try {
@@ -179,10 +179,10 @@
                 await runTransaction(ref(rtdb, "users_count"), c => (c || 0) + 1);
                 if (elements.userName) elements.userName.textContent = newName;
                 nameModal.style.display = "none";
-                alert("✅ account created successfully!");
+                alert("✅ تم صنع الحساب بنجاح!");
                 localStorage.setItem(CACHE_KEY, JSON.stringify({ photo: defaultPhoto, name: newName, email: defaultEmail, lastUpdate: Date.now() }));
             } catch (err) {
-                alert("❌ failed to create account: " + err.code);
+                alert("❌ فشل التسجيل: " + err.code);
             }
         };
     }
@@ -193,9 +193,9 @@
             await signInWithPopup(auth, provider);
         } catch (err) {
             if (err.code === "auth/account-exists-with-different-credential") {
-                elements.errorEl.textContent = "⚠️ this email is already registered with a different provider.";
+                elements.errorEl.textContent = "⚠️ هدا الحساب مستعمل من قبل فالموقع بطريقة مختلفة، اعد التسجيل بنفس الطريقة (google, github او email).";
             } else if (err.code !== "auth/popup-closed-by-user") {
-                elements.errorEl.textContent = "❌ login failed: " + err.code;
+                elements.errorEl.textContent = "❌ فشل التسجيل: " + err.code;
             }
         }
     }
@@ -206,10 +206,10 @@
             window.localStorage.removeItem("emailForSignIn");
             window.history.replaceState({}, document.title, window.location.pathname);
             await initUserData(result.user);
-            if (elements.message) elements.message.innerHTML = "login successfully 🐧";
+            if (elements.message) elements.message.innerHTML = "تم التسجيل بنجاح 🐧";
             showLoggedIn();
         } catch (err) {
-            if (elements.errorEl) elements.errorEl.textContent = "❌ login failed: " + err.code;
+            if (elements.errorEl) elements.errorEl.textContent = "❌ فشل التسجيل: " + err.code;
             if (elements.loader) elements.loader.style.display = "none";
             showLoggedOut();
         }
@@ -230,7 +230,7 @@
             if (user) {
                 showLoggedIn();
                 applyUserUI(user.photoURL, user.displayName);
-                if (elements.message) elements.message.innerHTML = "login successfully 🐧";
+                if (elements.message) elements.message.innerHTML = "تم التسجيل بنجاح 🐧";
                 
                 const now = Date.now();
                 const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
@@ -273,7 +273,7 @@
             try {
                 await sendSignInLinkToEmail(auth, email, { url: window.location.origin + window.location.pathname, handleCodeInApp: true });
                 window.localStorage.setItem("emailForSignIn", email);
-                alert("📨 link sent!");
+                alert(" تم ارسال الرسالة، احيانًا توضع تلقائيًا فالـ spam تفقد الـ spam اذا لم تجد الرسالة.");
                 elements.emailInput.value = "";
             } catch (err) {
                 if (elements.errorEl) elements.errorEl.textContent = "❌ " + err.code;

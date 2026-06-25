@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 
     <head>
         <meta charset="UTF-8" />
@@ -67,7 +67,7 @@
                 gap: 10px;
                 width: 100%;
                 max-width: 312px;
-                padding: 12px 24px;
+                padding: 8px 24px;
                 background: #0d0d0d;
                 color: #e8e8e8;
                 border: 1px solid #2a2a2a;
@@ -102,6 +102,7 @@
             }
 
             #message {
+                direction: rtl;
                 color: #0af;
                 font-size: 0.95rem;
             }
@@ -118,6 +119,7 @@
             }
 
             .login_note {
+                direction: rtl;
                 width: 100%;
                 padding: 0 20px;
                 border: 1px solid #444;
@@ -336,20 +338,20 @@
 
         <div id="nameModal" style="display: none;" class="modal">
             <div class="modal-content">
-                <h2>welcome 🐐</h2>
-                <input type="text" id="nameInput" placeholder="choose ur username (>= 3 chars)"/>
-                <button id="saveNameBtn">save</button>
+                <h2>مرحبا بييك 🐐</h2>
+                <input type="text" id="nameInput" placeholder="ختار اسم يكون اكبر من 3 حروف"/>
+                <button id="saveNameBtn">حفظ</button>
             </div>
         </div>
 
-        <div id="emailPromptModal" style="display: none;" class="modal">
+        <!-- <div id="emailPromptModal" style="display: block;" class="modal">
             <div class="modal-content">
                 <h2>confirm ur email 📧</h2>
                 <p>you opened the link on a different device. enter ur email to continue.</p>
                 <input type="email" id="promptEmailInput" placeholder="your@email.com"/>
                 <button id="confirmEmailBtn">confirm</button>
             </div>
-        </div>
+        </div> -->
 
         <div class="login_terminal">
             <div class="login_note">
@@ -357,7 +359,7 @@
             </div>
 
             <div id="loader">
-                <span>Authenticating...</span>
+                <span>انتظر قليلاً...</span>
             </div>
 
             <div id="loginComand" class="none" dir="ltr">
@@ -380,32 +382,31 @@
             </div>
 
             <div id="login-buttons">
-                <div id="emailLoginBox">
-                    <input type="email" id="emailInput" placeholder="ur email to get login link"/>
-                    <div id="sendLoginLink">send login link 📨</div>
+                <div id="emailLoginBox" dir="rtl">
+                    <input type="email" id="emailInput" placeholder="البريد الالكتروني (لارسال التحقق)"/>
+                    <div id="sendLoginLink">ارسال رابط التحقق 📨</div>
                 </div>
             </div>
 
             <div id="error"></div>
 
             <div id="userSection" class="none">
-                <button onclick="location.href='https://0xdya.vercel.app/profile/'" id="profile">Go to Profile</button>
-                <button id="logoutBtn">logout</button>
+                <button onclick="location.href='https://0xdya.vercel.app/profile/'" id="profile">فتح صفحة البروفايل</button>
+                <button id="logoutBtn">تسجيل الخروج</button>
             </div>
         </div>
 
         <div id="continuewith">
-            <button id="googleLogin" dir="ltr">
-                <ion-icon name="logo-google"></ion-icon>
-                <span class="home_title_font">
-                    continue with Google
+            <button id="googleLogin" dir="rtl">
+                <span class="home_title_font"> متابعة عبر قوقل
                 </span>
+                <ion-icon name="logo-google"></ion-icon> 
             </button>
-            <button id="githubLogin" dir="ltr">
-                <ion-icon name="logo-github"></ion-icon>
+            <button id="githubLogin" dir="rtl">
                 <span class="home_title_font">
-                    continue with GitHub
+                    متابعة عبر قيتهاب
                 </span>
+                <ion-icon name="logo-github"></ion-icon>
             </button>
         </div>
 

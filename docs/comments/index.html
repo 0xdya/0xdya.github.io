@@ -125,19 +125,27 @@
   color: #e06060;
 }
         #write_comment {
+            margin: var(--space-7) 0 var(--space-3);
+                background: #110E0D;
+                color: #888888;
+                border-right: 8px solid #221A17;
             font-size: var(--text-md);
             color: var(--muted);
             font-weight: 300;
-            border-right: 4px solid rebeccapurple;
+  border-radius: 18px 0 0 18px;
             padding: var(--space-1) var(--space-2);
             /* margin: var(--space-6) 0 var(--space-2); */
             /* color: var(--text-secondary); */
         }
         #write_comment a {
+
             color: var(--accent);
             /* font-weight: 600; */
         }
 
+        #commentsList{
+            min-height: 100svh;
+        }
         .comment-form {
             background: #080808;
             border-radius: 12px;
@@ -499,11 +507,6 @@
         <div class="page-header">
             <h1>// التعليقات</h1>
         </div>
-        <p style="display:none" id="write_comment">
-            (  اذا بغيت تكتب تعليق 
-            <a href="../login/">سجل الدجول</a>
-            )
-        </p>
         <form id="commentForm" class="comment-form" style="display:none">
             <div class="composer-row">
                 <img class="composer-avatar" src="https://0xdya.vercel.app/img/user.jpg" id="currentUserAvatar" alt="">
@@ -515,13 +518,22 @@
                 <button type="submit">نشر</button>
             </div>
         </form>
-        <div class="section-label" id="commentsLabel" style="display:none">الاحدث</div>
+        <div class="section-label" id="commentsLabel" style="display:none">الاحدث ↑</div>
         <div id="commentsList">
             <img width="36" id="load" src="../img/load.gif">
         </div>
+        <p style="display:none" id="write_comment">
+            (  اذا بغيت تكتب تعليق لازم
+            <a href="../login/">تسجل الدخول</a>
+            )
+            <br>
+            التسجيل مجاني ومغادي تحفظ تا معلومة منغير اسمك وصورتك الي نتا تختارهم.
+            <br>
+            + الموقع كامل مفتوح المصدر
+        </p>
     </div>
-
-
+    
+    
     <div class="navbar_section">
         <nav class="navbar">
             <a href="../" class="nav-item">
