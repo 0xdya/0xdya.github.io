@@ -604,6 +604,15 @@
       max-width: 600px;
       z-index: 100;
     }
+    @media(max-height: 828px){
+    #edit_section {
+      top: 0;
+      z-index: 99999;
+      bottom: 3.8rem;
+      /* position: relative; */
+      /* background-color: red !important; */
+    }
+    }
   </style>
   <script>
     window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -659,7 +668,7 @@
 
         <div id="socialLinks" class="social-links"></div>
 
-        <div id="edit_section">
+        <div id="edit_section" class="edit_section">
           <button id="syncPhotoBtn">🔄 مزامنة الصورة من Google</button>
           <hr>
           <div class="upload-bar-wrap" id="uploadBarWrap">
