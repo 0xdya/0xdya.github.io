@@ -5,21 +5,21 @@ async function sendMessage() {
     const email = document.getElementById("email").value.trim();
 
     if (! message) {
-        showStatus("write a message first.", "error");
+        showStatus("اكتب رسالة أولاً ._.", "error");
         return;
     }
     
     if (! name) {
-        showStatus("add a name.", "error");
+        showStatus("اكتب اسمك.", "error");
         return;
     }
 
     btn.disabled = true;
-    btn.textContent = "sending...";
+    btn.textContent = "...";
 
-    const text = `📩 new message from your site\n\n👤 name: ${
+    const text = `📩 رسالة جديدة من \n\n👤: ${
         name || "anonymous"
-    }\n\n💬 message:\n${message}`;
+    }\n\n💬:\n${message}`;
 
     try {
         const res = await fetch('/api/contact', {
@@ -40,12 +40,16 @@ async function sendMessage() {
             document.getElementById("message").value = "";
             document.getElementById("email").value = "";
         } else {
-            showStatus("error — something went wrong.", "error");
+            showStatus("404 - حدث خطأ ما.", "error");
         }
     } catch {
-        showStatus("connection failed.", "error");
+        showStatus("فشل الاتصال، تاكد من الانترنات عندك.", "error");
     } btn.disabled = false;
- btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> send`;
+ btn.innerHTML = ` ارسـال
+    <svg fill="none" viewBox="0 0 24 24" height="14" width="14" stroke="currentColor" stroke-width="2" style="transform: scaleX(-1);">
+        <line x1="22" x2="11" y1="2" y2="13" />
+        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>`;
 }
 
 let statusTimeout;

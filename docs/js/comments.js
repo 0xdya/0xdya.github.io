@@ -17,21 +17,22 @@ const firebaseConfig = {
     appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
 };
 
-const app  = initializeApp(firebaseConfig);
-const db   = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const auth = getAuth(app);
-const commentForm        = document.getElementById('commentForm');
-const commentInput       = document.getElementById('commentInput');
-const commentsList       = document.getElementById('commentsList');
-const write_comment      = document.getElementById('write_comment');
-const alertBox           = document.getElementById('alertBox');
-const commentsLabel      = document.getElementById('commentsLabel');
-const currentUserAvatar  = document.getElementById('currentUserAvatar');
-let currentUser     = null;
+const commentForm = document.getElementById('commentForm');
+const commentInput = document.getElementById('commentInput');
+const commentsList = document.getElementById('commentsList');
+const write_comment = document.getElementById('write_comment');
+const alertBox = document.getElementById('alertBox');
+const commentsLabel = document.getElementById('commentsLabel');
+const currentUserAvatar = document.getElementById('currentUserAvatar');
+let currentUser = null;
 let currentUserData = null;
-let commentsUnsub   = null;
-let alertTimeout    = null;
+let commentsUnsub = null;
+let alertTimeout = null;
 const userCache = new Map();
+
 async function adjustCommentCount(uid, delta) {
     if (!uid) return;
     try {
@@ -42,6 +43,7 @@ async function adjustCommentCount(uid, delta) {
         await setDoc(doc(db, "users", uid), { commentCount: increment(delta) }, { merge: true });
     }
 }
+
 function showAlert(message, error = false) {
     clearTimeout(alertTimeout);
     alertBox.innerHTML = `<div class="${error ? 'alert-error' : 'alert-success'}">${message}</div>`;
@@ -63,14 +65,14 @@ function formatDate(dateValue) {
     const diffSeconds = Math.floor(Math.abs(Date.now() - new Date(dateValue)) / 1000);
     if (diffSeconds < 60) return "الآن";
 
-    const intervals = { year:31536000, month:2592000, week:604800, day:86400, hour:3600, minute:60 };
+    const intervals = { year: 31536000, month: 2592000, week: 604800, day: 86400, hour: 3600, minute: 60 };
     const units = {
-        year:   ["سنة","سنتين","سنوات","سنة"],
-        month:  ["شهر","شهرين","أشهر","شهراً"],
-        week:   ["أسبوع","أسبوعين","أسابيع","أسبوعاً"],
-        day:    ["يوم","يومين","أيام","يوماً"],
-        hour:   ["ساعة","ساعتين","ساعات","ساعة"],
-        minute: ["دقيقة","دقيقتين","دقائق","دقيقة"]
+        year: ["سنة", "سنتين", "سنوات", "سنة"],
+        month: ["شهر", "شهرين", "أشهر", "شهراً"],
+        week: ["أسبوع", "أسبوعين", "أسابيع", "أسبوعاً"],
+        day: ["يوم", "يومين", "أيام", "يوماً"],
+        hour: ["ساعة", "ساعتين", "ساعات", "ساعة"],
+        minute: ["دقيقة", "دقيقتين", "دقائق", "دقيقة"]
     };
     for (const [unit, value] of Object.entries(intervals)) {
         const count = Math.floor(diffSeconds / value);
@@ -85,21 +87,21 @@ function formatDate(dateValue) {
 }
 
 async function getUserData(uid) {
-    if (!uid) return { name:"user", photo:"https://0xdya.vercel.app/img/user.jpg", role:null, verified:false };
+    if (!uid) return { name: "user", photo: "https://0xdya.vercel.app/img/user.jpg", role: null, verified: false };
     if (userCache.has(uid)) return userCache.get(uid);
     try {
         const snap = await getDoc(doc(db, "users", uid));
-        const d    = snap.exists() ? snap.data() : {};
+        const d = snap.exists() ? snap.data() : {};
         const data = {
-            name:     d.name     || "user",
-            photo:    d.photo    || d.avatar || "https://0xdya.vercel.app/img/user.jpg",
-            role:     d.role     || null,
+            name: d.name || "user",
+            photo: d.photo || d.avatar || "https://0xdya.vercel.app/img/user.jpg",
+            role: d.role || null,
             verified: d.verified || false
         };
         userCache.set(uid, data);
         return data;
     } catch {
-        return { name:"user", photo:"https://0xdya.vercel.app/img/user.jpg", role:null, verified:false };
+        return { name: "user", photo: "https://0xdya.vercel.app/img/user.jpg", role: null, verified: false };
     }
 }
 
@@ -107,7 +109,7 @@ const VERIFIED_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
 
 function getRoleIcon(role) {
     if (role === 'owner') return `<img src="../badges/server-owner.svg" class="badge-owner">`;
-    if (role === 'dev')   return `<ion-icon name="code-slash-outline" style="color:violet;font-size:14px;"></ion-icon>`;
+    if (role === 'dev') return `<ion-icon name="code-slash-outline" style="color:violet;font-size:14px;"></ion-icon>`;
     return '';
 }
 
@@ -116,70 +118,99 @@ function escapeHtml(text = "") {
     div.textContent = text;
     let safeHtml = div.innerHTML;
 
-    safeHtml = safeHtml.replace(/\.{3}/g, '<span style="display: inline-block; direction: ltr; letter-spacing: 1px;">...</span>');
+    const hasArabic = /[\u0600-\u06FF]/;
+    const isArabicComment = hasArabic.test(text);
 
-    const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
-    return safeHtml.replace(emojiRegex, '<span>$1</span>');
+    if (isArabicComment) {
+        safeHtml = safeHtml.replace(/\.{3}/g, '<span style="display: inline-block; direction: ltr; letter-spacing: 1px; margin: 0 2px;">...</span>');
+        safeHtml = safeHtml.replace(/\.{2}/g, '<span style="display: inline-block; direction: ltr; letter-spacing: 1px; margin: 0 2px;">..</span>');
+
+        const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
+        safeHtml = safeHtml.replace(emojiRegex, '<span style="font-family: system-ui, -apple-system, sans-serif; display: inline-block; vertical-align: middle; margin: 0 1px; direction: ltr;">$1</span>');
+
+        return `<span style="font-family: 'Vazirmatn', sans-serif !important; direction: rtl; display: block; font-size=5rem !important ">${safeHtml}</span>`;
+    } else {
+        return `<span style="font-family: 'JetBrains Mono', monospace !important; direction: ltr; display: block;">${safeHtml}</span>`;
+    }
 }
 
-// الردود
 async function loadReplies(commentId) {
     const repliesDiv = document.getElementById(`replies-${commentId}`);
     if (!repliesDiv) return;
-    repliesDiv.innerHTML = "";
 
-    const snap = await getDocs(
-        query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"))
-    );
 
-    for (const docSnap of snap.docs) {
-        const d        = docSnap.data();
-        const replyId  = docSnap.id;
-        const timeStr  = formatDate(d.timestamp?.toDate());
-        const userData = await getUserData(d.uid);
-        const isOwner  = currentUser?.uid === d.uid || currentUserData?.role === "owner";
+    repliesDiv.innerHTML = '<div style="padding:8px;text-align:center;opacity:0.6;font-size:13px;">جاري تحميل الردود...</div>';
 
-        const card = document.createElement('div');
-        card.className = 'reply-card';
-        card.style.display = 'flex';
-        card.innerHTML = `
-            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="flex-shrink:0;">
-                <img src="${userData.photo}" alt="${userData.name}"
-                     style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
-            </a>
-            <div style="flex:1;min-width:0;">
-                <div class="reply-bubble">
-                    <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank"
-                           style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
-                        ${userData.verified ? VERIFIED_SVG : ''}
-                        ${getRoleIcon(userData.role)}
-                        <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
-                    </div>
-                    <div class="reply-text">${escapeHtml(d.text)}</div>
-                </div>
-                <div class="reply-meta">
-                    ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">حذف</button>` : ''}
-                </div>
-            </div>`;
+    try {
+        const snap = await getDocs(
+            query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"))
+        );
 
-        if (isOwner) {
-            card.querySelector('.delete-reply-btn').addEventListener('click', async () => {
-                if (!confirm("حذف هذا الرد؟")) return;
-                await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
-                await adjustCommentCount(d.uid, -1);
-                showAlert("تم حذف الرد.");
-                loadReplies(commentId);
-            });
+        if (snap.empty) {
+            repliesDiv.innerHTML = '';
+            return;
         }
-        repliesDiv.appendChild(card);
+
+        repliesDiv.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+
+        for (const docSnap of snap.docs) {
+            const d = docSnap.data();
+            const replyId = docSnap.id;
+            const timeStr = formatDate(d.timestamp?.toDate());
+            const userData = await getUserData(d.uid);
+            const isOwner = currentUser?.uid === d.uid || currentUserData?.role === "owner";
+
+            const card = document.createElement('div');
+            card.className = 'reply-card';
+            card.style.display = 'flex';
+            card.innerHTML = `
+                <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="flex-shrink:0;">
+                    <img src="${userData.photo}" alt="${userData.name}"
+                         style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
+                </a>
+                <div style="flex:1;min-width:0;">
+                    <div class="reply-bubble">
+                        <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank"
+                               style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
+                            ${userData.verified ? VERIFIED_SVG : ''}
+                            ${getRoleIcon(userData.role)}
+                            <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
+                        </div>
+                        <div class="reply-text">${escapeHtml(d.text)}</div>
+                    </div>
+                    <div class="reply-meta">
+                        ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">حذف</button>` : ''}
+                    </div>
+                </div>`;
+
+            if (isOwner) {
+                const deleteBtn = card.querySelector('.delete-reply-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', async () => {
+                        if (!confirm("حذف هذا الرد؟")) return;
+                        await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
+                        await adjustCommentCount(d.uid, -1);
+                        showAlert("تم حذف الرد.");
+                        loadReplies(commentId);
+                    });
+                }
+            }
+            fragment.appendChild(card);
+        }
+        repliesDiv.appendChild(fragment);
+    } catch (error) {
+        console.error("Error loading replies:", error);
+        repliesDiv.innerHTML = '';
     }
 }
 
 function loadComments() {
     if (commentsUnsub) commentsUnsub();
 
-    const entriesMap = new Map(); 
+    const entriesMap = new Map();
+    let isLoading = true;
 
     function reorder() {
         const all = [...entriesMap.values()].sort((a, b) => {
@@ -194,22 +225,37 @@ function loadComments() {
 
     const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
 
-    commentsUnsub = onSnapshot(q, snapshot => {
-        snapshot.docChanges().forEach(async change => {
-            const docSnap   = change.doc;
-            const data      = docSnap.data();
+    commentsUnsub = onSnapshot(q, async (snapshot) => {
+        const promises = [];
+
+        snapshot.docChanges().forEach(change => {
+            const docSnap = change.doc;
+            const data = docSnap.data();
             const commentId = docSnap.id;
 
             if (change.type === "added") {
                 if (entriesMap.has(commentId)) return;
 
-                const timeStr  = formatDate(data.timestamp?.toDate());
-                const userData = await getUserData(data.uid);
-                const isOwner  = currentUser?.uid === data.uid || currentUserData?.role === "owner";
+                const promise = (async () => {
+                    const timeStr = formatDate(data.timestamp?.toDate());
+                    const userData = await getUserData(data.uid);
+                    const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "owner";
 
-                const wrap = document.createElement('div');
-                wrap.id = `comment-wrap-${commentId}`;
-                wrap.innerHTML = `
+                    const wrap = document.createElement('div');
+                    wrap.id = `comment-wrap-${commentId}`;
+                    wrap.className = `comment-tst`;
+
+
+                    let commentMetaHTML = '';
+                    if (currentUser) {
+                        commentMetaHTML = `
+                        <div class="comment-meta">
+                            <button class="meta-action reply-toggle-btn" data-id="${commentId}">رد</button>
+                            ${isOwner ? `<button class="meta-action delete" data-id="${commentId}">حذف</button>` : ''}
+                        </div>`;
+                    }
+
+                    wrap.innerHTML = `
                     <div class="comment-card" id="comment-${commentId}">
                         <div class="comment-avatar">
                             <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
@@ -223,17 +269,11 @@ function loadComments() {
                                        style="color:inherit;font-weight:600;">${userData.name}</a>
                                     ${userData.verified ? VERIFIED_SVG : ''}
                                     ${getRoleIcon(userData.role)}
-                                    <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
+                                    <span style="opacity:.6;font-size:.75rem;">٠ ${timeStr}</span>
                                     ${data.pinned ? `<div class="pin-badge">(مثبت)</div>` : ''}
                                 </div>
                                 <div class="bubble-text">${escapeHtml(data.text)}
-                                <div class="comment-meta">
-                                    <button class="meta-action reply-toggle-btn" data-id="${commentId}"
-                                        ${currentUser ? '' : 'style="display:none"'}>رد</button>
-                                    ${isOwner
-                                        ? `<button class="meta-action delete" data-id="${commentId}">حذف</button>`
-                                        : ''}
-                                </div>
+                                ${commentMetaHTML}
                                 </div>
                             </div>
                         </div>
@@ -245,109 +285,177 @@ function loadComments() {
                             <button class="reply-submit-btn" data-id="${commentId}">ارسال</button>
                         </div>
                     </div>
-                    <div class="replies-section" id="replies-${commentId}"></div>`;
+                    <div class="replies-section" id="replies-${commentId}"></div>  <hr>`;
 
-                // زر الرد
-                wrap.querySelector('.reply-toggle-btn').addEventListener('click', () => {
-                    if (!currentUser) { showAlert("سجل الدخول أولاً", true); return; }
-                    const form = document.getElementById(`reply-form-${commentId}`);
-                    form.classList.toggle('open');
-                    if (form.classList.contains('open')) form.querySelector('textarea').focus();
-                });
 
-                // إرسال الرد
-                wrap.querySelector('.reply-submit-btn').addEventListener('click', async () => {
-                    const input = wrap.querySelector('.reply-input');
-                    const text  = input.value.trim();
-                    if (!text || !currentUser) return;
-                    await addDoc(collection(db, "comments", commentId, "replies"), {
-                        uid: currentUser.uid, email: currentUser.email,
-                        text, timestamp: serverTimestamp()
-                    });
-                    // await adjustCommentCount(currentUser.uid, 1);
-                    input.value = "";
-                    document.getElementById(`reply-form-${commentId}`).classList.remove('open');
-                    loadReplies(commentId);
-                });
+                    if (currentUser) {
 
-                if (isOwner) {
-                    wrap.querySelector('.delete').addEventListener('click', async () => {
-                        if (!confirm("حذف هذا التعليق؟")) return;
-                        const ownerUid = data.uid;
-                        await deleteDoc(doc(db, "comments", commentId));
-                        // await adjustCommentCount(ownerUid, -1);
-                        showAlert("تم حذف التعليق.");
-                    });
-                }
+                        const replyToggleBtn = wrap.querySelector('.reply-toggle-btn');
+                        if (replyToggleBtn) {
+                            replyToggleBtn.addEventListener('click', () => {
+                                if (!currentUser) { showAlert("سجل الدخول أولاً", true); return; }
+                                const form = document.getElementById(`reply-form-${commentId}`);
+                                if (form) {
+                                    form.classList.toggle('open');
+                                    if (form.classList.contains('open')) {
+                                        const textarea = form.querySelector('textarea');
+                                        if (textarea) textarea.focus();
+                                    }
+                                }
+                            });
+                        }
 
-                entriesMap.set(commentId, { el: wrap, id: commentId, pinned: data.pinned, timestamp: data.timestamp });
-                reorder();
-                loadReplies(commentId);
+                        const replySubmitBtn = wrap.querySelector('.reply-submit-btn');
+                        if (replySubmitBtn) {
+                            replySubmitBtn.addEventListener('click', async () => {
+                                const input = wrap.querySelector('.reply-input');
+                                const text = input?.value?.trim();
+                                if (!text || !currentUser) return;
+                                try {
+                                    await addDoc(collection(db, "comments", commentId, "replies"), {
+                                        uid: currentUser.uid,
+                                        email: currentUser.email,
+                                        text: text,
+                                        timestamp: serverTimestamp()
+                                    });
+                                    input.value = "";
+                                    const form = document.getElementById(`reply-form-${commentId}`);
+                                    if (form) form.classList.remove('open');
+                                    loadReplies(commentId);
+                                    showAlert("تم إرسال الرد بنجاح");
+                                } catch (error) {
+                                    showAlert("فشل إرسال الرد", true);
+                                    console.error(error);
+                                }
+                            });
+                        }
+                    }
+
+
+                    if (isOwner) {
+                        const deleteBtn = wrap.querySelector('.delete');
+                        if (deleteBtn) {
+                            deleteBtn.addEventListener('click', async () => {
+                                if (!confirm("حذف هذا التعليق؟")) return;
+                                try {
+                                    await deleteDoc(doc(db, "comments", commentId));
+                                    showAlert("تم حذف التعليق.");
+                                } catch (error) {
+                                    showAlert("فشل حذف التعليق", true);
+                                    console.error(error);
+                                }
+                            });
+                        }
+                    }
+
+                    entriesMap.set(commentId, { el: wrap, id: commentId, pinned: data.pinned, timestamp: data.timestamp });
+                    reorder();
+                    // تحميل الردود في الخلفية
+                    setTimeout(() => loadReplies(commentId), 100);
+                })();
+
+                promises.push(promise);
             }
 
             if (change.type === "removed") {
                 entriesMap.delete(commentId);
-                document.getElementById(`comment-wrap-${commentId}`)?.remove();
+                const element = document.getElementById(`comment-wrap-${commentId}`);
+                if (element) element.remove();
                 reorder();
             }
 
             if (change.type === "modified") {
                 const entry = entriesMap.get(commentId);
                 if (entry) {
-                    entry.pinned    = data.pinned;
+                    entry.pinned = data.pinned;
                     entry.timestamp = data.timestamp;
                     const bubble = entry.el.querySelector('.comment-bubble');
                     if (bubble) {
                         bubble.classList.toggle('pinned', !!data.pinned);
                         const pinBadge = bubble.querySelector('.pin-badge');
-                        if (data.pinned && !pinBadge)
-                            bubble.querySelector('.bubble-author')?.insertAdjacentHTML('beforeend', `<div class="pin-badge">(مثبت)</div>`);
-                        else if (!data.pinned && pinBadge)
+                        if (data.pinned && !pinBadge) {
+                            const author = bubble.querySelector('.bubble-author');
+                            if (author) {
+                                author.insertAdjacentHTML('beforeend', `<div class="pin-badge">(مثبت)</div>`);
+                            }
+                        } else if (!data.pinned && pinBadge) {
                             pinBadge.remove();
+                        }
                     }
                     reorder();
                 }
             }
         });
 
-        commentForm.style.display   = currentUser ? "block" : "none";
-        write_comment.style.display = currentUser ? "none"  : "block";
+        await Promise.all(promises);
+        isLoading = false;
+
+        // تحديث واجهة المستخدم
+        if (commentForm) {
+            commentForm.style.display = currentUser ? "block" : "none";
+        }
+        if (write_comment) {
+            write_comment.style.display = currentUser ? "none" : "block";
+        }
         syncReplyControls();
     });
 }
 
-commentForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const text      = commentInput.value.trim();
-    if (!text || !currentUser) return;
-    const submitBtn = commentForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    try {
-        await addDoc(collection(db, "comments"), {
-            uid: currentUser.uid, email: currentUser.email,
-            text, pinned: false, timestamp: serverTimestamp()
-        });
-        await adjustCommentCount(currentUser.uid, 1);
-        commentForm.reset();
-        showAlert("تم نشر التعليق بنجاح");
-    } catch {
-        showAlert("فشل نشر التعليق.", true);
-    } finally {
-        submitBtn.disabled = false;
-    }
-});
+if (commentForm) {
+    commentForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const text = commentInput?.value?.trim();
+        if (!text || !currentUser) {
+            showAlert("الرجاء تسجيل الدخول أولاً", true);
+            return;
+        }
+
+        const submitBtn = commentForm.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+            await addDoc(collection(db, "comments"), {
+                uid: currentUser.uid,
+                email: currentUser.email,
+                text: text,
+                pinned: false,
+                timestamp: serverTimestamp()
+            });
+            await adjustCommentCount(currentUser.uid, 1);
+            if (commentInput) commentInput.value = '';
+            showAlert("تم نشر التعليق بنجاح");
+        } catch (error) {
+            showAlert("فشل نشر التعليق.", true);
+            console.error(error);
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
+    });
+}
 
 onAuthStateChanged(auth, async user => {
     currentUser = user;
     if (user) {
-        currentUserAvatar.src = user.photoURL || 'https://0xdya.vercel.app/img/user.jpg';
+        if (currentUserAvatar) {
+            currentUserAvatar.src = user.photoURL || 'https://0xdya.vercel.app/img/user.jpg';
+        }
         const userRef = doc(db, "users", user.uid);
-        await setDoc(userRef, {}, { merge: true });
         try {
+            await setDoc(userRef, {}, { merge: true });
             const snap = await getDoc(userRef);
-            if (snap.exists()) currentUserData = { role: snap.data().role || null };
-        } catch {}
+            if (snap.exists()) {
+                currentUserData = { role: snap.data().role || null };
+            }
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    } else {
+        currentUserData = null;
+        if (currentUserAvatar) {
+            currentUserAvatar.src = 'https://0xdya.vercel.app/img/user.jpg';
+        }
     }
+
     loadComments();
     syncReplyControls();
 });

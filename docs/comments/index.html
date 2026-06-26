@@ -58,6 +58,7 @@
 
 
         body {
+            /* font-family: "Reem kufi" !important; */
             padding-bottom: var(--space-6);
         }
 
@@ -103,21 +104,24 @@
   display: inline-block;
   white-space: nowrap;
 }
-#alertBox div {
-    padding: 10px 14px; /*
-    border-radius: 8px;
-    background: var(--surface);
-    border-left: 3px solid var(--accent); */
+/* #alertBox div {
+    
+border-radius: 8px;
+background: var(--surface);
+border-left: 3px solid var(--accent);
 }
+*/
 .alert-success {
-            border-radius: 16px;
-            background: rgba(80, 200, 120, 0.08);
-            border: 1px solid rgba(80, 200, 120, 0.2);
-            color: #5ec87a;
-            backdrop-filter: blur(12px);
-        }
-        
-        .alert-error {
+    padding: 10px 14px;  
+    border-radius: 16px;
+    background: rgba(80, 200, 120, 0.08);
+    border: 1px solid rgba(80, 200, 120, 0.2);
+    color: #5ec87a;
+    backdrop-filter: blur(12px);
+}
+
+.alert-error {
+            padding: 10px 14px;  
     border-radius: 16px;
   display: block;
   background: rgba(220, 80, 80, 0.08);
@@ -351,7 +355,7 @@
 
         /* Replies */
         .replies-section {
-            margin-bottom: 16px;
+            /* margin-bottom: 16px; */
             margin-right: 48px;
             display: block;
         }
@@ -361,9 +365,21 @@
         .reply-card {
             display: flex;
             gap: 8px;
+            margin: 4px 0;
             /* margin-bottom: 8px; */
             animation: fadeUp 0.2s ease;
             
+        }
+        .reply-bubble {
+            background-color: var(--accent-dim);
+            width: fit-content;
+            /* background: transparent; */
+            border: 1px #222 solid;
+            border-radius: 18px 0 18px 18px;
+            padding: 8px 12px;
+            font-size: var(--text-md);
+            color: var(--text);
+            margin: .5rem 0 0;
         }
         .reply-card img {
             width: 30px;
@@ -373,16 +389,6 @@
             border: 1px solid var(--border);
             flex-shrink: 0;
             margin-top: 2px;
-        }
-        .reply-bubble {
-            width: fit-content;
-                        background: var(--accent-dim);
-            border: 1px #222 solid;
-            border-radius: 18px 0 18px 18px;
-            padding: 8px 12px;
-            font-size: var(--text-md);
-            color: var(--text);
-            margin: 1rem 0 0;
         }
         .reply-author {
             font-size: 0.825rem;
@@ -484,8 +490,41 @@
         .reply-input-row button:hover {
             background: var(--accent-hover);
         }
+        .comment-tst{
+            /* font-family: "Vazirmatn" !important; */
+            /* background-color: red; */
+            margin: .25rem 0;
+            display: flex;
+            flex-direction: column;
 
+        }
+        .hr{
+            /* position: absolute; */
 
+            align-self: center;
+            justify-self: center;
+            width: 100vw;
+            max-width: 70%;
+            opacity: .4;
+            /* margin: 1rem auto; */
+        }
+       hr {
+  border: none;
+  border-top: 3px double #333333;
+  color: #333333;
+  overflow: visible;
+  text-align: center;
+  height: 5px;
+  margin: .75rem 0;
+}
+
+hr::after {
+  background: var(--bg);
+  content: "§";
+  padding: 0 4px;
+  position: relative;
+  top: -13px;
+}
 
 .pill:hover {
     border-color: rgb(255 255 255 / .22);
@@ -503,7 +542,7 @@
 <body>
 
     <div class="container">
-        <div id="alertBox" class="alert-success"></div>
+        <div id="alertBox"></div>
         <div class="page-header">
             <h1>// التعليقات</h1>
         </div>
