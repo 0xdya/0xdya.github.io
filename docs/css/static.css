@@ -73,7 +73,7 @@ body {
     position: relative;
     background: var(--bg);
     color: var(--text);
-    font-family: "JetBrains Mono", "Vazirmatn", monospace;
+    font-family: "JetBrains Mono", "Vazirmatn", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
     font-size: var(--text-base);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;

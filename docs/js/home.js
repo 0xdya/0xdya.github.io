@@ -1,9 +1,9 @@
 const nodes = new vis.DataSet([
-  { id: 0, label: '<|>', x: 0, y: 0 }, // المركز ثابت
-  { id: 1, label: 'مبرمج', link: './projects/#tools', x: -140, y: -100 }, // أعلى اليسار
-  { id: 2, label: 'كاتب', link: './projects/#book', x: 140, y: -100 },  // أعلى اليمين
-  { id: 3, label: 'شاعر', link: './poetry/', x: 160, y: 100 },        // أسفل اليمين
-  { id: 4, label: 'رسام', link: './projects/#paint', x: -160, y: 100 }  // أسفل اليسار
+  { id: 0, label: '<|>', x: 0, y: 0 },
+  { id: 1, label: 'مبرمج', link: './projects/#tools', x: -140, y: -100 },
+  { id: 2, label: 'كاتب', link: './projects/#book', x: 140, y: -100 }, 
+  { id: 3, label: 'شاعر', link: './poetry/', x: 160, y: 100 },   
+  { id: 4, label: 'رسام', link: './projects/#paint', x: -160, y: 100 } 
 ]);
 
 const edges = new vis.DataSet([
@@ -11,12 +11,10 @@ const edges = new vis.DataSet([
   { from: 0, to: 2 },
   { from: 0, to: 3 },
   { from: 0, to: 4 },
-  
-  // الروابط الخارجية الإضافية الموزعة هندسياً:
-  { from: 1, to: 2 }, // أفقي أعلى
-  { from: 4, to: 3 }, // أفقي أسفل
-  { from: 1, to: 3 }, // قطري مائل
-  { from: 4, to: 2 }  // قطري مائل متقاطع
+  { from: 1, to: 2 }, 
+  { from: 4, to: 3 }, 
+  { from: 1, to: 3 }, 
+  { from: 4, to: 2 } 
 ]);
 
 const container = document.getElementById('network');
@@ -82,7 +80,6 @@ setInterval(() => {
   currentFrame = (currentFrame + 1) % animationFrames.length;
   nodes.update({ id: 0, label: animationFrames[currentFrame] });
 }, 600); 
-// -------------------------------------------
 
 network.on('click', function (params) {
   if (params.nodes.length > 0) {

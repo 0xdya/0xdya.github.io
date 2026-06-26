@@ -114,7 +114,12 @@ function getRoleIcon(role) {
 function escapeHtml(text = "") {
     const div = document.createElement("div");
     div.textContent = text;
-    return div.innerHTML;
+    let safeHtml = div.innerHTML;
+
+    safeHtml = safeHtml.replace(/\.{3}/g, '<span style="display: inline-block; direction: ltr; letter-spacing: 1px;">...</span>');
+
+    const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
+    return safeHtml.replace(emojiRegex, '<span>$1</span>');
 }
 
 // الردود
@@ -259,7 +264,7 @@ function loadComments() {
                         uid: currentUser.uid, email: currentUser.email,
                         text, timestamp: serverTimestamp()
                     });
-                    await adjustCommentCount(currentUser.uid, 1);
+                    // await adjustCommentCount(currentUser.uid, 1);
                     input.value = "";
                     document.getElementById(`reply-form-${commentId}`).classList.remove('open');
                     loadReplies(commentId);
@@ -270,7 +275,7 @@ function loadComments() {
                         if (!confirm("حذف هذا التعليق؟")) return;
                         const ownerUid = data.uid;
                         await deleteDoc(doc(db, "comments", commentId));
-                        await adjustCommentCount(ownerUid, -1);
+                        // await adjustCommentCount(ownerUid, -1);
                         showAlert("تم حذف التعليق.");
                     });
                 }
