@@ -551,12 +551,13 @@
     #syncPhotoBtn {
       width: 100%;
       padding: var(--space-2);
-      background: transparent;
-      color: var(--muted);
+      background: var(--accent);
+      color: #000;
       border: 1px dashed var(--border);
       border-radius: var(--rs);
       font-family: inherit;
       font-size: var(--text-xs);
+      font-weight: 700;
       cursor: pointer;
       margin-bottom: var(--space-4);
       transition: all .15s;
@@ -660,17 +661,20 @@
 
         <div id="edit_section">
           <button id="syncPhotoBtn">🔄 مزامنة الصورة من Google</button>
-
+          <hr>
           <div class="upload-bar-wrap" id="uploadBarWrap">
             <div class="upload-bar" id="uploadBar"></div>
           </div>
-
+          
           <p class="edit-label">اسم المستخدم</p>
           <input type="text" id="displayNameInput" class="edit-field" placeholder="اسم مستخدم جديد" />
-
+          
           <p class="edit-label">النبذة التعريفية</p>
           <textarea id="bioInput" class="edit-field" rows="3" placeholder="اكتب شيئاً..."></textarea>
-
+          
+          <button class="btn-save-all" id="saveAllBtn">حفظ التغييرات</button>
+          <br> <br>
+          <hr>
           <p class="edit-label">إضافة رابط تواصل اجتماعي</p>
           <div class="social-add-row">
             <select id="platformSelect">
@@ -686,7 +690,6 @@
             <button class="btn-add" id="saveSocialBtn">إضافة</button>
           </div>
 
-          <button class="btn-save-all" id="saveAllBtn">حفظ التغييرات</button>
         </div>
 
       </div>

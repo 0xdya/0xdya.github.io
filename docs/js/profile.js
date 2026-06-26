@@ -21,15 +21,17 @@ const app = initializeApp(cfg);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "ماي", "جوان", "", "أوت", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+const MONTHS = [
+    "يناير", "فبراير", "مارس", "أبريل", "ماي", "جوان",
+    "جويلية", "أوت", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+];
 
-const path = window.location.pathname; 
-let usernameFromURL = "profile"; 
+const path = window.location.pathname;
+let usernameFromURL = "profile";
 if (path.includes("/@")) {
-    usernameFromURL = decodeURIComponent(path.split("/@")[1]).split('/')[0];
+    usernameFromURL = decodeURIComponent(path.split("/@")[1]).split("/")[0];
 } else {
-    const urlParams = new URLSearchParams(window.location.search);
-    usernameFromURL = urlParams.get("user") || "profile";
+    usernameFromURL = new URLSearchParams(window.location.search).get("user") || "profile";
 }
 
 const $ = id => document.getElementById(id);
@@ -63,7 +65,6 @@ const bannerFile = $("bannerFileInput");
 const avatarFile = $("avatarFileInput");
 const uploadBarWrap = $("uploadBarWrap");
 const uploadBar = $("uploadBar");
-const uploadHint = $("uploadHint");
 
 const showMessage = msg => {
     loadingEl.style.display = "none";
@@ -109,6 +110,7 @@ function getRoleBadges(data) {
     return html;
 }
 
+
 function compressImage(file, maxWidth, quality) {
     return new Promise(resolve => {
         const canvas = document.createElement("canvas");
@@ -126,9 +128,7 @@ function compressImage(file, maxWidth, quality) {
 }
 
 async function uploadToImgBB(file, maxWidth, quality) {
-    const base64 = await compressImage(file, maxWidth, quality);
-    const base64Raw = base64.split(",")[1];
-
+    const base64Raw = (await compressImage(file, maxWidth, quality)).split(",")[1];
     const form = new FormData();
     form.append("image", base64Raw);
     form.append("key", IMGBB_KEY);
@@ -140,37 +140,43 @@ async function uploadToImgBB(file, maxWidth, quality) {
     const data = await res.json();
 
     uploadBar.style.width = "100%";
-    setTimeout(() => {
-        uploadBarWrap.style.display = "none";
-        uploadBar.style.width = "0%";
-    }, 400);
+    setTimeout(() => { uploadBarWrap.style.display = "none"; uploadBar.style.width = "0%"; }, 400);
 
     if (!data.success) throw new Error(data.error?.message || "فشل رفع الصورة إلى ImgBB");
     return data.data.url;
 }
 
 function applyNavUI(photo, name) {
-    const c = $("userPhotoContainer"); if (!c) return;
+    const c = $("userPhotoContainer");
+    if (!c) return;
     c.innerHTML = (name || photo)
-        ? `<a class="user_photo_href nav-item" href="/@${encodeURIComponent(name || '')}"><img src="${photo || '../img/user.jpg'}"></a>`
+        ? `<a class="user_photo_href nav-item" href="/@${encodeURIComponent(name || '')}">
+             <img src="${photo || '../img/user.jpg'}">
+           </a>`
         : `<a href="../login/" class="nav-item">
-           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-           </svg><span class="nav-text">الحساب</span></a>`;
+             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+             </svg><span class="nav-text">الحساب</span>
+           </a>`;
 }
-const _c = localStorage.getItem("userData");
-if (_c) { const d = JSON.parse(_c); applyNavUI(d.photo, d.name); }
+
+try {
+    const _c = localStorage.getItem("userData");
+    if (_c) { const d = JSON.parse(_c); applyNavUI(d.photo, d.name); }
+} catch (_) { }
 
 displayNameInput.addEventListener("input", () => {
     displayNameInput.value = displayNameInput.value
-        .replace(/\s+/g, "_").replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
+        .replace(/\s+/g, "_")
+        .replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
 });
 
 onAuthStateChanged(auth, async user => {
     applyNavUI(user?.photoURL, user?.displayName);
     try {
         if (!user && usernameFromURL === "profile") {
-            showMessage(` يجب <a href='../login/' style='color:#1d9bf0'>تسجيل الدخول</a> أولًا.`); return;
+            showMessage(`يجب <a href='../login/' style='color:#1d9bf0'>تسجيل الدخول</a> أولًا.`);
+            return;
         }
         if (user && usernameFromURL === "profile") {
             const snap = await getDoc(doc(db, "users", user.uid));
@@ -178,24 +184,202 @@ onAuthStateChanged(auth, async user => {
                 window.location.replace(`/@${encodeURIComponent(snap.data().name)}`);
                 return;
             }
-            showMessage(` لم يتم إعداد الملف الشخصي بعد. <a href='../login/' style='color:#1d9bf0'>الانتقال لصفحة تسجيل الدخول</a>`); return;
+            showMessage(`لم يتم إعداد الملف الشخصي بعد. <a href='../login/' style='color:#1d9bf0'>الانتقال لصفحة تسجيل الدخول</a>`);
+            return;
         }
         loadProfile(user);
     } catch (e) {
         console.error(e);
-        showMessage(" حدث خطأ ما.");
+        showMessage("حدث خطأ ما.");
     }
 });
 
 function loadProfile(currentUser) {
+    if (loadProfile._unsub) { loadProfile._unsub(); loadProfile._unsub = null; }
+
+    let userSocials = [];
+    let sortable = null;
+    let isEditing = false;
+    let listenersSet = false;
+    let profileUid = null;
+
+    function renderSocials() {
+        socialLinksDiv.innerHTML = "";
+        userSocials.forEach(({ platform, username }, i) => {
+            const card = document.createElement("div");
+            card.className = "link_card";
+            card.setAttribute("draggable", "true");
+            card.innerHTML = `
+                <ion-icon name="${socialIcon(platform)}"></ion-icon>
+                <a href="${socialURL(platform, username)}" target="_blank" rel="noopener"
+                   style="color:inherit;text-decoration:none">${username}</a>
+                <button class="del-btn" title="حذف">✕</button>`;
+            card.querySelector(".del-btn").onclick = async e => {
+                e.stopPropagation();
+                userSocials.splice(i, 1);
+                await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
+                renderSocials();
+                if (isEditing) enableSorting();
+            };
+            socialLinksDiv.appendChild(card);
+        });
+    }
+
+    function enableSorting() {
+        if (sortable) sortable.destroy();
+        sortable = new Sortable(socialLinksDiv, {
+            animation: 150, draggable: ".link_card",
+            onEnd: async ({ oldIndex, newIndex }) => {
+                if (oldIndex === newIndex) return;
+                const [moved] = userSocials.splice(oldIndex, 1);
+                userSocials.splice(newIndex, 0, moved);
+                await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
+                renderSocials();
+                enableSorting();
+            }
+        });
+    }
+
+    function setupOwnerListeners() {
+        if (listenersSet) return;
+        listenersSet = true;
+
+        editBtn.style.display = "flex";
+        logoutBtn.style.display = "flex";
+        bannerWrap.classList.add("owner");
+        avatarWrap.classList.add("owner");
+
+        bannerWrap.addEventListener("click", () => bannerFile.click());
+        avatarWrap.addEventListener("click", () => avatarFile.click());
+
+        bannerFile.addEventListener("change", async () => {
+            const file = bannerFile.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) { alert("❌ الملف كبير جدًا (الحد الأقصى 10 ميجابايت)"); return; }
+            try {
+                saveAllBtn.disabled = true;
+                const url = await uploadToImgBB(file, 1200, 0.75);
+                await setDoc(doc(db, "users", profileUid), { banner: url }, { merge: true });
+                bannerImg.src = url;
+                saveAllBtn.disabled = false;
+                alert("✅ تم تحديث الغلاف بنجاح!");
+            } catch (e) {
+                saveAllBtn.disabled = false;
+                alert("❌ فشل الرفع: " + e.message);
+            } finally { bannerFile.value = ""; }
+        });
+
+        avatarFile.addEventListener("change", async () => {
+            const file = avatarFile.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) { alert("❌ الملف كبير جدًا (الحد الأقصى 10 ميجابايت)"); return; }
+            try {
+                saveAllBtn.disabled = true;
+                const url = await uploadToImgBB(file, 300, 0.85);
+                await updateProfile(currentUser, { photoURL: url });
+                await setDoc(doc(db, "users", profileUid), { photo: url }, { merge: true });
+                photoPreview.src = url;
+                saveAllBtn.disabled = false;
+                alert("✅ تم تحديث الصورة الشخصية!");
+            } catch (e) {
+                saveAllBtn.disabled = false;
+                alert("❌ فشل الرفع: " + e.message);
+            } finally { avatarFile.value = ""; }
+        });
+
+        editBtn.addEventListener("click", () => {
+            isEditing = !isEditing;
+            edit_section.style.display = isEditing ? "block" : "none";
+            editBtn.textContent = isEditing ? "✕ إغلاق" : "تعديل الملف الشخصي";
+            displayNameInput.value = currentNameEl.textContent || "";
+            bioInput.value = displayBioEl.textContent || "";
+            if (isEditing) enableSorting();
+            else { sortable?.destroy(); sortable = null; }
+            renderSocials();
+        });
+
+        syncPhotoBtn.addEventListener("click", async () => {
+            try {
+                await currentUser.reload();
+                const gp = currentUser.providerData.find(p => p.providerId === "google.com");
+                if (!gp?.photoURL) { alert("❌ لم يتم العثور على صورة في حساب Google."); return; }
+                await updateProfile(currentUser, { photoURL: gp.photoURL });
+                await setDoc(doc(db, "users", profileUid), { photo: gp.photoURL }, { merge: true });
+                photoPreview.src = gp.photoURL;
+                alert("✅ تم المزامنة بنجاح!");
+            } catch (e) { alert("❌ " + e.code); }
+        });
+
+        saveAllBtn.addEventListener("click", async () => {
+            const newName = displayNameInput.value.trim();
+            const newBio = bioInput.value.trim().slice(0, 200);
+            if (!newName) { alert("لا يمكن أن يكون اسم المستخدم فارغًا."); return; }
+
+            if (newName !== currentNameEl.textContent) {
+                const chk = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
+                if (!chk.empty && chk.docs[0].id !== currentUser.uid) {
+                    alert("اسم المستخدم هذا مأخوذ بالفعل."); return;
+                }
+            }
+            try {
+                saveAllBtn.disabled = true;
+                saveAllBtn.textContent = "جاري الحفظ...";
+                await updateProfile(currentUser, { displayName: newName });
+                await setDoc(doc(db, "users", profileUid), {
+                    name: newName,
+                    bio: newBio,
+                    photo: currentUser.photoURL,
+                    socials: userSocials
+                }, { merge: true });
+                alert("✅ تم حفظ التغييرات!");
+                window.location.href = `/@${encodeURIComponent(newName)}`;
+            } catch (e) {
+                saveAllBtn.disabled = false;
+                saveAllBtn.textContent = "حفظ التغييرات";
+                alert("❌ " + e.code);
+            }
+        });
+
+        saveSocialBtn.addEventListener("click", async () => {
+            const platform = platformSelect.value;
+            const username = socialInput.value.trim().replace(/^@/, "");
+            if (!username) { alert("يرجى إدخال اسم المستخدم."); return; }
+            if (userSocials.find(s => s.platform === platform && s.username === username)) {
+                alert("تم إضافة هذا الاسم مسبقاً."); return;
+            }
+            userSocials.push({ platform, username });
+            renderSocials();
+            if (isEditing) enableSorting();
+            socialInput.value = "";
+            try {
+                await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
+            } catch (e) {
+                alert("❌ فشل الحفظ: " + e.message);
+                userSocials.pop();
+                renderSocials();
+            }
+        });
+
+        logoutBtn.addEventListener("click", async () => {
+            try { await signOut(auth); window.location.href = "../"; }
+            catch (e) { console.error(e); }
+        });
+    }
+
     const q = query(collection(db, "users"), where("name", "==", usernameFromURL));
-    onSnapshot(q, async qs => {
-        if (qs.empty) { showMessage("🚫 لا يوجد مستخدم بهدا الاسم."); return; }
+    loadProfile._unsub = onSnapshot(q, qs => {
+        if (qs.empty) { showMessage("🚫 لا يوجد مستخدم بهذا الاسم."); return; }
 
         const userDoc = qs.docs[0];
         const data = userDoc.data();
         const uid = userDoc.id;
         const isOwner = !!(currentUser && currentUser.uid === uid);
+
+        profileUid = uid;
+
+        if (!isEditing) {
+            userSocials = normSocials(data.socials);
+        }
 
         currentNameEl.textContent = data.name || "";
         handleEl.textContent = `@${data.name || ""}`;
@@ -218,174 +402,19 @@ function loadProfile(currentUser) {
         const created = data.createdAt?.toDate?.();
         if (created) {
             statJoined.innerHTML = `
-          <ion-icon name="calendar-outline"></ion-icon>
-          <span>انضم في <span class="val">${MONTHS[created.getMonth()]} ${created.getFullYear()}</span></span>`;
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>انضم في <span class="val">${MONTHS[created.getMonth()]} ${created.getFullYear()}</span></span>`;
         }
 
-        getDocs(query(collection(db, "comments"), where("uid", "==", uid)))
-            .then(snap => {
-                statComments.innerHTML = `
+        statComments.innerHTML = `
             <ion-icon name="chatbubble-outline"></ion-icon>
             <a href="../comments/" style="color:inherit;text-decoration:none">
-              التعليقات: <span class="val">${snap.size}</span>
+                التعليقات: <span class="val">${data.commentCount ?? 0}</span>
             </a>`;
-            })
-            .catch(e => console.error("comments count:", e));
-
-        let userSocials = normSocials(data.socials);
-        let sortable = null;
-        let isEditing = false;
-
-        function renderSocials() {
-            socialLinksDiv.innerHTML = "";
-            userSocials.forEach(({ platform, username }, i) => {
-                const card = document.createElement("div");
-                card.className = "link_card";
-                card.setAttribute("draggable", String(isOwner));
-                card.innerHTML = `
-            <ion-icon name="${socialIcon(platform)}"></ion-icon>
-            <a href="${socialURL(platform, username)}" target="_blank" rel="noopener"
-               style="color:inherit;text-decoration:none">${username}</a>
-            ${isOwner ? `<button class="del-btn" title="حذف">✕</button>` : ""}`;
-                if (isOwner) {
-                    card.querySelector(".del-btn").onclick = async e => {
-                        e.stopPropagation();
-                        userSocials.splice(i, 1);
-                        await setDoc(doc(db, "users", uid), { socials: userSocials }, { merge: true });
-                        renderSocials(); if (isEditing) enableSorting();
-                    };
-                }
-                socialLinksDiv.appendChild(card);
-            });
-        }
-
-        function enableSorting() {
-            if (sortable) sortable.destroy();
-            sortable = new Sortable(socialLinksDiv, {
-                animation: 150, draggable: ".link_card",
-                onEnd: async ({ oldIndex, newIndex }) => {
-                    if (oldIndex === newIndex) return;
-                    const [m] = userSocials.splice(oldIndex, 1);
-                    userSocials.splice(newIndex, 0, m);
-                    await setDoc(doc(db, "users", uid), { socials: userSocials }, { merge: true });
-                    renderSocials(); enableSorting();
-                }
-            });
-        }
 
         renderSocials();
+
         if (!isOwner) return;
-
-        editBtn.style.display = "flex";
-        logoutBtn.style.display = "flex";
-        bannerWrap.classList.add("owner");
-        avatarWrap.classList.add("owner");
-
-        bannerWrap.addEventListener("click", () => { bannerFile.click(); });
-        avatarWrap.addEventListener("click", () => { avatarFile.click(); });
-
-        bannerFile.addEventListener("change", async () => {
-            const file = bannerFile.files[0]; if (!file) return;
-            if (file.size > 10 * 1024 * 1024) { alert("❌ الملف كبير جدًا (الحد الأقصى 10 ميجابايت)"); return; }
-            try {
-                saveAllBtn.disabled = true;
-                const url = await uploadToImgBB(file, 1200, 0.75);
-                await setDoc(doc(db, "users", uid), { banner: url }, { merge: true });
-                bannerImg.src = url;
-                saveAllBtn.disabled = false;
-                alert("✅ تم تحديث الغلاف بنجاح!");
-            } catch (e) {
-                saveAllBtn.disabled = false;
-                alert("❌ فشل الرفع: " + e.message);
-            } finally {
-                bannerFile.value = "";
-            }
-        });
-
-        avatarFile.addEventListener("change", async () => {
-            const file = avatarFile.files[0]; if (!file) return;
-            if (file.size > 10 * 1024 * 1024) { alert("❌ الملف كبير جدًا (الحد الأقصى 10 ميجابايت)"); return; }
-            try {
-                saveAllBtn.disabled = true;
-                const url = await uploadToImgBB(file, 300, 0.85);
-                await updateProfile(currentUser, { photoURL: url });
-                await setDoc(doc(db, "users", uid), { photo: url }, { merge: true });
-                photoPreview.src = url;
-                saveAllBtn.disabled = false;
-                alert("✅ تم تحديث الصورة الشخصية!");
-            } catch (e) {
-                saveAllBtn.disabled = false;
-                alert("❌ فشل الرفع: " + e.message);
-            } finally {
-                avatarFile.value = "";
-            }
-        });
-
-        editBtn.addEventListener("click", () => {
-            isEditing = !isEditing;
-            edit_section.style.display = isEditing ? "block" : "none";
-            editBtn.textContent = isEditing ? "✕ إغلاق" : "تعديل الملف الشخصي";
-            displayNameInput.value = data.name || "";
-            bioInput.value = data.bio || "";
-            if (isEditing) enableSorting();
-            else { if (sortable) { sortable.destroy(); sortable = null; } }
-            renderSocials();
-        });
-
-        syncPhotoBtn.addEventListener("click", async () => {
-            try {
-                await currentUser.reload();
-                const gp = currentUser.providerData.find(p => p.providerId === "google.com");
-                if (!gp?.photoURL) { alert("❌ لم يتم العثور على صورة في حساب Google."); return; }
-                await updateProfile(currentUser, { photoURL: gp.photoURL });
-                await setDoc(doc(db, "users", uid), { photo: gp.photoURL }, { merge: true });
-                photoPreview.src = gp.photoURL;
-                alert("✅ تم المزامنة بنجاح!");
-            } catch (e) { alert("❌ " + e.code); }
-        });
-
-        saveAllBtn.addEventListener("click", async () => {
-            const newName = displayNameInput.value.trim();
-            const newBio = bioInput.value.trim().slice(0, 200);
-            if (!newName) { alert(" لا يمكن أن يكون اسم المستخدم فارغًا."); return; }
-            if (newName !== data.name) {
-                const chk = await getDocs(query(collection(db, "users"), where("name", "==", newName)));
-                if (!chk.empty && chk.docs[0].id !== currentUser.uid) { alert(" اسم المستخدم هذا مأخوذ بالفعل."); return; }
-            }
-            try {
-                saveAllBtn.disabled = true;
-                saveAllBtn.textContent = "جاري الحفظ...";
-                await updateProfile(currentUser, { displayName: newName });
-                await setDoc(doc(db, "users", uid), {
-                    name: newName,
-                    bio: newBio,
-                    photo: currentUser.photoURL || data.photo,
-                    socials: userSocials
-                }, { merge: true });
-                alert("✅ تم حفظ التغييرات!");
-                window.location.href = `/@${encodeURIComponent(newName)}`;
-            } catch (e) {
-                saveAllBtn.disabled = false;
-                saveAllBtn.textContent = "حفظ التغييرات";
-                alert("❌ " + e.code);
-            }
-        });
-
-        saveSocialBtn.addEventListener("click", async () => {
-            const platform = platformSelect.value;
-            const username = socialInput.value.trim().replace(/^@/, "");
-            if (!username) { alert(" يرجى إدخال اسم المستخدم."); return; }
-            if (userSocials.find(s => s.platform === platform && s.username === username)) {
-                alert(" تم إضافة هذا الاسم مسبقا."); return;
-            }
-            userSocials.push({ platform, username });
-            await setDoc(doc(db, "users", uid), { socials: userSocials }, { merge: true });
-            socialInput.value = ""; renderSocials(); if (isEditing) enableSorting();
-        });
-
-        logoutBtn.addEventListener("click", async () => {
-            try { await signOut(auth); window.location.href = "../"; }
-            catch (e) { console.error(e); }
-        });
+        setupOwnerListeners();
     });
 }

@@ -2,12 +2,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebas
 import {
     getFirestore, collection, addDoc, deleteDoc, doc, query,
     orderBy, serverTimestamp, onSnapshot, getDocs,
-    updateDoc, getDoc, setDoc, enableIndexedDbPersistence
+    getDoc, setDoc, increment, updateDoc
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import {
     getAuth, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import { getDatabase, ref, increment, update } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
@@ -18,147 +17,89 @@ const firebaseConfig = {
     appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
 const auth = getAuth(app);
-const rtdb = getDatabase(app);
-
-enableIndexedDbPersistence(db).catch((err) => {
-    if (err.code == 'failed-precondition') {
-        console.warn("Persistence failed: Multiple tabs open");
-    } else if (err.code == 'unimplemented') {
-        console.warn("Persistence is not available in this browser");
-    }
-});
-
-const commentForm = document.getElementById('commentForm');
-const commentInput = document.getElementById('commentInput');
-const commentsList = document.getElementById('commentsList');
-const write_comment = document.getElementById('write_comment');
-const alertBox = document.getElementById('alertBox');
-const commentsLabel = document.getElementById('commentsLabel');
-const currentUserAvatar = document.getElementById('currentUserAvatar');
-
-let currentUser = null;
+const commentForm        = document.getElementById('commentForm');
+const commentInput       = document.getElementById('commentInput');
+const commentsList       = document.getElementById('commentsList');
+const write_comment      = document.getElementById('write_comment');
+const alertBox           = document.getElementById('alertBox');
+const commentsLabel      = document.getElementById('commentsLabel');
+const currentUserAvatar  = document.getElementById('currentUserAvatar');
+let currentUser     = null;
 let currentUserData = null;
-let commentsUnsubscribe = null;
-let alertTimeout = null;
-
+let commentsUnsub   = null;
+let alertTimeout    = null;
 const userCache = new Map();
-
-
+async function adjustCommentCount(uid, delta) {
+    if (!uid) return;
+    try {
+        await updateDoc(doc(db, "users", uid), {
+            commentCount: increment(delta)
+        });
+    } catch (e) {
+        await setDoc(doc(db, "users", uid), { commentCount: increment(delta) }, { merge: true });
+    }
+}
 function showAlert(message, error = false) {
     clearTimeout(alertTimeout);
-
-    alertBox.innerHTML = `
-        <div class="${error ? "alert-error" : "alert-success"}">
-            ${message}
-        </div>
-    `;
-
-    alertTimeout = setTimeout(() => {
-        alertBox.innerHTML = "";
-    }, 4000);
+    alertBox.innerHTML = `<div class="${error ? 'alert-error' : 'alert-success'}">${message}</div>`;
+    alertTimeout = setTimeout(() => { alertBox.innerHTML = ""; }, 4000);
 }
 
 function syncReplyControls() {
     const show = !!currentUser;
-    document.querySelectorAll('.reply-toggle-btn').forEach((btn) => {
+    document.querySelectorAll('.reply-toggle-btn').forEach(btn => {
         btn.style.display = show ? '' : 'none';
     });
     if (!show) {
-        document.querySelectorAll('.reply-form-wrap.open').forEach((f) => f.classList.remove('open'));
+        document.querySelectorAll('.reply-form-wrap.open').forEach(f => f.classList.remove('open'));
     }
 }
 
 function formatDate(dateValue) {
     if (!dateValue) return "الآن";
-
-    const now = new Date();
-    const date = new Date(dateValue);
-
-    const diffSeconds = Math.floor(Math.abs(now - date) / 1000);
-
+    const diffSeconds = Math.floor(Math.abs(Date.now() - new Date(dateValue)) / 1000);
     if (diffSeconds < 60) return "الآن";
 
-    const intervals = {
-        year: 31536000,
-        month: 2592000,
-        week: 604800,
-        day: 86400,
-        hour: 3600,
-        minute: 60,
-        second: 1
+    const intervals = { year:31536000, month:2592000, week:604800, day:86400, hour:3600, minute:60 };
+    const units = {
+        year:   ["سنة","سنتين","سنوات","سنة"],
+        month:  ["شهر","شهرين","أشهر","شهراً"],
+        week:   ["أسبوع","أسبوعين","أسابيع","أسبوعاً"],
+        day:    ["يوم","يومين","أيام","يوماً"],
+        hour:   ["ساعة","ساعتين","ساعات","ساعة"],
+        minute: ["دقيقة","دقيقتين","دقائق","دقيقة"]
     };
-
-    const arabicUnits = {
-        year: ["سنة", "سنتين", "سنوات", "سنة"],
-        month: ["شهر", "شهرين", "أشهر", "شهراً"],
-        week: ["أسبوع", "أسبوعين", "أسابيع", "أسبوعاً"],
-        day: ["يوم", "يومين", "أيام", "يوماً"],
-        hour: ["ساعة", "ساعتين", "ساعات", "ساعة"],
-        minute: ["دقيقة", "دقيقتين", "دقائق", "دقيقة"],
-        second: ["ثانية", "ثانيتين", "ثوانٍ", "ثانية"]
-    };
-
     for (const [unit, value] of Object.entries(intervals)) {
         const count = Math.floor(diffSeconds / value);
-
         if (count >= 1) {
-            if (count === 1) return `منذ ${arabicUnits[unit][0]}`;
-            if (count === 2) return `منذ ${arabicUnits[unit][1]}`;
-            if (count <= 10) return `منذ ${count} ${arabicUnits[unit][2]}`;
-            return `منذ ${count} ${arabicUnits[unit][3]}`;
+            if (count === 1) return `منذ ${units[unit][0]}`;
+            if (count === 2) return `منذ ${units[unit][1]}`;
+            if (count <= 10) return `منذ ${count} ${units[unit][2]}`;
+            return `منذ ${count} ${units[unit][3]}`;
         }
     }
-
     return "الآن";
 }
 
 async function getUserData(uid) {
-    if (!uid) {
-        return {
-            name: "user",
-            photo: "https://0xdya.vercel.app/img/user.jpg",
-            role: null,
-            verified: false
-        };
-    }
-
-    if (userCache.has(uid)) {
-        return userCache.get(uid);
-    }
-
+    if (!uid) return { name:"user", photo:"https://0xdya.vercel.app/img/user.jpg", role:null, verified:false };
+    if (userCache.has(uid)) return userCache.get(uid);
     try {
         const snap = await getDoc(doc(db, "users", uid));
-
-        const data = snap.exists()
-            ? {
-                name: snap.data().name || "user",
-                photo:
-                    snap.data().photo ||
-                    snap.data().avatar ||
-                    "https://0xdya.vercel.app/img/user.jpg",
-                role: snap.data().role || null,
-                verified: snap.data().verified || false
-            }
-            : {
-                name: "user",
-                photo: "https://0xdya.vercel.app/img/user.jpg",
-                role: null,
-                verified: false
-            };
-
+        const d    = snap.exists() ? snap.data() : {};
+        const data = {
+            name:     d.name     || "user",
+            photo:    d.photo    || d.avatar || "https://0xdya.vercel.app/img/user.jpg",
+            role:     d.role     || null,
+            verified: d.verified || false
+        };
         userCache.set(uid, data);
-
         return data;
     } catch {
-        return {
-            name: "user",
-            photo: "https://0xdya.vercel.app/img/user.jpg",
-            role: null,
-            verified: false
-        };
+        return { name:"user", photo:"https://0xdya.vercel.app/img/user.jpg", role:null, verified:false };
     }
 }
 
@@ -166,7 +107,7 @@ const VERIFIED_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
 
 function getRoleIcon(role) {
     if (role === 'owner') return `<img src="../badges/server-owner.svg" class="badge-owner">`;
-    if (role === 'dev') return `<ion-icon name="code-slash-outline" style="color:violet;font-size:14px;"></ion-icon>`;
+    if (role === 'dev')   return `<ion-icon name="code-slash-outline" style="color:violet;font-size:14px;"></ion-icon>`;
     return '';
 }
 
@@ -176,123 +117,132 @@ function escapeHtml(text = "") {
     return div.innerHTML;
 }
 
+// الردود
 async function loadReplies(commentId) {
     const repliesDiv = document.getElementById(`replies-${commentId}`);
     if (!repliesDiv) return;
     repliesDiv.innerHTML = "";
 
-    const q = query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"));
-    const snap = await getDocs(q);
+    const snap = await getDocs(
+        query(collection(db, "comments", commentId, "replies"), orderBy("timestamp", "asc"))
+    );
 
     for (const docSnap of snap.docs) {
-        const d = docSnap.data();
-        const replyId = docSnap.id;
-        const timeStr = formatDate(d.timestamp?.toDate());
+        const d        = docSnap.data();
+        const replyId  = docSnap.id;
+        const timeStr  = formatDate(d.timestamp?.toDate());
         const userData = await getUserData(d.uid);
-
-        const isOwner = currentUser?.uid === d.uid || currentUserData?.role === "owner";
+        const isOwner  = currentUser?.uid === d.uid || currentUserData?.role === "owner";
 
         const card = document.createElement('div');
         card.className = 'reply-card';
         card.style.display = 'flex';
         card.innerHTML = `
-      <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="flex-shrink:0;">
-        <img src="${userData.photo}" alt="${userData.name}" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
-      </a>
-      <div style="flex:1;min-width:0;">
-        <div class="reply-bubble">
-          <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
-            ${userData.verified ? VERIFIED_SVG : ''}
-            ${getRoleIcon(userData.role)}
-            <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
-          </div>
-          <div class="reply-text">${escapeHtml(d.text)}</div>
-        </div>
-        <div class="reply-meta">
-          ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">حذف</button>` : ''}
-        </div>
-      </div>
-    `;
-        repliesDiv.appendChild(card);
+            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="flex-shrink:0;">
+                <img src="${userData.photo}" alt="${userData.name}"
+                     style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
+            </a>
+            <div style="flex:1;min-width:0;">
+                <div class="reply-bubble">
+                    <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                        <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank"
+                           style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
+                        ${userData.verified ? VERIFIED_SVG : ''}
+                        ${getRoleIcon(userData.role)}
+                        <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
+                    </div>
+                    <div class="reply-text">${escapeHtml(d.text)}</div>
+                </div>
+                <div class="reply-meta">
+                    ${isOwner ? `<button class="delete-reply-btn" data-rid="${replyId}" data-cid="${commentId}">حذف</button>` : ''}
+                </div>
+            </div>`;
 
         if (isOwner) {
             card.querySelector('.delete-reply-btn').addEventListener('click', async () => {
-                if (confirm("Delete this reply?")) {
-                    await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
-                    await update(ref(rtdb, '/'), { comments_count: increment(-1) });
-                    showAlert("تم حذف الرد.");
-                    loadReplies(commentId);
-                }
+                if (!confirm("حذف هذا الرد؟")) return;
+                await deleteDoc(doc(db, "comments", commentId, "replies", replyId));
+                await adjustCommentCount(d.uid, -1);
+                showAlert("تم حذف الرد.");
+                loadReplies(commentId);
             });
         }
+        repliesDiv.appendChild(card);
     }
 }
 
 function loadComments() {
-    const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-    let pinned = [], normal = [];
-    const loadedSet = new Set();
+    if (commentsUnsub) commentsUnsub();
 
-    if (commentsUnsubscribe) {
-        commentsUnsubscribe();
+    const entriesMap = new Map(); 
+
+    function reorder() {
+        const all = [...entriesMap.values()].sort((a, b) => {
+            if (a.pinned !== b.pinned) return b.pinned - a.pinned;
+            return (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0);
+        });
+        const frag = document.createDocumentFragment();
+        all.forEach(({ el }) => frag.appendChild(el));
+        commentsList.replaceChildren(frag);
+        commentsLabel.style.display = entriesMap.size > 0 ? 'block' : 'none';
     }
 
-    commentsUnsubscribe = onSnapshot(q, (snapshot) => {
-        snapshot.docChanges().forEach(async (change) => {
-            const docSnap = change.doc;
-            const data = docSnap.data();
+    const q = query(collection(db, "comments"), orderBy("timestamp", "desc"));
+
+    commentsUnsub = onSnapshot(q, snapshot => {
+        snapshot.docChanges().forEach(async change => {
+            const docSnap   = change.doc;
+            const data      = docSnap.data();
             const commentId = docSnap.id;
 
             if (change.type === "added") {
-                if (document.getElementById(`comment-wrap-${commentId}`)) return;
+                if (entriesMap.has(commentId)) return;
 
-                const timeStr = formatDate(data.timestamp?.toDate());
+                const timeStr  = formatDate(data.timestamp?.toDate());
                 const userData = await getUserData(data.uid);
-                const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "owner";
+                const isOwner  = currentUser?.uid === data.uid || currentUserData?.role === "owner";
 
                 const wrap = document.createElement('div');
                 wrap.id = `comment-wrap-${commentId}`;
                 wrap.innerHTML = `
-          <div class="comment-card" id="comment-${commentId}">
-            <div class="comment-avatar">
-              <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
-                <img src="${userData.photo}" alt="${userData.name}">
-              </a>
-            </div>
-            <div class="comment-body">
-             
-              <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
-                <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                  <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="color:inherit;font-weight:600;">${userData.name}</a>
-                  ${userData.verified ? VERIFIED_SVG : ''}
-                  ${getRoleIcon(userData.role)}
-                  <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
-                   ${data.pinned ? `<div class="pin-badge">(مثبت)</div>` : ''}
-                </div>
-                <div class="bubble-text">${escapeHtml(data.text)} <br>
-                <div class="comment-meta">
-                <button class="meta-action reply-toggle-btn" data-id="${commentId}"${currentUser ? '' : ' style="display:none"'}>رد</button>
-                  ${isOwner ? `<button class="meta-action delete " data-id="${commentId}">حذف</button>` : ''}
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="reply-form-wrap" id="reply-form-${commentId}">
-            <img src="${currentUser?.photoURL || 'https://0xdya.vercel.app/img/user.jpg'}" alt="">
-            <div class="reply-input-row">
-              <textarea placeholder="اكتب الرد ..." class="reply-input" rows="1"></textarea>
-              <button class="reply-submit-btn" data-id="${commentId}">ارسال</button>
-            </div>
-          </div>
-          <div class="replies-section" id="replies-${commentId}"></div>
-        `;
+                    <div class="comment-card" id="comment-${commentId}">
+                        <div class="comment-avatar">
+                            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
+                                <img src="${userData.photo}" alt="${userData.name}">
+                            </a>
+                        </div>
+                        <div class="comment-body">
+                            <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
+                                <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                                    <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank"
+                                       style="color:inherit;font-weight:600;">${userData.name}</a>
+                                    ${userData.verified ? VERIFIED_SVG : ''}
+                                    ${getRoleIcon(userData.role)}
+                                    <span style="opacity:.6;font-size:.75rem;">· ${timeStr}</span>
+                                    ${data.pinned ? `<div class="pin-badge">(مثبت)</div>` : ''}
+                                </div>
+                                <div class="bubble-text">${escapeHtml(data.text)}
+                                <div class="comment-meta">
+                                    <button class="meta-action reply-toggle-btn" data-id="${commentId}"
+                                        ${currentUser ? '' : 'style="display:none"'}>رد</button>
+                                    ${isOwner
+                                        ? `<button class="meta-action delete" data-id="${commentId}">حذف</button>`
+                                        : ''}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reply-form-wrap" id="reply-form-${commentId}">
+                        <img src="${currentUser?.photoURL || 'https://0xdya.vercel.app/img/user.jpg'}" alt="">
+                        <div class="reply-input-row">
+                            <textarea placeholder="اكتب الرد ..." class="reply-input" rows="1"></textarea>
+                            <button class="reply-submit-btn" data-id="${commentId}">ارسال</button>
+                        </div>
+                    </div>
+                    <div class="replies-section" id="replies-${commentId}"></div>`;
 
-                const entry = { el: wrap, id: commentId, pinned: data.pinned, timestamp: data.timestamp };
-                if (data.pinned) pinned.push(entry);
-                else normal.push(entry);
-
+                // زر الرد
                 wrap.querySelector('.reply-toggle-btn').addEventListener('click', () => {
                     if (!currentUser) { showAlert("سجل الدخول أولاً", true); return; }
                     const form = document.getElementById(`reply-form-${commentId}`);
@@ -300,17 +250,16 @@ function loadComments() {
                     if (form.classList.contains('open')) form.querySelector('textarea').focus();
                 });
 
+                // إرسال الرد
                 wrap.querySelector('.reply-submit-btn').addEventListener('click', async () => {
                     const input = wrap.querySelector('.reply-input');
-                    const text = input.value.trim();
+                    const text  = input.value.trim();
                     if (!text || !currentUser) return;
                     await addDoc(collection(db, "comments", commentId, "replies"), {
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                        text,
-                        timestamp: serverTimestamp()
+                        uid: currentUser.uid, email: currentUser.email,
+                        text, timestamp: serverTimestamp()
                     });
-                    await update(ref(rtdb, '/'), { comments_count: increment(1) });
+                    await adjustCommentCount(currentUser.uid, 1);
                     input.value = "";
                     document.getElementById(`reply-form-${commentId}`).classList.remove('open');
                     loadReplies(commentId);
@@ -318,91 +267,81 @@ function loadComments() {
 
                 if (isOwner) {
                     wrap.querySelector('.delete').addEventListener('click', async () => {
-                        if (confirm("Delete this comment?")) {
-                            await deleteDoc(doc(db, "comments", commentId));
-                            await update(ref(rtdb, '/'), { comments_count: increment(-1) });
-                            showAlert("تم حذف التعليق.");
-                        }
+                        if (!confirm("حذف هذا التعليق؟")) return;
+                        const ownerUid = data.uid;
+                        await deleteDoc(doc(db, "comments", commentId));
+                        await adjustCommentCount(ownerUid, -1);
+                        showAlert("تم حذف التعليق.");
                     });
                 }
 
-                const all = [...pinned, ...normal].sort((a, b) => {
-                    if (a.pinned !== b.pinned) return b.pinned - a.pinned;
-                    return (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0);
-                });
-
-                const fragment = document.createDocumentFragment();
-
-                all.forEach(({ el }) => {
-                    fragment.appendChild(el);
-                });
-
-                commentsList.replaceChildren(fragment);
-                all.forEach(({ id }) => {
-                    if (!loadedSet.has(id)) { loadedSet.add(id); loadReplies(id); }
-                });
-                commentsLabel.style.display = 'block';
+                entriesMap.set(commentId, { el: wrap, id: commentId, pinned: data.pinned, timestamp: data.timestamp });
+                reorder();
+                loadReplies(commentId);
             }
 
             if (change.type === "removed") {
-                const el = document.getElementById(`comment-wrap-${commentId}`);
-                if (el) el.remove();
+                entriesMap.delete(commentId);
+                document.getElementById(`comment-wrap-${commentId}`)?.remove();
+                reorder();
+            }
+
+            if (change.type === "modified") {
+                const entry = entriesMap.get(commentId);
+                if (entry) {
+                    entry.pinned    = data.pinned;
+                    entry.timestamp = data.timestamp;
+                    const bubble = entry.el.querySelector('.comment-bubble');
+                    if (bubble) {
+                        bubble.classList.toggle('pinned', !!data.pinned);
+                        const pinBadge = bubble.querySelector('.pin-badge');
+                        if (data.pinned && !pinBadge)
+                            bubble.querySelector('.bubble-author')?.insertAdjacentHTML('beforeend', `<div class="pin-badge">(مثبت)</div>`);
+                        else if (!data.pinned && pinBadge)
+                            pinBadge.remove();
+                    }
+                    reorder();
+                }
             }
         });
 
-        commentForm.style.display = currentUser ? "block" : "none";
-        write_comment.style.display = currentUser ? "none" : "block";
+        commentForm.style.display   = currentUser ? "block" : "none";
+        write_comment.style.display = currentUser ? "none"  : "block";
         syncReplyControls();
     });
 }
 
-commentForm.addEventListener('submit', async (e) => {
+commentForm.addEventListener('submit', async e => {
     e.preventDefault();
-
-    const text = commentInput.value.trim();
-
+    const text      = commentInput.value.trim();
     if (!text || !currentUser) return;
-
     const submitBtn = commentForm.querySelector('button[type="submit"]');
-
     submitBtn.disabled = true;
-
     try {
         await addDoc(collection(db, "comments"), {
-            uid: currentUser.uid,
-            email: currentUser.email,
-            text,
-            pinned: false,
-            timestamp: serverTimestamp()
+            uid: currentUser.uid, email: currentUser.email,
+            text, pinned: false, timestamp: serverTimestamp()
         });
-
-        await update(ref(rtdb, '/'), {
-            comments_count: increment(1)
-        });
-
+        await adjustCommentCount(currentUser.uid, 1);
         commentForm.reset();
-
         showAlert("تم نشر التعليق بنجاح");
-    } catch (err) {
+    } catch {
         showAlert("فشل نشر التعليق.", true);
     } finally {
         submitBtn.disabled = false;
     }
 });
 
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, async user => {
     currentUser = user;
     if (user) {
         currentUserAvatar.src = user.photoURL || 'https://0xdya.vercel.app/img/user.jpg';
         const userRef = doc(db, "users", user.uid);
-        await setDoc(userRef, {
-            name: user.displayName || "user",
-            photo: user.photoURL || "https://0xdya.vercel.app/img/user.jpg"
-        }, { merge: true });
+        await setDoc(userRef, {}, { merge: true });
         try {
             const snap = await getDoc(userRef);
             if (snap.exists()) currentUserData = { role: snap.data().role || null };
-        } catch (e) { }
+        } catch {}
     }
     loadComments();
     syncReplyControls();

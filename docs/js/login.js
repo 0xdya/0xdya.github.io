@@ -150,8 +150,8 @@
             } else {
                 const savedName = snap.data().name || "user";
                 if (elements.userName) elements.userName.textContent = savedName;
-                await setDoc(userRef, { email: defaultEmail, photo: defaultPhoto, lastLogin: serverTimestamp() }, { merge: true });
-                localStorage.setItem(CACHE_KEY, JSON.stringify({ photo: defaultPhoto, name: savedName, email: defaultEmail, lastUpdate: Date.now() }));
+                await setDoc(userRef, { photo: defaultPhoto, lastLogin: serverTimestamp() }, { merge: true });
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ photo: defaultPhoto, name: savedName, lastUpdate: Date.now() }));
             }
         } catch (err) {
             console.error("Firestore error:", err);
@@ -171,7 +171,7 @@
             }
             try {
                 await setDoc(userRef, {
-                    uid: user.uid, name: newName, email: defaultEmail, photo: defaultPhoto,
+                    uid: user.uid, name: newName, photo: defaultPhoto,
                     createdAt: serverTimestamp(), lastLogin: serverTimestamp(), role: "user",
                     hidden: false, verified: false, bio: "", banner: "",
                     social: { github: "", twitter: "", website: "" }
@@ -180,7 +180,7 @@
                 if (elements.userName) elements.userName.textContent = newName;
                 nameModal.style.display = "none";
                 alert("✅ تم صنع الحساب بنجاح!");
-                localStorage.setItem(CACHE_KEY, JSON.stringify({ photo: defaultPhoto, name: newName, email: defaultEmail, lastUpdate: Date.now() }));
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ photo: defaultPhoto, name: newName, lastUpdate: Date.now() }));
             } catch (err) {
                 alert("❌ فشل التسجيل: " + err.code);
             }
