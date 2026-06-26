@@ -266,7 +266,7 @@ a {
     .blog-container,
     .contact-container,
     .hr {
-        display: block;
+        display: block !important;
         /* margin: 5rem 0 0; */
     }
 
