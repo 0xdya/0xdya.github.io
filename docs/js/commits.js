@@ -38,7 +38,7 @@ async function loadCommits() {
                 <span class="commit-dot"></span>
                 <span class="commit-date">${date}</span>
                 <span class="commit-msg">${escapeHtml(msg)}</span>
-                <ion-icon name="arrow-forward-outline" class="commit-arrow"></ion-icon>
+                <ion-icon name="arrow-back-outline" class="commit-arrow"></ion-icon>
             </a>`;
             list.appendChild(li);
         });
