@@ -128,9 +128,9 @@ function escapeHtml(text = "") {
         const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
         safeHtml = safeHtml.replace(emojiRegex, '<span style="font-family: system-ui, -apple-system, sans-serif; display: inline-block; vertical-align: middle; margin: 0 1px; direction: ltr;">$1</span>');
 
-        return `<span style="font-family: 'Vazirmatn', sans-serif !important; direction: rtl; display: block; font-size=5rem !important ">${safeHtml}</span>`;
+        return `<span style="font-family: 'Vazirmatn', sans-serif !important; direction: rtl; display: block;  !important ">${safeHtml}</span>`;
     } else {
-        return `<span style="font-family: 'JetBrains Mono', monospace !important; direction: ltr; display: block;">${safeHtml}</span>`;
+        return `<span style="font-family: 'JetBrains Mono', monospace !important; direction: ltr; display: block;font-size:var(--text-sm)">${safeHtml}</span>`;
     }
 }
 
