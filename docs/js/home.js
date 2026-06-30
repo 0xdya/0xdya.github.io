@@ -1,7 +1,7 @@
 const nodes = new vis.DataSet([
   { id: 0, label: '<|>', x: 0, y: 0 },
   { id: 1, label: 'مبرمج', link: './projects/#tools', x: -140, y: -100 },
-  { id: 2, label: 'كاتب', link: './projects/#book', x: 140, y: -100 }, 
+  { id: 2, label: 'كاتب', link: './projects/#books', x: 140, y: -100 }, 
   { id: 3, label: 'شاعر', link: './poetry/', x: 160, y: 100 },   
   { id: 4, label: 'رسام', link: './projects/#paint', x: -160, y: 100 } 
 ]);
