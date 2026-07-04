@@ -94,7 +94,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'JetBrains Mono', monospace;
+      /* font-family: 'JetBrains Mono', monospace; */
       margin: 0 auto;
       min-height: 100dvh;
       max-width: 600px;
@@ -355,6 +355,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
+      transform: translateY(1.4px);
       background: var(--dim);
     }
 
@@ -373,7 +374,8 @@
     }
 
     .social-links {
-      display: flex;
+      display: none !important;
+      /* display: flex; */
       flex-wrap: wrap;
       gap: var(--space-2);
     }

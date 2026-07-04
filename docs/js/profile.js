@@ -60,7 +60,7 @@ const syncPhotoBtn = $("syncPhotoBtn");
 const platformSelect = $("platformSelect");
 const socialInput = $("socialUsernameInput");
 const saveSocialBtn = $("saveSocialBtn");
-const socialLinksDiv = $("socialLinks");
+// const socialLinksDiv = $("socialLinks");
 const bannerFile = $("bannerFileInput");
 const avatarFile = $("avatarFileInput");
 const uploadBarWrap = $("uploadBarWrap");
@@ -203,42 +203,42 @@ function loadProfile(currentUser) {
     let listenersSet = false;
     let profileUid = null;
 
-    function renderSocials() {
-        socialLinksDiv.innerHTML = "";
-        userSocials.forEach(({ platform, username }, i) => {
-            const card = document.createElement("div");
-            card.className = "link_card";
-            card.setAttribute("draggable", "true");
-            card.innerHTML = `
-                <ion-icon name="${socialIcon(platform)}"></ion-icon>
-                <a href="${socialURL(platform, username)}" target="_blank" rel="noopener"
-                   style="color:inherit;text-decoration:none">${username}</a>
-                <button class="del-btn" title="حذف">✕</button>`;
-            card.querySelector(".del-btn").onclick = async e => {
-                e.stopPropagation();
-                userSocials.splice(i, 1);
-                await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
-                renderSocials();
-                if (isEditing) enableSorting();
-            };
-            socialLinksDiv.appendChild(card);
-        });
-    }
+    // function renderSocials() {
+    //     socialLinksDiv.innerHTML = "";
+    //     userSocials.forEach(({ platform, username }, i) => {
+    //         const card = document.createElement("div");
+    //         card.className = "link_card";
+    //         card.setAttribute("draggable", "true");
+    //         card.innerHTML = `
+    //             <ion-icon name="${socialIcon(platform)}"></ion-icon>
+    //             <a href="${socialURL(platform, username)}" target="_blank" rel="noopener"
+    //                style="color:inherit;text-decoration:none">${username}</a>
+    //             <button class="del-btn" title="حذف">✕</button>`;
+    //         card.querySelector(".del-btn").onclick = async e => {
+    //             e.stopPropagation();
+    //             userSocials.splice(i, 1);
+    //             await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
+    //             renderSocials();
+    //             if (isEditing) enableSorting();
+    //         };
+    //         socialLinksDiv.appendChild(card);
+    //     });
+    // }
 
-    function enableSorting() {
-        if (sortable) sortable.destroy();
-        sortable = new Sortable(socialLinksDiv, {
-            animation: 150, draggable: ".link_card",
-            onEnd: async ({ oldIndex, newIndex }) => {
-                if (oldIndex === newIndex) return;
-                const [moved] = userSocials.splice(oldIndex, 1);
-                userSocials.splice(newIndex, 0, moved);
-                await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
-                renderSocials();
-                enableSorting();
-            }
-        });
-    }
+    // function enableSorting() {
+    //     if (sortable) sortable.destroy();
+    //     sortable = new Sortable(socialLinksDiv, {
+    //         animation: 150, draggable: ".link_card",
+    //         onEnd: async ({ oldIndex, newIndex }) => {
+    //             if (oldIndex === newIndex) return;
+    //             const [moved] = userSocials.splice(oldIndex, 1);
+    //             userSocials.splice(newIndex, 0, moved);
+    //             await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
+    //             renderSocials();
+    //             enableSorting();
+    //         }
+    //     });
+    // }
 
     function setupOwnerListeners() {
         if (listenersSet) return;
