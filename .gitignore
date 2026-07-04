@@ -72,3 +72,4 @@ node_modules/
 .cursor
 .vscode
 archive.txt
+.vscode/settings.json
