@@ -185,7 +185,7 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: "JetBrains Mono", monospace;
+    /* font-family: "JetBrains Mono", monospace; */
     font-size: var(--text-base);
     color: var(--muted);
     font-weight: 500
@@ -195,7 +195,7 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: "JetBrains Mono", monospace;
+    /* font-family: "JetBrains Mono", monospace; */
     font-size: var(--text-base);
     color: var(--muted);
     font-weight: 500
