@@ -35,7 +35,7 @@ async function sendMessage() {
         // const data = await res.json();
 
         if (res.ok) {
-            showStatus("✓ msg sent successfully.", "success");
+            showStatus("✓ تم ارسال الرسالة بنجاح.", "success");
             document.getElementById("name").value = "";
             document.getElementById("message").value = "";
             document.getElementById("email").value = "";
