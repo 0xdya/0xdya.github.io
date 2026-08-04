@@ -1,4 +1,4 @@
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
 import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 import {
   doc,
@@ -64,30 +64,6 @@ async function fetchLastLogin(userId) {
 
  const statusContainer = document.getElementById("lastOnlineContainer");
 
-if (statusContainer) {
-  if (isOnline) {
-    statusContainer.innerHTML = `
-<div class="dot on"> </div> <p id="lastOnline" style="color:#2ecc71"> نشط الآن</p>
-    `;
-  } else {
-    statusContainer.innerHTML = `
-      نشط منذ: <span class="time-ar" id="lastOnline"></span>
-    `;
-
-    const timeElement = document.getElementById("lastOnline");
-
-    const tzOffset = loginDate.getTimezoneOffset() * 60000;
-    const localISOTime = (new Date(loginDate - tzOffset))
-      .toISOString()
-      .slice(0, 19);
-
-    timeElement.setAttribute("data-date", localISOTime);
-
-    if (typeof timeAr !== "undefined" && timeAr.init) {
-      timeAr.init();
-    }
-  }
-}
 }
 
 fetchLastLogin("X18SfoEU7JhtQC3Xsn0o9punnI23");
