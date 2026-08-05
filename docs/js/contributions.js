@@ -13,7 +13,7 @@ function initContribGraph(containerId) {
       </div>
       <div class="contrib-header">⤶
         <span class="chip-value" id="contrib-total">3,650</span>
-        <span class="contrib-header-sublabel">كوميت في آخر سنة</span>
+        <span class="contrib-header-sublabel">كوميت في آخر سنة 🏆</span>
      <!--   <img height="16px" width="16px" src="https://media.tenor.com/3HNU9egQPfIAAAAj/sticker-gmail.gif"> -->
       </div>
     </div>
