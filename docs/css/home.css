@@ -1009,7 +1009,7 @@ body {
 .status {
   position: absolute;
   top: -112px;
-  z-index: 99998; 
+  z-index: 9; 
   left: var(--space-8);
   margin-top: var(--space-3);
   font-size: var(--text-xs);
@@ -1018,7 +1018,7 @@ body {
   border-top-left-radius: 16px;
   border-bottom-right-radius: 16px;
   opacity: 0;
-  transform: translateX(24px);
+  transform: translateX(-24px);
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
   /* display: none; */
