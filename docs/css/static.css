@@ -109,7 +109,7 @@ body {
     position: relative;
     display: flex;
     justify-content: center;
-    min-width: 230px;
+    min-width: 216px;
     background: rgba(10, 10, 10, 0.75);    
     backdrop-filter: blur(8px);
     /* -webkit-backdrop-filter: blur(8px); */
