@@ -203,6 +203,10 @@ function loadProfile(currentUser) {
     let listenersSet = false;
     let profileUid = null;
 
+    function renderSocials() {
+        return;
+    }
+
     // function renderSocials() {
     //     socialLinksDiv.innerHTML = "";
     //     userSocials.forEach(({ platform, username }, i) => {
