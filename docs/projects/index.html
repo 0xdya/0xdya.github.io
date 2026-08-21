@@ -326,7 +326,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      z-index: 99;
       animation: fadeIn .2s ease;
     }
 
@@ -376,7 +376,7 @@
   top: 18rem;
   width: 250px;
   /* animation: slideFromRight 2.8s cubic-bezier(1, 1, 0.64, 1) forwards; */
-  z-index: 999;
+  z-index: 99;
 }
 
 .bubble {
@@ -394,6 +394,7 @@
   width: fit-content;
   max-width: 70%;
   font-size: var(--text-base);
+  z-index: 999;
 }
 
 .assistant-popup img {
@@ -429,10 +430,11 @@
       border-radius: 8px;
       cursor: pointer;
       transition: all .2s ease;
+      will-change: transform;
     }
     .skin_btn:hover,
     .skin_btn_close:hover {
-      padding: .25rem 1.2rem;
+      transform: scale(1.05);
     }
 
     .skin_btn {
