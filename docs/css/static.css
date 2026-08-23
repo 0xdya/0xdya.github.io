@@ -239,38 +239,49 @@ a {
         font-size: 12px;
         display: block
     }
-
+    
     .nav-item {
         flex-direction: column;
         gap: 4px;
         min-width: 60px;
         padding: 8px 8px 4px 8px
     }
-
+    
     .nav-item:nth-child(3),
     .nav-item:nth-child(4) {
         display: none;
     }
-
+    
     .navbar:nth-child(1) {
         padding: 8px 10px;
         min-width: 40px !important;
     }
-
+    
     .navbar:nth-child(2) {
         padding: 8px 10px;
         /* background-color: red; */
-        min-width: 154px
+        min-width: 154px 
     }
-
+    
+    
+    
     .blog-container,
     .contact-container,
     .hr {
         display: block !important;
         /* margin: 5rem 0 0; */
     }
-
+    
     .contact-container {
         margin-top: var(--space-5);
     }
+}
+
+
+
+@media (min-width:640px) {
+
+.navbar:nth-child(2).nav-logged {
+    min-width: 228px !important
+}
 }

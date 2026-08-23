@@ -49,7 +49,20 @@ function applyUserUI(photoURL, name) {
     const container = document.getElementById("userPhotoContainer");
     if (! container) 
         return;
-    
+
+    const navbars = document.querySelectorAll(".navbar");
+    const navbar = navbars[1]; 
+    if (navbar) {
+        if (photoURL || name) {
+            navbar.classList.add("nav-logged");
+            console.log("(غي باش نتاكد) تم إضافة nav-logged");
+        } else {
+            navbar.classList.remove("nav-logged");
+            console.log(" تم إزالة nav-logged");
+        }
+    } else {
+        console.warn(" النافبار الثاني غير موجود");
+    }
 
     container.innerHTML = "";
 
