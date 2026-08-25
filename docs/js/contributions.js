@@ -12,8 +12,8 @@ function initContribGraph(containerId) {
         <div class="contrib-loading">loading</div>
       </div>
       <div class="contrib-header">⤶
-        <span class="chip-value" id="contrib-total">3,650</span>
-        <span class="contrib-header-sublabel">كوميت في آخر سنة 🏆</span>
+        <span class="chip-value" id="contrib-total">---</span>
+        <span class="contrib-header-sublabel">مساهمة في آخر سنة 🏆</span>
      <!--   <img height="16px" width="16px" src="https://media.tenor.com/3HNU9egQPfIAAAAj/sticker-gmail.gif"> -->
       </div>
     </div>
