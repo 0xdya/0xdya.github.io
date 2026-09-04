@@ -6,6 +6,14 @@ const { randomInt, createHash } = require("crypto");
 const RATE_LIMIT_MS = 60 * 1000;
 const OTP_TTL_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
+const ALLOWED_EMAIL_DOMAINS = new Set([
+    "gmail.com",
+    "proton.me",
+    "protonmail.com",
+    "pm.me",
+    "outlook.com",
+    "yahoo.com"
+]);
 
 function normalizeEmail(email) {
     return email.trim().toLowerCase();
@@ -23,6 +31,11 @@ function hashOTP(code) {
 
 function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isAllowedEmailDomain(email) {
+    const domain = email.split("@")[1];
+    return ALLOWED_EMAIL_DOMAINS.has(domain);
 }
 
 function buildOtpEmail(code) {
@@ -206,6 +219,12 @@ module.exports = async function handler(req, res) {
     if (!email || !isValidEmail(email)) {
         return res.status(400).json({
             error: "يرجى إدخال بريد إلكتروني صحيح"
+        });
+    }
+
+    if (!isAllowedEmailDomain(email)) {
+        return res.status(400).json({
+            error: "مسموح فقط ببريد Gmail أو Proton أو Outlook أو Yahoo"
         });
     }
 

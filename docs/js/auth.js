@@ -236,8 +236,14 @@
         document.getElementById("githubLogin")?.addEventListener("click", () => loginWithProvider(providers.github));
         document.getElementById("sendLoginLink")?.addEventListener("click", async () => {
             const email = elements.emailInput.value.trim();
+            const allowedEmailDomains = ["gmail.com", "proton.me", "protonmail.com", "pm.me", "outlook.com", "yahoo.com"];
+            const emailDomain = email.toLowerCase().split("@")[1];
             if (!email.includes("@")) {
                 if (elements.errorEl) elements.errorEl.textContent = "._. ادخل بريداً إلكترونياً صحيحاً";
+                return;
+            }
+            if (!allowedEmailDomains.includes(emailDomain)) {
+                if (elements.errorEl) elements.errorEl.textContent = "مسموح فقط ببريد Gmail أو Proton أو Outlook أو Yahoo";
                 return;
             }
             try {
@@ -252,7 +258,7 @@
                 elements.otpModal.style.display = "flex";
                 elements.otpInput.value = "";
                 elements.otpInput.focus();
-                alert("ᯓ➤ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد spam إذا لم تجده.");
+                alert("ᯓ➤ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد الرسائل الغير مرغوب فيها إذا لم تجده.");
                 elements.emailInput.value = "";
             } catch (err) {
                 if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل إرسال الرمز";
