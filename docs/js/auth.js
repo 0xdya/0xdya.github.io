@@ -157,7 +157,7 @@
             }
         } catch (err) {
             console.error("Firestore error:", err);
-            if (elements.errorEl) elements.errorEl.textContent = "❌ error loading profile: " + err.code;
+            if (elements.errorEl) elements.errorEl.textContent = "<3 error loading profile: " + err.code;
         }
     }
 
@@ -168,7 +168,7 @@
         document.getElementById("saveNameBtn").onclick = async () => {
             const newName = document.getElementById("nameInput").value.trim();
             if (newName.length < 3) {
-                alert("⚠️ لازم الاسم اكثر من 3 حروف");
+                alert("🛇 لازم الاسم كثر من 3 حروف");
                 return;
             }
             try {
@@ -181,10 +181,10 @@
                 await runTransaction(ref(rtdb, "users_count"), c => (c || 0) + 1);
                 if (elements.userName) elements.userName.textContent = newName;
                 nameModal.style.display = "none";
-                alert("✅ تم صنع الحساب بنجاح!");
+                alert("تم صنع الحساب ✔");
                 localStorage.setItem(CACHE_KEY, JSON.stringify({ photo: defaultPhoto, name: newName, lastUpdate: Date.now() }));
             } catch (err) {
-                alert("❌ فشل التسجيل: " + err.code);
+                alert("<3 فشل التسجيل: " + err.code);
             }
         };
     }
@@ -197,7 +197,7 @@
             if (err.code === "auth/account-exists-with-different-credential") {
                 elements.errorEl.textContent = "⚠️ هدا الحساب مستعمل من قبل فالموقع بطريقة مختلفة، اعد التسجيل بنفس الطريقة (google, github او email).";
             } else if (err.code !== "auth/popup-closed-by-user") {
-                elements.errorEl.textContent = "❌ فشل التسجيل: " + err.code;
+                elements.errorEl.textContent = "<3 فشل التسجيل: " + err.code;
             }
         }
     }
@@ -237,7 +237,7 @@
         document.getElementById("sendLoginLink")?.addEventListener("click", async () => {
             const email = elements.emailInput.value.trim();
             if (!email.includes("@")) {
-                if (elements.errorEl) elements.errorEl.textContent = "❌ ادخل بريداً إلكترونياً صحيحاً";
+                if (elements.errorEl) elements.errorEl.textContent = "._. ادخل بريداً إلكترونياً صحيحاً";
                 return;
             }
             try {
@@ -247,22 +247,22 @@
                     body: JSON.stringify({ email })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.error || "❌ فشل إرسال الرمز");
+                if (!response.ok) throw new Error(data.error || "<3 فشل إرسال الرمز");
                 pendingOtpEmail = email;
                 elements.otpModal.style.display = "flex";
                 elements.otpInput.value = "";
                 elements.otpInput.focus();
-                alert("✅ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد spam إذا لم تجده.");
+                alert("ᯓ➤ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد spam إذا لم تجده.");
                 elements.emailInput.value = "";
             } catch (err) {
-                if (elements.errorEl) elements.errorEl.textContent = err.message || "❌ فشل إرسال الرمز";
+                if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل إرسال الرمز";
             }
         });
         elements.confirmOtpBtn?.addEventListener("click", async () => {
             const email = pendingOtpEmail;
             const code = elements.otpInput.value.trim();
             if (!/^\d{6}$/.test(code)) {
-                if (elements.errorEl) elements.errorEl.textContent = "❌ ادخل رمزاً مكوناً من 6 أرقام";
+                if (elements.errorEl) elements.errorEl.textContent = " ادخل رمزاً مكون من 6 أرقام";
                 return;
             }
             try {
@@ -272,12 +272,12 @@
                     body: JSON.stringify({ email, code })
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.error || "❌ فشل التحقق من الرمز");
+                if (!response.ok) throw new Error(data.error || "<3 فشل التحقق من الرمز");
                 elements.otpModal.style.display = "none";
                 if (elements.loader) elements.loader.style.display = "flex";
                 await signInWithCustomToken(auth, data.token);
             } catch (err) {
-                if (elements.errorEl) elements.errorEl.textContent = err.message || "❌ فشل التحقق من الرمز";
+                if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل التحقق من الرمز";
             }
         });
     });
