@@ -334,7 +334,8 @@
                 elements.otpInput.value = "";
                 saveOtpState();
                 elements.otpInput.focus();
-                alert("ᯓ➤ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد الرسائل الغير مرغوب فيها إذا لم تجده.");
+                alert("تم إرسال الرمز إلى بريدك الإلكتروني ✔، (تفقد مجلد الرسائل الغير مرغوب فيها إذا لم تجده فالرسائل الاساسية)");
+                
                 elements.emailInput.value = "";
             } catch (err) {
                 if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل إرسال الرمز";
@@ -367,11 +368,23 @@
                 if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل التحقق من الرمز";
             }
         });
-        elements.otpInput?.addEventListener("input", saveOtpState);
+        elements.otpInput?.addEventListener("input", (event) => {
+            const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 6);
+            event.target.value = digitsOnly;
+            saveOtpState();
+
+            if (digitsOnly.length === 6) {
+                confirmOtpCode();
+            }
+        });
         elements.otpInput?.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault();
                 document.getElementById("confirmOtpBtn")?.click();
+            }
+
+            if (!/[0-9]/.test(event.key) && !["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
+                event.preventDefault();
             }
         });
     });
