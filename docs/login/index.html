@@ -307,6 +307,37 @@
                 color: #000;
             }
 
+            #otpModal .modal-content p {
+                color: #aaa;
+                margin-bottom: 1rem;
+                font-size: 0.9rem;
+            }
+
+            #otpInput {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 0.7rem 1rem;
+                margin-bottom: 1rem;
+                border: 1px solid #444;
+                border-radius: 8px;
+                background: #222;
+                color: #fff;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 1.2rem;
+                letter-spacing: 0.3rem;
+                text-align: center;
+                outline: none;
+            }
+
+            #otpInput:focus {
+                border-color: #0ff;
+            }
+
+            #otpModal .modal-content button {
+                background: #0af;
+                color: #000;
+            }
+
             @media(max-width: 480px) {
                 input[type="email"] {
                     font-size: 0.9rem;
@@ -344,14 +375,14 @@
             </div>
         </div>
 
-        <!-- <div id="emailPromptModal" style="display: block;" class="modal">
+        <div id="otpModal" style="display: none;" class="modal">
             <div class="modal-content">
-                <h2>confirm ur email 📧</h2>
-                <p>you opened the link on a different device. enter ur email to continue.</p>
-                <input type="email" id="promptEmailInput" placeholder="your@email.com"/>
-                <button id="confirmEmailBtn">confirm</button>
+                <h2>تأكيد الرمز 📧</h2>
+                <p>ادخل الرمز المكون من 6 أرقام الذي أرسلناه إلى بريدك الإلكتروني.</p>
+                <input type="text" id="otpInput" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456"/>
+                <button id="confirmOtpBtn">تأكيد</button>
             </div>
-        </div> -->
+        </div>
 
         <div class="login_terminal">
             <div class="login_note">
@@ -384,7 +415,7 @@
             <div id="login-buttons">
                 <div id="emailLoginBox" dir="rtl">
                     <input type="email" id="emailInput" placeholder="البريد الالكتروني (لارسال التحقق)"/>
-                    <div id="sendLoginLink">ارسال رابط التحقق 📨</div>
+                    <div id="sendLoginLink">ارسال رمز التحقق 📨</div>
                 </div>
             </div>
 
@@ -455,6 +486,6 @@
                 <div class="user_photo  profile" id="userPhotoContainer"></div>
             </nav>
         </div>
-        <script type="module" src="../js/login.js"></script>
+        <script type="module" src="../js/auth.js"></script>
     </body>
 </html>

@@ -4,11 +4,9 @@
         GoogleAuthProvider,
         GithubAuthProvider,
         signInWithPopup,
+        signInWithCustomToken,
         signOut,
         onAuthStateChanged,
-        sendSignInLinkToEmail,
-        isSignInWithEmailLink,
-        signInWithEmailLink
     } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
     import {
         getFirestore,
@@ -41,6 +39,7 @@
 
     const CACHE_KEY = "userData";
     const UPDATE_INTERVAL = 10 * 60 * 1000;
+    let pendingOtpEmail = "";
 
     const providers = {
         google: new GoogleAuthProvider(),
@@ -60,6 +59,9 @@
         message: document.getElementById("message"),
         loader: document.getElementById("loader"),
         emailInput: document.getElementById("emailInput"),
+        otpModal: document.getElementById("otpModal"),
+        otpInput: document.getElementById("otpInput"),
+        confirmOtpBtn: document.getElementById("confirmOtpBtn"),
         userPhotoContainer: document.getElementById("userPhotoContainer")
     };
 
@@ -200,21 +202,6 @@
         }
     }
 
-    async function handleEmailLink(email) {
-        try {
-            const result = await signInWithEmailLink(auth, email, window.location.href);
-            window.localStorage.removeItem("emailForSignIn");
-            window.history.replaceState({}, document.title, window.location.pathname);
-            await initUserData(result.user);
-            if (elements.message) elements.message.innerHTML = "تم التسجيل بنجاح 🐧";
-            showLoggedIn();
-        } catch (err) {
-            if (elements.errorEl) elements.errorEl.textContent = "❌ فشل التسجيل: " + err.code;
-            if (elements.loader) elements.loader.style.display = "none";
-            showLoggedOut();
-        }
-    }
-
     document.addEventListener("DOMContentLoaded", () => {
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
@@ -244,39 +231,53 @@
             }
         });
 
-        if (isSignInWithEmailLink(auth, window.location.href)) {
-            if (elements.loader) elements.loader.style.display = "flex";
-            const storedEmail = window.localStorage.getItem("emailForSignIn");
-            if (storedEmail) {
-                handleEmailLink(storedEmail);
-            } else {
-                if (elements.loader) elements.loader.style.display = "none";
-                const emailPromptModal = document.getElementById("emailPromptModal");
-                if (emailPromptModal) emailPromptModal.style.display = "flex";
-                document.getElementById("confirmEmailBtn")?.addEventListener("click", () => {
-                    const enteredEmail = document.getElementById("promptEmailInput").value.trim();
-                    if (enteredEmail.includes("@")) {
-                        emailPromptModal.style.display = "none";
-                        if (elements.loader) elements.loader.style.display = "flex";
-                        handleEmailLink(enteredEmail);
-                    }
-                });
-            }
-        }
-
         document.getElementById("logoutBtn")?.addEventListener("click", () => signOut(auth));
         document.getElementById("googleLogin")?.addEventListener("click", () => loginWithProvider(providers.google));
         document.getElementById("githubLogin")?.addEventListener("click", () => loginWithProvider(providers.github));
         document.getElementById("sendLoginLink")?.addEventListener("click", async () => {
             const email = elements.emailInput.value.trim();
-            if (!email.includes("@")) return;
+            if (!email.includes("@")) {
+                if (elements.errorEl) elements.errorEl.textContent = "❌ ادخل بريداً إلكترونياً صحيحاً";
+                return;
+            }
             try {
-                await sendSignInLinkToEmail(auth, email, { url: window.location.origin + window.location.pathname, handleCodeInApp: true });
-                window.localStorage.setItem("emailForSignIn", email);
-                alert(" تم ارسال الرسالة، احيانًا توضع تلقائيًا فالـ spam تفقد الـ spam اذا لم تجد الرسالة.");
+                const response = await fetch("/api/send-otp", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "❌ فشل إرسال الرمز");
+                pendingOtpEmail = email;
+                elements.otpModal.style.display = "flex";
+                elements.otpInput.value = "";
+                elements.otpInput.focus();
+                alert("✅ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد spam إذا لم تجده.");
                 elements.emailInput.value = "";
             } catch (err) {
-                if (elements.errorEl) elements.errorEl.textContent = "❌ " + err.code;
+                if (elements.errorEl) elements.errorEl.textContent = err.message || "❌ فشل إرسال الرمز";
+            }
+        });
+        elements.confirmOtpBtn?.addEventListener("click", async () => {
+            const email = pendingOtpEmail;
+            const code = elements.otpInput.value.trim();
+            if (!/^\d{6}$/.test(code)) {
+                if (elements.errorEl) elements.errorEl.textContent = "❌ ادخل رمزاً مكوناً من 6 أرقام";
+                return;
+            }
+            try {
+                const response = await fetch("/api/verify-otp", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, code })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || "❌ فشل التحقق من الرمز");
+                elements.otpModal.style.display = "none";
+                if (elements.loader) elements.loader.style.display = "flex";
+                await signInWithCustomToken(auth, data.token);
+            } catch (err) {
+                if (elements.errorEl) elements.errorEl.textContent = err.message || "❌ فشل التحقق من الرمز";
             }
         });
     });

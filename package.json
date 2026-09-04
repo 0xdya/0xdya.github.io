@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@vercel/speed-insights": "^2.0.0"
+    "@vercel/speed-insights": "^2.0.0",
+    "firebase-admin": "^14.3.0",
+    "nodemailer": "^9.1.1"
   }
 }
