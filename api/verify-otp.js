@@ -1,9 +1,14 @@
 const { authAdmin, db } = require("../lib/firebase-admin");
+const { createHash } = require("crypto");
 
 const MAX_ATTEMPTS = 5;
 
 function documentIdFor(email) {
     return encodeURIComponent(email.toLowerCase());
+}
+
+function hashOTP(code) {
+    return createHash("sha256").update(code).digest("hex");
 }
 
 module.exports = async function handler(req, res) {
@@ -24,6 +29,7 @@ module.exports = async function handler(req, res) {
             const data = snapshot.data();
             const attempts = data?.attempts || 0;
             const expiresAt = data?.expiresAt?.toMillis?.() || 0;
+            const inputHash = hashOTP(code);
 
             if (!data || expiresAt <= Date.now()) {
                 return "expired";
@@ -31,7 +37,7 @@ module.exports = async function handler(req, res) {
             if (attempts >= MAX_ATTEMPTS) {
                 return "attempts";
             }
-            if (data.code !== code) {
+            if (data.codeHash !== inputHash) {
                 transaction.update(otpRef, { attempts: attempts + 1 });
                 return "invalid";
             }

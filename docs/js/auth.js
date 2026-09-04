@@ -39,7 +39,50 @@
 
     const CACHE_KEY = "userData";
     const UPDATE_INTERVAL = 10 * 60 * 1000;
+    const OTP_STORAGE_KEY = "otpState";
     let pendingOtpEmail = "";
+
+    function saveOtpState() {
+        if (!pendingOtpEmail) {
+            localStorage.removeItem(OTP_STORAGE_KEY);
+            return;
+        }
+
+        const state = {
+            email: pendingOtpEmail,
+            code: elements.otpInput?.value || "",
+            visible: elements.otpModal?.style.display === "flex"
+        };
+
+        localStorage.setItem(OTP_STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function restoreOtpState() {
+        try {
+            const raw = localStorage.getItem(OTP_STORAGE_KEY);
+            if (!raw) return;
+
+            const state = JSON.parse(raw);
+            if (!state?.email) return;
+
+            pendingOtpEmail = state.email;
+            if (elements.otpInput) elements.otpInput.value = state.code || "";
+            if (state.visible && elements.otpModal) {
+                elements.otpModal.style.display = "flex";
+                requestAnimationFrame(() => {
+                    elements.otpInput?.focus();
+                });
+            }
+        } catch (err) {
+            console.warn("OTP state restore failed:", err);
+            localStorage.removeItem(OTP_STORAGE_KEY);
+        }
+    }
+
+    function clearOtpState() {
+        pendingOtpEmail = "";
+        localStorage.removeItem(OTP_STORAGE_KEY);
+    }
 
     const providers = {
         google: new GoogleAuthProvider(),
@@ -202,6 +245,36 @@
         }
     }
 
+    async function confirmOtpCode() {
+        const email = pendingOtpEmail;
+        const code = elements.otpInput.value.trim();
+
+        if (!email) {
+            if (elements.errorEl) elements.errorEl.textContent = "يرجى طلب رمز جديد أولاً";
+            return;
+        }
+
+        if (!/^\d{6}$/.test(code)) {
+            if (elements.errorEl) elements.errorEl.textContent = " ادخل رمزاً مكون من 6 أرقام";
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/verify-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, code })
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "<3 فشل التحقق من الرمز");
+            elements.otpModal.style.display = "none";
+            if (elements.loader) elements.loader.style.display = "flex";
+            await signInWithCustomToken(auth, data.token);
+        } catch (err) {
+            if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل التحقق من الرمز";
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
@@ -231,6 +304,8 @@
             }
         });
 
+        restoreOtpState();
+
         document.getElementById("logoutBtn")?.addEventListener("click", () => signOut(auth));
         document.getElementById("googleLogin")?.addEventListener("click", () => loginWithProvider(providers.google));
         document.getElementById("githubLogin")?.addEventListener("click", () => loginWithProvider(providers.github));
@@ -257,6 +332,7 @@
                 pendingOtpEmail = email;
                 elements.otpModal.style.display = "flex";
                 elements.otpInput.value = "";
+                saveOtpState();
                 elements.otpInput.focus();
                 alert("ᯓ➤ تم إرسال الرمز إلى بريدك الإلكتروني، تفقد مجلد الرسائل الغير مرغوب فيها إذا لم تجده.");
                 elements.emailInput.value = "";
@@ -267,6 +343,10 @@
         elements.confirmOtpBtn?.addEventListener("click", async () => {
             const email = pendingOtpEmail;
             const code = elements.otpInput.value.trim();
+            if (!email) {
+                if (elements.errorEl) elements.errorEl.textContent = "يرجى طلب رمز جديد أولاً";
+                return;
+            }
             if (!/^\d{6}$/.test(code)) {
                 if (elements.errorEl) elements.errorEl.textContent = " ادخل رمزاً مكون من 6 أرقام";
                 return;
@@ -280,10 +360,18 @@
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || "<3 فشل التحقق من الرمز");
                 elements.otpModal.style.display = "none";
+                clearOtpState();
                 if (elements.loader) elements.loader.style.display = "flex";
                 await signInWithCustomToken(auth, data.token);
             } catch (err) {
                 if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل التحقق من الرمز";
+            }
+        });
+        elements.otpInput?.addEventListener("input", saveOtpState);
+        elements.otpInput?.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("confirmOtpBtn")?.click();
             }
         });
     });
