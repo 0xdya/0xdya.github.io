@@ -106,7 +106,7 @@ ${code}
                             font-weight:700;
                             color:#111111;
                         ">
-                            0xdya
+                        رمز تسجيل الدخول
                         </div>
                     </td>
                 </tr>
@@ -117,23 +117,13 @@ ${code}
                         text-align:right;
                     ">
 
-                        <h1 style="
-                            margin:0 0 16px;
-                            font-size:22px;
-                            line-height:1.5;
-                            font-weight:700;
-                            color:#111111;
-                        ">
-                            رمز تسجيل الدخول
-                        </h1>
-
                         <p style="
                             margin:0 0 24px;
                             font-size:15px;
                             line-height:1.8;
                             color:#555555;
                         ">
-                            استخدم رمز التحقق التالي لإكمال تسجيل الدخول إلى حسابك:
+                            استخدم الرمز التالي لإكمال تسجيل الدخول إلى حسابك:
                         </p>
 
                         <div style="
@@ -186,6 +176,8 @@ ${code}
                             font-size:12px;
                             line-height:1.7;
                             color:#999999;
+                            direction: rtl;
+                            text-align: right;
                         ">
                             إذا لم تطلب تسجيل الدخول، يمكنك تجاهل هذه الرسالة.
                         </p>

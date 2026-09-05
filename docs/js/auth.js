@@ -40,7 +40,10 @@
     const CACHE_KEY = "userData";
     const UPDATE_INTERVAL = 10 * 60 * 1000;
     const OTP_STORAGE_KEY = "otpState";
+    const OTP_TTL_MS = 10 * 60 * 1000;
     let pendingOtpEmail = "";
+    let otpExpiresAt = 0;
+    let otpExpiryTimer;
 
     function saveOtpState() {
         if (!pendingOtpEmail) {
@@ -51,7 +54,8 @@
         const state = {
             email: pendingOtpEmail,
             code: elements.otpInput?.value || "",
-            visible: elements.otpModal?.style.display === "flex"
+            visible: elements.otpModal?.style.display === "flex",
+            expiresAt: otpExpiresAt
         };
 
         localStorage.setItem(OTP_STORAGE_KEY, JSON.stringify(state));
@@ -65,7 +69,13 @@
             const state = JSON.parse(raw);
             if (!state?.email) return;
 
+            if (!state.expiresAt || state.expiresAt <= Date.now()) {
+                clearOtpState();
+                return;
+            }
+
             pendingOtpEmail = state.email;
+            otpExpiresAt = state.expiresAt;
             if (elements.otpInput) elements.otpInput.value = state.code || "";
             if (state.visible && elements.otpModal) {
                 elements.otpModal.style.display = "flex";
@@ -73,6 +83,7 @@
                     elements.otpInput?.focus();
                 });
             }
+            scheduleOtpExpiry();
         } catch (err) {
             console.warn("OTP state restore failed:", err);
             localStorage.removeItem(OTP_STORAGE_KEY);
@@ -81,7 +92,21 @@
 
     function clearOtpState() {
         pendingOtpEmail = "";
+        otpExpiresAt = 0;
+        clearTimeout(otpExpiryTimer);
         localStorage.removeItem(OTP_STORAGE_KEY);
+        if (elements.otpInput) elements.otpInput.value = "";
+        if (elements.otpModal) elements.otpModal.style.display = "none";
+    }
+
+    function scheduleOtpExpiry() {
+        clearTimeout(otpExpiryTimer);
+        const remainingMs = otpExpiresAt - Date.now();
+        if (remainingMs <= 0) {
+            clearOtpState();
+            return;
+        }
+        otpExpiryTimer = setTimeout(clearOtpState, remainingMs);
     }
 
     const providers = {
@@ -309,6 +334,7 @@
         document.getElementById("logoutBtn")?.addEventListener("click", () => signOut(auth));
         document.getElementById("googleLogin")?.addEventListener("click", () => loginWithProvider(providers.google));
         document.getElementById("githubLogin")?.addEventListener("click", () => loginWithProvider(providers.github));
+        document.getElementById("cancelOtpBtn")?.addEventListener("click", clearOtpState);
         document.getElementById("sendLoginLink")?.addEventListener("click", async () => {
             const email = elements.emailInput.value.trim();
             const allowedEmailDomains = ["gmail.com", "proton.me", "protonmail.com", "pm.me", "outlook.com", "yahoo.com"];
@@ -330,9 +356,11 @@
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || "<3 فشل إرسال الرمز");
                 pendingOtpEmail = email;
+                otpExpiresAt = Date.now() + OTP_TTL_MS;
                 elements.otpModal.style.display = "flex";
                 elements.otpInput.value = "";
                 saveOtpState();
+                scheduleOtpExpiry();
                 elements.otpInput.focus();
                 alert("تم إرسال الرمز إلى بريدك الإلكتروني ✔، (تفقد مجلد الرسائل الغير مرغوب فيها إذا لم تجده فالرسائل الاساسية)");
                 
@@ -372,10 +400,6 @@
             const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 6);
             event.target.value = digitsOnly;
             saveOtpState();
-
-            if (digitsOnly.length === 6) {
-                confirmOtpCode();
-            }
         });
         elements.otpInput?.addEventListener("keydown", (event) => {
             if (event.key === "Enter") {
