@@ -27,7 +27,7 @@
       cat: 'tools',
       name: 'TimeAr<span class="badge"> "أداة"</span>',
       active: true,
-      desc: 'أول مكتبة عربية لعرض كم مضى من الزمن عبر إدخال التاريخ والوقت، مثلاً تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar">2026-04-16T12:00</span>',
+      desc: 'أول مكتبة عربية لعرض كم مضى من الزمن عبر إدخال التاريخ والوقت، مثلاً تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar" data-date="2026-04-16T12:00" >--</span>',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/time-ar/', label: 'الويكي', primary: true },

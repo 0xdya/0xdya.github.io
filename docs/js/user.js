@@ -14,6 +14,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import {getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 import {getDatabase, ref, get, runTransaction} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+import timeAr from "https://cdn.jsdelivr.net/npm/time-ar@2.1.0/+esm";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
@@ -44,6 +45,20 @@ const ONE_DAY = 24 * 60 * 60 * 1000;
 let allUsers = [];
 let activeRole = "all";
 let searchQuery = "";
+
+function getJoinedText(createdAt) {
+    const created = createdAt ?. toDate ?. () || (createdAt instanceof Date ? createdAt : null);
+    if (! created || Number.isNaN(created.getTime())) 
+        return "تاريخ غير معروف";
+
+    try {
+        const time = timeAr();
+        return time.getTimeAr(created, time.format.iso8601);
+    } catch (error) {
+        console.warn("Unable to format user creation date:", error);
+        return "تاريخ غير معروف";
+    }
+}
 
 function applyUserUI(photoURL, name) {
     const container = document.getElementById("userPhotoContainer");
@@ -168,19 +183,17 @@ async function fetchLastLogin(userId) {
     `;
             } else {
                 statusContainer.innerHTML = `
-      نشط منذ: <span class="time-ar" id="lastOnline"></span>
+      نشط <span id="lastOnline"></span>
     `;
 
                 const timeElement = document.getElementById("lastOnline");
+                const updateLastOnline = () => {
+                    const time = timeAr();
+                    timeElement.textContent = time.getTimeAr(loginDate, time.format.iso8601);
+                };
 
-                const tzOffset = loginDate.getTimezoneOffset() * 60000;
-                const localISOTime = (new Date(loginDate - tzOffset)).toISOString().slice(0, 19);
-
-                timeElement.setAttribute("data-date", localISOTime);
-
-                if (typeof timeAr !== "undefined" && timeAr.init) {
-                    timeAr.init();
-                }
+                updateLastOnline();
+                setInterval(updateLastOnline, 30000);
             }
         }
 
@@ -189,33 +202,6 @@ async function fetchLastLogin(userId) {
     }
 }
 
-function timeAgo(date) {
-    if (! date) 
-        return "—";
-    
-    const s = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (s < 60) 
-        return "just now";
-    
-    const m = Math.floor(s / 60);
-    if (m < 60) 
-        return `${m}m `;
-    
-    const h = Math.floor(m / 60);
-    if (h < 24) 
-        return `${h}h `;
-    
-    const d = Math.floor(h / 24);
-    if (d < 30) 
-        return `${d}d `;
-    
-    const mo = Math.floor(d / 30);
-    if (mo < 12) 
-        return `${mo}m`;
-    
-    const y = Math.floor(mo / 12);
-    return `${y}y ago`;
-}
 
 function render() {
     const usersDiv = document.getElementById("users");
@@ -245,8 +231,7 @@ function render() {
     }
 
     usersDiv.innerHTML = filtered.map((user, i) => {
-        const created = user.createdAt ?. toDate ?. () || null;
-        const joinedText = timeAgo(created);
+        const joinedText = getJoinedText(user.createdAt);
         const role = user.role || "مستخدم";
         const name = user.name || "يدون اسم";
         const photo = user.photo || "../img/user.jpg";
@@ -297,6 +282,8 @@ function loadUsers() {
     onSnapshot(q, snap => {
         allUsers = snap.docs.map(d => d.data());
         render();
+    }, error => {
+        console.error("Error loading users:", error);
     });
 }
 
