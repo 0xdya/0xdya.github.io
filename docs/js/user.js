@@ -292,6 +292,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cached) {
         const data = JSON.parse(cached);
         applyUserUI(data.photo, data.name);
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+            photo: data.photo,
+            name: data.name,
+            lastUpdate: data.lastUpdate
+        }));
     } else {
         applyUserUI(null, null);
     } initVisits();
@@ -320,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         await updateDoc(userRef, updates);
                     }
 
-                    localStorage.setItem(CACHE_KEY, JSON.stringify({photo: user.photoURL, name: user.displayName, email: user.email, lastUpdate: now}));
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({photo: user.photoURL, name: user.displayName, lastUpdate: now}));
                 } catch (error) {
                     console.error("❌ Error updating user status:", error);
                 }

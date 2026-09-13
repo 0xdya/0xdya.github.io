@@ -314,7 +314,6 @@ function loadComments() {
                                 try {
                                     await addDoc(collection(db, "comments", commentId, "replies"), {
                                         uid: currentUser.uid,
-                                        email: currentUser.email,
                                         text: text,
                                         timestamp: serverTimestamp()
                                     });
@@ -416,7 +415,6 @@ if (commentForm) {
         try {
             await addDoc(collection(db, "comments"), {
                 uid: currentUser.uid,
-                email: currentUser.email,
                 text: text,
                 pinned: false,
                 timestamp: serverTimestamp()
