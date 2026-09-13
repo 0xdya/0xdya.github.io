@@ -11,7 +11,7 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding: var(--space-9) 0 var(--space-8);
+    padding: var(--space-8) 0 var(--space-8);
     min-height: 100dvh
   }
   
@@ -29,7 +29,7 @@ body {
 
 .homepage{
   /* background-color: red; */
-  min-height: 78svh
+  /* min-height: 78svh */
 }
 
 @keyframes move-grid {
@@ -899,6 +899,9 @@ body {
 
 
 @media (max-width: 720px) {
+  body {
+    padding-top: var(--space-9);
+  }
 
   body::before {
     background-size: 58px 58px;
@@ -960,9 +963,6 @@ body {
    .identity-chip:nth-child(3) {
     border-top-left-radius: 0;
 }
-   .contact-container{
-    width: auto;
-   }
    .send-btn{
     font-family: "Vazirmatn";
     top: 155px;
@@ -974,11 +974,13 @@ body {
     padding: 8px 0 0 0;
    }
 }
-/* 
+ 
 @media (min-width: 720px) {
-  .logo{
-    font-size: var(--text-xl);
-  }
+      .contact-container,
+    .hr {
+        display: none !important;
+        /* margin: 5rem 0 0; */
+    }
 
-} */
+}
 

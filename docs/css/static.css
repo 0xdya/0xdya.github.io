@@ -87,7 +87,7 @@ body {
 .container {
     position: relative;
     z-index: 1;
-    width: 100vw;
+    width: 100%;
     max-width: 680px;
     margin: 0 auto;
     padding: 48px 1rem;
@@ -104,9 +104,9 @@ body {
   /* contact */
   .contact-container{
     width: 90vw;
-    max-width: 620px;
+    /* max-width: 20px !important; */
     margin: 0 auto;
-    margin-top: var(--space-8);
+    /* margin-top: var(--space-8); */
   }
   
   .section-label {
@@ -457,7 +457,6 @@ a {
     
     
     .blog-container,
-    .contact-container,
     .hr {
         display: block !important;
         /* margin: 5rem 0 0; */
