@@ -86,6 +86,18 @@
     },
     {
       cat: 'web',
+      name: ' D1 Blog <span class="badge"> "موقع"</span>',
+      active: true,
+      desc: 'موقع بسيط اكتب فيه مقالات بحرية اكثر.',
+      descDir: 'rtl',
+      buttons: [
+        { icon: 'external', href: 'https://d1blog.web.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/d1blog/', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=d1blog', label: 'التعليقات' }
+      ]
+    },
+    {
+      cat: 'web',
       name: ' D1 Shop <span class="badge"> "موقع"</span>',
       active: true,
       desc: 'متجر شخصي لبيع صفحات عرض منصات التواصل الاجتماعي وخدمات إدارة مواقع.',
@@ -144,18 +156,6 @@
     //   ]
     // },    
 
-    {
-      cat: 'web',
-      name: 'D1 Security <span class="badge"> "موقع"</span>',
-      active: true,
-      desc: 'افحص جهازك بحثاً عن الثغرات الأمنية على الويب وتعلّم كيفية حماية نفسك. <br> "نسخة تجريبية"',
-      descDir: 'rtl',
-      buttons: [
-        { icon: 'external', href: 'https://0xdya.github.io/d1scan_beta', label: 'زيارة الموقع', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/d1scan_beta', label: 'المصدر' },
-        { icon: 'comments', href: 'project.html?slug=d1scan_beta', label: 'التعليقات' }
-      ]
-    },
     {
       cat: 'web',
       name: 'موقع ثانوية أبي حامد الغزالي <span class="badge"> "موقع"</span>',
