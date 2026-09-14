@@ -104,7 +104,7 @@ body {
   /* contact */
   .contact-container{
     width: 90vw;
-    /* max-width: 20px !important; */
+    max-width: 100%;
     margin: 0 auto;
     /* margin-top: var(--space-8); */
   }
@@ -176,11 +176,14 @@ body {
     min-height: 130px;
     /* margin-bottom: 8px; */
   }
-  
-  .send-btn {
+
+     .send-btn {
+    font-family: "Vazirmatn";
+    font-size: var(--text-lg) !important;
     position: absolute;
     left: 8px;
     top: 155px;
+    height: 38px;
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
@@ -189,8 +192,6 @@ body {
     border-radius: 10px;
     padding: var(--space-1) var(--space-6);
     color: var(--accent);
-    font-family: "JetBrains Mono", monospace;
-    font-size: var(--text-sm);
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s, transform 0.15s;
   }
@@ -255,6 +256,7 @@ body {
   flex-wrap: wrap;
   gap: var(--space-2);
   max-width: 480px;
+  padding: 8px 0 0 0;
   /* background-color: red; */
 }
 

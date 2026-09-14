@@ -963,16 +963,7 @@ body {
    .identity-chip:nth-child(3) {
     border-top-left-radius: 0;
 }
-   .send-btn{
-    font-family: "Vazirmatn";
-    top: 155px;
-    line-height: 1;
-    font-size: var(--text-lg) !important;
-    height: 38px;
-   }
-   .socials{
-    padding: 8px 0 0 0;
-   }
+
 }
  
 @media (min-width: 720px) {
