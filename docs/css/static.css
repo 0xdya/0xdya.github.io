@@ -477,3 +477,103 @@ a {
     min-width: 228px !important
 }
 }
+
+/* inst */
+.instagram-warning {
+  position: fixed;
+  z-index: 2147483647;
+  right: 1rem;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  direction: rtl;
+  pointer-events: none;
+  font-family: "Vazirmatn", "Noto Naskh Arabic", Arial, sans-serif;
+}
+
+.instagram-warning__content {
+    position: relative;
+    display: flex;
+    /* min-height: 95vh !important; */
+    align-items: flex-start;
+    flex-direction: column;
+  gap: 0.85rem;
+  width: min(100%, 34rem);
+  max-width: 34rem;
+  padding: 1.15rem 1.25rem;
+  color: #f7f4ed;
+  background: #171717;
+  border: 1px solid #55504a;
+  border-radius: 0.75rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  animation: instagram-warning-enter 0.35s ease-out both;
+}
+
+.instagram-warning__icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: #171717;
+  background: #f2c14e;
+  border-radius: 50%;
+  font-family: Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.instagram-warning h2 {
+  margin: 0 0 0.35rem 0;
+  color: inherit;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+.instagram-warning p {
+  max-width: 28rem;
+  margin: 0 0 0.9rem;
+  color: #c8c2ba;
+  font-size: var(--text-base);
+  line-height: 1.75;
+}
+
+.instagram-warning__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  color: #171717;
+  background: var(--link);
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.instagram-warning__open:hover,
+.instagram-warning__open:focus-visible {
+  background: #ffd76b;
+  transform: translateY(-1px);
+}
+
+@keyframes instagram-warning-enter {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .instagram-warning {
+    right: 0.65rem;
+    bottom: 0.65rem;
+    left: 0.65rem;
+  }
+
+  .instagram-warning__content {
+    padding: 1rem;
+  }
+}
