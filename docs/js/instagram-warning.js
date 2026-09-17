@@ -1,8 +1,8 @@
 (function () {
   var userAgent = navigator.userAgent || '';
-  // var jst4testingInBrowser = new URLSearchParams(window.location.search).has('instagram-warning');
+  var isTesting = new URLSearchParams(window.location.search).has('instagram-warning');
 
-  if ((!/Instagram/i.test(userAgent) && !jst4testingInBrowser) || document.getElementById('instagram-warning')) {
+  if ((!/Instagram/i.test(userAgent) && !isTesting) || document.getElementById('instagram-warning')) {
     return;
   }
 

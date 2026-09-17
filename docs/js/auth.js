@@ -1,41 +1,19 @@
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import {
-        getAuth,
-        GoogleAuthProvider,
-        GithubAuthProvider,
-        signInWithPopup,
-        signInWithCustomToken,
-        signOut,
-        onAuthStateChanged,
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-    import {
-        getFirestore,
-        doc,
-        setDoc,
-        getDoc,
-        getDocFromServer,
-        updateDoc,
-        collection,
-        query,
-        orderBy,
-        onSnapshot,
-        serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-        authDomain: "oxdyaa.firebaseapp.com",
-        projectId: "oxdyaa",
-        storageBucket: "oxdyaa.appspot.com",
-        messagingSenderId: "604062703590",
-        appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const rtdb = getDatabase(app);
+import { auth, db, rtdb } from "./firebase.js";
+import {
+    GoogleAuthProvider,
+    GithubAuthProvider,
+    signInWithPopup,
+    signInWithCustomToken,
+    signOut,
+    onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import {
+    doc,
+    setDoc,
+    getDocFromServer,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { ref, runTransaction } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
     const CACHE_KEY = "userData";
     const UPDATE_INTERVAL = 10 * 60 * 1000;
@@ -52,8 +30,6 @@
         }
 
         const state = {
-            email: pendingOtpEmail,
-            code: elements.otpInput?.value || "",
             visible: elements.otpModal?.style.display === "flex",
             expiresAt: otpExpiresAt
         };
@@ -67,16 +43,16 @@
             if (!raw) return;
 
             const state = JSON.parse(raw);
-            if (!state?.email) return;
-
+            if (state?.email || state?.code) {
+                localStorage.removeItem(OTP_STORAGE_KEY);
+                return;
+            }
             if (!state.expiresAt || state.expiresAt <= Date.now()) {
                 clearOtpState();
                 return;
             }
 
-            pendingOtpEmail = state.email;
             otpExpiresAt = state.expiresAt;
-            if (elements.otpInput) elements.otpInput.value = state.code || "";
             if (state.visible && elements.otpModal) {
                 elements.otpModal.style.display = "flex";
                 requestAnimationFrame(() => {
@@ -171,41 +147,6 @@
         }
     }
 
-    function timeAgo(date) {
-        const seconds = Math.floor((Date.now() - date) / 1000);
-        if (seconds < 60) return "just now";
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `joined before ${minutes}m`;
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `joined before ${hours}h`;
-        return `joined before ${Math.floor(hours / 24)}d`;
-    }
-
-    function loadUsers() {
-        const usersDiv = document.getElementById("users");
-        if (!usersDiv) return;
-        const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
-        onSnapshot(q, (snapshot) => {
-            usersDiv.innerHTML = "";
-            snapshot.forEach(docSnap => {
-                const user = docSnap.data();
-                const created = user.createdAt?.toDate?.();
-                const joinedText = created ? timeAgo(created) : "—";
-                const role = user.role || "user";
-                const name = user.name || "no name";
-                const photo = user.photo || "../img/user.jpg";
-                usersDiv.innerHTML += `
-                    <div class="user-card" onclick="location.href='https://0xdya.vercel.app/@${encodeURIComponent(name)}'">
-                        <img src="${photo}" alt="user photo">
-                        <div class="name_and_role">
-                            <span>${name}</span>
-                            <div class="rotba">الرتبة: <span class="role ${role}">${role}</span></div>
-                        </div>
-                        <div class="joined">${joinedText}</div>
-                    </div>`;
-            });
-        });
-    }
 
     async function initUserData(user) {
         const userRef = doc(db, "users", user.uid);
@@ -292,7 +233,8 @@
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || "<3 فشل التحقق من الرمز");
-            elements.otpModal.style.display = "none";
+            if (elements.otpModal) elements.otpModal.style.display = "none";
+            clearOtpState();
             if (elements.loader) elements.loader.style.display = "flex";
             await signInWithCustomToken(auth, data.token);
         } catch (err) {
@@ -308,7 +250,6 @@
         } else {
             applyUserUI(null, null);
         }
-        loadUsers();
 
         onAuthStateChanged(auth, async user => {
             if (elements.loader) elements.loader.style.display = "none";
@@ -369,33 +310,7 @@
                 if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل إرسال الرمز";
             }
         });
-        elements.confirmOtpBtn?.addEventListener("click", async () => {
-            const email = pendingOtpEmail;
-            const code = elements.otpInput.value.trim();
-            if (!email) {
-                if (elements.errorEl) elements.errorEl.textContent = "يرجى طلب رمز جديد أولاً";
-                return;
-            }
-            if (!/^\d{6}$/.test(code)) {
-                if (elements.errorEl) elements.errorEl.textContent = " ادخل رمزاً مكون من 6 أرقام";
-                return;
-            }
-            try {
-                const response = await fetch("/api/verify-otp", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, code })
-                });
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.error || "<3 فشل التحقق من الرمز");
-                elements.otpModal.style.display = "none";
-                clearOtpState();
-                if (elements.loader) elements.loader.style.display = "flex";
-                await signInWithCustomToken(auth, data.token);
-            } catch (err) {
-                if (elements.errorEl) elements.errorEl.textContent = err.message || "<3 فشل التحقق من الرمز";
-            }
-        });
+        elements.confirmOtpBtn?.addEventListener("click", confirmOtpCode);
         elements.otpInput?.addEventListener("input", (event) => {
             const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 6);
             event.target.value = digitsOnly;

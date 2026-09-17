@@ -1,25 +1,10 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { auth, db } from "./firebase.js";
 import {
-    getFirestore, collection, addDoc, deleteDoc, doc, query,
+    collection, addDoc, deleteDoc, doc, query,
     orderBy, serverTimestamp, onSnapshot, getDocs,
     getDoc, setDoc, increment, updateDoc
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-import {
-    getAuth, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 const commentForm = document.getElementById('commentForm');
 const commentInput = document.getElementById('commentInput');
 const commentsList = document.getElementById('commentsList');
@@ -134,6 +119,15 @@ function escapeHtml(text = "") {
     }
 }
 
+function escapeHtmlAttr(str = "") {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
 async function loadReplies(commentId) {
     const repliesDiv = document.getElementById(`replies-${commentId}`);
     if (!repliesDiv) return;
@@ -160,20 +154,23 @@ async function loadReplies(commentId) {
             const timeStr = formatDate(d.timestamp?.toDate());
             const userData = await getUserData(d.uid);
             const isOwner = currentUser?.uid === d.uid || currentUserData?.role === "owner";
+            const safeName = escapeHtmlAttr(userData.name);
+            const safePhoto = escapeHtmlAttr(userData.photo);
+            const encodedName = encodeURIComponent(userData.name);
 
             const card = document.createElement('div');
             card.className = 'reply-card';
             card.style.display = 'flex';
             card.innerHTML = `
-                <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank" style="flex-shrink:0;">
-                    <img src="${userData.photo}" alt="${userData.name}"
+                <a href="https://0xdya.vercel.app/@${encodedName}" target="_blank" style="flex-shrink:0;">
+                    <img src="${safePhoto}" alt="${safeName}"
                          style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid var(--border);margin-top:2px;">
                 </a>
                 <div style="flex:1;min-width:0;">
                     <div class="reply-bubble">
                         <div class="reply-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank"
-                               style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${userData.name}</a>
+                            <a href="https://0xdya.vercel.app/@${encodedName}" target="_blank"
+                                style="color:inherit;text-decoration:none;font-weight:600;font-size:.825rem;">${safeName}</a>
                             ${userData.verified ? VERIFIED_SVG : ''}
                             ${getRoleIcon(userData.role)}
                             <span style="opacity:.6;font-size:.7rem;">· ${timeStr}</span>
@@ -240,6 +237,9 @@ function loadComments() {
                     const timeStr = formatDate(data.timestamp?.toDate());
                     const userData = await getUserData(data.uid);
                     const isOwner = currentUser?.uid === data.uid || currentUserData?.role === "owner";
+                    const safeName = escapeHtmlAttr(userData.name);
+                    const safePhoto = escapeHtmlAttr(userData.photo);
+                    const encodedName = encodeURIComponent(userData.name);
 
                     const wrap = document.createElement('div');
                     wrap.id = `comment-wrap-${commentId}`;
@@ -258,15 +258,15 @@ function loadComments() {
                     wrap.innerHTML = `
                     <div class="comment-card" id="comment-${commentId}">
                         <div class="comment-avatar">
-                            <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank">
-                                <img src="${userData.photo}" alt="${userData.name}">
+                            <a href="https://0xdya.vercel.app/@${encodedName}" target="_blank">
+                                <img src="${safePhoto}" alt="${safeName}">
                             </a>
                         </div>
                         <div class="comment-body">
                             <div class="comment-bubble ${data.pinned ? 'pinned' : ''}">
                                 <div class="bubble-author" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                                    <a href="https://0xdya.vercel.app/@${userData.name}" target="_blank"
-                                       style="color:inherit;font-weight:600;">${userData.name}</a>
+                                    <a href="https://0xdya.vercel.app/@${encodedName}" target="_blank"
+                                       style="color:inherit;font-weight:600;">${safeName}</a>
                                     ${userData.verified ? VERIFIED_SVG : ''}
                                     ${getRoleIcon(userData.role)}
                                     <span style="opacity:.6;font-size:.75rem;">٠ ${timeStr}</span>
@@ -439,7 +439,6 @@ onAuthStateChanged(auth, async user => {
         }
         const userRef = doc(db, "users", user.uid);
         try {
-            await setDoc(userRef, {}, { merge: true });
             const snap = await getDoc(userRef);
             if (snap.exists()) {
                 currentUserData = { role: snap.data().role || null };

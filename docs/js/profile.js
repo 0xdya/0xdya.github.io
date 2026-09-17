@@ -1,25 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { auth, db } from "./firebase.js";
 import {
-    getFirestore, collection, query, where, getDocs,
+    collection, query, where, getDocs,
     doc, getDoc, setDoc, onSnapshot
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import {
-    getAuth, onAuthStateChanged, signOut, updateProfile
+    onAuthStateChanged, signOut, updateProfile
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-const IMGBB_KEY = "74df1d7df65c908780380624ae8a9370";
-const cfg = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-};
-
-const app = initializeApp(cfg);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
 const MONTHS = [
     "يناير", "فبراير", "مارس", "أبريل", "ماي", "جوان",
@@ -165,11 +151,13 @@ try {
     if (_c) { const d = JSON.parse(_c); applyNavUI(d.photo, d.name); }
 } catch (_) { }
 
-displayNameInput.addEventListener("input", () => {
+displayNameInput?.addEventListener("input", () => {
     displayNameInput.value = displayNameInput.value
         .replace(/\s+/g, "_")
         .replace(/[^\u0621-\u064A\u0660-\u0669a-zA-Z0-9_]/g, "");
 });
+
+let ownerListenersSet = false;
 
 onAuthStateChanged(auth, async user => {
     applyNavUI(user?.photoURL, user?.displayName);
@@ -198,55 +186,16 @@ function loadProfile(currentUser) {
     if (loadProfile._unsub) { loadProfile._unsub(); loadProfile._unsub = null; }
 
     let userSocials = [];
-    let sortable = null;
     let isEditing = false;
-    let listenersSet = false;
     let profileUid = null;
 
     function renderSocials() {
-        return;
+        // Reserved for social links rendering
     }
 
-    // function renderSocials() {
-    //     socialLinksDiv.innerHTML = "";
-    //     userSocials.forEach(({ platform, username }, i) => {
-    //         const card = document.createElement("div");
-    //         card.className = "link_card";
-    //         card.setAttribute("draggable", "true");
-    //         card.innerHTML = `
-    //             <ion-icon name="${socialIcon(platform)}"></ion-icon>
-    //             <a href="${socialURL(platform, username)}" target="_blank" rel="noopener"
-    //                style="color:inherit;text-decoration:none">${username}</a>
-    //             <button class="del-btn" title="حذف">✕</button>`;
-    //         card.querySelector(".del-btn").onclick = async e => {
-    //             e.stopPropagation();
-    //             userSocials.splice(i, 1);
-    //             await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
-    //             renderSocials();
-    //             if (isEditing) enableSorting();
-    //         };
-    //         socialLinksDiv.appendChild(card);
-    //     });
-    // }
-
-    // function enableSorting() {
-    //     if (sortable) sortable.destroy();
-    //     sortable = new Sortable(socialLinksDiv, {
-    //         animation: 150, draggable: ".link_card",
-    //         onEnd: async ({ oldIndex, newIndex }) => {
-    //             if (oldIndex === newIndex) return;
-    //             const [moved] = userSocials.splice(oldIndex, 1);
-    //             userSocials.splice(newIndex, 0, moved);
-    //             await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });
-    //             renderSocials();
-    //             enableSorting();
-    //         }
-    //     });
-    // }
-
     function setupOwnerListeners() {
-        if (listenersSet) return;
-        listenersSet = true;
+        if (ownerListenersSet) return;
+        ownerListenersSet = true;
 
         editBtn.style.display = "flex";
         logoutBtn.style.display = "flex";
@@ -297,8 +246,6 @@ function loadProfile(currentUser) {
             editBtn.textContent = isEditing ? "✕ إغلاق" : "تعديل الملف الشخصي";
             displayNameInput.value = currentNameEl.textContent || "";
             bioInput.value = displayBioEl.textContent || "";
-            if (isEditing) enableSorting();
-            else { sortable?.destroy(); sortable = null; }
             renderSocials();
         });
 
@@ -353,7 +300,6 @@ function loadProfile(currentUser) {
             }
             userSocials.push({ platform, username });
             renderSocials();
-            if (isEditing) enableSorting();
             socialInput.value = "";
             try {
                 await setDoc(doc(db, "users", profileUid), { socials: userSocials }, { merge: true });

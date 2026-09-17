@@ -1,6 +1,5 @@
-import {initializeApp} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { auth, db, rtdb } from "./firebase.js";
 import {
-    getFirestore,
     doc,
     getDoc,
     updateDoc,
@@ -12,23 +11,9 @@ import {
     onSnapshot,
     enableIndexedDbPersistence
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-import {getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-import {getDatabase, ref, get, runTransaction} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 import timeAr from "https://cdn.jsdelivr.net/npm/time-ar@2.1.0/+esm";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC2U0aM8mUrYoDI0R9pYbzQZk1g9zd96O0",
-    authDomain: "oxdyaa.firebaseapp.com",
-    projectId: "oxdyaa",
-    storageBucket: "oxdyaa.appspot.com",
-    messagingSenderId: "604062703590",
-    appId: "1:604062703590:web:924c0cbd8a988f4fcf8027"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const rtdb = getDatabase(app);
-const auth = getAuth(app);
 
 enableIndexedDbPersistence(db).catch((err) => {
     if (err.code == 'failed-precondition') {
@@ -62,21 +47,12 @@ function getJoinedText(createdAt) {
 
 function applyUserUI(photoURL, name) {
     const container = document.getElementById("userPhotoContainer");
-    if (! container) 
-        return;
+    if (!container) return;
 
     const navbars = document.querySelectorAll(".navbar");
-    const navbar = navbars[1]; 
+    const navbar = navbars[1];
     if (navbar) {
-        if (photoURL || name) {
-            navbar.classList.add("nav-logged");
-            console.log("(غي باش نتاكد) تم إضافة nav-logged");
-        } else {
-            navbar.classList.remove("nav-logged");
-            console.log(" تم إزالة nav-logged");
-        }
-    } else {
-        console.warn(" النافبار الثاني غير موجود");
+        navbar.classList.toggle("nav-logged", !!(photoURL || name));
     }
 
     container.innerHTML = "";
@@ -203,6 +179,15 @@ async function fetchLastLogin(userId) {
 }
 
 
+function escapeHtmlAttr(str = "") {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
 function render() {
     const usersDiv = document.getElementById("users");
     const badge = document.getElementById("countBadge");
@@ -233,19 +218,19 @@ function render() {
     usersDiv.innerHTML = filtered.map((user, i) => {
         const joinedText = getJoinedText(user.createdAt);
         const role = user.role || "مستخدم";
-        const name = user.name || "يدون اسم";
+        const name = user.name || "بدون اسم";
         const photo = user.photo || "../img/user.jpg";
+        const safeName = escapeHtmlAttr(name);
+        const safeRole = escapeHtmlAttr(role);
+        const safePhoto = escapeHtmlAttr(photo);
+        const encodedName = encodeURIComponent(name);
         return `
-      <div class="user-card" style="animation-delay:${
-            i * 10
-        }ms"
-           onclick="location.href='https://0xdya.vercel.app/@${
-            encodeURIComponent(name)
-        }'">
-        <img src="${photo}" alt="${name}" onerror="this.src='../img/user.jpg'">
+      <div class="user-card" style="animation-delay:${i * 10}ms"
+           onclick="location.href='https://0xdya.vercel.app/@${encodedName}'">
+        <img src="${safePhoto}" alt="${safeName}" onerror="this.src='../img/user.jpg'">
         <div class="name_and_role">
-          <span>${name}</span>
-          <div class="rotba">الرتبة: <span class="role ${role}">${role}</span></div>
+          <span>${safeName}</span>
+          <div class="rotba">الرتبة: <span class="role ${safeRole}">${safeRole}</span></div>
         </div>
         <div class="joined">${joinedText}</div>
       </div>`;
@@ -254,21 +239,16 @@ function render() {
 
 function showSkeleton() {
     const usersDiv = document.getElementById("users");
-    if (! usersDiv) 
-        return;
+    if (!usersDiv) return;
     
-    if (! usersDiv.innerHTML.trim()) {
+    if (!usersDiv.innerHTML.trim()) {
         usersDiv.innerHTML = Array.from(
-            {
-                length: 8
-            },
+            { length: 8 },
             () => `
         <div class="skeleton-card">
           <div class="sk" style="width:42px;height:42px;border-radius:8px;flex-shrink:0"></div>
           <div style="flex:1;display:flex;flex-direction:column;gap:6px">
-            <div class="sk" style="height:13px;width:${
-                100 + Math.random() * 80 | 0
-            }px"></div>
+            <div class="sk" style="height:13px;width:${100 + Math.random() * 80 | 0}px"></div>
             <div class="sk" style="height:11px;width:70px"></div>
           </div>
         </div>`
@@ -277,6 +257,9 @@ function showSkeleton() {
 }
 
 function loadUsers() {
+    const usersDiv = document.getElementById("users");
+    if (!usersDiv) return;
+
     showSkeleton();
     const q = query(collection(db, "users"), orderBy("createdAt", "asc"));
     onSnapshot(q, snap => {
@@ -290,19 +273,26 @@ function loadUsers() {
 document.addEventListener("DOMContentLoaded", () => {
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
-        const data = JSON.parse(cached);
-        applyUserUI(data.photo, data.name);
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-            photo: data.photo,
-            name: data.name,
-            lastUpdate: data.lastUpdate
-        }));
+        try {
+            const data = JSON.parse(cached);
+            applyUserUI(data.photo, data.name);
+        } catch (_) {}
     } else {
         applyUserUI(null, null);
-    } initVisits();
-    fetchCounts();
-    loadUsers();
-    fetchLastLogin("X18SfoEU7JhtQC3Xsn0o9punnI23");
+    }
+
+    if (document.getElementById("counter")) {
+        initVisits();
+    }
+    if (document.getElementById("users_count") || document.getElementById("comments_count")) {
+        fetchCounts();
+    }
+    if (document.getElementById("users")) {
+        loadUsers();
+    }
+    if (document.getElementById("lastOnlineContainer")) {
+        fetchLastLogin("X18SfoEU7JhtQC3Xsn0o9punnI23");
+    }
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
