@@ -91,7 +91,7 @@
       desc: 'موقع بسيط اكتب فيه مقالات بحرية اكثر.',
       descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d1blog.web.app', label: 'زيارة الموقع', primary: true },
+        { icon: 'external', href: 'https://d1blog.vercel.app', label: 'زيارة الموقع', primary: true },
         { icon: 'github', href: 'https://github.com/0xdya/d1blog/', label: 'المصدر' },
         { icon: 'comments', href: 'project.html?slug=d1blog', label: 'التعليقات' }
       ]
