@@ -25,9 +25,21 @@
     },
     {
       cat: 'tools',
+      name: 'WTA <span class="badge">(Website To App) "أداة"</span>',
+      active: true,
+      desc: 'سكربت bash يشتغل فالطرفية، فكرته يحول أي موقع لتطبيق يظهر فقائمة التطبيقات موجه لمستخدمين لينكس، يشتغل على كل wm & de',
+      descDir: 'rtl',
+      buttons: [
+        // { icon: 'external', href: 'https://d1wiki.vercel.app/wta/', label: 'الويكي', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/wta', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=wta', label: 'التعليقات' }
+      ]
+    },
+    {
+      cat: 'tools',
       name: 'TimeAr<span class="badge"> "أداة"</span>',
       active: true,
-      desc: 'أول مكتبة عربية لعرض كم مضى من الزمن عبر إدخال التاريخ والوقت، مثلاً تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar" data-date="2026-04-16T12:00" >--</span>',
+      desc: 'أول مكتبة عربية لعرض كم مضى من الزمن عبر إدخال التاريخ والوقت، مثلاً تضع <span dir="ltr">2026-04-16</span> فيعرض <span class="time-ar" data-date="2026-10-04T11:00" >--</span>',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/time-ar/', label: 'الويكي', primary: true },
@@ -39,9 +51,9 @@
     },
     {
       cat: 'tools',
-      name: 'HNT.sh <span class="badge"> "أداة"</span>',
+      name: 'HNT  <span class="badge">(Hyprland Nightlight Toggle) "أداة"</span>',
       active: true,
-      desc: 'أداة مفيدة لمستخدمي هايبرلاند تتيح لهم إضافة الإضاءة الليلية والتحكم فيها<br>+ HNT هو اختصار لـ: <br> Hyprland Nightlight Toggle',
+      desc: 'أداة مفيدة لمستخدمي هايبرلاند تتيح لهم إضافة الإضاءة الليلية والتحكم فيها',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/HNT/', label: 'الويكي', primary: true },
@@ -53,7 +65,7 @@
       cat: 'tools',
       name: 'fastpush <span class="badge"> "أداة"</span>',
       active: true,
-      desc: 'أداة تختصر عليك رفع مشروعك من VS Code أو Cursor أو حتى Zed إلى جيت هاب بسطر واحد فقط.',
+      desc: 'أداة -تجريبية- تختصر عليك رفع مشروعك من VS Code أو Cursor أو حتى Zed إلى جيت هاب بسطر واحد',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1wiki.vercel.app/fastpush/', label: 'الويكي', primary: true },
@@ -65,7 +77,7 @@
       cat: 'tools',
       name: 'last3night <span class="badge"> "تطبيق"</span>',
       active: true,
-      desc: 'تطبيق مخصص لحساب وقت الثلث الأخير من الليل.',
+      desc: 'تطبيق لحساب وقت الثلث الأخير من الليل.',
       descDir: 'rtl',
       buttons: [
         { icon: 'download', href: 'https://github.com/0xdya/last3night/releases/tag/apk', label: 'ملف APK', primary: true },
