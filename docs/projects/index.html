@@ -249,6 +249,35 @@
       flex-wrap: wrap;
     }
 
+    .books-note {
+      padding: 0 16px 0 0;
+      border-right: 2px solid var(--border-hover);
+      color: var(--muted);
+      font-family: "Vazirmatn", "Noto Naskh Arabic", sans-serif;
+      font-size: var(--text-base);
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .books-note h2 {
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-size: var(--text-lg);
+      font-weight: 600;
+    }
+
+    .books-note p + p {
+      margin-top: 8px;
+    }
+
+    .books-note blockquote {
+      margin: 8px 0;
+      padding-right: 12px;
+      border-right: 1px solid var(--border);
+      color: var(--text);
+      text-align: right;
+    }
+
     .book {
       display: flex;
       flex-direction: column;
@@ -602,6 +631,17 @@ body.popup-open .blur {
 <div class="list" id="cards"></div>
 
   <div class="section-wrap" id="sec-books">
+    <aside class="books-note" dir="rtl">
+      <h2>ملاحظة:</h2>
+      <p>لا أرى نفسي أهلًا للكتابة والتأليف، ولا للتحقيق والتصنيف، وأقولها من باب معرفة قدر نفسي لا تواضعًا.</p>
+      <p>وإنما هذان الكتابان أقرب ما يكون لنثر فوائد منتقاة من محاضرات أهل العلم وشروحاتهم...</p>
+      <p>فريثما رأيت أنني بفضل ومنة من الله تعالى جمعت قدرًا طيبًا، هممت لترتيبها وتنقيحها وبثّها، لئلا أشابه علماء اليهود والنصارى إذ قال فيهم تعالى:</p>
+      <blockquote>"إِنَّ الَّذِينَ يَكْتُمُونَ مَا أَنزَلْنَا مِنَ الْبَيِّنَاتِ وَالْهُدَىٰ مِن بَعْدِ مَا بَيَّنَّاهُ لِلنَّاسِ فِي الْكِتَابِ ۙ أُولَٰئِكَ يَلْعَنُهُمُ اللَّهُ وَيَلْعَنُهُمُ اللَّاعِنُونَ" س البقرة 159</blockquote>
+      <p>وكذا اتباعًا لقوله ﷺ:</p>
+      <blockquote>"بَلِّغُوا عَنِّي وَلَوْ آيَةً" ص البخاري 3461</blockquote>
+      <p>وطلبًا من الله أن يبارك لي فيما وهبني، فإن بركة العلم نشره، كما أنشد الكريزي رحمه الله تعالى:</p>
+      <blockquote>استفِدْ ما استطعتَ من علمٍ وكُنْ<br>عاملًا بالعلمِ والناسَ أَفِدِ<br>مَنْ يُفِدْهمْ يَجْزِهِ اللهُ بهِ<br>وسيُغني اللهُ عمّن لم يُفِدْ</blockquote>
+    </aside>
     <div class="books-row" id="books-row"></div>
   </div>
 
