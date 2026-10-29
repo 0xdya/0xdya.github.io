@@ -30,7 +30,7 @@
       desc: 'سكربت bash يشتغل فالطرفية، فكرته يحول أي موقع لتطبيق يظهر فقائمة التطبيقات موجه لمستخدمين لينكس، يشتغل على كل wm & de',
       descDir: 'rtl',
       buttons: [
-        // { icon: 'external', href: 'https://d1wiki.vercel.app/wta/', label: 'الويكي', primary: true },
+        { icon: 'external', href: 'https://d1wiki.vercel.app/wta/', label: 'الويكي', primary: true },
         { icon: 'github', href: 'https://github.com/0xdya/wta', label: 'المصدر' },
         { icon: 'comments', href: 'project.html?slug=wta', label: 'التعليقات' }
       ]
