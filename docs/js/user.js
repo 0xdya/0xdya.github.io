@@ -26,6 +26,13 @@ enableIndexedDbPersistence(db).catch((err) => {
 const CACHE_KEY = "userData";
 const UPDATE_INTERVAL = 10 * 60 * 1000;
 const ONE_DAY = 24 * 60 * 60 * 1000;
+const ROLE_LABELS = {
+    user: "مستخدم",
+    owner: "مالك",
+    "QA-tester": "فاحص جودة",
+    dev: "مطور",
+    banned: "محظور"
+};
 
 let allUsers = [];
 let activeRole = "all";
@@ -217,11 +224,13 @@ function render() {
 
     usersDiv.innerHTML = filtered.map((user, i) => {
         const joinedText = getJoinedText(user.createdAt);
-        const role = user.role || "مستخدم";
+        const role = user.role || "user";
+        const roleLabel = ROLE_LABELS[role] || role;
         const name = user.name || "بدون اسم";
         const photo = user.photo || "../img/user.jpg";
         const safeName = escapeHtmlAttr(name);
         const safeRole = escapeHtmlAttr(role);
+        const safeRoleLabel = escapeHtmlAttr(roleLabel);
         const safePhoto = escapeHtmlAttr(photo);
         const encodedName = encodeURIComponent(name);
         return `
@@ -230,7 +239,7 @@ function render() {
         <img src="${safePhoto}" alt="${safeName}" onerror="this.src='../img/user.jpg'">
         <div class="name_and_role">
           <span>${safeName}</span>
-          <div class="rotba">الرتبة: <span class="role ${safeRole}">${safeRole}</span></div>
+          <div class="rotba">الرتبة: <span class="role ${safeRole}">${safeRoleLabel}</span></div>
         </div>
         <div class="joined">${joinedText}</div>
       </div>`;
