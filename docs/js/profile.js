@@ -6,6 +6,7 @@ import {
 import {
     onAuthStateChanged, signOut, updateProfile
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import timeAr from "https://cdn.jsdelivr.net/npm/time-ar@2.1.0/+esm";
 
 const MONTHS = [
     "يناير", "فبراير", "مارس", "أبريل", "ماي", "جوان",
@@ -60,12 +61,6 @@ const showMessage = msg => {
 const showProfile = () => {
     loadingEl.style.display = "none";
     profileEl.style.display = "block";
-};
-const timeAgo = sec => {
-    if (sec < 60) return "الآن";
-    if (sec < 3600) return `منذ ${Math.floor(sec / 60)} دقيقة`;
-    if (sec < 86400) return `منذ ${Math.floor(sec / 3600)} ساعة`;
-    return `منذ ${Math.floor(sec / 86400)} يوم`;
 };
 const normSocials = raw => {
     if (Array.isArray(raw)) return raw;
@@ -344,9 +339,15 @@ function loadProfile(currentUser) {
         roleIconsEl.innerHTML = getRoleBadges(data);
 
         if (data.lastLogin?.toDate) {
-            const diff = Math.floor((Date.now() - data.lastLogin.toDate()) / 1000);
+            const lastLogin = data.lastLogin.toDate();
+            const diff = Math.floor((Date.now() - lastLogin) / 1000);
             statusEl.className = diff < 300 ? "online" : "";
-            statusText.textContent = diff < 300 ? "نشط الآن" : `آخر ظهور ${timeAgo(diff)}`;
+            if (diff < 300) {
+                statusText.textContent = "نشط الآن";
+            } else {
+                const time = timeAr();
+                statusText.textContent = `آخر ظهور ${time.getTimeAr(lastLogin, time.format.iso8601)}`;
+            }
         }
 
         const created = data.createdAt?.toDate?.();

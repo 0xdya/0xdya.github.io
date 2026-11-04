@@ -15,7 +15,7 @@
       cat: 'web',
       name: 'Level-Up <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'موقع لصاحب متجر ألعاب يستعرض فيه الألعاب التي يبيعها (PC, PS2, PS3, PS4, PSP…).',
+      desc: 'موقع لصاحب متجر ألعاب يستعرض فيه الألعاب التي يبيعها (PC, PS2, PS3, PS4, PSP…)',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://lvup.vercel.app', label: 'زيارة الموقع', primary: true },
@@ -77,7 +77,7 @@
       cat: 'tools',
       name: 'last3night <span class="badge"> "تطبيق"</span>',
       active: true,
-      desc: 'تطبيق لحساب وقت الثلث الأخير من الليل.',
+      desc: 'تطبيق لحساب وقت الثلث الأخير من الليل',
       descDir: 'rtl',
       buttons: [
         { icon: 'download', href: 'https://github.com/0xdya/last3night/releases/tag/apk', label: 'ملف APK', primary: true },
@@ -89,7 +89,7 @@
       cat: 'web',
       name: ' dya-quran <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'يضم 14 قارئاً مشهوراً، وجميع السور بدون إعلانات. يمكنك تحميل سور فردية أو كل الـ 114 سورة في ملف مضغوط واحد.',
+      desc: 'يضم 14 قارئاً مشهوراً، وجميع السور بدون إعلانات. يمكنك تحميل سور فردية أو كل الـ 114 سورة في ملف مضغوط واحد',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://dya-quran.web.app', label: 'زيارة الموقع', primary: true },
@@ -100,7 +100,7 @@
       cat: 'web',
       name: ' D1 Blog <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'موقع بسيط اكتب فيه مقالات بحرية اكثر.',
+      desc: 'موقع بسيط اكتب فيه مقالات بحرية اكثر',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1blog.vercel.app', label: 'زيارة الموقع', primary: true },
@@ -112,7 +112,7 @@
       cat: 'web',
       name: ' D1 Shop <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'متجر شخصي لبيع صفحات عرض منصات التواصل الاجتماعي وخدمات إدارة مواقع.',
+      desc: 'متجر شخصي -تجريبي- لبيع صفحات عرض منصات التواصل الاجتماعي وخدمات إدارة مواقع',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1shop.web.app', label: 'زيارة الموقع', primary: true },
@@ -135,7 +135,7 @@
       cat: 'web',
       name: 'D1 Wiki <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'مساحتي الخاصة حيث أشارك التوثيقات والشروحات لأدواتي.',
+      desc: 'مساحتي الخاصة حيث أشارك التوثيقات والشروحات لأدواتي',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://0xdya.github.io/d1wiki/', label: 'زيارة الموقع', primary: true },
@@ -147,7 +147,7 @@
       cat: 'web',
       name: 'D1 BAC <span class="badge"> "موقع"</span>',
       active: true,
-      desc: 'مشروع مفتوح المصدر — يحتوي على دروس، ملخصات، وكل ما يخص شهادة البكالوريا لجميع المواد والشُعب.',
+      desc: 'مشروع مفتوح المصدر يحتوي على دروس، ملخصات، وكل ما يخص شهادة البكالوريا لجميع المواد والشُعب',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://d1bac.vercel.app', label: 'زيارة الموقع', primary: true },
@@ -172,7 +172,7 @@
       cat: 'web',
       name: 'موقع ثانوية أبي حامد الغزالي <span class="badge"> "موقع"</span>',
       active: false,
-      desc: 'موقع إلكتروني قديم قمت ببنائه للثانوية التي درست فيها.',
+      desc: 'موقع إلكتروني قديم قمت ببنائه للثانوية التي درست فيها',
       descDir: 'rtl',
       buttons: [
         { icon: 'external', href: 'https://el-ghazali.web.app', label: 'زيارة الموقع', primary: true },
