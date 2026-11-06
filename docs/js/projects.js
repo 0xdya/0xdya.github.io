@@ -56,9 +56,9 @@
       desc: 'أداة مفيدة لمستخدمي هايبرلاند تتيح لهم إضافة الإضاءة الليلية والتحكم فيها',
       descDir: 'rtl',
       buttons: [
-        { icon: 'external', href: 'https://d1wiki.vercel.app/HNT/', label: 'الويكي', primary: true },
-        { icon: 'github', href: 'https://github.com/0xdya/HNT', label: 'المصدر' },
-        { icon: 'comments', href: 'project.html?slug=HNT', label: 'التعليقات' }
+        { icon: 'external', href: 'https://d1wiki.vercel.app/hnt/', label: 'الويكي', primary: true },
+        { icon: 'github', href: 'https://github.com/0xdya/hnt', label: 'المصدر' },
+        { icon: 'comments', href: 'project.html?slug=hnt', label: 'التعليقات' }
       ]
     },
     {
