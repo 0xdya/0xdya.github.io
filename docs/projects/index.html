@@ -358,6 +358,8 @@
       align-items: center;
       justify-content: center;
       z-index: 99;
+      padding: 24px;
+      background: rgba(0, 0, 0, .88);
       animation: fadeIn .2s ease;
     }
 
@@ -367,18 +369,21 @@
 
     .close-modal {
       position: absolute;
-      top: 30px;
-      right: 40px;
-      font-size: 40px;
+      top: 16px;
+      right: 16px;
+      border: 0;
+      background: transparent;
       color: white;
+      font-size: 40px;
+      line-height: 1;
       cursor: pointer;
       user-select: none;
     }
 
     .modal-content {
-      max-width: 90%;
-      max-height: 85vh;
-      border-radius: 12px;
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
       box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
       animation: zoomIn .2s ease;
     }
@@ -611,10 +616,10 @@ body.popup-open .blur {
     </nav>
   </div>
 
-  <!-- <div class="image-modal" id="imageModal">
-    <span class="close-modal" id="closeModal">&times;</span>
-    <img class="modal-content" id="modalImage" alt="" src="../img/cmnt-skin.png">
-  </div> -->
+  <div class="image-modal" id="imageModal" role="dialog" aria-modal="true" aria-label="عرض الرسمة" aria-hidden="true">
+    <button class="close-modal" id="closeModal" type="button" aria-label="إغلاق">&times;</button>
+    <img class="modal-content" id="modalImage" alt="">
+  </div>
   <div class="container">
     <h1>// المشاريع</h1>
     <!-- <p class="subtitle">things i've built, written & drawn</p> -->

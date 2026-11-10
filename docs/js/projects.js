@@ -217,7 +217,7 @@
   }
 
   function renderPaint(n) {
-    return `<div class="paint-item"><img src="./draw/${n}.webp" loading="lazy" alt=""><div class="caption">#${n}</div></div>`;
+    return `<div class="paint-item" tabindex="0" role="button" aria-label="عرض الرسمة رقم ${n}"><img src="./draw/${n}.webp" loading="lazy" alt="رسمة رقم ${n}"><div class="caption">#${n}</div></div>`;
   }
 
   document.getElementById('cards').innerHTML = PROJECTS.map(renderCard).join('');
@@ -233,10 +233,53 @@
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImage');
   const closeModal = document.getElementById('closeModal');
+  const paintGrid = document.getElementById('paint-grid');
   const assistantPopup = document.querySelector('.assistant-popup');
   const skinBtnClose = document.querySelector('.skin_btn_close');
 
   const validFilters = ['all', 'web', 'tools', 'books', 'paint'];
+
+  function openImageModal(image, trigger) {
+    modalImg.src = image.currentSrc || image.src;
+    modalImg.alt = image.alt;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    closeModal.focus();
+    modal.dataset.trigger = trigger;
+  }
+
+  function closeImageModal() {
+    if (!modal.classList.contains('active')) return;
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    modalImg.removeAttribute('src');
+    const trigger = modal.dataset.trigger;
+    if (trigger) document.querySelector(`[data-modal-trigger="${trigger}"]`)?.focus();
+  }
+
+  paintGrid.addEventListener('click', event => {
+    const item = event.target.closest('.paint-item');
+    const image = item?.querySelector('img');
+    if (!image) return;
+    const trigger = `paint-${image.alt.match(/\\d+/)?.[0]}`;
+    item.dataset.modalTrigger = trigger;
+    openImageModal(image, trigger);
+  });
+
+  paintGrid.addEventListener('keydown', event => {
+    if (event.target.matches('.paint-item') && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      event.target.querySelector('img')?.click();
+    }
+  });
+
+  closeModal.addEventListener('click', closeImageModal);
+  modal.addEventListener('click', event => {
+    if (event.target === modal) closeImageModal();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeImageModal();
+  });
 
 
 const skinBtn = document.querySelector('.skin_btn');
